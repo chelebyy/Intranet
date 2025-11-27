@@ -16,7 +16,7 @@ Sistem, **Çok Birimli (Multi-Unit)** ve **Rol Bazlı (RBAC)** bir yapıya sahip
 
 | Tablo Adı | Açıklama |
 |-----------|----------|
-| **User** | Sisteme giriş yapan kullanıcıların temel bilgilerini tutar. |
+| **User** | Sisteme giriş yapan kullanıcıların temel bilgilerini tutar. Sicil numarası ile kimlik doğrulaması yapılır. |
 | **Birim** | Kurum içindeki departman veya birimleri temsil eder. |
 | **Role** | Sistemdeki yetki gruplarını tanımlar (Örn: Sistem Admin, Birim Admin, Editör). |
 | **Permission** | Sistemdeki atomik yetkileri tanımlar (Örn: `user.create`, `content.view`). |
@@ -34,6 +34,18 @@ Sistem, **Çok Birimli (Multi-Unit)** ve **Rol Bazlı (RBAC)** bir yapıya sahip
 |-----------|----------|
 | **AuditLog** | Kullanıcıların yaptığı kritik işlemleri ve sistem olaylarını kayıt altına alır. |
 
+### 2.4. Dosya Yönetimi
+
+| Tablo Adı | Açıklama |
+|-----------|----------|
+| **UploadedFile** | Kullanıcıların yüklediği dosyaların metadata bilgilerini tutar (PRD FR-33 to FR-38). |
+
+### 2.5. Sistem Ayarları
+
+| Tablo Adı | Açıklama |
+|-----------|----------|
+| **SystemSettings** | Sistem genelinde kullanılan ayarları tutar (bakım modu, vb.) (PRD FR-44 to FR-47). |
+
 ## 3. Veritabanı Şeması (ER Diagram)
 
 Aşağıdaki diyagram, tablolar arasındaki ilişkileri ve kardinaliteleri göstermektedir.
@@ -44,7 +56,7 @@ erDiagram
     User {
         int UserID PK
         string AdSoyad
-        string Email
+        string Sicil "UNIQUE, NOT NULL"
         string SifreHash
         string Unvan
         datetime SonGiris
@@ -96,16 +108,45 @@ erDiagram
         datetime TarihSaat
     }
 
+    UploadedFile {
+        uuid FileID PK
+        string FileName
+        string OriginalFileName
+        string FilePath
+        bigint FileSize
+        string MimeType
+        string EntityType
+        int EntityID
+        int UploadedByUserID FK
+        int BirimID FK
+        datetime UploadedAt
+        boolean IsDeleted
+    }
+
+    SystemSettings {
+        int SettingID PK
+        string SettingKey
+        string SettingValue
+        string Description
+        datetime UpdatedAt
+        int UpdatedByUserID FK
+    }
+
     %% İlişkiler
     User ||--o{ UserBirimRole : "has roles in units"
     Birim ||--o{ UserBirimRole : "has users with roles"
     Role ||--o{ UserBirimRole : "assigned to user in unit"
-    
+
     Role ||--o{ RolePermission : "has permissions"
     Permission ||--o{ RolePermission : "belongs to roles"
 
     User ||--o{ AuditLog : "performs actions"
     Birim ||--o{ AuditLog : "actions occur in"
+
+    User ||--o{ UploadedFile : "uploads files"
+    Birim ||--o{ UploadedFile : "contains files"
+
+    User ||--o{ SystemSettings : "updates settings"
 ```
 
 ## 4. İlişki Detayları ve Kurallar
@@ -143,7 +184,7 @@ Bu yapı, bir kullanıcının farklı birimlerde farklı yetkilere sahip olması
 CREATE TABLE "User" (
     "UserID" SERIAL PRIMARY KEY,
     "AdSoyad" VARCHAR(100) NOT NULL,
-    "Email" VARCHAR(150) UNIQUE NOT NULL,
+    "Sicil" VARCHAR(20) UNIQUE NOT NULL,
     "SifreHash" VARCHAR(255) NOT NULL,
     "Unvan" VARCHAR(100),
     "SonGiris" TIMESTAMP,
@@ -153,7 +194,7 @@ CREATE TABLE "User" (
 );
 
 -- İndeksler
-CREATE INDEX idx_user_email ON "User"("Email");
+CREATE UNIQUE INDEX idx_user_sicil ON "User"("Sicil");
 CREATE INDEX idx_user_active ON "User"("IsActive");
 ```
 
@@ -188,7 +229,8 @@ INSERT INTO "Role" ("RoleAdi", "Aciklama") VALUES
 ('SistemAdmin', 'Tüm sistem yöneticisi'),
 ('BirimAdmin', 'Birim yöneticisi'),
 ('BirimEditor', 'İçerik ekleyen/güncelleyen'),
-('BirimGoruntuleyen', 'Sadece görüntüleme yetkisi');
+('BirimGoruntuleyen', 'Sadece görüntüleme yetkisi'),
+('SuperAdmin', 'Teknik ekip - sistem bakımı ve yapılandırma');
 ```
 
 ### 5.4. Permission Tablosu
@@ -204,16 +246,35 @@ CREATE TABLE "Permission" (
 
 -- Örnek Yetkiler
 INSERT INTO "Permission" ("Action", "Resource", "Description") VALUES
+-- Kullanıcı Yönetimi
 ('create', 'user', 'Kullanıcı oluşturma yetkisi'),
 ('read', 'user', 'Kullanıcı görüntüleme yetkisi'),
 ('update', 'user', 'Kullanıcı güncelleme yetkisi'),
 ('delete', 'user', 'Kullanıcı silme yetkisi'),
+('export', 'user', 'Kullanıcı listesi export yetkisi'),
+
+-- Duyuru Yönetimi
 ('create', 'announcement', 'Duyuru oluşturma yetkisi'),
 ('read', 'announcement', 'Duyuru görüntüleme yetkisi'),
 ('update', 'announcement', 'Duyuru güncelleme yetkisi'),
 ('delete', 'announcement', 'Duyuru silme yetkisi'),
+
+-- Audit Log
 ('read', 'auditlog', 'Audit log görüntüleme yetkisi'),
-('manage', 'birim', 'Birim yönetimi yetkisi');
+('export', 'auditlog', 'Audit log export yetkisi'),
+
+-- Birim Yönetimi
+('manage', 'birim', 'Birim yönetimi yetkisi'),
+('export', 'birim', 'Birim verileri export yetkisi'),
+
+-- Dosya Yönetimi (PRD FR-33 to FR-38)
+('upload', 'file', 'Dosya yükleme yetkisi'),
+('read', 'file', 'Dosya indirme yetkisi'),
+('delete', 'file', 'Dosya silme yetkisi'),
+
+-- Sistem Yönetimi (PRD FR-44 to FR-47)
+('manage', 'maintenance', 'Bakım modu yönetimi yetkisi'),
+('read', 'system', 'Sistem bilgileri görüntüleme yetkisi');
 
 -- İndeks
 CREATE INDEX idx_permission_resource ON "Permission"("Resource");
@@ -313,6 +374,75 @@ INSERT INTO "IPWhitelist" ("IPRange", "Description") VALUES
 ('10.0.0.0/16', 'Şube ağları');
 ```
 
+### 5.9. UploadedFile Tablosu (PRD FR-33 to FR-38)
+
+```sql
+CREATE TABLE "UploadedFile" (
+    "FileID" UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    "FileName" VARCHAR(255) NOT NULL,
+    "OriginalFileName" VARCHAR(255) NOT NULL,
+    "FilePath" VARCHAR(500) NOT NULL,
+    "FileSize" BIGINT NOT NULL,
+    "MimeType" VARCHAR(100) NOT NULL,
+    "FileExtension" VARCHAR(10) NOT NULL,
+    "FileHash" VARCHAR(64) NOT NULL, -- SHA-256 hash for duplicate detection
+
+    -- İlişkili varlık (polymorphic)
+    "EntityType" VARCHAR(50) NOT NULL, -- "IzinTalep", "ArizaKayit", vb.
+    "EntityID" INTEGER NOT NULL,
+
+    -- Kullanıcı bilgileri
+    "UploadedByUserID" INTEGER NOT NULL,
+    "BirimID" INTEGER NOT NULL,
+
+    -- Timestamps
+    "UploadedAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    "IsDeleted" BOOLEAN DEFAULT FALSE,
+    "DeletedAt" TIMESTAMP NULL,
+
+    -- İsteğe bağlı
+    "Description" TEXT NULL,
+
+    CONSTRAINT fk_uploadedfile_user FOREIGN KEY ("UploadedByUserID")
+        REFERENCES "User"("UserID") ON DELETE CASCADE,
+    CONSTRAINT fk_uploadedfile_birim FOREIGN KEY ("BirimID")
+        REFERENCES "Birim"("BirimID") ON DELETE CASCADE
+);
+
+-- İndeksler
+CREATE INDEX idx_uploadedfile_entity ON "UploadedFile"("EntityType", "EntityID");
+CREATE INDEX idx_uploadedfile_user ON "UploadedFile"("UploadedByUserID");
+CREATE INDEX idx_uploadedfile_birim ON "UploadedFile"("BirimID");
+CREATE INDEX idx_uploadedfile_hash ON "UploadedFile"("FileHash"); -- Duplicate check
+CREATE INDEX idx_uploadedfile_deleted ON "UploadedFile"("IsDeleted");
+```
+
+### 5.10. SystemSettings Tablosu (PRD FR-44 to FR-47)
+
+```sql
+CREATE TABLE "SystemSettings" (
+    "SettingID" SERIAL PRIMARY KEY,
+    "SettingKey" VARCHAR(100) UNIQUE NOT NULL,
+    "SettingValue" TEXT NOT NULL,
+    "Description" TEXT,
+    "UpdatedAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    "UpdatedByUserID" INTEGER,
+
+    CONSTRAINT fk_settings_user FOREIGN KEY ("UpdatedByUserID")
+        REFERENCES "User"("UserID") ON DELETE SET NULL
+);
+
+-- Varsayılan Ayarlar
+INSERT INTO "SystemSettings" ("SettingKey", "SettingValue", "Description") VALUES
+('MaintenanceMode.IsEnabled', 'false', 'Bakım modu aktif mi?'),
+('MaintenanceMode.Message', 'Sistem bakımda. Lütfen daha sonra tekrar deneyin.', 'Bakım modu mesajı'),
+('FileUpload.MaxSizeMB', '10', 'Maksimum dosya boyutu (MB)'),
+('Export.MaxRowsAuditLog', '10000', 'Audit log export maksimum satır sayısı');
+
+-- İndeks
+CREATE INDEX idx_settings_key ON "SystemSettings"("SettingKey");
+```
+
 ---
 
 ## 6. Örnek Veri Senaryoları
@@ -323,8 +453,8 @@ INSERT INTO "IPWhitelist" ("IPRange", "Description") VALUES
 
 ```sql
 -- 1. Kullanıcı kaydı
-INSERT INTO "User" ("AdSoyad", "Email", "SifreHash", "Unvan")
-VALUES ('Ahmet Yılmaz', 'ahmet@kurum.local', '$2a$12$hashed...', 'Kıdemli IT Uzmanı');
+INSERT INTO "User" ("AdSoyad", "Sicil", "SifreHash", "Unvan")
+VALUES ('Ahmet Yılmaz', '12345', '$2a$12$hashed...', 'Kıdemli IT Uzmanı');
 -- UserID = 1
 
 -- 2. Birimler
@@ -352,7 +482,7 @@ FROM "User" u
 JOIN "UserBirimRole" ubr ON u."UserID" = ubr."UserID"
 JOIN "Birim" b ON ubr."BirimID" = b."BirimID"
 JOIN "Role" r ON ubr."RoleID" = r."RoleID"
-WHERE u."Email" = 'ahmet@kurum.local';
+WHERE u."Sicil" = '12345';
 ```
 
 ### Senaryo 2: Birim Admin Yetki Kontrolü
@@ -391,6 +521,85 @@ WHERE al."Action" = 'CreateUser'
 ORDER BY al."TarihSaat" DESC;
 ```
 
+### Senaryo 4: Dosya Yükleme ve Sorgulama
+
+**Durum:** "Bir kullanıcı izin belgesi yükler ve IT birimi arıza fotoğraflarını sorgular"
+
+```sql
+-- 1. İzin belgesi yükleme (İK modülü)
+INSERT INTO "UploadedFile" (
+    "FileName",
+    "OriginalFileName",
+    "FilePath",
+    "FileSize",
+    "MimeType",
+    "FileExtension",
+    "FileHash",
+    "EntityType",
+    "EntityID",
+    "UploadedByUserID",
+    "BirimID",
+    "Description"
+) VALUES (
+    'a7f3d2e1-4b5c-6d7e-8f9a-0b1c2d3e4f5a_20250115103045_yillik-izin-belgesi.pdf',
+    'Yıllık İzin Belgesi.pdf',
+    '/encrypted/files/a7f3d2e1-4b5c-6d7e-8f9a-0b1c2d3e4f5a.enc',
+    2457600,
+    'application/pdf',
+    '.pdf',
+    'sha256hash...',
+    'IzinTalep',
+    123,
+    1,
+    102,
+    'Yıllık izin belgesi'
+);
+
+-- 2. IT birimindeki arıza fotoğraflarını sorgula
+SELECT
+    f."OriginalFileName",
+    f."FileSize",
+    f."UploadedAt",
+    u."AdSoyad" AS "YukleyenKisi",
+    f."Description"
+FROM "UploadedFile" f
+JOIN "User" u ON f."UploadedByUserID" = u."UserID"
+WHERE f."BirimID" = 101 -- IT BirimID
+  AND f."EntityType" = 'ArizaKayit'
+  AND f."IsDeleted" = FALSE
+ORDER BY f."UploadedAt" DESC;
+```
+
+### Senaryo 5: Bakım Modu Yönetimi
+
+**Durum:** "Sistem Admin bakım modunu aktif eder ve kontrol eder"
+
+```sql
+-- 1. Bakım modunu aktif et
+UPDATE "SystemSettings"
+SET "SettingValue" = 'true',
+    "UpdatedAt" = CURRENT_TIMESTAMP,
+    "UpdatedByUserID" = 1
+WHERE "SettingKey" = 'MaintenanceMode.IsEnabled';
+
+-- 2. Bakım modu mesajını güncelle
+UPDATE "SystemSettings"
+SET "SettingValue" = 'Sistem bakımda. Tahmini süre: 30 dakika.',
+    "UpdatedAt" = CURRENT_TIMESTAMP,
+    "UpdatedByUserID" = 1
+WHERE "SettingKey" = 'MaintenanceMode.Message';
+
+-- 3. Bakım modu durumunu kontrol et
+SELECT
+    "SettingKey",
+    "SettingValue",
+    "UpdatedAt",
+    u."AdSoyad" AS "GuncelleyenKisi"
+FROM "SystemSettings" s
+LEFT JOIN "User" u ON s."UpdatedByUserID" = u."UserID"
+WHERE "SettingKey" LIKE 'MaintenanceMode.%';
+```
+
 ---
 
 ## 7. Veritabanı Kısıtlamaları ve Kurallar
@@ -406,14 +615,14 @@ ORDER BY al."TarihSaat" DESC;
    - Rol silinirse → `RolePermission` ve `UserBirimRole` kayıtları silinir
 
 3. **Unique Constraints:**
-   - `User.Email` benzersiz olmalı
+   - `User.Sicil` benzersiz olmalı
    - `Birim.BirimAdi` benzersiz olmalı
    - `(UserID, BirimID, RoleID)` üçlüsü benzersiz (Aynı kullanıcı aynı birimde aynı role birden fazla kez atanamaz)
 
 ### 7.2. Performans İçin Index Stratejisi
 
 **Kritik İndeksler:**
-- `User(Email)` - Login sorguları için
+- `User(Sicil)` - Login sorguları için
 - `UserBirimRole(UserID, BirimID)` - Composite index (En sık kullanılan sorgu)
 - `RolePermission(RoleID)` - RBAC kontrolleri için
 - `AuditLog(TarihSaat DESC)` - Log sorgularında tarih filtreleme

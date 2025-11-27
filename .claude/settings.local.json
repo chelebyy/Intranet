@@ -1,7 +1,26 @@
 {
   "permissions": {
     "allow": [
-      "Bash(dir /B \"C:\\Users\\IT\\Desktop\\Bilişim Sistemi\")"
+      "Bash(dir /B \"C:\\Users\\IT\\Desktop\\Bilişim Sistemi\")",
+      "Bash(psql:*)",
+      "Bash(where:*)",
+      "Bash(dir:*)",
+      "Bash(dotnet new:*)",
+      "Bash(dotnet sln add:*)",
+      "Bash(dotnet sln:*)",
+      "Bash(dotnet add reference:*)",
+      "Bash(npm install:*)",
+      "Bash(npx tailwindcss init -p)",
+      "Bash(node_modules/.bin/tailwindcss:*)",
+      "Bash(dotnet build:*)",
+      "Bash(dotnet ef migrations add:*)",
+      "Bash(dotnet add:*)",
+      "Bash(dotnet ef database update:*)",
+      "Bash(timeout 5 psql:*)",
+      "SlashCommand(/sc:save --type all --checkpoint --summarize)",
+      "Bash(dotnet user-secrets set:*)",
+      "Bash(Select-String -Pattern \"Successfully|Error|Failed|Executed\")",
+      "Bash(Select-Object -First 20)"
     ],
     "deny": [],
     "ask": []

@@ -38,8 +38,8 @@ Content-Type: application/json
   "success": false,
   "error": {
     "code": "VALIDATION_ERROR",
-    "message": "Email formatı geçersiz",
-    "details": ["Email alanı zorunludur"]
+    "message": "Sicil formatı geçersiz",
+    "details": ["Sicil alanı zorunludur"]
   }
 }
 ```
@@ -69,7 +69,7 @@ Content-Type: application/json
 **Request Body:**
 ```json
 {
-  "email": "ahmet@kurum.local",
+  "sicil": "12345",
   "password": "Sifre123!"
 }
 ```
@@ -84,7 +84,7 @@ Content-Type: application/json
     "user": {
       "userId": 1,
       "adSoyad": "Ahmet Yılmaz",
-      "email": "ahmet@kurum.local",
+      "sicil": "12345",
       "unvan": "Kıdemli IT Uzmanı"
     },
     "birimleri": [
@@ -111,7 +111,7 @@ Content-Type: application/json
   "success": false,
   "error": {
     "code": "INVALID_CREDENTIALS",
-    "message": "Email veya şifre hatalı"
+    "message": "Sicil veya şifre hatalı"
   }
 }
 ```
@@ -197,7 +197,7 @@ Content-Type: application/json
 **Query Parameters:**
 - `page` (int, default: 1)
 - `pageSize` (int, default: 20)
-- `search` (string, optional) - AdSoyad veya Email'de arama
+- `search` (string, optional) - AdSoyad veya Sicil'de arama
 - `isActive` (bool, optional) - Aktif/pasif filtresi
 
 **Example:** `GET /api/users?page=1&pageSize=10&search=ahmet&isActive=true`
@@ -211,7 +211,7 @@ Content-Type: application/json
       {
         "userId": 1,
         "adSoyad": "Ahmet Yılmaz",
-        "email": "ahmet@kurum.local",
+        "sicil": "12345",
         "unvan": "Kıdemli IT Uzmanı",
         "isActive": true,
         "sonGiris": "2025-01-15T14:30:00Z",
@@ -245,7 +245,7 @@ Content-Type: application/json
   "data": {
     "userId": 1,
     "adSoyad": "Ahmet Yılmaz",
-    "email": "ahmet@kurum.local",
+    "sicil": "12345",
     "unvan": "Kıdemli IT Uzmanı",
     "isActive": true,
     "createdAt": "2024-01-01T10:00:00Z",
@@ -273,7 +273,7 @@ Content-Type: application/json
 ```json
 {
   "adSoyad": "Mehmet Kaya",
-  "email": "mehmet@kurum.local",
+  "sicil": "67890",
   "password": "TempPass123!",
   "unvan": "IT Uzmanı",
   "birimRolleri": [
@@ -292,7 +292,7 @@ Content-Type: application/json
   "data": {
     "userId": 15,
     "adSoyad": "Mehmet Kaya",
-    "email": "mehmet@kurum.local"
+    "sicil": "67890"
   },
   "message": "Kullanıcı başarıyla oluşturuldu"
 }
@@ -588,7 +588,7 @@ Content-Type: application/json
         "resource": "User",
         "details": {
           "targetUserId": 15,
-          "targetEmail": "mehmet@kurum.local"
+          "targetSicil": "67890"
         },
         "ipAddress": "192.168.1.50",
         "tarihSaat": "2025-01-15T10:30:00Z"
@@ -741,13 +741,13 @@ Content-Type: application/json
 | Code | Açıklama |
 |------|----------|
 | `VALIDATION_ERROR` | Giriş validasyon hatası |
-| `INVALID_CREDENTIALS` | Geçersiz email/şifre |
+| `INVALID_CREDENTIALS` | Geçersiz sicil/şifre |
 | `IP_BLOCKED` | IP adresi whitelist'te yok |
 | `TOKEN_EXPIRED` | JWT token süresi dolmuş |
 | `UNAUTHORIZED` | Token yok veya geçersiz |
 | `FORBIDDEN` | Yetki yetersiz |
 | `NOT_FOUND` | Kayıt bulunamadı |
-| `DUPLICATE_EMAIL` | Email zaten kullanılıyor |
+| `DUPLICATE_SICIL` | Sicil zaten kullanılıyor |
 | `WEAK_PASSWORD` | Şifre güvenlik kurallarına uymuyor |
 | `BIRIM_HAS_USERS` | Birimde kullanıcı var, silinemez |
 | `SERVER_ERROR` | Sunucu hatası |
@@ -895,7 +895,7 @@ curl -X GET https://api.intranet.local/api/files/f4a7b2c1-8d9e-4f3a-b5c6-1d2e3f4
 
 **Excel Kolonları:**
 - Ad Soyad
-- Email
+- Sicil
 - Ünvan
 - Birimler
 - Roller

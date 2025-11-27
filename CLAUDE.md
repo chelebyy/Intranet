@@ -390,6 +390,9 @@ For legacy Windows Server 2019/2022 deployments, see `WINDOWS_SERVER_DEPLOYMENT.
 - **API_INDEX.md**: API documentation index with endpoint categories, examples, and quick reference
 - **QUICK_START.md**: Quick start guide for new developers (15-30 minute setup guide)
 
+### Troubleshooting & Error Resolution
+- **ERRORS.md**: Known errors, solutions, and preventive measures (BUILD ERRORS, DATABASE ERRORS, RUNTIME ERRORS)
+
 ---
 
 ## Important Constraints
@@ -445,4 +448,71 @@ Since no code exists yet, start here:
 - **Need database schema?** → `ERD.md` (full SQL scripts included)
 - **Adding a new unit/module?** → `MODULAR_STRUCTURE.md`
 - **Deployment questions?** → `DEPLOYMENT_GUIDE.md`
+- **Build errors?** → `ERRORS.md` (troubleshooting guide)
 - **Lost?** → `PROJECT_INDEX.md` (central documentation hub)
+
+---
+
+## ⚠️ CRITICAL: Entity File Management
+
+### Entity Location Rules (MUST FOLLOW)
+
+**✅ CORRECT - Entities belong ONLY in Domain layer:**
+```
+IntranetPortal.Domain/
+└── Entities/
+    ├── User.cs
+    ├── Role.cs
+    ├── Permission.cs
+    ├── Birim.cs
+    ├── RolePermission.cs
+    ├── UserBirimRole.cs
+    ├── AuditLog.cs
+    ├── UploadedFile.cs
+    └── SystemSettings.cs
+```
+
+**❌ WRONG - NEVER create entity files in Infrastructure:**
+```
+IntranetPortal.Infrastructure/
+├── User.cs              ❌ DELETE IMMEDIATELY
+├── Role.cs              ❌ DELETE IMMEDIATELY
+├── IntranetDbContext.cs ❌ DELETE (use Data/ApplicationDbContext.cs)
+└── ...                  ❌ Any entity files here are WRONG
+```
+
+### EF Core Command Safety
+
+**❌ NEVER RUN THIS COMMAND:**
+```bash
+# This generates duplicate entities in Infrastructure!
+dotnet ef dbcontext scaffold "connection-string" Npgsql.EntityFrameworkCore.PostgreSQL
+```
+
+**✅ ONLY USE Code-First Migrations:**
+```bash
+# Always use migrations from Domain entities
+dotnet ef migrations add MigrationName --project IntranetPortal.Infrastructure
+dotnet ef database update --project IntranetPortal.Infrastructure
+```
+
+### Build Error Prevention
+
+Before every `dotnet build`, verify:
+```bash
+# Check for duplicate entities (should return ONLY Domain/Entities/)
+find . -name "User.cs" -o -name "Role.cs"
+
+# Expected output:
+# ./IntranetPortal.Domain/Entities/User.cs
+# ./IntranetPortal.Domain/Entities/Role.cs
+
+# If you see files in Infrastructure/ → DELETE them immediately!
+```
+
+**Why This Matters:**
+- Duplicate entities cause **CS1061 compilation errors** (74+ errors)
+- Infrastructure should ONLY reference Domain entities, not duplicate them
+- See `ERRORS.md` for full troubleshooting guide
+
+---

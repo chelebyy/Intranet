@@ -1,8 +1,0 @@
-{
-  "name": "Intranet Portal",
-  "description": "A comprehensive admin panel for intranet management including dashboard, user management, department management, and AI-powered image editing tools.",
-  "requestFramePermissions": [
-    "microphone",
-    "camera"
-  ]
-}

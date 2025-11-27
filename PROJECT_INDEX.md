@@ -131,6 +131,14 @@
 |---------|----------|-------------|-------|
 | [PROJECT_INDEX.md](PROJECT_INDEX.md) | Bu doküman - Tüm dokümantasyonun merkezi indeksi | Tüm Ekip | ~Current |
 
+### Kategori 6: Troubleshooting ve Error Resolution ⚠️
+
+| Doküman | Açıklama | Hedef Kitle | Öncelik |
+|---------|----------|-------------|---------|
+| [ERRORS.md](ERRORS.md) | **Build hatası çözümleri, duplicate entity fix, EF Core scaffold prevention** | Full Stack Dev, DevOps | 🔴 KRİTİK |
+
+**🚨 Önemli:** Build hatası aldığınızda **ÖNCE** `ERRORS.md` dosyasını kontrol edin!
+
 ---
 
 ## 🏗️ Mimari Genel Bakış
@@ -385,23 +393,39 @@ public async Task<IActionResult> CreateUser([FromBody] CreateUserDto dto)
 ### Güvenlik Katmanları
 
 1. **Network Layer:**
-   - IP Whitelist (CIDR notation)
+   - IP Whitelist (CIDR notation) with X-Real-IP support
    - Local network only (no internet)
+   - Trusted proxy validation
 
 2. **Application Layer:**
-   - JWT authentication (8-hour expiry)
+   - JWT authentication with **HttpOnly Cookie** (XSS protection)
    - Rate limiting (5 login attempts/min, 100 requests/min)
    - Brute-force protection
+   - Security Headers (CSP, HSTS, X-Frame-Options)
+   - CSRF protection
 
 3. **Data Layer:**
    - BCrypt password hashing (work factor 12)
    - AES-256 encryption for sensitive data
    - Prepared statements (SQL injection prevention)
+   - Input validation (FluentValidation)
 
 4. **Audit & Monitoring:**
    - Comprehensive audit logging (JSONB format)
    - User action tracking
    - Failed login attempts logging
+   - IP blocking events
+   - Sensitive data masking
+
+### 📋 Güvenlik Dokümanları
+
+| Doküman | Açıklama | Hedef Kitle |
+|---------|----------|-------------|
+| **[SECURITY_ANALYSIS_REPORT.md](SECURITY_ANALYSIS_REPORT.md)** | **OWASP Top 10 güvenlik analizi ve implementasyon kontrol listesi** | **Tüm Geliştiriciler** |
+| [TECHNICAL_DESIGN.md - Bölüm 2](TECHNICAL_DESIGN.md#2-güvenlik-önlemleri-security) | Güvenlik implementasyon detayları ve kod örnekleri | Backend Developers |
+| [ERD.md - Bölüm 5.4](ERD.md#54-permission-tablosu) | Permission tanımları ve RBAC şeması | Backend/Database |
+
+**⚠️ ÖNEMLİ:** Kodlamaya başlamadan önce **SECURITY_ANALYSIS_REPORT.md** dosyasını mutlaka okuyun. Raporda 3 yüksek öncelikli güvenlik bulgusu ve implementasyon kontrol listeleri bulunmaktadır.
 
 **Detaylar:** [TECHNICAL_DESIGN.md - Güvenlik](TECHNICAL_DESIGN.md#4-güvenlik-ve-veri-koruma)
 

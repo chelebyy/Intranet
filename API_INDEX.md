@@ -505,7 +505,7 @@ X-API-Sunset-Date: 2026-06-30
             "url": "{{baseUrl}}/api/auth/login",
             "body": {
               "mode": "raw",
-              "raw": "{\"email\":\"admin@kurum.local\",\"password\":\"Admin123!\"}"
+              "raw": "{\"sicil\":\"00001\",\"password\":\"Admin123!\"}"
             }
           }
         }
@@ -561,7 +561,7 @@ dotnet run
 # Test login
 curl -X POST http://localhost:5000/api/auth/login \
   -H "Content-Type: application/json" \
-  -d '{"email":"admin@kurum.local","password":"Admin123!"}'
+  -d '{"sicil":"00001","password":"Admin123!"}'
 
 # Token ile istek
 curl -X GET http://localhost:5000/api/users \

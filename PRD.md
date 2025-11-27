@@ -61,7 +61,7 @@ Sistem yalnızca **lokal ağda** çalışacak, internet bağlantısı gerektirme
 
 1. Kullanıcı login ekranına gelir.  
 2. IP adresi whitelist kontrolü yapılır. Erişim reddedilir veya devam edilir.  
-3. Kullanıcı adı/parola ile kimlik doğrulaması yapılır.  
+3. Sicil numarası ve parola ile kimlik doğrulaması yapılır.  
 4. Kullanıcının ilişkili birimleri çekilir.  
 5. **Birim seçim paneli**: Kullanıcı hangi birimde işlem yapacaksa seçer; seçilen birimdeki rol aktif olur.  
 6. Kullanıcı seçilen birimin ana sayfasına yönlendirilir.  
@@ -106,7 +106,7 @@ Sistem yalnızca **lokal ağda** çalışacak, internet bağlantısı gerektirme
 - FR-2: Kullanıcı oluşturulurken ünvan, birim ve rol atanabilmelidir.  
 - FR-3: Kullanıcı birden fazla birime atanabilir.  
 - FR-4: Kullanıcı bilgileri güncellenebilir ve soft delete yapılabilir.  
-- FR-5: Kullanıcı login olmalıdır.  
+- FR-5: Kullanıcı sicil numarası ve şifre ile login olmalıdır.  
 - FR-6: Çok birimli kullanıcı girişinde birim seçim paneli açılmalıdır.
 
 ### 6.2 Rol ve Yetki Yönetimi (RBAC)
@@ -234,7 +234,7 @@ Sistem yalnızca **lokal ağda** çalışacak, internet bağlantısı gerektirme
 
 | Tablo | Önemli Alanlar |
 |-------|----------------|
-| User | UserID (PK), AdSoyad, Email, ŞifreHash, Ünvan, SonGiriş |
+| User | UserID (PK), AdSoyad, Sicil (UNIQUE, NOT NULL), ŞifreHash, Ünvan, SonGiriş |
 | Birim | BirimID (PK), BirimAdı, Açıklama |
 | Role | RoleID (PK), RoleAdı, Açıklama |
 | Permission | PermissionID (PK), Action, Resource |

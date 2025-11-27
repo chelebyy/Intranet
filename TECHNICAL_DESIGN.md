@@ -148,10 +148,12 @@ intranet-frontend/
 2. Backend → IP Kontrolü (Middleware)
 3. Backend → Şifre doğrulama (BCrypt)
 4. Backend → JWT Token üretimi
-5. Backend → Response {accessToken, user, birimleri}
-6. Frontend → Token'ı localStorage'a kaydet
+5. Backend → Token'ı HttpOnly Cookie ile gönder + Response {user, birimleri}
+6. Frontend → Cookie otomatik saklanır (HttpOnly, Secure, SameSite=Strict)
 7. Frontend → Birim seçim ekranını göster
 ```
+
+**⚠️ Güvenlik Notu:** JWT token'ı localStorage'a kaydetmek XSS saldırılarına karşı savunmasızdır. HttpOnly Cookie kullanımı zorunludur (SECURITY_ANALYSIS_REPORT.md Bulgu #2).
 
 ### 2.2. Yetkilendirme (Authorization) - RBAC
 
@@ -237,19 +239,88 @@ public string Encrypt(string plainText, byte[] key, byte[] iv)
 ```csharp
 public class IPWhitelistMiddleware
 {
+    private readonly RequestDelegate _next;
+    private readonly IAuditLogService _auditLogService;
+    private readonly IConfiguration _configuration;
+
+    public IPWhitelistMiddleware(RequestDelegate next, IAuditLogService auditLogService, IConfiguration configuration)
+    {
+        _next = next;
+        _auditLogService = auditLogService;
+        _configuration = configuration;
+    }
+
     public async Task InvokeAsync(HttpContext context)
     {
-        var remoteIP = context.Connection.RemoteIpAddress;
-        if (!IsIPAllowed(remoteIP))
+        var clientIP = GetClientIP(context);
+
+        if (!IsIPAllowed(clientIP))
         {
+            // Audit log kaydet
+            await _auditLogService.LogAsync(new AuditLog
+            {
+                Action = "IP_BLOCKED",
+                IPAddress = clientIP.ToString(),
+                Details = new { RequestPath = context.Request.Path }
+            });
+
             context.Response.StatusCode = 403;
-            await context.Response.WriteAsync("Forbidden");
+            await context.Response.WriteAsJsonAsync(new
+            {
+                success = false,
+                code = "IP_BLOCKED",
+                message = "Bu IP adresinden erişim izni yok"
+            });
             return;
         }
+
         await _next(context);
+    }
+
+    private IPAddress GetClientIP(HttpContext context)
+    {
+        // Reverse proxy arkasında gerçek IP'yi al (X-Real-IP header)
+        if (context.Request.Headers.ContainsKey("X-Real-IP"))
+        {
+            var realIP = context.Request.Headers["X-Real-IP"].ToString();
+
+            // Sadece güvenilir proxy'den gelen X-Real-IP'yi kabul et
+            if (IsTrustedProxy(context.Connection.RemoteIpAddress) &&
+                IPAddress.TryParse(realIP, out var parsedIP))
+            {
+                return parsedIP;
+            }
+        }
+
+        // Fallback: Doğrudan bağlantı IP'si
+        return context.Connection.RemoteIpAddress;
+    }
+
+    private bool IsTrustedProxy(IPAddress address)
+    {
+        // Güvenilir proxy IP'leri (nginx, IIS ARR)
+        var trustedProxies = _configuration.GetSection("SecuritySettings:TrustedProxies")
+            .Get<string[]>() ?? Array.Empty<string>();
+
+        foreach (var proxy in trustedProxies)
+        {
+            if (IPAddress.TryParse(proxy, out var trustedIP) && address.Equals(trustedIP))
+                return true;
+        }
+
+        return false;
+    }
+
+    private bool IsIPAllowed(IPAddress address)
+    {
+        // CIDR notation ile IP range kontrolü (IPNetwork2 kütüphanesi kullanılabilir)
+        // Örnek implementasyon için SECURITY_ANALYSIS_REPORT.md Bulgu #3'e bakın
+        return true; // TODO: Implement
     }
 }
 ```
+
+**⚠️ Güvenlik Notu:** X-Forwarded-For header spoofing'e açıktır. Sadece güvenilir proxy'lerden gelen X-Real-IP header'ı kullanın (SECURITY_ANALYSIS_REPORT.md Bulgu #3).
 
 #### CORS Politikası
 
