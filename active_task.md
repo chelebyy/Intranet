@@ -1,9 +1,9 @@
 # 📋 Active Task List - Kurumsal İntranet Web Portalı
 
 **Proje:** Kurumsal İntranet Web Portalı
-**Versiyon:** 1.3
+**Versiyon:** 1.4
 **Başlangıç:** 2025-11-25
-**Mevcut Faz:** Faz 2 - RBAC & Admin Panel (Devam Ediyor)
+**Mevcut Faz:** Faz 2 - RBAC & Admin Panel (Tamamlanıyor)
 
 ---
 
@@ -23,8 +23,8 @@ Bu proje **Task-Driven Development (TDD)** yaklaşımıyla geliştirilmektedir:
 |-----|-------|------------|--------------|
 | Faz 0: Proje Kurulumu | ✅ TAMAMLANDI | 100% | 1-2 hafta |
 | Faz 1: Authentication & Core | ✅ TAMAMLANDI | 100% | 1-2 hafta |
-| Faz 2 | RBAC & Admin Panel | 🔄 DEVAM EDİYOR | 90% | 2-3 hafta |
-| Faz 3: Multi-Unit Support | ⚪ BEKLİYOR | 0% | 1-2 hafta |
+| Faz 2 | RBAC & Admin Panel | ✅ TAMAMLANDI | 100% | 2-3 hafta |
+| Faz 3: Multi-Unit Support | 🔄 BAŞLIYOR | 0% | 1-2 hafta |
 | Faz 4: First Unit Module (HR) | ⚪ BEKLİYOR | 0% | 2-3 hafta |
 | Faz 5: Second Unit Module (IT) | ⚪ BEKLİYOR | 0% | 2-3 hafta |
 | Faz 6: Testing & Optimization | ⚪ BEKLİYOR | 0% | 2-3 hafta |
@@ -49,8 +49,8 @@ Rol tabanlı erişim kontrolü ve yönetim paneli API'lerinin geliştirilmesi.
   - `PermissionAuthorizationFilter.cs` oluşturuldu
   - `IPermissionService` ve `PermissionService` (Cache destekli) implement edildi
   - `Program.cs` servis kayıtları yapıldı (MemoryCache dahil)
-- [ ] Permission Caching optimizasyonu (Zaten PermissionService içinde var, test edilmeli)
-- [ ] ClaimsPrincipal extension methods (User.GetId(), User.GetRole() vb.)
+- [x] Permission Caching optimizasyonu (Zaten PermissionService içinde var, test edilmeli)
+- [x] ClaimsPrincipal extension methods (User.GetId(), User.GetRole() vb.) - ✅ TAMAMLANDI
 
 ## 2. User Management API
 - [x] **GET /api/users** - List users (pagination, search, filter)
@@ -83,3 +83,5 @@ Rol tabanlı erişim kontrolü ve yönetim paneli API'lerinin geliştirilmesi.
 - Admin endpoint'leri mutlaka `[HasPermission(Permissions.User.Manage)]` gibi attribute'larla korunmalı.
 - Permission constant'ları `Permissions.cs` içinde güncellendi ve endpoint'lere uygulandı.
 - Frontend `react-hot-toast` eklendi.
+- Frontend performans optimizasyonu (Code Splitting) yapıldı.
+- Backend Dependency Injection (RolesController) düzeltildi.

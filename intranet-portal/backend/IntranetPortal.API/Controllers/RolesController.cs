@@ -13,10 +13,12 @@ namespace IntranetPortal.API.Controllers;
 public class RolesController : ControllerBase
 {
     private readonly IRoleService _roleService;
+    private readonly IPermissionService _permissionService;
 
-    public RolesController(IRoleService roleService)
+    public RolesController(IRoleService roleService, IPermissionService permissionService)
     {
         _roleService = roleService;
+        _permissionService = permissionService;
     }
 
     [HttpGet]
@@ -91,10 +93,7 @@ public class RolesController : ControllerBase
         var role = await _roleService.GetRoleByIdAsync(id);
         if (role == null) return NotFound();
 
-        // We need to inject IPermissionService for this
-        // This is a quick fix, ideally inject in constructor
-        var permissionService = HttpContext.RequestServices.GetRequiredService<IPermissionService>();
-        var permissions = await permissionService.GetPermissionsByRoleIdAsync(id);
+        var permissions = await _permissionService.GetPermissionsByRoleIdAsync(id);
         
         return Ok(permissions);
     }
@@ -107,8 +106,7 @@ public class RolesController : ControllerBase
 
         try
         {
-            var permissionService = HttpContext.RequestServices.GetRequiredService<IPermissionService>();
-            await permissionService.UpdateRolePermissionsAsync(id, assignPermissionsDto.PermissionIds);
+            await _permissionService.UpdateRolePermissionsAsync(id, assignPermissionsDto.PermissionIds);
             return Ok(new { message = "Permissions updated successfully." });
         }
         catch (KeyNotFoundException)
