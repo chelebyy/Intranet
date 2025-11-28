@@ -1,4 +1,5 @@
 using IntranetPortal.API.Attributes;
+using IntranetPortal.API.Models;
 using IntranetPortal.Application.DTOs.Users;
 using IntranetPortal.Application.Interfaces;
 using IntranetPortal.Domain.Constants;
@@ -21,85 +22,85 @@ namespace IntranetPortal.API.Controllers
 
         [HttpGet]
         [HasPermission(Permissions.ReadUser)]
-        public async Task<IActionResult> GetAllUsers()
+        public async Task<ActionResult<ApiResponse<IEnumerable<UserDto>>>> GetAllUsers()
         {
             var users = await _userService.GetAllUsersAsync();
-            return Ok(users);
+            return Ok(ApiResponse<IEnumerable<UserDto>>.Ok(users));
         }
 
         [HttpGet("{id}")]
         [HasPermission(Permissions.ReadUser)]
-        public async Task<IActionResult> GetUserById(int id)
+        public async Task<ActionResult<ApiResponse<UserDto>>> GetUserById(int id)
         {
             var user = await _userService.GetUserByIdAsync(id);
             if (user == null)
-                return NotFound();
+                return NotFound(ApiResponse<UserDto>.Fail("Kullanıcı bulunamadı", "NOT_FOUND"));
 
-            return Ok(user);
+            return Ok(ApiResponse<UserDto>.Ok(user));
         }
 
         [HttpPost]
         [HasPermission(Permissions.CreateUser)]
-        public async Task<IActionResult> CreateUser([FromBody] CreateUserDto createUserDto)
+        public async Task<ActionResult<ApiResponse<UserDto>>> CreateUser([FromBody] CreateUserDto createUserDto)
         {
             if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+                return BadRequest(ApiResponse<UserDto>.Fail("Validasyon hatası", "VALIDATION_ERROR"));
 
             try
             {
                 var createdUser = await _userService.CreateUserAsync(createUserDto);
-                return CreatedAtAction(nameof(GetUserById), new { id = createdUser.UserID }, createdUser);
+                return CreatedAtAction(nameof(GetUserById), new { id = createdUser.UserID }, ApiResponse<UserDto>.Ok(createdUser));
             }
             catch (InvalidOperationException ex)
             {
-                return BadRequest(new { message = ex.Message });
+                return BadRequest(ApiResponse<UserDto>.Fail(ex.Message, "VALIDATION_ERROR"));
             }
         }
 
         [HttpPut("{id}")]
         [HasPermission(Permissions.UpdateUser)]
-        public async Task<IActionResult> UpdateUser(int id, [FromBody] UpdateUserDto updateUserDto)
+        public async Task<ActionResult<ApiResponse<UserDto>>> UpdateUser(int id, [FromBody] UpdateUserDto updateUserDto)
         {
             if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+                return BadRequest(ApiResponse<UserDto>.Fail("Validasyon hatası", "VALIDATION_ERROR"));
 
             try
             {
                 var updatedUser = await _userService.UpdateUserAsync(id, updateUserDto);
                 if (updatedUser == null)
-                    return NotFound();
+                    return NotFound(ApiResponse<UserDto>.Fail("Kullanıcı bulunamadı", "NOT_FOUND"));
 
-                return Ok(updatedUser);
+                return Ok(ApiResponse<UserDto>.Ok(updatedUser));
             }
             catch (InvalidOperationException ex)
             {
-                return BadRequest(new { message = ex.Message });
+                return BadRequest(ApiResponse<UserDto>.Fail(ex.Message, "VALIDATION_ERROR"));
             }
         }
 
         [HttpDelete("{id}")]
         [HasPermission(Permissions.DeleteUser)]
-        public async Task<IActionResult> DeleteUser(int id)
+        public async Task<ActionResult<ApiResponse<bool>>> DeleteUser(int id)
         {
             var result = await _userService.DeleteUserAsync(id);
             if (!result)
-                return NotFound();
+                return NotFound(ApiResponse<bool>.Fail("Kullanıcı bulunamadı", "NOT_FOUND"));
 
-            return NoContent();
+            return Ok(ApiResponse<bool>.Ok(true, "Kullanıcı silindi"));
         }
 
         [HttpPost("{id}/reset-password")]
         [HasPermission(Permissions.UpdateUser)]
-        public async Task<IActionResult> ResetPassword(int id, [FromBody] ResetPasswordDto resetPasswordDto)
+        public async Task<ActionResult<ApiResponse<bool>>> ResetPassword(int id, [FromBody] ResetPasswordDto resetPasswordDto)
         {
             if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+                return BadRequest(ApiResponse<bool>.Fail("Validasyon hatası", "VALIDATION_ERROR"));
 
             var result = await _userService.ResetPasswordAsync(id, resetPasswordDto.NewPassword);
             if (!result)
-                return NotFound();
+                return NotFound(ApiResponse<bool>.Fail("Kullanıcı bulunamadı", "NOT_FOUND"));
 
-            return Ok(new { message = "Password reset successfully." });
+            return Ok(ApiResponse<bool>.Ok(true, "Password reset successfully."));
         }
     }
 }

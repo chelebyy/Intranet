@@ -1,4 +1,5 @@
 using IntranetPortal.API.Attributes;
+using IntranetPortal.API.Models;
 using IntranetPortal.Application.DTOs.Birims;
 using IntranetPortal.Application.Interfaces;
 using IntranetPortal.Domain.Constants;
@@ -20,59 +21,59 @@ public class BirimlerController : ControllerBase
     }
 
     [HttpGet]
-    [HasPermission(Permissions.ReadBirim)]
-    public async Task<IActionResult> GetAll()
+    [AllowAnonymous]
+    public async Task<ActionResult<ApiResponse<IEnumerable<BirimDto>>>> GetAll()
     {
         var birimler = await _birimService.GetAllBirimsAsync();
-        return Ok(birimler);
+        return Ok(ApiResponse<IEnumerable<BirimDto>>.Ok(birimler));
     }
 
     [HttpGet("{id}")]
     [HasPermission(Permissions.ReadBirim)]
-    public async Task<IActionResult> GetById(int id)
+    public async Task<ActionResult<ApiResponse<BirimDto>>> GetById(int id)
     {
         var birim = await _birimService.GetBirimByIdAsync(id);
-        if (birim == null) return NotFound();
-        return Ok(birim);
+        if (birim == null) return NotFound(ApiResponse<BirimDto>.Fail("Birim bulunamadı", "NOT_FOUND"));
+        return Ok(ApiResponse<BirimDto>.Ok(birim));
     }
 
     [HttpPost]
     [HasPermission(Permissions.CreateBirim)]
-    public async Task<IActionResult> Create(CreateBirimDto createBirimDto)
+    public async Task<ActionResult<ApiResponse<BirimDto>>> Create(CreateBirimDto createBirimDto)
     {
         try
         {
             var birim = await _birimService.CreateBirimAsync(createBirimDto);
-            return CreatedAtAction(nameof(GetById), new { id = birim.BirimID }, birim);
+            return CreatedAtAction(nameof(GetById), new { id = birim.BirimID }, ApiResponse<BirimDto>.Ok(birim));
         }
         catch (InvalidOperationException ex)
         {
-            return BadRequest(new { message = ex.Message });
+            return BadRequest(ApiResponse<BirimDto>.Fail(ex.Message, "VALIDATION_ERROR"));
         }
     }
 
     [HttpPut("{id}")]
     [HasPermission(Permissions.UpdateBirim)]
-    public async Task<IActionResult> Update(int id, UpdateBirimDto updateBirimDto)
+    public async Task<ActionResult<ApiResponse<BirimDto>>> Update(int id, UpdateBirimDto updateBirimDto)
     {
         try
         {
             var birim = await _birimService.UpdateBirimAsync(id, updateBirimDto);
-            if (birim == null) return NotFound();
-            return Ok(birim);
+            if (birim == null) return NotFound(ApiResponse<BirimDto>.Fail("Birim bulunamadı", "NOT_FOUND"));
+            return Ok(ApiResponse<BirimDto>.Ok(birim));
         }
         catch (InvalidOperationException ex)
         {
-            return BadRequest(new { message = ex.Message });
+            return BadRequest(ApiResponse<BirimDto>.Fail(ex.Message, "VALIDATION_ERROR"));
         }
     }
 
     [HttpDelete("{id}")]
     [HasPermission(Permissions.DeleteBirim)]
-    public async Task<IActionResult> Delete(int id)
+    public async Task<ActionResult<ApiResponse<bool>>> Delete(int id)
     {
         var result = await _birimService.DeleteBirimAsync(id);
-        if (!result) return NotFound();
-        return NoContent();
+        if (!result) return NotFound(ApiResponse<bool>.Fail("Birim bulunamadı", "NOT_FOUND"));
+        return Ok(ApiResponse<bool>.Ok(true, "Birim silindi"));
     }
 }

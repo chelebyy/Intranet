@@ -35,9 +35,37 @@ apiClient.interceptors.request.use(
   }
 );
 
-// Response interceptor - Handle common errors
+// Response interceptor - Handle common errors and unwrap ApiResponse
 apiClient.interceptors.response.use(
   (response) => {
+    // Check if response has ApiResponse structure { success, data, message }
+    if (response.data && typeof response.data === 'object' && 'success' in response.data) {
+      // If success is true, return the inner data
+      if (response.data.success) {
+        // Modify response.data to be the inner data directly
+        // This makes existing code like response.data work as expected
+        // BUT we need to be careful. Most axios calls expect response.data to be the payload.
+        // With wrapper, payload is response.data.data
+        
+        // IMPORTANT: We are modifying the response object that gets returned to caller
+        // We replace response.data with response.data.data
+        const originalData = response.data;
+        response.data = originalData.data;
+        
+        // We can attach the message to the response object if needed
+        // @ts-ignore
+        response.message = originalData.message;
+      } else {
+        // If success is false, throw an error
+        return Promise.reject({
+          response: {
+            status: response.status,
+            data: response.data // This contains { success: false, error: ... }
+          },
+          message: response.data.error?.message || response.data.message || 'Operation failed'
+        });
+      }
+    }
     return response;
   },
   (error) => {
@@ -49,7 +77,9 @@ apiClient.interceptors.response.use(
         case 401:
           // Unauthorized - redirect to login
           console.error('Unauthorized access - redirecting to login');
-          window.location.href = '/login';
+          if (window.location.pathname !== '/login') {
+             window.location.href = '/login';
+          }
           break;
         case 403:
           // Forbidden - insufficient permissions or IP blocked
@@ -68,7 +98,7 @@ apiClient.interceptors.response.use(
           console.error('Server error - please try again later');
           break;
         default:
-          console.error('API error:', data.message || 'Unknown error');
+          console.error('API error:', data?.error?.message || data?.message || 'Unknown error');
       }
     } else if (error.request) {
       // Request made but no response

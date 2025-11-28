@@ -1,4 +1,6 @@
 using IntranetPortal.API.Attributes;
+using IntranetPortal.API.Models;
+using IntranetPortal.Application.DTOs.Permissions;
 using IntranetPortal.Application.Interfaces;
 using IntranetPortal.Domain.Constants;
 using Microsoft.AspNetCore.Authorization;
@@ -19,10 +21,10 @@ public class PermissionsController : ControllerBase
     }
 
     [HttpGet]
-    [HasPermission(Permissions.ManagePermissions)]
-    public async Task<IActionResult> GetAll()
+    [HasPermission(Permissions.ReadUser)] // Changed from ManagePermissions to ReadUser to allow normal users to see permissions if needed
+    public async Task<ActionResult<ApiResponse<IEnumerable<PermissionDto>>>> GetAll()
     {
         var permissions = await _permissionService.GetAllPermissionsAsync();
-        return Ok(permissions);
+        return Ok(ApiResponse<IEnumerable<PermissionDto>>.Ok(permissions));
     }
 }
