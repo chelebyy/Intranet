@@ -1,3 +1,4 @@
+using IntranetPortal.API.Models;
 using IntranetPortal.Application.DTOs;
 using IntranetPortal.Application.Interfaces;
 using IntranetPortal.Domain.Entities;
@@ -36,7 +37,7 @@ public class AuthController : ControllerBase
     /// </summary>
     [HttpPost("login")]
     [AllowAnonymous]
-    public async Task<IActionResult> Login([FromBody] LoginRequestDto request)
+    public async Task<ActionResult<ApiResponse<LoginResponseDto>>> Login([FromBody] LoginRequestDto request)
     {
         try
         {
@@ -76,39 +77,20 @@ public class AuthController : ControllerBase
                 SetAuthCookie(token);
             }
 
-            return Ok(new
-            {
-                success = true,
-                data = loginResponse,
-                message = loginResponse.RequiresBirimSelection
-                    ? "Lütfen bir birim seçiniz"
-                    : "Giriş başarılı"
-            });
+            var message = loginResponse.RequiresBirimSelection
+                ? "Lütfen bir birim seçiniz"
+                : "Giriş başarılı";
+
+            return Ok(ApiResponse<LoginResponseDto>.Ok(loginResponse, message));
         }
         catch (UnauthorizedAccessException ex)
         {
-            return Unauthorized(new
-            {
-                success = false,
-                error = new
-                {
-                    code = "UNAUTHORIZED",
-                    message = ex.Message
-                }
-            });
+            return Unauthorized(ApiResponse<LoginResponseDto>.Fail(ex.Message, "UNAUTHORIZED"));
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Login error for sicil: {Sicil}", request.Sicil);
-            return StatusCode(500, new
-            {
-                success = false,
-                error = new
-                {
-                    code = "SERVER_ERROR",
-                    message = "Bir hata oluştu. Lütfen daha sonra tekrar deneyiniz."
-                }
-            });
+            return StatusCode(500, ApiResponse<LoginResponseDto>.Fail("Bir hata oluştu. Lütfen daha sonra tekrar deneyiniz.", "SERVER_ERROR"));
         }
     }
 
@@ -119,7 +101,7 @@ public class AuthController : ControllerBase
     /// </summary>
     [HttpPost("select-birim")]
     [Authorize]
-    public async Task<IActionResult> SelectBirim([FromBody] SelectBirimRequestDto request)
+    public async Task<ActionResult<ApiResponse<LoginResponseDto>>> SelectBirim([FromBody] SelectBirimRequestDto request)
     {
         try
         {
@@ -127,15 +109,7 @@ public class AuthController : ControllerBase
             var userIdClaim = User.FindFirst("userId")?.Value;
             if (string.IsNullOrEmpty(userIdClaim) || !int.TryParse(userIdClaim, out var userId))
             {
-                return Unauthorized(new
-                {
-                    success = false,
-                    error = new
-                    {
-                        code = "INVALID_TOKEN",
-                        message = "Geçersiz oturum. Lütfen tekrar giriş yapınız."
-                    }
-                });
+                return Unauthorized(ApiResponse<LoginResponseDto>.Fail("Geçersiz oturum. Lütfen tekrar giriş yapınız.", "INVALID_TOKEN"));
             }
 
             // Select birim
@@ -170,37 +144,16 @@ public class AuthController : ControllerBase
                 SetAuthCookie(token);
             }
 
-            return Ok(new
-            {
-                success = true,
-                data = response,
-                message = "Birim seçimi başarılı"
-            });
+            return Ok(ApiResponse<LoginResponseDto>.Ok(response, "Birim seçimi başarılı"));
         }
         catch (UnauthorizedAccessException ex)
         {
-            return Unauthorized(new
-            {
-                success = false,
-                error = new
-                {
-                    code = "UNAUTHORIZED",
-                    message = ex.Message
-                }
-            });
+            return Unauthorized(ApiResponse<LoginResponseDto>.Fail(ex.Message, "UNAUTHORIZED"));
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Select birim error for user: {UserId}", User.FindFirst("userId")?.Value);
-            return StatusCode(500, new
-            {
-                success = false,
-                error = new
-                {
-                    code = "SERVER_ERROR",
-                    message = "Bir hata oluştu. Lütfen daha sonra tekrar deneyiniz."
-                }
-            });
+            return StatusCode(500, ApiResponse<LoginResponseDto>.Fail("Bir hata oluştu. Lütfen daha sonra tekrar deneyiniz.", "SERVER_ERROR"));
         }
     }
 
@@ -211,7 +164,7 @@ public class AuthController : ControllerBase
     /// </summary>
     [HttpPost("logout")]
     [Authorize]
-    public async Task<IActionResult> Logout()
+    public async Task<ActionResult<ApiResponse<bool>>> Logout()
     {
         try
         {
@@ -226,24 +179,12 @@ public class AuthController : ControllerBase
             // Remove HttpOnly cookie
             Response.Cookies.Delete("auth_token");
 
-            return Ok(new
-            {
-                success = true,
-                message = "Çıkış başarılı"
-            });
+            return Ok(ApiResponse<bool>.Ok(true, "Çıkış başarılı"));
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Logout error");
-            return StatusCode(500, new
-            {
-                success = false,
-                error = new
-                {
-                    code = "SERVER_ERROR",
-                    message = "Bir hata oluştu."
-                }
-            });
+            return StatusCode(500, ApiResponse<bool>.Fail("Bir hata oluştu.", "SERVER_ERROR"));
         }
     }
 
@@ -253,7 +194,7 @@ public class AuthController : ControllerBase
     /// </summary>
     [HttpGet("me")]
     [Authorize]
-    public async Task<IActionResult> GetCurrentUser()
+    public async Task<ActionResult<ApiResponse<object>>> GetCurrentUser()
     {
         try
         {
@@ -261,29 +202,13 @@ public class AuthController : ControllerBase
             var userIdClaim = User.FindFirst("userId")?.Value;
             if (string.IsNullOrEmpty(userIdClaim) || !int.TryParse(userIdClaim, out var userId))
             {
-                return Unauthorized(new
-                {
-                    success = false,
-                    error = new
-                    {
-                        code = "INVALID_TOKEN",
-                        message = "Geçersiz oturum"
-                    }
-                });
+                return Unauthorized(ApiResponse<object>.Fail("Geçersiz oturum", "INVALID_TOKEN"));
             }
 
             var user = await _authService.GetCurrentUserAsync(userId);
             if (user == null)
             {
-                return NotFound(new
-                {
-                    success = false,
-                    error = new
-                    {
-                        code = "USER_NOT_FOUND",
-                        message = "Kullanıcı bulunamadı"
-                    }
-                });
+                return NotFound(ApiResponse<object>.Fail("Kullanıcı bulunamadı", "USER_NOT_FOUND"));
             }
 
             // Get birim and role info from claims
@@ -292,37 +217,27 @@ public class AuthController : ControllerBase
             var roleId = User.FindFirst("roleId")?.Value;
             var roleName = User.FindFirst("roleName")?.Value;
 
-            return Ok(new
+            var userData = new
             {
-                success = true,
-                data = new
+                user,
+                currentBirim = new
                 {
-                    user,
-                    currentBirim = new
-                    {
-                        birimId = int.TryParse(birimId, out var bId) ? bId : (int?)null,
-                        birimAdi
-                    },
-                    currentRole = new
-                    {
-                        roleId = int.TryParse(roleId, out var rId) ? rId : (int?)null,
-                        roleName
-                    }
+                    birimId = int.TryParse(birimId, out var bId) ? bId : (int?)null,
+                    birimAdi
+                },
+                currentRole = new
+                {
+                    roleId = int.TryParse(roleId, out var rId) ? rId : (int?)null,
+                    roleName
                 }
-            });
+            };
+
+            return Ok(ApiResponse<object>.Ok(userData));
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Get current user error");
-            return StatusCode(500, new
-            {
-                success = false,
-                error = new
-                {
-                    code = "SERVER_ERROR",
-                    message = "Bir hata oluştu"
-                }
-            });
+            return StatusCode(500, ApiResponse<object>.Fail("Bir hata oluştu", "SERVER_ERROR"));
         }
     }
 
@@ -343,12 +258,4 @@ public class AuthController : ControllerBase
 
         Response.Cookies.Append("auth_token", token, cookieOptions);
     }
-}
-
-/// <summary>
-/// DTO for birim selection request
-/// </summary>
-public class SelectBirimRequestDto
-{
-    public int BirimId { get; set; }
 }
