@@ -1,4 +1,6 @@
+using IntranetPortal.Application.DTOs.Permissions;
 using IntranetPortal.Application.Interfaces;
+using IntranetPortal.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 
@@ -29,6 +31,84 @@ namespace IntranetPortal.Application.Services
         {
             _cache.Remove($"{CacheKeyPrefix}{roleId}");
             return Task.CompletedTask;
+        }
+
+        public async Task<IEnumerable<PermissionDto>> GetAllPermissionsAsync()
+        {
+            return await _context.Permissions
+                .Select(p => new PermissionDto
+                {
+                    PermissionID = p.PermissionID,
+                    Action = p.Action,
+                    Resource = p.Resource,
+                    Description = p.Description
+                })
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<PermissionDto>> GetPermissionsByRoleIdAsync(int roleId)
+        {
+            return await _context.RolePermissions
+                .Where(rp => rp.RoleID == roleId)
+                .Select(rp => new PermissionDto
+                {
+                    PermissionID = rp.Permission.PermissionID,
+                    Action = rp.Permission.Action,
+                    Resource = rp.Permission.Resource,
+                    Description = rp.Permission.Description
+                })
+                .ToListAsync();
+        }
+
+        public async Task UpdateRolePermissionsAsync(int roleId, List<int> permissionIds)
+        {
+            var role = await _context.Roles.FindAsync(roleId);
+            if (role == null)
+            {
+                throw new KeyNotFoundException($"Role with ID {roleId} not found.");
+            }
+
+            // Get existing permissions
+            var existingRolePermissions = await _context.RolePermissions
+                .Where(rp => rp.RoleID == roleId)
+                .ToListAsync();
+
+            // Determine permissions to remove
+            var permissionsToRemove = existingRolePermissions
+                .Where(rp => !permissionIds.Contains(rp.PermissionID))
+                .ToList();
+
+            if (permissionsToRemove.Any())
+            {
+                _context.RolePermissions.RemoveRange(permissionsToRemove);
+            }
+
+            // Determine permissions to add
+            var existingPermissionIds = existingRolePermissions.Select(rp => rp.PermissionID).ToList();
+            var newPermissionIds = permissionIds.Except(existingPermissionIds).ToList();
+
+            if (newPermissionIds.Any())
+            {
+                // Verify permissions exist
+                var validPermissions = await _context.Permissions
+                    .Where(p => newPermissionIds.Contains(p.PermissionID))
+                    .Select(p => p.PermissionID)
+                    .ToListAsync();
+
+                var permissionsToAdd = validPermissions.Select(pid => new RolePermission
+                {
+                    RoleID = roleId,
+                    PermissionID = pid,
+                    GrantedAt = DateTime.UtcNow
+                });
+
+                _context.RolePermissions.AddRange(permissionsToAdd);
+            }
+
+            await _context.SaveChangesAsync();
+
+            // Invalidate cache
+            await InvalidateCacheAsync(roleId);
         }
 
         private async Task<HashSet<string>> GetRolePermissionsAsync(int roleId)

@@ -82,4 +82,38 @@ public class RolesController : ControllerBase
             return BadRequest(new { message = ex.Message });
         }
     }
+
+    [HttpGet("{id}/permissions")]
+    [HasPermission(Permissions.ManagePermissions)]
+    public async Task<IActionResult> GetPermissions(int id)
+    {
+        // Verify role exists
+        var role = await _roleService.GetRoleByIdAsync(id);
+        if (role == null) return NotFound();
+
+        // We need to inject IPermissionService for this
+        // This is a quick fix, ideally inject in constructor
+        var permissionService = HttpContext.RequestServices.GetRequiredService<IPermissionService>();
+        var permissions = await permissionService.GetPermissionsByRoleIdAsync(id);
+        
+        return Ok(permissions);
+    }
+
+    [HttpPost("{id}/permissions")]
+    [HasPermission(Permissions.ManagePermissions)]
+    public async Task<IActionResult> UpdatePermissions(int id, [FromBody] Application.DTOs.Permissions.AssignPermissionsDto assignPermissionsDto)
+    {
+        if (!ModelState.IsValid) return BadRequest(ModelState);
+
+        try
+        {
+            var permissionService = HttpContext.RequestServices.GetRequiredService<IPermissionService>();
+            await permissionService.UpdateRolePermissionsAsync(id, assignPermissionsDto.PermissionIds);
+            return Ok(new { message = "Permissions updated successfully." });
+        }
+        catch (KeyNotFoundException)
+        {
+            return NotFound();
+        }
+    }
 }

@@ -1,7 +1,7 @@
 # 📋 Active Task List - Kurumsal İntranet Web Portalı
 
 **Proje:** Kurumsal İntranet Web Portalı
-**Versiyon:** 1.2
+**Versiyon:** 1.3
 **Başlangıç:** 2025-11-25
 **Mevcut Faz:** Faz 2 - RBAC & Admin Panel (Devam Ediyor)
 
@@ -23,7 +23,7 @@ Bu proje **Task-Driven Development (TDD)** yaklaşımıyla geliştirilmektedir:
 |-----|-------|------------|--------------|
 | Faz 0: Proje Kurulumu | ✅ TAMAMLANDI | 100% | 1-2 hafta |
 | Faz 1: Authentication & Core | ✅ TAMAMLANDI | 100% | 1-2 hafta |
-| Faz 2 | RBAC & Admin Panel | 🔄 DEVAM EDİYOR | 70% | 2-3 hafta |
+| Faz 2 | RBAC & Admin Panel | 🔄 DEVAM EDİYOR | 90% | 2-3 hafta |
 | Faz 3: Multi-Unit Support | ⚪ BEKLİYOR | 0% | 1-2 hafta |
 | Faz 4: First Unit Module (HR) | ⚪ BEKLİYOR | 0% | 2-3 hafta |
 | Faz 5: Second Unit Module (IT) | ⚪ BEKLİYOR | 0% | 2-3 hafta |
@@ -70,9 +70,10 @@ Rol tabanlı erişim kontrolü ve yönetim paneli API'lerinin geliştirilmesi.
 - [x] **PUT /api/birimler/{id}** - Update unit
 
 ## 4. Permission Management
-- [ ] **GET /api/permissions** - List system permissions
-- [ ] **POST /api/roles/{id}/permissions** - Assign permissions to role
-- [ ] **GET /api/roles/{id}/permissions** - Get role permissions
+- [x] **GET /api/permissions** - List system permissions
+- [x] **POST /api/roles/{id}/permissions** - Assign permissions to role
+- [x] **GET /api/roles/{id}/permissions** - Get role permissions
+- [x] **Frontend Integration** - Role Permissions page implemented
 
 ---
 
@@ -81,3 +82,4 @@ Rol tabanlı erişim kontrolü ve yönetim paneli API'lerinin geliştirilmesi.
 - Soft delete mantığı tüm silme işlemlerinde uygulanmalı (IsActive = false).
 - Admin endpoint'leri mutlaka `[HasPermission(Permissions.User.Manage)]` gibi attribute'larla korunmalı.
 - Permission constant'ları `Permissions.cs` içinde güncellendi ve endpoint'lere uygulandı.
+- Frontend `react-hot-toast` eklendi.

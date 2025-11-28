@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using IntranetPortal.Application.DTOs.Permissions;
 
 namespace IntranetPortal.Application.Interfaces
 {
@@ -19,5 +20,20 @@ namespace IntranetPortal.Application.Interfaces
         /// </summary>
         /// <param name="roleId">The role identifier.</param>
         Task InvalidateCacheAsync(int roleId);
+
+        /// <summary>
+        /// Gets all permissions available in the system.
+        /// </summary>
+        Task<IEnumerable<PermissionDto>> GetAllPermissionsAsync();
+
+        /// <summary>
+        /// Gets permissions assigned to a specific role.
+        /// </summary>
+        Task<IEnumerable<PermissionDto>> GetPermissionsByRoleIdAsync(int roleId);
+
+        /// <summary>
+        /// Updates the permissions assigned to a role.
+        /// </summary>
+        Task UpdateRolePermissionsAsync(int roleId, List<int> permissionIds);
     }
 }
