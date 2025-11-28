@@ -82,7 +82,8 @@ export const Page = {
   DEPARTMENT_LIST: 'DEPARTMENT_LIST',
   DEPARTMENT_CREATE: 'DEPARTMENT_CREATE',
   ROLES_PERMISSIONS: 'ROLES_PERMISSIONS',
-  REPORTS: 'REPORTS'
+  REPORTS: 'REPORTS',
+  PROFILE: 'PROFILE'
 } as const;
 
 export type Page = typeof Page[keyof typeof Page];

@@ -8,6 +8,7 @@ import { UserList } from './features/admin/pages/UserList';
 import { DepartmentList } from './features/admin/pages/DepartmentList';
 import { RolePermissions } from './features/admin/pages/RolePermissions';
 import { Reports } from './features/admin/pages/Reports';
+import { Profile } from './features/admin/pages/Profile';
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
           <Route path="departments" element={<DepartmentList />} />
           <Route path="roles" element={<RolePermissions />} />
           <Route path="reports" element={<Reports />} />
+          <Route path="profile" element={<Profile />} />
         </Route>
 
         {/* Catch all - redirect to dashboard */}

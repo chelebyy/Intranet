@@ -12,7 +12,7 @@
 |-----|------|-------|-----------|--------|
 | Faz 0 | Proje Kurulumu | ✅ Tamamlandı | %100 | .NET 9 solution, PostgreSQL veritabanı |
 | Faz 1 | Authentication & Core | ✅ Tamamlandı | %100 | JWT, BCrypt, Audit logging |
-| Faz 2 | RBAC & Admin Panel | ⏳ Bekliyor | %0 | Başlanmadı |
+| Faz 2 | RBAC & Admin Panel | 🔄 Devam Ediyor | %35 | User CRUD & [HasPermission] implemented |
 | Faz 3 | Multi-Unit Support | ⏳ Bekliyor | %0 | Başlanmadı |
 | Faz 4 | First Unit Module (HR) | ⏳ Bekliyor | %0 | Başlanmadı |
 | Faz 5 | Second Unit Module (IT) | ⏳ Bekliyor | %0 | Başlanmadı |
@@ -79,8 +79,8 @@
    - Permission-based endpoint protection
    - Role permission caching
 
-2. **User Management API**
-   - GET /api/users (list with pagination)
+2. **User Management API** ✅
+   - GET /api/users (list)
    - GET /api/users/{id} (single user)
    - POST /api/users (create user)
    - PUT /api/users/{id} (update user)
@@ -208,7 +208,7 @@ IntranetPortal.sln
 1. **IP Whitelist Middleware** - Faz 2'de uygulanacak
 2. **Rate Limiting** - Faz 2'de uygulanacak
 3. **AES-256 Encryption** - Faz 2'de uygulanacak (pgcrypto)
-4. **RBAC Authorization** - Faz 2'de uygulanacak ([HasPermission] attribute)
+4. **RBAC Authorization** - [HasPermission] implemented, pending integration |
 
 ---
 

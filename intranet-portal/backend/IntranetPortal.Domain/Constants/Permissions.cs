@@ -26,6 +26,10 @@ namespace IntranetPortal.Domain.Constants
 
         // Birim Management
         public const string ManageBirim = "manage.birim";
+        public const string CreateBirim = "create.birim";
+        public const string ReadBirim = "read.birim";
+        public const string UpdateBirim = "update.birim";
+        public const string DeleteBirim = "delete.birim";
         public const string ExportBirim = "export.birim";
 
         // File Management (PRD FR-33 to FR-38)
@@ -39,6 +43,10 @@ namespace IntranetPortal.Domain.Constants
 
         // Role & Permission Management (typically SuperAdmin only)
         public const string ManageRoles = "manage.roles";
+        public const string CreateRole = "create.role";
+        public const string ReadRole = "read.role";
+        public const string UpdateRole = "update.role";
+        public const string DeleteRole = "delete.role";
         public const string ManagePermissions = "manage.permissions";
     }
 }

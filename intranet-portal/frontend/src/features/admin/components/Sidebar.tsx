@@ -93,8 +93,8 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentPage, onNavigate, isDar
             <span className="material-symbols-outlined text-2xl">{isDarkMode ? 'light_mode' : 'dark_mode'}</span>
             <p className="text-sm font-medium leading-normal">{isDarkMode ? 'Açık Tema' : 'Koyu Tema'}</p>
           </div>
-          <div className="flex items-center gap-3 px-3 py-2 rounded-lg text-text-secondary dark:text-dark-text-secondary hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer">
-            <span className="material-symbols-outlined text-2xl">account_circle</span>
+          <div onClick={() => { onNavigate(Page.PROFILE); navigate('/profile'); }} className={navItemClass(Page.PROFILE)}>
+            <span className={iconClass(Page.PROFILE)}>account_circle</span>
             <p className="text-sm font-medium leading-normal">Profil</p>
           </div>
           <div onClick={handleLogout} className="flex items-center gap-3 px-3 py-2 rounded-lg text-text-secondary dark:text-dark-text-secondary hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer">

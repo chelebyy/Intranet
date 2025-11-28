@@ -52,7 +52,7 @@ IntranetPortal.sln
 
 ### 1.2. Frontend Mimarisi
 
-**Framework:** React 18 + TypeScript
+**Framework:** React 19 + TypeScript
 **Build Tool:** Vite
 **Mimari Deseni:** Feature-Based Structure
 
@@ -92,7 +92,7 @@ intranet-frontend/
 
 ### 1.3. Veritabanı Mimarisi
 
-**DBMS:** PostgreSQL 15/16
+**DBMS:** PostgreSQL 16
 **ORM:** Entity Framework Core 9.x
 **Migration Stratejisi:** Code-First
 
@@ -128,8 +128,9 @@ intranet-frontend/
   ```json
   {
     "userId": 123,
-    "email": "ahmet@kurum.local",
-    "role": "BirimAdmin",
+    "sicil": "12345",
+    "roleId": 2,
+    "roleName": "BirimAdmin",
     "birimId": 101,
     "exp": 1735689600
   }
@@ -144,7 +145,7 @@ intranet-frontend/
 #### Login Akışı
 
 ```
-1. Kullanıcı → POST /api/auth/login {email, password}
+1. Kullanıcı → POST /api/auth/login {sicil, password}
 2. Backend → IP Kontrolü (Middleware)
 3. Backend → Şifre doğrulama (BCrypt)
 4. Backend → JWT Token üretimi
@@ -167,6 +168,13 @@ public async Task<IActionResult> CreateUser([FromBody] CreateUserDto dto)
     // Implementation
 }
 ```
+
+**Permission Service (Cached):**
+1. `[HasPermission]` attribute isteği durdurur.
+2. `PermissionAuthorizationFilter` devreye girer.
+3. `IPermissionService`, kullanıcının rolü için izinleri kontrol eder.
+4. İzinler `IMemoryCache` üzerinde (varsayılan 1 saat) saklanır.
+5. Veritabanı sorgusu: `SELECT Permission FROM RolePermission WHERE RoleId = X`
 
 **Middleware İşleyişi:**
 1. Token'dan `userId` ve `birimId` çekilir
@@ -740,7 +748,7 @@ sequenceDiagram
     participant A as Auth Service
     participant DB as Database
 
-    U->>F: Email + Parola gir
+    U->>F: Sicil + Parola gir
     F->>M: POST /api/auth/login
     M->>M: IP Kontrolü
     alt IP İzinsiz

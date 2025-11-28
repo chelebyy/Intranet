@@ -36,6 +36,11 @@ builder.Services.AddScoped<IIntranetDbContext, IntranetDbContextAdapter>();
 builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
 builder.Services.AddScoped<IPasswordService, PasswordService>();
 builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IPermissionService, PermissionService>();
+builder.Services.AddScoped<IRoleService, RoleService>();
+builder.Services.AddScoped<IBirimService, BirimService>();
+builder.Services.AddMemoryCache();
 
 // JWT Authentication Configuration
 // Reference: TECHNICAL_DESIGN.md Section 2.1, SECURITY_ANALYSIS_REPORT.md Finding #2
@@ -126,11 +131,6 @@ app.UseCors();
 // Add authentication and authorization
 app.UseAuthentication();
 app.UseAuthorization();
-
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
 
 // Map controllers
 app.MapControllers();
