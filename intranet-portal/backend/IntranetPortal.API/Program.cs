@@ -1,5 +1,6 @@
 using System.Text;
 using IntranetPortal.API.Data;
+using IntranetPortal.API.Middleware;
 using IntranetPortal.Application.Interfaces;
 using IntranetPortal.Application.Services;
 using IntranetPortal.Infrastructure.Data;
@@ -127,6 +128,11 @@ app.UseHttpsRedirection();
 
 // Enable CORS
 app.UseCors();
+
+// Security Middleware (before authentication)
+// Reference: IMPLEMENTATION_ROADMAP.md - Faz 1, SECURITY_ANALYSIS_REPORT.md
+app.UseIPWhitelist();      // IP Whitelist check
+app.UseRateLimiting();     // Rate limiting
 
 // Add authentication and authorization
 app.UseAuthentication();
