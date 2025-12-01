@@ -1,9 +1,10 @@
 # 📋 Active Task List - Kurumsal İntranet Web Portalı
 
 **Proje:** Kurumsal İntranet Web Portalı
-**Versiyon:** 1.4
+**Versiyon:** 1.5
 **Başlangıç:** 2025-11-25
-**Mevcut Faz:** Faz 2 - RBAC & Admin Panel (Tamamlanıyor)
+**Son Güncelleme:** 2025-12-01
+**Mevcut Faz:** Faz 3 - Multi-Unit Support (Başlıyor)
 
 ---
 
@@ -17,13 +18,73 @@ Bu proje **Task-Driven Development (TDD)** yaklaşımıyla geliştirilmektedir:
 
 ---
 
+## 📚 Proje Döküman Referansları
+
+### 🔴 KRİTİK DÖKÜMANLAR (Her Zaman Takip Edilmeli)
+
+| Döküman | Amaç | Ne Zaman Kullanılır |
+|---------|------|---------------------|
+| **PRD.md** | Ürün gereksinimleri, kullanıcı hikayeleri, kapsam | Yeni özellik eklerken, scope kontrolü |
+| **ERD.md** | Veritabanı şeması, entity ilişkileri, RBAC modeli | Entity/migration oluştururken |
+| **API_SPECIFICATION.md** | Detaylı API endpoint tanımları | Controller/endpoint yazarken |
+| **TECHNICAL_DESIGN.md** | Mimari, katman yapısı, güvenlik | Yeni servis/component eklerken |
+| **SECURITY_ANALYSIS_REPORT.md** | OWASP uyumluluk, güvenlik gereksinimleri | Auth/güvenlik kodu yazarken |
+
+### 🟡 GELİŞTİRME DÖKÜMANLAR (Faz Bazlı Takip)
+
+| Döküman | Amaç | Ne Zaman Kullanılır |
+|---------|------|---------------------|
+| **IMPLEMENTATION_ROADMAP.md** | 6 fazlık yol haritası, task detayları | Faz planlaması, task önceliklendirme |
+| **API_INDEX.md** | API endpoint özeti, permission listesi | Hızlı API referansı |
+| **MODULAR_STRUCTURE.md** | Modül mimarisi, birim ekleme | Yeni birim modülü eklerken |
+| **FILE_MANAGEMENT.md** | Dosya yükleme/indirme spesifikasyonu | Dosya işlemleri yazarken |
+
+### 🟢 OPERASYONEL DÖKÜMANLAR (Gerektiğinde)
+
+| Döküman | Amaç | Ne Zaman Kullanılır |
+|---------|------|---------------------|
+| **QUICK_START.md** | Hızlı kurulum rehberi | Yeni geliştirici onboarding |
+| **DEPLOYMENT_GUIDE.md** | Production deployment | Deploy öncesi |
+| **WINDOWS_SERVER_DEPLOYMENT.md** | Windows Server kurulum | Windows deploy |
+| **ERRORS.md** | Bilinen hatalar ve çözümleri | Build/runtime hata alınca |
+| **TECH_STACK.md** | Teknoloji stack detayları | Paket/versiyon kontrolü |
+
+### 🔵 OTURUM/CHECKPOINT DÖKÜMANLAR (Arşiv)
+
+| Döküman Tipi | Amaç |
+|--------------|------|
+| **SESSION_SUMMARY_*.md** | Oturum özeti, yapılan işler |
+| **SESSION_CHECKPOINT_*.md** | Checkpoint kayıtları |
+| **FAZ*_TAMAMLANDI.md** | Faz tamamlanma raporları |
+
+### 📖 Döküman Kullanım Kuralları
+
+1. **Yeni Endpoint Yazarken:**
+   - `API_SPECIFICATION.md` → Endpoint detayları
+   - `ERD.md` → Entity ilişkileri
+   - `SECURITY_ANALYSIS_REPORT.md` → Permission gereksinimleri
+
+2. **Yeni Entity/Migration Oluştururken:**
+   - `ERD.md` → Tablo yapısı ve ilişkiler
+   - `TECHNICAL_DESIGN.md` → Naming convention
+
+3. **Frontend Component Yazarken:**
+   - `PRD.md` → Kullanıcı hikayeleri
+   - `API_INDEX.md` → API endpoint listesi
+
+4. **Hata Alındığında:**
+   - `ERRORS.md` → Bilinen hatalar ve çözümler
+   - İlgili `SESSION_SUMMARY_*.md` → Geçmiş çözümler
+
+---
+
 ## 📊 Faz Durumu
 
 | Faz | Durum | Tamamlanma | Süre Tahmini |
 |-----|-------|------------|--------------|
 | Faz 0: Proje Kurulumu | ✅ TAMAMLANDI | 100% | 1-2 hafta |
 | Faz 1: Authentication & Core | ✅ TAMAMLANDI | 100% | 1-2 hafta |
-| Faz 2 | RBAC & Admin Panel | ✅ TAMAMLANDI | 100% | 2-3 hafta |
+| Faz 2: RBAC & Admin Panel | ✅ TAMAMLANDI | 100% | 2-3 hafta |
 | Faz 3: Multi-Unit Support | 🔄 BAŞLIYOR | 0% | 1-2 hafta |
 | Faz 4: First Unit Module (HR) | ⚪ BEKLİYOR | 0% | 2-3 hafta |
 | Faz 5: Second Unit Module (IT) | ⚪ BEKLİYOR | 0% | 2-3 hafta |
@@ -74,6 +135,11 @@ Rol tabanlı erişim kontrolü ve yönetim paneli API'lerinin geliştirilmesi.
 - [x] **POST /api/roles/{id}/permissions** - Assign permissions to role
 - [x] **GET /api/roles/{id}/permissions** - Get role permissions
 - [x] **Frontend Integration** - Role Permissions page implemented
+
+## 5. Frontend: Admin Panel Sayfaları
+- [x] **UserList.tsx** - Backend API entegrasyonu ✅ TAMAMLANDI
+- [x] **DepartmentList.tsx** - Birim CRUD UI ✅ TAMAMLANDI
+- [ ] **AuditLogs.tsx** - Audit log görüntüleme sayfası (opsiyonel - Faz 6'ya ertelenebilir)
 
 ---
 
