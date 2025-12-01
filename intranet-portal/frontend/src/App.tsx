@@ -8,6 +8,7 @@ import ProtectedRoute from './shared/components/ProtectedRoute';
 // Lazy load pages for code splitting
 const Dashboard = lazy(() => import('./features/admin/pages/Dashboard').then(module => ({ default: module.Dashboard })));
 const UserList = lazy(() => import('./features/admin/pages/UserList').then(module => ({ default: module.UserList })));
+const UserCreate = lazy(() => import('./features/admin/pages/UserCreate').then(module => ({ default: module.UserCreate })));
 const DepartmentList = lazy(() => import('./features/admin/pages/DepartmentList').then(module => ({ default: module.DepartmentList })));
 const RolePermissions = lazy(() => import('./features/admin/pages/RolePermissions').then(module => ({ default: module.RolePermissions })));
 const Reports = lazy(() => import('./features/admin/pages/Reports').then(module => ({ default: module.Reports })));
@@ -46,6 +47,11 @@ function App() {
           <Route path="users" element={
             <Suspense fallback={<PageLoader />}>
               <UserList />
+            </Suspense>
+          } />
+          <Route path="users/create" element={
+            <Suspense fallback={<PageLoader />}>
+              <UserCreate />
             </Suspense>
           } />
           <Route path="departments" element={
