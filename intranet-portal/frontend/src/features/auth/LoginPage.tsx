@@ -45,62 +45,29 @@ const LoginPage: React.FC = () => {
     return (
         <>
             <MatrixBackground />
-            <div style={{
-                position: 'relative',
-                zIndex: 10,
-                display: 'flex',
-                minHeight: '100vh',
-                alignItems: 'center',
-                justifyContent: 'center',
-                padding: '1rem'
-            }}>
-                <div style={{
-                    width: '100%',
-                    maxWidth: '450px',
-                    background: 'rgba(255, 255, 255, 0.05)',
-                    backdropFilter: 'blur(10px)',
-                    WebkitBackdropFilter: 'blur(10px)',
-                    border: '1px solid rgba(255, 255, 255, 0.15)',
-                    borderRadius: '20px',
-                    padding: '3rem',
-                    boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5)'
-                }}>
-                    <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
-                        <div style={{
-                            fontSize: '3rem',
-                            fontWeight: 'bold',
-                            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                            WebkitBackgroundClip: 'text',
-                            WebkitTextFillColor: 'transparent',
-                            marginBottom: '0.5rem'
-                        }}>
+            <div className="relative z-10 flex min-h-screen items-center justify-center p-4">
+                <div className="w-full max-w-[450px] bg-white/5 backdrop-blur-md border border-white/15 rounded-[20px] p-12 shadow-2xl">
+                    {/* Header */}
+                    <div className="text-center mb-10">
+                        <h1 className="text-5xl font-bold bg-gradient-to-br from-purple-400 to-purple-700 bg-clip-text text-transparent mb-2">
                             Hoş Geldiniz
-                        </div>
-                        <p style={{ color: 'rgba(255, 255, 255, 0.6)', fontSize: '1rem' }}>
+                        </h1>
+                        <p className="text-white/60 text-base">
                             Kurumsal İntranet Portalı
                         </p>
                     </div>
 
-                    <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+                    <form onSubmit={handleSubmit} className="flex flex-col gap-6">
+                        {/* Error Message */}
                         {error && (
-                            <div style={{
-                                padding: '0.75rem 1rem',
-                                backgroundColor: 'rgba(239, 68, 68, 0.1)',
-                                border: '1px solid rgba(239, 68, 68, 0.3)',
-                                borderRadius: '8px',
-                                color: '#fca5a5',
-                                fontSize: '0.875rem'
-                            }}>
+                            <div className="px-4 py-3 bg-red-500/10 border border-red-500/30 rounded-lg text-red-300 text-sm">
                                 {error}
                             </div>
                         )}
 
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                            <label htmlFor="sicil" style={{
-                                color: 'rgba(255, 255, 255, 0.9)',
-                                fontSize: '0.95rem',
-                                fontWeight: '500'
-                            }}>
+                        {/* Sicil Input */}
+                        <div className="flex flex-col gap-2">
+                            <label htmlFor="sicil" className="text-white/90 text-[0.95rem] font-medium">
                                 Sicil Numarası
                             </label>
                             <input
@@ -111,31 +78,18 @@ const LoginPage: React.FC = () => {
                                 onChange={handleChange}
                                 placeholder="00001"
                                 required
-                                style={{
-                                    width: '100%',
-                                    padding: '0.75rem 1rem',
-                                    background: 'rgba(255, 255, 255, 0.08)',
-                                    border: '1px solid rgba(255, 255, 255, 0.2)',
-                                    borderRadius: '10px',
-                                    color: 'white',
-                                    fontSize: '1rem',
-                                    outline: 'none',
-                                    transition: 'all 0.3s ease'
-                                }}
-                                onFocus={(e) => e.currentTarget.style.borderColor = 'rgba(102, 126, 234, 0.6)'}
-                                onBlur={(e) => e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.2)'}
+                                className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-[10px] text-white text-base 
+                                         placeholder-white/40 outline-none transition-all duration-300
+                                         focus:border-purple-500/60 focus:ring-2 focus:ring-purple-500/20"
                             />
                         </div>
 
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                            <label htmlFor="password" style={{
-                                color: 'rgba(255, 255, 255, 0.9)',
-                                fontSize: '0.95rem',
-                                fontWeight: '500'
-                            }}>
+                        {/* Password Input */}
+                        <div className="flex flex-col gap-2">
+                            <label htmlFor="password" className="text-white/90 text-[0.95rem] font-medium">
                                 Şifre
                             </label>
-                            <div style={{ position: 'relative' }}>
+                            <div className="relative">
                                 <input
                                     type={showPassword ? 'text' : 'password'}
                                     id="password"
@@ -143,97 +97,53 @@ const LoginPage: React.FC = () => {
                                     value={formData.password}
                                     onChange={handleChange}
                                     required
-                                    style={{
-                                        width: '100%',
-                                        padding: '0.75rem 3rem 0.75rem 1rem',
-                                        background: 'rgba(255, 255, 255, 0.08)',
-                                        border: '1px solid rgba(255, 255, 255, 0.2)',
-                                        borderRadius: '10px',
-                                        color: 'white',
-                                        fontSize: '1rem',
-                                        outline: 'none',
-                                        transition: 'all 0.3s ease'
-                                    }}
-                                    onFocus={(e) => e.currentTarget.style.borderColor = 'rgba(102, 126, 234, 0.6)'}
-                                    onBlur={(e) => e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.2)'}
+                                    className="w-full pl-4 pr-12 py-3 bg-white/10 border border-white/20 rounded-[10px] text-white text-base 
+                                             placeholder-white/40 outline-none transition-all duration-300
+                                             focus:border-purple-500/60 focus:ring-2 focus:ring-purple-500/20"
                                 />
                                 <button
                                     type="button"
                                     onClick={() => setShowPassword(!showPassword)}
-                                    style={{
-                                        position: 'absolute',
-                                        right: '1rem',
-                                        top: '50%',
-                                        transform: 'translateY(-50%)',
-                                        background: 'none',
-                                        border: 'none',
-                                        color: 'rgba(255, 255, 255, 0.6)',
-                                        cursor: 'pointer',
-                                        fontSize: '1.25rem',
-                                        padding: 0
-                                    }}
+                                    className="absolute right-4 top-1/2 -translate-y-1/2 bg-transparent border-none text-white/60 
+                                             cursor-pointer text-xl p-0 hover:text-white/80 transition-colors"
                                 >
                                     {showPassword ? '👁️' : '👁️‍🗨️'}
                                 </button>
                             </div>
                         </div>
 
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                        {/* Remember Me */}
+                        <div className="flex items-center gap-2">
                             <input
                                 type="checkbox"
                                 id="remember"
                                 checked={rememberMe}
                                 onChange={(e) => setRememberMe(e.target.checked)}
-                                style={{ width: '1rem', height: '1rem', cursor: 'pointer' }}
+                                className="w-4 h-4 cursor-pointer accent-purple-500"
                             />
-                            <label htmlFor="remember" style={{
-                                color: 'rgba(255, 255, 255, 0.7)',
-                                fontSize: '0.875rem',
-                                cursor: 'pointer'
-                            }}>
+                            <label htmlFor="remember" className="text-white/70 text-sm cursor-pointer">
                                 Beni Hatırla
                             </label>
                         </div>
 
+                        {/* Submit Button */}
                         <button
                             type="submit"
                             disabled={isLoading}
-                            style={{
-                                width: '100%',
-                                padding: '0.875rem',
-                                background: isLoading
-                                    ? 'rgba(102, 126, 234, 0.5)'
-                                    : 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                                border: 'none',
-                                borderRadius: '10px',
-                                color: 'white',
-                                fontSize: '1rem',
-                                fontWeight: '600',
-                                cursor: isLoading ? 'not-allowed' : 'pointer',
-                                transition: 'all 0.3s ease',
-                                boxShadow: '0 10px 20px -5px rgba(102, 126, 234, 0.3)'
-                            }}
-                            onMouseOver={(e) => {
-                                if (!isLoading) {
-                                    e.currentTarget.style.transform = 'translateY(-2px)';
-                                    e.currentTarget.style.boxShadow = '0 15px 30px -5px rgba(102, 126, 234, 0.5)';
-                                }
-                            }}
-                            onMouseOut={(e) => {
-                                e.currentTarget.style.transform = 'translateY(0)';
-                                e.currentTarget.style.boxShadow = '0 10px 20px -5px rgba(102, 126, 234, 0.3)';
-                            }}
+                            className={`w-full py-3.5 rounded-[10px] text-white text-base font-semibold 
+                                      transition-all duration-300 shadow-lg shadow-purple-500/30
+                                      ${isLoading 
+                                        ? 'bg-purple-500/50 cursor-not-allowed' 
+                                        : 'bg-gradient-to-br from-purple-400 to-purple-700 cursor-pointer hover:-translate-y-0.5 hover:shadow-xl hover:shadow-purple-500/40'
+                                      }`}
                         >
                             {isLoading ? 'Giriş Yapılıyor...' : 'Giriş Yap'}
                         </button>
                     </form>
 
-                    <div style={{ marginTop: '1.5rem', textAlign: 'center' }}>
-                        <a href="#" style={{
-                            color: 'rgba(102, 126, 234, 0.9)',
-                            fontSize: '0.875rem',
-                            textDecoration: 'none'
-                        }}>
+                    {/* Forgot Password Link */}
+                    <div className="mt-6 text-center">
+                        <a href="#" className="text-purple-400/90 text-sm no-underline hover:text-purple-300 transition-colors">
                             Şifremi Unuttum
                         </a>
                     </div>

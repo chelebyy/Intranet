@@ -21,115 +21,48 @@ const BirimSelection: React.FC = () => {
     return (
         <>
             <MatrixBackground />
-            <div style={{
-                position: 'relative',
-                zIndex: 10,
-                display: 'flex',
-                minHeight: '100vh',
-                alignItems: 'center',
-                justifyContent: 'center',
-                padding: '1rem'
-            }}>
-                <div style={{
-                    width: '100%',
-                    maxWidth: '600px',
-                    background: 'rgba(255, 255, 255, 0.05)',
-                    backdropFilter: 'blur(10px)',
-                    WebkitBackdropFilter: 'blur(10px)',
-                    border: '1px solid rgba(255, 255, 255, 0.15)',
-                    borderRadius: '20px',
-                    padding: '2.5rem',
-                    boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5)'
-                }}>
-                    <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
-                        <div style={{
-                            fontSize: '2rem',
-                            fontWeight: 'bold',
-                            color: 'white',
-                            marginBottom: '0.5rem'
-                        }}>
+            <div className="relative z-10 flex min-h-screen items-center justify-center p-4">
+                <div className="w-full max-w-[600px] bg-white/5 backdrop-blur-md border border-white/15 rounded-[20px] p-10 shadow-2xl">
+                    {/* Header */}
+                    <div className="text-center mb-8">
+                        <h1 className="text-3xl font-bold text-white mb-2">
                             Hoş Geldiniz, {user.ad} {user.soyad}
-                        </div>
-                        <p style={{ color: 'rgba(255, 255, 255, 0.6)', fontSize: '1rem' }}>
+                        </h1>
+                        <p className="text-white/60 text-base">
                             Lütfen çalışmak istediğiniz birimi seçin
                         </p>
                     </div>
 
-                    <div style={{ display: 'grid', gap: '1rem' }}>
+                    {/* Birim List */}
+                    <div className="grid gap-4">
                         {birimleri.map((birim, index) => (
                             <button
                                 key={birim.birimId}
                                 onClick={() => handleSelectBirim(index)}
-                                style={{
-                                    width: '100%',
-                                    padding: '1.5rem',
-                                    background: 'rgba(255, 255, 255, 0.08)',
-                                    border: '1px solid rgba(255, 255, 255, 0.2)',
-                                    borderRadius: '12px',
-                                    color: 'white',
-                                    textAlign: 'left',
-                                    cursor: 'pointer',
-                                    transition: 'all 0.3s ease',
-                                    display: 'flex',
-                                    flexDirection: 'column',
-                                    gap: '0.5rem'
-                                }}
-                                onMouseOver={(e) => {
-                                    e.currentTarget.style.background = 'rgba(102, 126, 234, 0.2)';
-                                    e.currentTarget.style.borderColor = 'rgba(102, 126, 234, 0.6)';
-                                    e.currentTarget.style.transform = 'translateY(-2px)';
-                                }}
-                                onMouseOut={(e) => {
-                                    e.currentTarget.style.background = 'rgba(255, 255, 255, 0.08)';
-                                    e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.2)';
-                                    e.currentTarget.style.transform = 'translateY(0)';
-                                }}
+                                className="w-full p-6 bg-white/10 border border-white/20 rounded-xl text-left cursor-pointer 
+                                         transition-all duration-300 flex flex-col gap-2
+                                         hover:bg-purple-500/20 hover:border-purple-500/60 hover:-translate-y-0.5"
                             >
-                                <div style={{
-                                    fontSize: '1.25rem',
-                                    fontWeight: '600',
-                                    color: 'white'
-                                }}>
+                                <div className="text-xl font-semibold text-white">
                                     {birim.birimAdi}
                                 </div>
-                                <div style={{
-                                    fontSize: '0.875rem',
-                                    color: 'rgba(255, 255, 255, 0.6)'
-                                }}>
+                                <div className="text-sm text-white/60">
                                     Rol: {birim.roleName}
                                 </div>
                             </button>
                         ))}
                     </div>
 
-                    <div style={{
-                        marginTop: '2rem',
-                        paddingTop: '1.5rem',
-                        borderTop: '1px solid rgba(255, 255, 255, 0.1)',
-                        textAlign: 'center'
-                    }}>
+                    {/* Logout Section */}
+                    <div className="mt-8 pt-6 border-t border-white/10 text-center">
                         <button
                             onClick={() => {
                                 useAuthStore.getState().logout();
                                 navigate('/login');
                             }}
-                            style={{
-                                padding: '0.5rem 1.5rem',
-                                background: 'rgba(239, 68, 68, 0.2)',
-                                border: '1px solid rgba(239, 68, 68, 0.4)',
-                                borderRadius: '8px',
-                                color: '#fca5a5',
-                                fontSize: '0.875rem',
-                                fontWeight: '500',
-                                cursor: 'pointer',
-                                transition: 'all 0.3s ease'
-                            }}
-                            onMouseOver={(e) => {
-                                e.currentTarget.style.background = 'rgba(239, 68, 68, 0.3)';
-                            }}
-                            onMouseOut={(e) => {
-                                e.currentTarget.style.background = 'rgba(239, 68, 68, 0.2)';
-                            }}
+                            className="px-6 py-2 bg-red-500/20 border border-red-500/40 rounded-lg text-red-300 
+                                     text-sm font-medium cursor-pointer transition-all duration-300
+                                     hover:bg-red-500/30"
                         >
                             Çıkış Yap
                         </button>
