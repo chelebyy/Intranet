@@ -11,7 +11,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 **Current Phase:** Documentation Complete - Implementation Not Started
 - All technical documentation has been completed (14 markdown files)
 - No code exists yet - this repository contains planning and architecture documents only
-- Ready to begin **Faz 0** (Project Setup) from `IMPLEMENTATION_ROADMAP.md`
+- Ready to begin **Faz 0** (Project Setup) from `docs/technical/IMPLEMENTATION_ROADMAP.md`
 
 ### Core Requirements
 - Multi-unit (department) architecture where users can belong to multiple units with different roles
@@ -110,7 +110,7 @@ intranet-frontend/
 - **AuditLog**: All critical operations logging
 
 ### Important SQL Files
-- `ERD.md`: Complete database schema with SQL CREATE statements, indexes, and example queries
+- `docs/technical/ERD.md`: Complete database schema with SQL CREATE statements, indexes, and example queries
 - All tables use PostgreSQL with quote-delimited names (e.g., "User", "BirimID")
 
 ---
@@ -286,7 +286,7 @@ dotnet ef database update
 - `/api/auditlogs/*` - Audit log queries
 - `/api/birimler/{birimId}/*` - Unit-specific content modules
 
-See `API_SPECIFICATION.md` for complete endpoint documentation.
+See `docs/api/API_SPECIFICATION.md` for complete endpoint documentation.
 
 ---
 
@@ -320,7 +320,7 @@ The system is designed to easily add new organizational units. Follow this patte
 7. **Frontend**: Add route to router with permission checks
 8. **Frontend**: Add menu items (dynamically loaded based on user's role)
 
-See `MODULAR_STRUCTURE.md` for detailed examples.
+See `docs/technical/MODULAR_STRUCTURE.md` for detailed examples.
 
 ---
 
@@ -355,43 +355,43 @@ See `MODULAR_STRUCTURE.md` for detailed examples.
 
 The system supports three deployment scenarios:
 
-1. **Windows 11 + IIS**: See `DEPLOYMENT_GUIDE.md` → Section 2
-2. **Linux Server + Nginx**: See `DEPLOYMENT_GUIDE.md` → Section 3
-3. **Docker (Recommended)**: See `DEPLOYMENT_GUIDE.md` → Section 4
+1. **Windows 11 + IIS**: See `docs/deployment/DEPLOYMENT_GUIDE.md` → Section 2
+2. **Linux Server + Nginx**: See `docs/deployment/DEPLOYMENT_GUIDE.md` → Section 3
+3. **Docker (Recommended)**: See `docs/deployment/DEPLOYMENT_GUIDE.md` → Section 4
    - Single command deployment: `docker-compose up -d`
    - Platform-independent
    - Includes PostgreSQL, backend, frontend, and Nginx
 
-For legacy Windows Server 2019/2022 deployments, see `WINDOWS_SERVER_DEPLOYMENT.md`.
+For legacy Windows Server 2019/2022 deployments, see `docs/deployment/WINDOWS_SERVER_DEPLOYMENT.md`.
 
 ---
 
 ## Documentation Files
 
 ### Core Documentation
-- **PRD.md**: Product requirements and functional specifications
-- **TECH_STACK.md**: Complete technology stack with versions
-- **TECHNICAL_DESIGN.md**: Architecture, security implementation, deployment
-- **ERD.md**: Database schema with SQL scripts and example queries
-- **MODULAR_STRUCTURE.md**: How to add new organizational units
+- **docs/general/PRD.md**: Product requirements and functional specifications
+- **docs/technical/TECH_STACK.md**: Complete technology stack with versions
+- **docs/technical/TECHNICAL_DESIGN.md**: Architecture, security implementation, deployment
+- **docs/technical/ERD.md**: Database schema with SQL scripts and example queries
+- **docs/technical/MODULAR_STRUCTURE.md**: How to add new organizational units
 
 ### Implementation & Development
-- **DEVELOPMENT_STEPS.md**: Initial development phases and module order
-- **IMPLEMENTATION_ROADMAP.md**: Complete 6-phase development roadmap with code examples (12-16 weeks)
-- **API_SPECIFICATION.md**: All API endpoints with request/response examples
-- **FILE_MANAGEMENT.md**: File upload system and Excel export implementation guide
+- **docs/technical/DEVELOPMENT_STEPS.md**: Initial development phases and module order
+- **docs/technical/IMPLEMENTATION_ROADMAP.md**: Complete 6-phase development roadmap with code examples (12-16 weeks)
+- **docs/api/API_SPECIFICATION.md**: All API endpoints with request/response examples
+- **docs/technical/FILE_MANAGEMENT.md**: File upload system and Excel export implementation guide
 
 ### Deployment Guides
-- **DEPLOYMENT_GUIDE.md**: Windows 11, Linux, and Docker deployment instructions
-- **WINDOWS_SERVER_DEPLOYMENT.md**: Windows Server 2019/2022 özel deployment rehberi (opsiyonel)
+- **docs/deployment/DEPLOYMENT_GUIDE.md**: Windows 11, Linux, and Docker deployment instructions
+- **docs/deployment/WINDOWS_SERVER_DEPLOYMENT.md**: Windows Server 2019/2022 özel deployment rehberi (opsiyonel)
 
 ### Quick Reference & Index
-- **PROJECT_INDEX.md**: Comprehensive project documentation index with cross-references and navigation
-- **API_INDEX.md**: API documentation index with endpoint categories, examples, and quick reference
+- **docs/general/PROJECT_INDEX.md**: Comprehensive project documentation index with cross-references and navigation
+- **docs/api/API_INDEX.md**: API documentation index with endpoint categories, examples, and quick reference
 - **QUICK_START.md**: Quick start guide for new developers (15-30 minute setup guide)
 
 ### Troubleshooting & Error Resolution
-- **ERRORS.md**: Known errors, solutions, and preventive measures (BUILD ERRORS, DATABASE ERRORS, RUNTIME ERRORS)
+- **docs/reports/ERRORS.md**: Known errors, solutions, and preventive measures (BUILD ERRORS, DATABASE ERRORS, RUNTIME ERRORS)
 
 ---
 
@@ -420,7 +420,7 @@ The project follows a **6-phase implementation plan** (12-16 weeks total):
 6. **Faz 5 (Week 11-13)**: Second Unit Module (IT) + Deployment - ticket system, Docker
 7. **Faz 6 (Week 14-16)**: Testing & Optimization - unit tests, load tests, security audit
 
-See `IMPLEMENTATION_ROADMAP.md` for detailed step-by-step implementation guide with complete code examples.
+See `docs/technical/IMPLEMENTATION_ROADMAP.md` for detailed step-by-step implementation guide with complete code examples.
 
 ---
 
@@ -429,11 +429,11 @@ See `IMPLEMENTATION_ROADMAP.md` for detailed step-by-step implementation guide w
 ### Getting Started (First-Time Setup)
 Since no code exists yet, start here:
 1. Review `QUICK_START.md` for complete environment setup (PostgreSQL, .NET 9, Node.js)
-2. Follow `IMPLEMENTATION_ROADMAP.md` → **Faz 0** to create the initial project structure
+2. Follow `docs/technical/IMPLEMENTATION_ROADMAP.md` → **Faz 0** to create the initial project structure
 3. Use the exact commands in Faz 0 to scaffold .NET solution and React project
 
 ### Implementation Principles
-1. **Follow the roadmap phases**: Use `IMPLEMENTATION_ROADMAP.md` as your primary guide for implementation order
+1. **Follow the roadmap phases**: Use `docs/technical/IMPLEMENTATION_ROADMAP.md` as your primary guide for implementation order
 2. **Start with backend layer structure**: Domain entities → Infrastructure (DbContext, repositories) → Application (services, DTOs) → API (controllers)
 3. **Database first**: Create migrations and seed data before business logic
 4. **Security cannot be skipped**: IP whitelist, JWT, BCrypt, permissions must be implemented from the start (Faz 1)
@@ -441,15 +441,15 @@ Since no code exists yet, start here:
 6. **Always log**: Critical operations must write to AuditLog
 7. **Test with multi-unit users**: The most complex scenario is a user with multiple units and different roles in each
 8. **Frontend must be responsive**: Use Tailwind for consistent styling across screen sizes
-9. **Reference roadmap code examples**: Each phase in `IMPLEMENTATION_ROADMAP.md` includes production-ready code snippets
+9. **Reference roadmap code examples**: Each phase in `docs/technical/IMPLEMENTATION_ROADMAP.md` includes production-ready code snippets
 
 ### Navigation for Development Tasks
-- **Need API details?** → `API_SPECIFICATION.md` or `API_INDEX.md`
-- **Need database schema?** → `ERD.md` (full SQL scripts included)
-- **Adding a new unit/module?** → `MODULAR_STRUCTURE.md`
-- **Deployment questions?** → `DEPLOYMENT_GUIDE.md`
-- **Build errors?** → `ERRORS.md` (troubleshooting guide)
-- **Lost?** → `PROJECT_INDEX.md` (central documentation hub)
+- **Need API details?** → `docs/api/API_SPECIFICATION.md` or `docs/api/API_INDEX.md`
+- **Need database schema?** → `docs/technical/ERD.md` (full SQL scripts included)
+- **Adding a new unit/module?** → `docs/technical/MODULAR_STRUCTURE.md`
+- **Deployment questions?** → `docs/deployment/DEPLOYMENT_GUIDE.md`
+- **Build errors?** → `docs/reports/ERRORS.md` (troubleshooting guide)
+- **Lost?** → `docs/general/PROJECT_INDEX.md` (central documentation hub)
 
 ---
 
@@ -513,6 +513,6 @@ find . -name "User.cs" -o -name "Role.cs"
 **Why This Matters:**
 - Duplicate entities cause **CS1061 compilation errors** (74+ errors)
 - Infrastructure should ONLY reference Domain entities, not duplicate them
-- See `ERRORS.md` for full troubleshooting guide
+- See `docs/reports/ERRORS.md` for full troubleshooting guide
 
 ---

@@ -20,6 +20,19 @@
 
 Sistem, kullanıcıların dosya yüklemesi ve admin'lerin veri export etmesi için iki temel özellik sunar:
 
+## 📂 Project Folder & Documentation Structure
+
+**Rule:** The root directory must remain clean. All documentation is categorized under `docs/`.
+
+| Path | Content Type | Examples |
+|:---|:---|:---|
+| `docs/sessions/` | AI Session Logs & Checkpoints | `SESSION_SUMMARY_2025-11-28.md` |
+| `docs/technical/` | Technical Architecture | `TECH_STACK.md`, `ERD.md` |
+| `docs/api/` | API Documentation | `API_SPECIFICATION.md` |
+| `docs/deployment/` | Deployment Guides | `DEPLOYMENT_GUIDE.md` |
+| `docs/reports/` | Analysis & Tests | `SECURITY_ANALYSIS_REPORT.md` |
+| `docs/general/` | General Project Docs | `PRD.md`, `PROJECT_INDEX.md` |
+
 1. **Dosya Yükleme:** PDF, PNG, JPG, DOCX formatlarında belgeler (max 10MB)
 2. **Excel Export:** Kullanıcı listesi, audit log ve birim verileri export
 

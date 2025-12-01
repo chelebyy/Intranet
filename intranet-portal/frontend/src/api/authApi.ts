@@ -74,4 +74,36 @@ export const authApi = {
       };
     }
   },
+
+  // Select birim for multi-birim users
+  selectBirim: async (birimId: number): Promise<ApiResponse<LoginResponse>> => {
+    try {
+      const response = await apiClient.post<ApiResponse<LoginResponse>>('/auth/select-birim', { birimId });
+      return response.data;
+    } catch (error: any) {
+      return {
+        success: false,
+        error: {
+          code: 'SELECT_BIRIM_FAILED',
+          message: error.response?.data?.error?.message || 'Birim seçimi başarısız',
+        },
+      };
+    }
+  },
+
+  // Get current user info
+  getCurrentUser: async (): Promise<ApiResponse<any>> => {
+    try {
+      const response = await apiClient.get<ApiResponse<any>>('/auth/me');
+      return response.data;
+    } catch (error: any) {
+      return {
+        success: false,
+        error: {
+          code: 'GET_USER_FAILED',
+          message: error.response?.data?.error?.message || 'Kullanıcı bilgisi alınamadı',
+        },
+      };
+    }
+  },
 };

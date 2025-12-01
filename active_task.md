@@ -16,7 +16,7 @@ Bu proje **Task-Driven Development (TDD)** yaklaşımıyla geliştirilmektedir:
 2. ✅ **Her kod parçası referans dökümanlarla uyumlu olmalıdır.**
 3. ✅ **Her aşama tamamlandığında bu dosya güncellenir.**
 
-> ⚠️ **ÖNEMLİ:** Bir faz "TAMAMLANDI" olarak işaretlenmeden önce, `IMPLEMENTATION_ROADMAP.md` dosyasındaki ilgili fazın **tüm tamamlanma kriterleri** kontrol edilmeli ve doğrulanmalıdır. Eksik kriter varsa faz tamamlanmış sayılmaz!
+> ⚠️ **ÖNEMLİ:** Bir faz "TAMAMLANDI" olarak işaretlenmeden önce, `docs/technical/IMPLEMENTATION_ROADMAP.md` dosyasındaki ilgili fazın **tüm tamamlanma kriterleri** kontrol edilmeli ve doğrulanmalıdır. Eksik kriter varsa faz tamamlanmış sayılmaz!
 
 ---
 
@@ -26,30 +26,30 @@ Bu proje **Task-Driven Development (TDD)** yaklaşımıyla geliştirilmektedir:
 
 | Döküman | Amaç | Ne Zaman Kullanılır |
 |---------|------|---------------------|
-| **PRD.md** | Ürün gereksinimleri, kullanıcı hikayeleri, kapsam | Yeni özellik eklerken, scope kontrolü |
-| **ERD.md** | Veritabanı şeması, entity ilişkileri, RBAC modeli | Entity/migration oluştururken |
-| **API_SPECIFICATION.md** | Detaylı API endpoint tanımları | Controller/endpoint yazarken |
-| **TECHNICAL_DESIGN.md** | Mimari, katman yapısı, güvenlik | Yeni servis/component eklerken |
-| **SECURITY_ANALYSIS_REPORT.md** | OWASP uyumluluk, güvenlik gereksinimleri | Auth/güvenlik kodu yazarken |
+| **docs/general/PRD.md** | Ürün gereksinimleri, kullanıcı hikayeleri, kapsam | Yeni özellik eklerken, scope kontrolü |
+| **docs/technical/ERD.md** | Veritabanı şeması, entity ilişkileri, RBAC modeli | Entity/migration oluştururken |
+| **docs/api/API_SPECIFICATION.md** | Detaylı API endpoint tanımları | Controller/endpoint yazarken |
+| **docs/technical/TECHNICAL_DESIGN.md** | Mimari, katman yapısı, güvenlik | Yeni servis/component eklerken |
+| **docs/reports/SECURITY_ANALYSIS_REPORT.md** | OWASP uyumluluk, güvenlik gereksinimleri | Auth/güvenlik kodu yazarken |
 
 ### 🟡 GELİŞTİRME DÖKÜMANLAR (Faz Bazlı Takip)
 
 | Döküman | Amaç | Ne Zaman Kullanılır |
 |---------|------|---------------------|
-| **IMPLEMENTATION_ROADMAP.md** | 6 fazlık yol haritası, task detayları | Faz planlaması, task önceliklendirme |
-| **API_INDEX.md** | API endpoint özeti, permission listesi | Hızlı API referansı |
-| **MODULAR_STRUCTURE.md** | Modül mimarisi, birim ekleme | Yeni birim modülü eklerken |
-| **FILE_MANAGEMENT.md** | Dosya yükleme/indirme spesifikasyonu | Dosya işlemleri yazarken |
+| **docs/technical/IMPLEMENTATION_ROADMAP.md** | 6 fazlık yol haritası, task detayları | Faz planlaması, task önceliklendirme |
+| **docs/api/API_INDEX.md** | API endpoint özeti, permission listesi | Hızlı API referansı |
+| **docs/technical/MODULAR_STRUCTURE.md** | Modül mimarisi, birim ekleme | Yeni birim modülü eklerken |
+| **docs/technical/FILE_MANAGEMENT.md** | Dosya yükleme/indirme spesifikasyonu | Dosya işlemleri yazarken |
 
 ### 🟢 OPERASYONEL DÖKÜMANLAR (Gerektiğinde)
 
 | Döküman | Amaç | Ne Zaman Kullanılır |
 |---------|------|---------------------|
 | **QUICK_START.md** | Hızlı kurulum rehberi | Yeni geliştirici onboarding |
-| **DEPLOYMENT_GUIDE.md** | Production deployment | Deploy öncesi |
-| **WINDOWS_SERVER_DEPLOYMENT.md** | Windows Server kurulum | Windows deploy |
-| **ERRORS.md** | Bilinen hatalar ve çözümleri | Build/runtime hata alınca |
-| **TECH_STACK.md** | Teknoloji stack detayları | Paket/versiyon kontrolü |
+| **docs/deployment/DEPLOYMENT_GUIDE.md** | Production deployment | Deploy öncesi |
+| **docs/deployment/WINDOWS_SERVER_DEPLOYMENT.md** | Windows Server kurulum | Windows deploy |
+| **docs/reports/ERRORS.md** | Bilinen hatalar ve çözümleri | Build/runtime hata alınca |
+| **docs/technical/TECH_STACK.md** | Teknoloji stack detayları | Paket/versiyon kontrolü |
 
 ### 🔵 OTURUM/CHECKPOINT DÖKÜMANLAR (Arşiv)
 
@@ -62,20 +62,20 @@ Bu proje **Task-Driven Development (TDD)** yaklaşımıyla geliştirilmektedir:
 ### 📖 Döküman Kullanım Kuralları
 
 1. **Yeni Endpoint Yazarken:**
-   - `API_SPECIFICATION.md` → Endpoint detayları
-   - `ERD.md` → Entity ilişkileri
-   - `SECURITY_ANALYSIS_REPORT.md` → Permission gereksinimleri
+   - `docs/api/API_SPECIFICATION.md` → Endpoint detayları
+   - `docs/technical/ERD.md` → Entity ilişkileri
+   - `docs/reports/SECURITY_ANALYSIS_REPORT.md` → Permission gereksinimleri
 
 2. **Yeni Entity/Migration Oluştururken:**
-   - `ERD.md` → Tablo yapısı ve ilişkiler
-   - `TECHNICAL_DESIGN.md` → Naming convention
+   - `docs/technical/ERD.md` → Tablo yapısı ve ilişkiler
+   - `docs/technical/TECHNICAL_DESIGN.md` → Naming convention
 
 3. **Frontend Component Yazarken:**
-   - `PRD.md` → Kullanıcı hikayeleri
-   - `API_INDEX.md` → API endpoint listesi
+   - `docs/general/PRD.md` → Kullanıcı hikayeleri
+   - `docs/api/API_INDEX.md` → API endpoint listesi
 
 4. **Hata Alındığında:**
-   - `ERRORS.md` → Bilinen hatalar ve çözümler
+   - `docs/reports/ERRORS.md` → Bilinen hatalar ve çözümler
    - İlgili `SESSION_SUMMARY_*.md` → Geçmiş çözümler
 
 ---
@@ -87,7 +87,7 @@ Bu proje **Task-Driven Development (TDD)** yaklaşımıyla geliştirilmektedir:
 | Faz 0: Proje Kurulumu | ✅ TAMAMLANDI | 100% |
 | Faz 1: Authentication & Core | ✅ TAMAMLANDI | 100% |
 | Faz 2: RBAC & Admin Panel | ✅ TAMAMLANDI | 100% |
-| Faz 3: Multi-Unit Support | 🔄 BAŞLIYOR | 0% | 
+| Faz 3: Multi-Unit Support | 🔄 DEVAM EDİYOR | 70% | 
 | Faz 4: First Unit Module (HR) | ⚪ BEKLİYOR | 0% 
 | Faz 5: Second Unit Module (IT) | ⚪ BEKLİYOR | 0% 
 | Faz 6: Testing & Optimization | ⚪ BEKLİYOR | 0% | 
@@ -100,9 +100,9 @@ Bu proje **Task-Driven Development (TDD)** yaklaşımıyla geliştirilmektedir:
 Temel kimlik doğrulama sistemi ve güvenlik altyapısının kurulması.
 
 ## 📄 İlgili Dökümanlar
-- **IMPLEMENTATION_ROADMAP.md** - Faz 1 detayları (satır 894-904)
-- **SECURITY_ANALYSIS_REPORT.md** - Güvenlik gereksinimleri
-- **TECHNICAL_DESIGN.md** - JWT ve güvenlik mimarisi
+- **docs/technical/IMPLEMENTATION_ROADMAP.md** - Faz 1 detayları (satır 894-904)
+- **docs/reports/SECURITY_ANALYSIS_REPORT.md** - Güvenlik gereksinimleri
+- **docs/technical/TECHNICAL_DESIGN.md** - JWT ve güvenlik mimarisi
 
 ---
 
@@ -135,7 +135,7 @@ Temel kimlik doğrulama sistemi ve güvenlik altyapısının kurulması.
 
 ---
 
-## ✅ Faz 1 Tamamlanma Kriterleri (IMPLEMENTATION_ROADMAP.md)
+## ✅ Faz 1 Tamamlanma Kriterleri (docs/technical/IMPLEMENTATION_ROADMAP.md)
 - [x] PostgreSQL'de tüm temel tablolar oluşturuldu
 - [x] İlk admin kullanıcı seed edildi
 - [x] Login endpoint çalışıyor ve JWT token dönüyor
@@ -151,9 +151,9 @@ Temel kimlik doğrulama sistemi ve güvenlik altyapısının kurulması.
 Rol tabanlı erişim kontrolü ve yönetim paneli API'lerinin geliştirilmesi.
 
 ## 📄 İlgili Dökümanlar
-- **API_SPECIFICATION.md** - User, Role, Birim endpoint tanımları
-- **ERD.md** - Role, Permission, UserBirimRole ilişkileri
-- **SECURITY_ANALYSIS_REPORT.md** - RBAC güvenlik gereksinimleri
+- **docs/api/API_SPECIFICATION.md** - User, Role, Birim endpoint tanımları
+- **docs/technical/ERD.md** - Role, Permission, UserBirimRole ilişkileri
+- **docs/reports/SECURITY_ANALYSIS_REPORT.md** - RBAC güvenlik gereksinimleri
 
 ---
 
@@ -204,3 +204,67 @@ Rol tabanlı erişim kontrolü ve yönetim paneli API'lerinin geliştirilmesi.
 - Frontend `react-hot-toast` eklendi.
 - Frontend performans optimizasyonu (Code Splitting) yapıldı.
 - Backend Dependency Injection (RolesController) düzeltildi.
+
+---
+
+# FAZ 3: MULTI-UNIT SUPPORT (Hafta 5-6)
+
+## 🎯 Hedef
+Çok birimli kullanıcı desteğini tamamlamak ve birim seçim/değiştirme özelliğini eklemek.
+
+## 📄 İlgili Dökümanlar
+- **docs/technical/IMPLEMENTATION_ROADMAP.md** - Faz 3 detayları (satır 1299-1509)
+- **docs/technical/TECHNICAL_DESIGN.md** - Multi-Unit mimarisi
+- **docs/api/API_SPECIFICATION.md** - Auth endpoint'leri
+
+---
+
+## 1. Backend: Birim Değiştirme API
+- [x] **POST /api/auth/select-birim** - Birim değiştirme endpoint'i ✅ ZATEN MEVCUT
+  - Kullanıcının birimde yetkisi kontrol ediliyor
+  - Yeni JWT token üretiliyor (birim bilgisi ile)
+  - HttpOnly cookie güncelleniyor
+
+## 2. Frontend: Birim Seçim Entegrasyonu
+- [x] **authApi.ts** - `selectBirim` endpoint'i eklendi ✅ TAMAMLANDI
+- [x] **BirimSelection.tsx** - Backend API ile entegre edildi ✅ TAMAMLANDI
+  - Loading state eklendi
+  - Toast bildirim eklendi
+  - Hata yönetimi eklendi
+
+## 3. Frontend: Auth Store Güncellemeleri
+- [x] **authStore.ts** - `setSelectedBirimRole` fonksiyonu eklendi ✅ TAMAMLANDI
+- [x] **types/index.ts** - `SelectedBirimInfo`, `SelectedRoleInfo` tipleri eklendi ✅ TAMAMLANDI
+- [x] **currentBirimInfo** ve **currentRoleInfo** state'leri eklendi
+
+## 4. Frontend: usePermission Hook
+- [x] **hooks/usePermission.ts** - Permission kontrol hook'u oluşturuldu ✅ TAMAMLANDI
+  - `hasPermission(resource, action)` fonksiyonu
+  - `hasAnyPermission(checks)` fonksiyonu
+  - SuperAdmin kontrolü
+  - Permission constants
+
+## 5. Frontend: Header & Birim Switcher
+- [x] **Header.tsx** - Birim değiştirme dropdown'u eklendi ✅ TAMAMLANDI
+  - Çok birimli kullanıcılar için dropdown
+  - Tek birimli kullanıcılar için statik gösterim
+  - Kullanıcı bilgisi ve çıkış butonu
+- [x] **AdminLayout.tsx** - Header entegre edildi ✅ TAMAMLANDI
+- [x] **lucide-react** paketi eklendi
+
+---
+
+## ✅ Faz 3 Tamamlanma Kriterleri (docs/technical/IMPLEMENTATION_ROADMAP.md)
+- [x] Birim değiştirme endpoint'i çalışıyor
+- [x] Çok birimli kullanıcı login sonrası birim seçim ekranını görüyor
+- [x] Seçilen birime göre yeni token alınıyor
+- [ ] Protected route component çalışıyor (kısmen - temel yapı mevcut)
+- [ ] Birim değişimi ≤ 1 saniye sürüyor (test edilmeli)
+- [ ] Her birimde farklı menü yapısı gösteriliyor (hazırlık - sonraki iterasyon)
+
+---
+
+## 🚨 Faz 3 Notları
+- Birim değiştirme sonrası sayfa yenileniyor (window.location.reload) - optimal değil ama işlevsel
+- usePermission hook oluşturuldu ancak henüz Protected Route'a tam entegre edilmedi
+- Her birimde farklı menü gösterimi Faz 4-5'te tamamlanacak (modül bazlı)

@@ -116,7 +116,7 @@
    - GET /api/auditlogs/export (Excel export)
 
 **Tahmini Süre:** 2-3 hafta
-**Referans:** IMPLEMENTATION_ROADMAP.md
+**Referans:** docs/technical/IMPLEMENTATION_ROADMAP.md
 
 ---
 
@@ -234,22 +234,22 @@ IntranetPortal.sln
 ## 📚 Dokümantasyon Durumu
 
 ### Tamamlanmış Dökümanlar ✅
-- PRD.md - Product Requirements Document
-- TECH_STACK.md - Technology Stack
-- TECHNICAL_DESIGN.md - Architecture & Security
-- ERD.md - Database Schema
-- MODULAR_STRUCTURE.md - Module Architecture
-- IMPLEMENTATION_ROADMAP.md - 6-Phase Roadmap
-- API_SPECIFICATION.md - API Documentation
-- DEPLOYMENT_GUIDE.md - Deployment Instructions
-- PROJECT_INDEX.md - Documentation Index
-- API_INDEX.md - API Index
+- docs/general/PRD.md - Product Requirements Document
+- docs/technical/TECH_STACK.md - Technology Stack
+- docs/technical/TECHNICAL_DESIGN.md - Architecture & Security
+- docs/technical/ERD.md - Database Schema
+- docs/technical/MODULAR_STRUCTURE.md - Module Architecture
+- docs/technical/IMPLEMENTATION_ROADMAP.md - 6-Phase Roadmap
+- docs/api/API_SPECIFICATION.md - API Documentation
+- docs/deployment/DEPLOYMENT_GUIDE.md - Deployment Instructions
+- docs/general/PROJECT_INDEX.md - Documentation Index
+- docs/api/API_INDEX.md - API Index
 - QUICK_START.md - Quick Start Guide
 - CLAUDE.md - Claude Code Instructions (Updated: Entity Management)
-- FAZ1_TAMAMLANDI.md - Faz 1 Completion Report
-- **ERRORS.md** - 🆕 Troubleshooting Guide (Build Errors, Prevention)
-- **SESSION_SUMMARY_2025-11-27_BUILD_FIX.md** - 🆕 Build Fix Session Report
-- SESSION_CHECKPOINT_FAZ1_COMPLETE.md - Session Checkpoint
+- docs/reports/FAZ1_TAMAMLANDI.md - Faz 1 Completion Report
+- **docs/reports/ERRORS.md** - 🆕 Troubleshooting Guide (Build Errors, Prevention)
+- **docs/sessions/SESSION_SUMMARY_2025-11-27_BUILD_FIX.md** - 🆕 Build Fix Session Report
+- docs/sessions/SESSION_CHECKPOINT_FAZ1_COMPLETE.md - Session Checkpoint
 
 ### Frontend Dökümanları
 - **Status:** Not created yet (frontend not started)
@@ -267,7 +267,7 @@ IntranetPortal.sln
 ### Production Deployment ⏳
 - **Status:** Not configured
 - **Planned:** Faz 5 (Docker deployment)
-- **Reference:** DEPLOYMENT_GUIDE.md
+- **Reference:** docs/deployment/DEPLOYMENT_GUIDE.md
 
 ---
 
@@ -277,7 +277,7 @@ IntranetPortal.sln
 **Sorun:** 74 CS1061 compilation errors (duplicate entities)
 **Kök Neden:** EF Core scaffold Infrastructure'da duplicate entity files oluşturmuş
 **Çözüm:** Tüm scaffold dosyaları silindi, build başarılı ✅
-**Dokümantasyon:** ERRORS.md, SESSION_SUMMARY_2025-11-27_BUILD_FIX.md
+**Dokümantasyon:** docs/reports/ERRORS.md, docs/sessions/SESSION_SUMMARY_2025-11-27_BUILD_FIX.md
 **Önleme:** NEVER run `dotnet ef dbcontext scaffold`, ALWAYS use Code-First migrations
 
 ### Non-Critical Warnings

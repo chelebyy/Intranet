@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
 import { Sidebar } from '../../features/admin/components/Sidebar';
+import Header from '../components/Header';
 import { Page } from '../../types';
 
 const AdminLayout: React.FC = () => {
@@ -34,6 +35,7 @@ const AdminLayout: React.FC = () => {
         toggleTheme={() => setDarkMode(!darkMode)}
       />
       <main className="flex-1 flex flex-col h-full overflow-hidden">
+        <Header />
         <div className="flex-1 overflow-auto">
           <Outlet />
         </div>

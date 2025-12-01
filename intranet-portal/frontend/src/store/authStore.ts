@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import type { AuthState, LoginCredentials, UserBirimRole } from '../types';
+import type { AuthState, LoginCredentials, UserBirimRole, SelectedBirimInfo, SelectedRoleInfo } from '../types';
 import { authApi } from '../api/authApi';
 
 export const useAuthStore = create<AuthState>()(
@@ -10,6 +10,8 @@ export const useAuthStore = create<AuthState>()(
       token: null,
       birimleri: [],
       selectedBirim: null,
+      currentBirimInfo: null,
+      currentRoleInfo: null,
       isAuthenticated: false,
 
       login: async (credentials: LoginCredentials) => {
@@ -19,7 +21,7 @@ export const useAuthStore = create<AuthState>()(
           if (response.success && response.data) {
             // Backend returns: { user, birimler, selectedBirim, selectedRole, requiresBirimSelection }
             // Note: Token is in HttpOnly cookie, not in response
-            const { user, birimler, selectedBirim } = response.data;
+            const { user, birimler, selectedBirim, selectedRole } = response.data;
 
             set({
               user,
@@ -28,6 +30,8 @@ export const useAuthStore = create<AuthState>()(
               isAuthenticated: true,
               // Use selectedBirim from backend if available
               selectedBirim: selectedBirim || null,
+              currentBirimInfo: selectedBirim ? { birimId: selectedBirim.birimId, birimAdi: selectedBirim.birimAdi } : null,
+              currentRoleInfo: selectedRole ? { roleId: selectedRole.roleId, roleName: selectedRole.roleName } : null,
             });
           } else {
             throw new Error(response.message || 'Login failed');
@@ -39,7 +43,18 @@ export const useAuthStore = create<AuthState>()(
       },
 
       selectBirim: (birim: UserBirimRole) => {
-        set({ selectedBirim: birim });
+        set({ 
+          selectedBirim: birim,
+          currentBirimInfo: { birimId: birim.birimId, birimAdi: birim.birimAdi },
+          currentRoleInfo: { roleId: birim.roleId, roleName: birim.roleName },
+        });
+      },
+
+      setSelectedBirimRole: (birim: SelectedBirimInfo, role: SelectedRoleInfo) => {
+        set({
+          currentBirimInfo: birim,
+          currentRoleInfo: role,
+        });
       },
 
       logout: () => {
@@ -48,6 +63,8 @@ export const useAuthStore = create<AuthState>()(
           token: null,
           birimleri: [],
           selectedBirim: null,
+          currentBirimInfo: null,
+          currentRoleInfo: null,
           isAuthenticated: false,
         });
 
@@ -62,6 +79,8 @@ export const useAuthStore = create<AuthState>()(
         user: state.user,
         birimleri: state.birimleri,
         selectedBirim: state.selectedBirim,
+        currentBirimInfo: state.currentBirimInfo,
+        currentRoleInfo: state.currentRoleInfo,
         isAuthenticated: state.isAuthenticated,
         // Don't persist token in localStorage (will use HttpOnly cookie)
       }),

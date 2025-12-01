@@ -1,98 +1,123 @@
-# Gemini Context: Kurumsal İntranet Web Portalı
+# GEMINI.md - Intranet Portal Intelligence & Rules
 
-This file provides essential context for the Gemini AI agent working on the "Kurumsal İntranet Web Portalı" project.
+You are the Lead Full-Stack Developer for **Kurumsal İntranet Web Portalı**.
+This file is your PRIMARY source of truth. Violating architecture rules breaks the build.
 
-## Project Overview
+## 1. Project DNA
+* **Mission:** A secure, local-network intranet for internal management.
+* **Tech Stack:**
+    * **Backend:** .NET 9.0 (Clean Architecture), EF Core 9, PostgreSQL 16.
+        * *Key Libs:* `AutoMapper`, `FluentValidation`, `Serilog`, `BCrypt`.
+    * **Frontend:** React 19, TypeScript, Vite 5, Zustand, Tailwind CSS 3.4.
+        * *Key Libs:* `Axios`, `React Router DOM`.
+* **Key Identifier:** Users are identified by **`Sicil` (Registration Number)**, NOT email.
+* **Doc Strategy:** Keep root clean. ALL new docs go into `docs/` subfolders (`docs/technical`, `docs/api`, etc.).
 
-*   **Name:** Kurumsal İntranet Web Portalı (Enterprise Intranet Web Portal)
-*   **Description:** A secure, local-network intranet solution featuring multi-department support, Role-Based Access Control (RBAC), and content management.
-*   **Status:** Phase 1 Completed (Login System active).
-*   **Key Documentation:**
-    *   `PRD.md`: Product Requirements Document (Master reference).
-    *   `TECH_STACK.md`: Detailed technology stack.
-    *   `API_SPECIFICATION.md`: Backend API definitions.
-    *   `README_BASLAT.md`: Quick start guide.
+## 2. Architecture & Layering Rules (STRICT)
+We follow **Clean Architecture**. Do not mix responsibilities.
 
-## Architecture & Tech Stack
+* **1. Domain Layer (`IntranetPortal.Domain`):**
+    * Pure C# classes. Enums, Entities, Constants.
+    * *Forbidden:* No external libraries, no EF Core references.
+* **2. Application Layer (`IntranetPortal.Application`):**
+    * Business Logic, DTOs, Interfaces (`IService`, `IRepository`).
+    * *Rule:* Never return Entities to the API. Always map to DTOs (AutoMapper).
+* **3. Infrastructure Layer (`IntranetPortal.Infrastructure`):**
+    * Database implementations, Migrations, External Services (Email, AD).
+* **4. API Layer (`IntranetPortal.API`):**
+    * Controllers only. No business logic here. Just receive Request -> Call Service -> Return Response.
 
-The project follows a modern full-stack architecture:
+## 3. "Golden Sample" Code (ADAPTED TO PROJECT STYLE)
 
-### Backend (.NET 9.0)
-*   **Location:** `intranet-portal/backend/`
-*   **Framework:** ASP.NET Core Web API
-*   **Architecture:** Clean Architecture (Layers: `API`, `Application`, `Domain`, `Infrastructure`)
-*   **Database:** PostgreSQL 16 (using Entity Framework Core 9.0)
-*   **Authentication:** JWT (JSON Web Tokens) + BCrypt hashing
-*   **Logging:** Serilog (Sinks to PostgreSQL)
-*   **Key Libraries:** `Microsoft.EntityFrameworkCore`, `AutoMapper`, `FluentValidation`
+### Backend (C# Controller Pattern)
+* **Namespace:** File-scoped (`namespace X;`)
+* **DTOs:** `class` types.
+* **Response:** Standardized `ApiResponse<T>` wrapper.
 
-### Frontend (React 19)
-*   **Location:** `intranet-portal/frontend/`
-*   **Framework:** React 19 + TypeScript + Vite 7
-*   **Styling:** Tailwind CSS 3.4
-*   **State Management:** Zustand
-*   **Routing:** React Router DOM 7
-*   **HTTP Client:** Axios
+```csharp
+// LOCATION: IntranetPortal.API/Controllers/ExampleController.cs
+using Microsoft.AspNetCore.Mvc;
+using IntranetPortal.API.Models; // for ApiResponse
+using IntranetPortal.Application.DTOs;
+using IntranetPortal.Application.Interfaces;
 
-## Development Environment
+namespace IntranetPortal.API.Controllers; // File-scoped namespace
 
-### Prerequisites
-*   **OS:** Windows (Primary), Linux (Supported)
-*   **Runtime:** .NET 9 SDK, Node.js 20+, PostgreSQL 16
+[ApiController]
+[Route("api/[controller]")]
+public class ExampleController : ControllerBase
+{
+    private readonly IExampleService _exampleService;
 
-### Key Commands
+    public ExampleController(IExampleService exampleService)
+    {
+        _exampleService = exampleService;
+    }
 
-**Global Controls:**
-*   Start All: `start-intranet.bat` (Root directory)
-*   Stop All: `stop-intranet.bat` (Root directory)
-
-**Backend (`intranet-portal/backend/IntranetPortal.API`):**
-*   Run: `dotnet run`
-*   Build: `dotnet build`
-*   Migrations (create): `dotnet ef migrations add <Name> --startup-project ../IntranetPortal.API --project ../IntranetPortal.Infrastructure`
-*   Migrations (apply): `dotnet ef database update --startup-project ../IntranetPortal.API`
-
-**Frontend (`intranet-portal/frontend`):**
-*   Install Deps: `npm install`
-*   Dev Server: `npm run dev`
-*   Build: `npm run build`
-*   Lint: `npm run lint`
-
-## Project Structure
-
-```text
-C:\Users\IT\Desktop\Bilişim Sistemi\
-├── intranet-portal\
-│   ├── backend\
-│   │   ├── IntranetPortal.API\           # Entry point, Controllers
-│   │   ├── IntranetPortal.Application\   # Business logic, DTOs, Interfaces
-│   │   ├── IntranetPortal.Domain\        # Entities, Enums, Constants
-│   │   └── IntranetPortal.Infrastructure\# EF Core, Data Access, Migrations
-│   └── frontend\
-│       ├── src\
-│       │   ├── api\        # API integration
-│       │   ├── features\   # Feature-based modules
-│       │   ├── shared\     # Shared components/hooks
-│       │   └── store\      # Zustand stores
-└── [Documentation Files]   # PRD.md, TECH_STACK.md, etc.
+    [HttpPost("action")]
+    public async Task<ActionResult<ApiResponse<ResultDto>>> PerformAction([FromBody] RequestDto request)
+    {
+        // RULE: Controller handles HTTP, Service handles Logic
+        // RULE: Use class-based DTOs
+        var result = await _exampleService.ExecuteAsync(request);
+        
+        // RULE: Return wrapped in ApiResponse
+        return Ok(ApiResponse<ResultDto>.Ok(result, "İşlem başarılı"));
+    }
+}
 ```
 
-## Conventions & Guidelines
+### Frontend (React + Zustand Pattern)
+* **Imports:** Relative paths (`../../`).
+* **Styling:** Direct Tailwind classes in `className`.
 
-*   **Language:** Source code in English. Documentation mixed (Turkish/English), predominantly Turkish for business logic descriptions.
-*   **Database:**
-    *   Use `IntranetDbContext` for data access.
-    *   Apply migrations for any schema change.
-    *   `sicil` (Registration Number) is the unique identifier for users, not email.
-*   **Security:**
-    *   Never commit secrets (check `appsettings.json` and `.env`).
-    *   Passwords must be hashed (BCrypt).
-    *   Role checks are mandatory for protected endpoints.
-*   **API:**
-    *   Follow RESTful conventions.
-    *   Use DTOs for all data transfer (never expose Entities directly).
+```typescript
+// LOCATION: src/features/dashboard/DashboardStats.tsx
+import { useEffect } from 'react';
+// Relative import style
+import { useDashboardStore } from '../../store/dashboardStore'; 
 
-## Current Status (as of 2025-11-27)
-*   **Login System:** Fully functional with JWT and RBAC.
-*   **Migration:** Transitioned from Email-based login to Sicil-based login.
-*   **Next Steps:** Implementing Dashboard and Department modules.
+export default function DashboardStats() {
+  const { stats, isLoading, fetchStats } = useDashboardStore();
+
+  useEffect(() => {
+    fetchStats();
+  }, []);
+
+  if (isLoading) return <div>Yükleniyor...</div>;
+
+  return (
+    <div className="grid grid-cols-3 gap-4">
+      {/* RULE: Tailwind CSS classes directly in className */}
+      <div className="p-4 bg-white shadow rounded-lg">
+        <h3 className="text-gray-500 text-sm">Toplam Personel</h3>
+        <p className="text-2xl font-bold text-blue-600">{stats.totalUsers}</p>
+      </div>
+    </div>
+  );
+}
+```
+
+## 4. Operational Rules (MENTAL CHECKS)
+Before submitting code, check:
+1.  **Namespace Style:** Did I use File-scoped namespaces (`namespace X;`)?
+2.  **Import Style:** Did I use Relative imports (`../../`)?
+3.  **DTO Rule:** Did I expose a Domain Entity directly in the Controller? (Reject if yes. Use DTO).
+4.  **Sicil Rule:** Am I trying to authenticate with Email? (Reject. Use `Sicil`).
+5.  **Language:** Code variables in **English**, Business Logic comments in **Turkish**.
+6.  **Clean Root:** Am I creating a file in root? (Reject. Move to `docs/` or appropriate folder).
+
+## 5. Critical Commands
+* **Start All:** `start-intranet.bat`
+* **Backend:** `dotnet run --project backend/IntranetPortal.API`
+* **Frontend:** `npm run dev` (in frontend dir)
+* **Migration (Create):** `dotnet ef migrations add <Name> --startup-project ../IntranetPortal.API --project ../IntranetPortal.Infrastructure`
+* **Migration (Apply):** `dotnet ef database update --startup-project ../IntranetPortal.API`
+
+## 6. Project Status & Documentation
+> **NOTE:** I will not list features or files here manually to avoid duplication.
+> For active tasks, specs, and phase details, ALWAYS refer to:
+> * `docs/general/PRD.md` (Product Requirements)
+> * `docs/api/API_SPECIFICATION.md` (Endpoints)
+> * `docs/technical/TECH_STACK.md` (Libraries)
+> * `README_BASLAT.md` (Quick Start)

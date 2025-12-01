@@ -132,11 +132,11 @@ Script çalışması için gerekli olan yazılımlar:
 ## Dokümantasyon
 
 Daha fazla bilgi için:
-- **Login Sistemi**: `LOGIN_TEST_RESULTS.md`
+- **Login Sistemi**: `docs/reports/LOGIN_TEST_RESULTS.md`
 - **Proje Yapısı**: `intranet-portal/PROJECT_STRUCTURE.md`
 - **Backend Kılavuzu**: `intranet-portal/backend/README.md`
 - **Frontend Kılavuzu**: `intranet-portal/frontend/README.md`
-- **API Dokümantasyonu**: `API_SPECIFICATION.md`
+- **API Dokümantasyonu**: `docs/api/API_SPECIFICATION.md`
 
 ---
 

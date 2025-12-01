@@ -822,10 +822,10 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 ### 1. Dokümantasyonu İnceleyin
 
-- ✅ [IMPLEMENTATION_ROADMAP.md](IMPLEMENTATION_ROADMAP.md) - 6 fazlı geliştirme planı
-- ✅ [API_SPECIFICATION.md](API_SPECIFICATION.md) - Tüm API endpoint'leri
-- ✅ [TECHNICAL_DESIGN.md](TECHNICAL_DESIGN.md) - Mimari detayları
-- ✅ [ERD.md](ERD.md) - Veritabanı şeması
+- ✅ [docs/technical/IMPLEMENTATION_ROADMAP.md](docs/technical/IMPLEMENTATION_ROADMAP.md) - 6 fazlı geliştirme planı
+- ✅ [docs/api/API_SPECIFICATION.md](docs/api/API_SPECIFICATION.md) - Tüm API endpoint'leri
+- ✅ [docs/technical/TECHNICAL_DESIGN.md](docs/technical/TECHNICAL_DESIGN.md) - Mimari detayları
+- ✅ [docs/technical/ERD.md](docs/technical/ERD.md) - Veritabanı şeması
 
 ### 2. İlk Geliştirme Görevleri
 
@@ -838,7 +838,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 4. Audit Logging Middleware
 5. Rate Limiting konfigürasyonu
 
-**Detaylar:** [IMPLEMENTATION_ROADMAP.md - Faz 1](IMPLEMENTATION_ROADMAP.md#faz-1-authentication--core-hafta-2-3)
+**Detaylar:** [docs/technical/IMPLEMENTATION_ROADMAP.md - Faz 1](docs/technical/IMPLEMENTATION_ROADMAP.md#faz-1-authentication--core-hafta-2-3)
 
 ### 3. Test Yazma
 
@@ -916,8 +916,8 @@ npm install -D @typescript-eslint/parser @typescript-eslint/eslint-plugin
 
 ### Dokümantasyon
 
-- **Proje İndeksi:** [PROJECT_INDEX.md](PROJECT_INDEX.md)
-- **API Rehberi:** [API_INDEX.md](API_INDEX.md)
+- **Proje İndeksi:** [docs/general/PROJECT_INDEX.md](docs/general/PROJECT_INDEX.md)
+- **API Rehberi:** [docs/api/API_INDEX.md](docs/api/API_INDEX.md)
 - **Teknik Dokümanlar:** `/docs` klasöründe tüm dokümanlar
 
 ### Sorun Giderme

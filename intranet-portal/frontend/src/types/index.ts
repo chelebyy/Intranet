@@ -30,14 +30,27 @@ export interface UserBirimRole {
   roleName: string;
 }
 
+export interface SelectedBirimInfo {
+  birimId: number;
+  birimAdi: string;
+}
+
+export interface SelectedRoleInfo {
+  roleId: number;
+  roleName: string;
+}
+
 export interface AuthState {
   user: User | null;
   token: string | null;
   birimleri: UserBirimRole[];
   selectedBirim: UserBirimRole | null;
+  currentBirimInfo: SelectedBirimInfo | null;
+  currentRoleInfo: SelectedRoleInfo | null;
   isAuthenticated: boolean;
   login: (credentials: LoginCredentials) => Promise<void>;
   selectBirim: (birim: UserBirimRole) => void;
+  setSelectedBirimRole: (birim: SelectedBirimInfo, role: SelectedRoleInfo) => void;
   logout: () => void;
 }
 
