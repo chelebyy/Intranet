@@ -51,5 +51,12 @@ namespace IntranetPortal.Domain.Constants
         public const string UpdateRole = "update.role";
         public const string DeleteRole = "delete.role";
         public const string ManagePermissions = "manage.permissions";
+
+        // Unvan Management
+        public const string ManageUnvan = "manage.unvan";
+        public const string CreateUnvan = "create.unvan";
+        public const string ReadUnvan = "read.unvan";
+        public const string UpdateUnvan = "update.unvan";
+        public const string DeleteUnvan = "delete.unvan";
     }
 }

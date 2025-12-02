@@ -12,5 +12,10 @@ namespace IntranetPortal.Application.Interfaces
         Task<bool> DeleteUserAsync(int id); // Soft delete
         Task<bool> ResetPasswordAsync(int id, string newPassword);
         Task<(bool Success, string Message)> ChangePasswordAsync(int userId, string currentPassword, string newPassword);
+        
+        // Birim-Role Assignment methods
+        Task<bool> AddBirimRoleAssignmentAsync(int userId, int birimId, int roleId);
+        Task<bool> RemoveBirimRoleAssignmentAsync(int userId, int birimId);
+        Task<bool> UpdateBirimRoleAssignmentAsync(int userId, int birimId, int newRoleId);
     }
 }

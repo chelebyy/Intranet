@@ -67,6 +67,11 @@ public class IntranetDbContext : DbContext
     /// </summary>
     public DbSet<IPRestriction> IPRestrictions { get; set; } = null!;
 
+    /// <summary>
+    /// Unvanlar (Titles/Positions) table
+    /// </summary>
+    public DbSet<Unvan> Unvanlar { get; set; } = null!;
+
     #endregion
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

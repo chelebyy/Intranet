@@ -28,5 +28,17 @@ export const usersApi = {
 
     resetPassword: async (id: number, newPassword: string): Promise<void> => {
         await apiClient.post(`/users/${id}/reset-password`, { newPassword });
+    },
+
+    addBirimRole: async (userId: number, birimId: number, roleId: number): Promise<void> => {
+        await apiClient.post(`/users/${userId}/birim-role`, { birimId, roleId });
+    },
+
+    removeBirimRole: async (userId: number, birimId: number): Promise<void> => {
+        await apiClient.delete(`/users/${userId}/birim-role/${birimId}`);
+    },
+
+    updateBirimRole: async (userId: number, birimId: number, roleId: number): Promise<void> => {
+        await apiClient.put(`/users/${userId}/birim-role/${birimId}`, { roleId });
     }
 };

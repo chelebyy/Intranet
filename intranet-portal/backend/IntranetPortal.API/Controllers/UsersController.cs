@@ -103,5 +103,49 @@ namespace IntranetPortal.API.Controllers
 
             return Ok(ApiResponse<bool>.Ok(true, "Password reset successfully."));
         }
+
+        [HttpPost("{id}/birim-role")]
+        [HasPermission(Permissions.UpdateUser)]
+        public async Task<ActionResult<ApiResponse<bool>>> AddBirimRoleAssignment(int id, [FromBody] BirimRoleAssignmentDto dto)
+        {
+            var result = await _userService.AddBirimRoleAssignmentAsync(id, dto.BirimId, dto.RoleId);
+            if (!result)
+                return NotFound(ApiResponse<bool>.Fail("Kullanıcı bulunamadı", "NOT_FOUND"));
+
+            return Ok(ApiResponse<bool>.Ok(true, "Birim-rol ataması başarılı"));
+        }
+
+        [HttpDelete("{id}/birim-role/{birimId}")]
+        [HasPermission(Permissions.UpdateUser)]
+        public async Task<ActionResult<ApiResponse<bool>>> RemoveBirimRoleAssignment(int id, int birimId)
+        {
+            var result = await _userService.RemoveBirimRoleAssignmentAsync(id, birimId);
+            if (!result)
+                return NotFound(ApiResponse<bool>.Fail("Atama bulunamadı", "NOT_FOUND"));
+
+            return Ok(ApiResponse<bool>.Ok(true, "Birim-rol ataması kaldırıldı"));
+        }
+
+        [HttpPut("{id}/birim-role/{birimId}")]
+        [HasPermission(Permissions.UpdateUser)]
+        public async Task<ActionResult<ApiResponse<bool>>> UpdateBirimRoleAssignment(int id, int birimId, [FromBody] UpdateBirimRoleDto dto)
+        {
+            var result = await _userService.UpdateBirimRoleAssignmentAsync(id, birimId, dto.RoleId);
+            if (!result)
+                return NotFound(ApiResponse<bool>.Fail("Atama bulunamadı", "NOT_FOUND"));
+
+            return Ok(ApiResponse<bool>.Ok(true, "Birim-rol ataması güncellendi"));
+        }
+    }
+
+    public class BirimRoleAssignmentDto
+    {
+        public int BirimId { get; set; }
+        public int RoleId { get; set; }
+    }
+
+    public class UpdateBirimRoleDto
+    {
+        public int RoleId { get; set; }
     }
 }

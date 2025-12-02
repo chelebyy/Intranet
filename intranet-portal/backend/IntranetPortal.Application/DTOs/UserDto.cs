@@ -15,4 +15,20 @@ public class UserDto
     public bool IsActive { get; set; }
     public DateTime CreatedAt { get; set; }
     public DateTime? LastLoginAt { get; set; }
+    
+    /// <summary>
+    /// User's assigned birims with roles
+    /// </summary>
+    public List<UserBirimRoleInfoDto> BirimRoles { get; set; } = new();
+}
+
+/// <summary>
+/// DTO for user's birim-role assignments (simplified)
+/// </summary>
+public class UserBirimRoleInfoDto
+{
+    public int BirimID { get; set; }
+    public string BirimAdi { get; set; } = string.Empty;
+    public int RoleID { get; set; }
+    public string RoleName { get; set; } = string.Empty;
 }

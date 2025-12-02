@@ -36,7 +36,13 @@ namespace IntranetPortal.Application.Services
 
         public async Task<UserDto?> GetUserByIdAsync(int id)
         {
-            var user = await _context.Users.FindAsync(id);
+            var user = await _context.Users
+                .Include(u => u.UserBirimRoles)
+                    .ThenInclude(ubr => ubr.Birim)
+                .Include(u => u.UserBirimRoles)
+                    .ThenInclude(ubr => ubr.Role)
+                .FirstOrDefaultAsync(u => u.UserID == id);
+                
             if (user == null) return null;
 
             return new UserDto
@@ -48,7 +54,14 @@ namespace IntranetPortal.Application.Services
                 Unvan = user.Unvan,
                 IsActive = user.IsActive,
                 CreatedAt = user.CreatedAt,
-                LastLoginAt = user.SonGiris
+                LastLoginAt = user.SonGiris,
+                BirimRoles = user.UserBirimRoles.Select(ubr => new UserBirimRoleInfoDto
+                {
+                    BirimID = ubr.BirimID,
+                    BirimAdi = ubr.Birim?.BirimAdi ?? "",
+                    RoleID = ubr.RoleID,
+                    RoleName = ubr.Role?.RoleAdi ?? ""
+                }).ToList()
             };
         }
 
@@ -166,6 +179,62 @@ namespace IntranetPortal.Application.Services
             await _context.SaveChangesAsync();
 
             return (true, "Şifre başarıyla değiştirildi");
+        }
+
+        public async Task<bool> AddBirimRoleAssignmentAsync(int userId, int birimId, int roleId)
+        {
+            // Check if user exists
+            var user = await _context.Users.FindAsync(userId);
+            if (user == null) return false;
+
+            // Check if assignment already exists
+            var existingAssignment = await _context.UserBirimRoles
+                .FirstOrDefaultAsync(ubr => ubr.UserID == userId && ubr.BirimID == birimId);
+            
+            if (existingAssignment != null)
+            {
+                // Update existing assignment's role
+                existingAssignment.RoleID = roleId;
+            }
+            else
+            {
+                // Create new assignment
+                var userBirimRole = new UserBirimRole
+                {
+                    UserID = userId,
+                    BirimID = birimId,
+                    RoleID = roleId,
+                    AssignedAt = DateTime.UtcNow
+                };
+                _context.UserBirimRoles.Add(userBirimRole);
+            }
+
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
+        public async Task<bool> RemoveBirimRoleAssignmentAsync(int userId, int birimId)
+        {
+            var assignment = await _context.UserBirimRoles
+                .FirstOrDefaultAsync(ubr => ubr.UserID == userId && ubr.BirimID == birimId);
+            
+            if (assignment == null) return false;
+
+            _context.UserBirimRoles.Remove(assignment);
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
+        public async Task<bool> UpdateBirimRoleAssignmentAsync(int userId, int birimId, int newRoleId)
+        {
+            var assignment = await _context.UserBirimRoles
+                .FirstOrDefaultAsync(ubr => ubr.UserID == userId && ubr.BirimID == birimId);
+            
+            if (assignment == null) return false;
+
+            assignment.RoleID = newRoleId;
+            await _context.SaveChangesAsync();
+            return true;
         }
     }
 }

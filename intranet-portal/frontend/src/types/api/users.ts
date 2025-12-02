@@ -6,8 +6,6 @@ export interface CreateUserRequest {
     sicil: string;
     unvan?: string;
     sifre?: string;
-    birimId?: number;
-    roleId?: number;
 }
 
 export interface UpdateUserRequest {
@@ -18,6 +16,15 @@ export interface UpdateUserRequest {
     isActive?: boolean;
 }
 
+export interface UserBirimRoleDto {
+    birimID: number;
+    birimAdi: string;
+    roleID: number;
+    roleName: string;
+}
+
 export interface UserDto extends User {
+    userID: number;
     lastLoginAt?: string;
+    birimRoles?: UserBirimRoleDto[];
 }

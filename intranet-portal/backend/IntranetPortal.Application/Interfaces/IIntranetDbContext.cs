@@ -20,6 +20,7 @@ public interface IIntranetDbContext
     DbSet<UploadedFile> UploadedFiles { get; }
     DbSet<SystemSettings> SystemSettings { get; }
     DbSet<IPRestriction> IPRestrictions { get; }
+    DbSet<Unvan> Unvanlar { get; }
 
     // Methods
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);

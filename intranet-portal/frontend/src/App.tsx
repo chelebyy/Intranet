@@ -10,12 +10,15 @@ import { Permissions } from './hooks/usePermission';
 const Dashboard = lazy(() => import('./features/admin/pages/Dashboard').then(module => ({ default: module.Dashboard })));
 const UserList = lazy(() => import('./features/admin/pages/UserList').then(module => ({ default: module.UserList })));
 const UserCreate = lazy(() => import('./features/admin/pages/UserCreate').then(module => ({ default: module.UserCreate })));
+const UserEdit = lazy(() => import('./features/admin/pages/UserEdit').then(module => ({ default: module.UserEdit })));
 const DepartmentList = lazy(() => import('./features/admin/pages/DepartmentList').then(module => ({ default: module.DepartmentList })));
 const RolePermissions = lazy(() => import('./features/admin/pages/RolePermissions').then(module => ({ default: module.RolePermissions })));
 const Reports = lazy(() => import('./features/admin/pages/Reports').then(module => ({ default: module.Reports })));
 const Profile = lazy(() => import('./features/admin/pages/Profile').then(module => ({ default: module.Profile })));
 const AuditLogList = lazy(() => import('./features/admin/pages/AuditLogList').then(module => ({ default: module.AuditLogList })));
 const IPRestrictions = lazy(() => import('./features/admin/pages/IPRestrictions').then(module => ({ default: module.IPRestrictions })));
+const UnvanList = lazy(() => import('./features/admin/pages/UnvanList').then(module => ({ default: module.UnvanList })));
+const BirimDefinitions = lazy(() => import('./features/admin/pages/BirimDefinitions').then(module => ({ default: module.BirimDefinitions })));
 
 // Loading component
 const PageLoader = () => (
@@ -65,6 +68,13 @@ function App() {
             <ProtectedRoute requiredPermission={Permissions.User.Create}>
               <Suspense fallback={<PageLoader />}>
                 <UserCreate />
+              </Suspense>
+            </ProtectedRoute>
+          } />
+          <Route path="users/:id/edit" element={
+            <ProtectedRoute requiredPermission={Permissions.User.Update}>
+              <Suspense fallback={<PageLoader />}>
+                <UserEdit />
               </Suspense>
             </ProtectedRoute>
           } />
@@ -119,6 +129,22 @@ function App() {
             <Suspense fallback={<PageLoader />}>
               <Profile />
             </Suspense>
+          } />
+
+          {/* Definitions - Tanımlamalar */}
+          <Route path="definitions/unvanlar" element={
+            <ProtectedRoute requiredPermission={Permissions.Unvan.Read}>
+              <Suspense fallback={<PageLoader />}>
+                <UnvanList />
+              </Suspense>
+            </ProtectedRoute>
+          } />
+          <Route path="definitions/birimler" element={
+            <ProtectedRoute requiredPermission={Permissions.Birim.Read}>
+              <Suspense fallback={<PageLoader />}>
+                <BirimDefinitions />
+              </Suspense>
+            </ProtectedRoute>
           } />
         </Route>
 

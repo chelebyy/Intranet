@@ -141,6 +141,12 @@ export const Permissions = {
     Read: { resource: 'system', action: 'read' },
     Manage: { resource: 'maintenance', action: 'manage' },
   },
+  Unvan: {
+    Read: { resource: 'unvan', action: 'read' },
+    Create: { resource: 'unvan', action: 'create' },
+    Update: { resource: 'unvan', action: 'update' },
+    Delete: { resource: 'unvan', action: 'delete' },
+  },
 } as const;
 
 export default usePermission;

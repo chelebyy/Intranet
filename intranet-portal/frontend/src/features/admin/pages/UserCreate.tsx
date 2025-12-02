@@ -1,40 +1,31 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { usersApi } from '../../../api/usersApi';
-import { birimsApi } from '../../../api/birimsApi';
-import { rolesApi } from '../../../api/rolesApi';
-import type { Birim } from '../../../types/api/birims';
-import type { Role } from '../../../types/api/roles';
+import { unvansApi } from '../../../api/unvansApi';
+import type { Unvan } from '../../../types/api/unvans';
 
 export const UserCreate: React.FC = () => {
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
-    const [birimler, setBirimler] = useState<Birim[]>([]);
-    const [roles, setRoles] = useState<Role[]>([]);
+    const [unvanlar, setUnvanlar] = useState<Unvan[]>([]);
 
     const [formData, setFormData] = useState({
         ad: '',
         soyad: '',
         sicil: '',
         unvan: '',
-        password: '',
-        birimId: '',
-        roleId: ''
+        password: ''
     });
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const [birimData, roleData] = await Promise.all([
-                    birimsApi.getAll(),
-                    rolesApi.getAll()
-                ]);
-                setBirimler(birimData);
-                setRoles(roleData);
+                const unvanData = await unvansApi.getAll();
+                setUnvanlar(unvanData.filter(u => u.isActive));
             } catch (err) {
                 console.error('Error fetching form data:', err);
-                setError('Birim ve rol listesi yüklenirken bir hata oluştu.');
+                setError('Form verileri yüklenirken bir hata oluştu.');
             }
         };
         fetchData();
@@ -56,9 +47,7 @@ export const UserCreate: React.FC = () => {
                 soyad: formData.soyad,
                 sicil: formData.sicil,
                 unvan: formData.unvan,
-                sifre: formData.password, // Map password to sifre
-                birimId: formData.birimId ? Number(formData.birimId) : undefined,
-                roleId: formData.roleId ? Number(formData.roleId) : undefined
+                sifre: formData.password
             });
             navigate('/users');
         } catch (err: any) {
@@ -139,14 +128,19 @@ export const UserCreate: React.FC = () => {
                             <label className="text-sm font-medium text-text-secondary dark:text-dark-text-secondary">
                                 Ünvan
                             </label>
-                            <input
-                                type="text"
+                            <select
                                 name="unvan"
                                 value={formData.unvan}
                                 onChange={handleChange}
                                 className="w-full px-4 py-2 border border-border-color dark:border-dark-border rounded-lg bg-background dark:bg-dark-background focus:outline-none focus:ring-2 focus:ring-primary/50"
-                                placeholder="Örn: Uzman"
-                            />
+                            >
+                                <option value="">Seçiniz</option>
+                                {unvanlar.map(unvan => (
+                                    <option key={unvan.unvanID} value={unvan.unvanAdi}>
+                                        {unvan.unvanAdi}
+                                    </option>
+                                ))}
+                            </select>
                         </div>
 
                         <div className="space-y-2">
@@ -165,42 +159,18 @@ export const UserCreate: React.FC = () => {
                             />
                         </div>
 
-                        <div className="space-y-2">
-                            <label className="text-sm font-medium text-text-secondary dark:text-dark-text-secondary">
-                                Birim
-                            </label>
-                            <select
-                                name="birimId"
-                                value={formData.birimId}
-                                onChange={handleChange}
-                                className="w-full px-4 py-2 border border-border-color dark:border-dark-border rounded-lg bg-background dark:bg-dark-background focus:outline-none focus:ring-2 focus:ring-primary/50"
-                            >
-                                <option value="">Seçiniz</option>
-                                {birimler.map(birim => (
-                                    <option key={birim.birimID} value={birim.birimID}>
-                                        {birim.birimAdi}
-                                    </option>
-                                ))}
-                            </select>
-                        </div>
+                    </div>
 
-                        <div className="space-y-2">
-                            <label className="text-sm font-medium text-text-secondary dark:text-dark-text-secondary">
-                                Rol
-                            </label>
-                            <select
-                                name="roleId"
-                                value={formData.roleId}
-                                onChange={handleChange}
-                                className="w-full px-4 py-2 border border-border-color dark:border-dark-border rounded-lg bg-background dark:bg-dark-background focus:outline-none focus:ring-2 focus:ring-primary/50"
-                            >
-                                <option value="">Seçiniz</option>
-                                {roles.map(role => (
-                                    <option key={role.roleID} value={role.roleID}>
-                                        {role.roleName}
-                                    </option>
-                                ))}
-                            </select>
+                    {/* Info box about birim-role assignment */}
+                    <div className="p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg">
+                        <div className="flex items-start gap-3">
+                            <span className="material-symbols-outlined text-blue-600 dark:text-blue-400 mt-0.5">info</span>
+                            <div>
+                                <p className="text-sm text-blue-800 dark:text-blue-300 font-medium">Birim ve Rol Ataması</p>
+                                <p className="text-sm text-blue-700 dark:text-blue-400 mt-1">
+                                    Kullanıcı oluşturulduktan sonra, düzenleme sayfasından birim ve rol ataması yapabilirsiniz.
+                                </p>
+                            </div>
                         </div>
                     </div>
 

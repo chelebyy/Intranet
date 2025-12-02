@@ -97,7 +97,10 @@ export const Page = {
   REPORTS: 'REPORTS',
   AUDIT_LOG: 'AUDIT_LOG',
   IP_RESTRICTIONS: 'IP_RESTRICTIONS',
-  PROFILE: 'PROFILE'
+  PROFILE: 'PROFILE',
+  DEFINITIONS: 'DEFINITIONS',
+  UNVAN_LIST: 'UNVAN_LIST',
+  BIRIM_DEFINITIONS: 'BIRIM_DEFINITIONS'
 } as const;
 
 export type Page = typeof Page[keyof typeof Page];
