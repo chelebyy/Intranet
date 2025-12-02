@@ -23,9 +23,9 @@ public class BirimlerController : ControllerBase
 
     [HttpGet]
     [AllowAnonymous]
-    public async Task<ActionResult<ApiResponse<IEnumerable<BirimDto>>>> GetAll()
+    public async Task<ActionResult<ApiResponse<IEnumerable<BirimDto>>>> GetAll([FromQuery] bool includeInactive = false)
     {
-        var birimler = await _birimService.GetAllBirimsAsync();
+        var birimler = await _birimService.GetAllBirimsAsync(includeInactive);
         return Ok(ApiResponse<IEnumerable<BirimDto>>.Ok(birimler));
     }
 

@@ -33,7 +33,8 @@ export const DepartmentList: React.FC = () => {
     const fetchBirimler = async () => {
         try {
             setLoading(true);
-            const data = await birimsApi.getAll();
+            // Admin sayfasında pasif birimler de görünsün
+            const data = await birimsApi.getAll(true);
             setBirimler(data);
         } catch (error) {
             console.error('Birimler yüklenirken hata:', error);
@@ -73,15 +74,24 @@ export const DepartmentList: React.FC = () => {
         setShowModal(true);
     };
 
-    const handleDelete = async (birimId: number) => {
-        if (!confirm('Bu birimi silmek istediğinizden emin misiniz?')) return;
+    const handleDeactivate = async (birimId: number) => {
+        if (!window.confirm('Bu birimi pasife almak istediğinizden emin misiniz?')) return;
         try {
             await birimsApi.delete(birimId);
-            toast.success('Birim başarıyla silindi');
+            toast.success('Birim pasife alındı');
             fetchBirimler();
-        } catch (error) {
-            console.error('Birim silinirken hata:', error);
-            toast.error('Birim silinemedi');
+        } catch (error: any) {
+            console.error('Birim pasife alınırken hata:', error);
+            const status = error?.response?.status;
+            const message = error?.response?.data?.message || error?.response?.data?.error?.message;
+            
+            if (status === 403) {
+                toast.error('Bu işlem için yetkiniz bulunmuyor');
+            } else if (status === 404) {
+                toast.error('Birim bulunamadı');
+            } else {
+                toast.error(message || 'Birim pasife alınamadı');
+            }
         }
     };
 
@@ -175,11 +185,11 @@ export const DepartmentList: React.FC = () => {
                                     Düzenle
                                 </button>
                                 <button 
-                                    onClick={() => handleDelete(birim.birimID)}
-                                    className="flex-1 px-3 py-1.5 text-sm text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors flex items-center justify-center gap-1"
+                                    onClick={() => handleDeactivate(birim.birimID)}
+                                    className="flex-1 px-3 py-1.5 text-sm text-orange-500 hover:bg-orange-50 dark:hover:bg-orange-900/20 rounded-lg transition-colors flex items-center justify-center gap-1"
                                 >
-                                    <span className="material-symbols-outlined text-lg">delete</span>
-                                    Sil
+                                    <span className="material-symbols-outlined text-lg">block</span>
+                                    Pasife Al
                                 </button>
                             </div>
                         </div>

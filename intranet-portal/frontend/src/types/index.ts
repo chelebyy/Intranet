@@ -108,7 +108,7 @@ export type Page = typeof Page[keyof typeof Page];
 // API Response Types
 export interface ApiResponse<T> {
   success: boolean;
-  data: T;
+  data?: T;
   message?: string;
   error?: {
     code: string;

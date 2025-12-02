@@ -2,8 +2,10 @@ import apiClient from './apiClient';
 import type { Birim, CreateBirimRequest, UpdateBirimRequest } from '../types/api/birims';
 
 export const birimsApi = {
-  getAll: async (): Promise<Birim[]> => {
-    const response = await apiClient.get<any>('/birimler');
+  getAll: async (includeInactive: boolean = false): Promise<Birim[]> => {
+    const response = await apiClient.get<any>('/birimler', {
+      params: { includeInactive }
+    });
     return response.data.data;
   },
 

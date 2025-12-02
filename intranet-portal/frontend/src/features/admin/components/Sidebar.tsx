@@ -66,13 +66,6 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentPage, onNavigate, isDar
       label: 'Kullanıcı Yönetimi',
       permission: Permissions.User.Read
     },
-    { 
-      page: Page.DEPARTMENT_LIST, 
-      path: '/departments', 
-      icon: 'corporate_fare', 
-      label: 'Birimler',
-      permission: Permissions.Birim.Read
-    },
     {
       page: Page.DEFINITIONS,
       path: '/definitions',
@@ -88,9 +81,9 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentPage, onNavigate, isDar
           permission: Permissions.Unvan.Read
         },
         {
-          page: Page.BIRIM_DEFINITIONS,
-          path: '/definitions/birimler',
-          icon: 'apartment',
+          page: Page.DEPARTMENT_LIST,
+          path: '/definitions/departments',
+          icon: 'corporate_fare',
           label: 'Birimler',
           permission: Permissions.Birim.Read
         }

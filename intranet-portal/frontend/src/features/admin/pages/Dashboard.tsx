@@ -9,7 +9,7 @@ export const Dashboard: React.FC = () => {
   const [stats, setStats] = useState<DashboardStats | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const { user } = useAuthStore();
+  const { user, selectedBirim } = useAuthStore();
 
   useEffect(() => {
     const fetchStats = async () => {
@@ -45,10 +45,18 @@ export const Dashboard: React.FC = () => {
     <div className="p-6 md:p-8 flex flex-col gap-8 w-full max-w-7xl mx-auto">
       <div className="flex items-center justify-between">
         <div className="flex flex-col gap-1">
+            <div className="flex items-center gap-2 text-text-secondary dark:text-dark-text-secondary mb-1">
+                <Building2 className="w-4 h-4" />
+                <span className="text-sm font-medium tracking-wide uppercase">{selectedBirim?.birimAdi || 'Genel Görünüm'}</span>
+            </div>
             <h1 className="text-text-primary dark:text-dark-text-primary text-3xl font-black leading-tight tracking-tight">
-              Hoş Geldiniz{user?.ad ? `, ${user.ad}` : ''}!
+              {selectedBirim?.birimAdi || 'Yönetim'} Paneli
             </h1>
-            <p className="text-text-secondary dark:text-dark-text-secondary text-base font-normal">Sistem genelindeki kritik bilgilere buradan hızla erişebilirsiniz.</p>
+            <p className="text-text-secondary dark:text-dark-text-secondary text-base font-normal">
+              {selectedBirim 
+                ? `${selectedBirim.birimAdi} birimi ile ilgili verilere buradan erişebilirsiniz.`
+                : 'Sistem genelindeki kritik bilgilere buradan hızla erişebilirsiniz.'}
+            </p>
         </div>
         <div className="flex items-center gap-2">
             <div className="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-text-secondary dark:text-dark-text-secondary cursor-pointer hover:bg-slate-200 dark:hover:bg-slate-700">

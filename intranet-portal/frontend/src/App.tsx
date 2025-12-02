@@ -18,7 +18,6 @@ const Profile = lazy(() => import('./features/admin/pages/Profile').then(module 
 const AuditLogList = lazy(() => import('./features/admin/pages/AuditLogList').then(module => ({ default: module.AuditLogList })));
 const IPRestrictions = lazy(() => import('./features/admin/pages/IPRestrictions').then(module => ({ default: module.IPRestrictions })));
 const UnvanList = lazy(() => import('./features/admin/pages/UnvanList').then(module => ({ default: module.UnvanList })));
-const BirimDefinitions = lazy(() => import('./features/admin/pages/BirimDefinitions').then(module => ({ default: module.BirimDefinitions })));
 
 // Loading component
 const PageLoader = () => (
@@ -79,14 +78,6 @@ function App() {
             </ProtectedRoute>
           } />
 
-          {/* Department Management - requires birim.read permission */}
-          <Route path="departments" element={
-            <ProtectedRoute requiredPermission={Permissions.Birim.Read}>
-              <Suspense fallback={<PageLoader />}>
-                <DepartmentList />
-              </Suspense>
-            </ProtectedRoute>
-          } />
 
           {/* Role & Permissions - requires role.read permission */}
           <Route path="roles" element={
@@ -139,10 +130,10 @@ function App() {
               </Suspense>
             </ProtectedRoute>
           } />
-          <Route path="definitions/birimler" element={
+          <Route path="definitions/departments" element={
             <ProtectedRoute requiredPermission={Permissions.Birim.Read}>
               <Suspense fallback={<PageLoader />}>
-                <BirimDefinitions />
+                <DepartmentList />
               </Suspense>
             </ProtectedRoute>
           } />

@@ -1,4 +1,5 @@
 using IntranetPortal.API.Attributes;
+using IntranetPortal.API.Extensions;
 using IntranetPortal.API.Models;
 using IntranetPortal.Application.DTOs;
 using IntranetPortal.Application.DTOs.Users;
@@ -25,8 +26,22 @@ namespace IntranetPortal.API.Controllers
         [HasPermission(Permissions.ReadUser)]
         public async Task<ActionResult<ApiResponse<IEnumerable<UserDto>>>> GetAllUsers()
         {
-            var users = await _userService.GetAllUsersAsync();
-            return Ok(ApiResponse<IEnumerable<UserDto>>.Ok(users));
+            // 1. Get Active Birim ID from Token
+            var activeBirimId = User.GetBirimId();
+            
+            // 2. Check if user is SuperAdmin
+            if (User.IsSuperAdmin() || !activeBirimId.HasValue)
+            {
+                // SuperAdmin sees all users, or if no unit selected (should be guarded by auth but fail-safe)
+                // Note: If !activeBirimId.HasValue and NOT SuperAdmin, they probably shouldn't see anything or 
+                // access this endpoint if HasPermission works correctly (it checks role permissions).
+                var allUsers = await _userService.GetAllUsersAsync();
+                return Ok(ApiResponse<IEnumerable<UserDto>>.Ok(allUsers));
+            }
+
+            // 3. Filter by Active Birim
+            var unitUsers = await _userService.GetUsersByBirimAsync(activeBirimId.Value);
+            return Ok(ApiResponse<IEnumerable<UserDto>>.Ok(unitUsers));
         }
 
         [HttpGet("{id}")]

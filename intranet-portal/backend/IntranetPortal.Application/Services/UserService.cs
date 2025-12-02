@@ -34,6 +34,25 @@ namespace IntranetPortal.Application.Services
                 .ToListAsync();
         }
 
+        public async Task<IEnumerable<UserDto>> GetUsersByBirimAsync(int birimId)
+        {
+            // Get all users who have a role in the specified unit
+            return await _context.Users
+                .Where(u => u.UserBirimRoles.Any(ubr => ubr.BirimID == birimId))
+                .Select(u => new UserDto
+                {
+                    UserID = u.UserID,
+                    Ad = u.Ad,
+                    Soyad = u.Soyad,
+                    Sicil = u.Sicil,
+                    Unvan = u.Unvan,
+                    IsActive = u.IsActive,
+                    CreatedAt = u.CreatedAt,
+                    LastLoginAt = u.SonGiris
+                })
+                .ToListAsync();
+        }
+
         public async Task<UserDto?> GetUserByIdAsync(int id)
         {
             var user = await _context.Users
@@ -139,10 +158,18 @@ namespace IntranetPortal.Application.Services
             var user = await _context.Users.FindAsync(id);
             if (user == null) return false;
 
-            // Soft delete
-            user.IsActive = false;
-            user.UpdatedAt = DateTime.UtcNow;
+            // First, remove all birim-role assignments for this user
+            var userBirimRoles = await _context.UserBirimRoles
+                .Where(ubr => ubr.UserID == id)
+                .ToListAsync();
             
+            if (userBirimRoles.Any())
+            {
+                _context.UserBirimRoles.RemoveRange(userBirimRoles);
+            }
+
+            // Hard delete the user
+            _context.Users.Remove(user);
             await _context.SaveChangesAsync();
             return true;
         }
