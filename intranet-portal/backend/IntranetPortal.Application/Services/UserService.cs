@@ -23,8 +23,10 @@ namespace IntranetPortal.Application.Services
                 .Select(u => new UserDto
                 {
                     UserID = u.UserID,
-                    AdSoyad = u.AdSoyad,
+                    Ad = u.Ad,
+                    Soyad = u.Soyad,
                     Sicil = u.Sicil,
+                    Unvan = u.Unvan,
                     IsActive = u.IsActive,
                     CreatedAt = u.CreatedAt,
                     LastLoginAt = u.SonGiris
@@ -40,8 +42,10 @@ namespace IntranetPortal.Application.Services
             return new UserDto
             {
                 UserID = user.UserID,
-                AdSoyad = user.AdSoyad,
+                Ad = user.Ad,
+                Soyad = user.Soyad,
                 Sicil = user.Sicil,
+                Unvan = user.Unvan,
                 IsActive = user.IsActive,
                 CreatedAt = user.CreatedAt,
                 LastLoginAt = user.SonGiris
@@ -58,7 +62,8 @@ namespace IntranetPortal.Application.Services
 
             var user = new User
             {
-                AdSoyad = createUserDto.AdSoyad,
+                Ad = createUserDto.Ad,
+                Soyad = createUserDto.Soyad,
                 Sicil = createUserDto.Sicil,
                 Unvan = createUserDto.Unvan,
                 SifreHash = _passwordService.HashPassword(createUserDto.Sifre),
@@ -73,8 +78,10 @@ namespace IntranetPortal.Application.Services
             return new UserDto
             {
                 UserID = user.UserID,
-                AdSoyad = user.AdSoyad,
+                Ad = user.Ad,
+                Soyad = user.Soyad,
                 Sicil = user.Sicil,
+                Unvan = user.Unvan,
                 IsActive = user.IsActive,
                 CreatedAt = user.CreatedAt,
                 LastLoginAt = null
@@ -92,7 +99,8 @@ namespace IntranetPortal.Application.Services
                 throw new InvalidOperationException($"User with Sicil '{updateUserDto.Sicil}' already exists.");
             }
 
-            user.AdSoyad = updateUserDto.AdSoyad;
+            user.Ad = updateUserDto.Ad;
+            user.Soyad = updateUserDto.Soyad;
             user.Sicil = updateUserDto.Sicil;
             user.Unvan = updateUserDto.Unvan;
             user.IsActive = updateUserDto.IsActive;
@@ -103,8 +111,10 @@ namespace IntranetPortal.Application.Services
             return new UserDto
             {
                 UserID = user.UserID,
-                AdSoyad = user.AdSoyad,
+                Ad = user.Ad,
+                Soyad = user.Soyad,
                 Sicil = user.Sicil,
+                Unvan = user.Unvan,
                 IsActive = user.IsActive,
                 CreatedAt = user.CreatedAt,
                 LastLoginAt = user.SonGiris
@@ -134,6 +144,28 @@ namespace IntranetPortal.Application.Services
 
             await _context.SaveChangesAsync();
             return true;
+        }
+
+        public async Task<(bool Success, string Message)> ChangePasswordAsync(int userId, string currentPassword, string newPassword)
+        {
+            var user = await _context.Users.FindAsync(userId);
+            if (user == null)
+                return (false, "Kullanıcı bulunamadı");
+
+            // Verify current password
+            if (!_passwordService.VerifyPassword(currentPassword, user.SifreHash))
+                return (false, "Mevcut şifre hatalı");
+
+            // Validate new password length
+            if (newPassword.Length < 8)
+                return (false, "Şifre en az 8 karakter olmalıdır");
+
+            // Update password
+            user.SifreHash = _passwordService.HashPassword(newPassword);
+            user.UpdatedAt = DateTime.UtcNow;
+            await _context.SaveChangesAsync();
+
+            return (true, "Şifre başarıyla değiştirildi");
         }
     }
 }

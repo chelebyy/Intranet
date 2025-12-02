@@ -37,6 +37,9 @@ namespace IntranetPortal.Domain.Constants
         public const string ReadFile = "read.file";
         public const string DeleteFile = "delete.file";
 
+        // Dashboard
+        public const string ViewDashboard = "view.dashboard";
+
         // System Management (PRD FR-44 to FR-47)
         public const string ManageMaintenance = "manage.maintenance";
         public const string ReadSystem = "read.system";

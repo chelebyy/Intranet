@@ -158,6 +158,9 @@ public class DatabaseSeeder
             new Permission { Action = "upload", Resource = "file", Description = "Dosya yükleyebilir" },
             new Permission { Action = "download", Resource = "file", Description = "Dosya indirebilir" },
             new Permission { Action = "delete", Resource = "file", Description = "Dosya silebilir" },
+
+            // Dashboard
+            new Permission { Action = "view", Resource = "dashboard", Description = "Dashboard'u görüntüleyebilir" },
         };
 
         await _context.Permissions.AddRangeAsync(permissions);
@@ -283,7 +286,8 @@ public class DatabaseSeeder
 
         var superAdminUser = new User
         {
-            AdSoyad = "Süper Yönetici",
+            Ad = "Süper",
+            Soyad = "Yönetici",
             Sicil = "00001",
             SifreHash = passwordHash,
             Unvan = "Sistem Yöneticisi",

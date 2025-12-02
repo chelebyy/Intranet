@@ -19,6 +19,7 @@ public interface IIntranetDbContext
     DbSet<AuditLog> AuditLogs { get; }
     DbSet<UploadedFile> UploadedFiles { get; }
     DbSet<SystemSettings> SystemSettings { get; }
+    DbSet<IPRestriction> IPRestrictions { get; }
 
     // Methods
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);

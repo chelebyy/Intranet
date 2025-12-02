@@ -186,9 +186,80 @@ Content-Type: application/json
 
 ---
 
-## 3. User Management Endpoints
+## 3. Dashboard Endpoints
 
-### 3.1. Tüm Kullanıcıları Listele
+### 3.1. Dashboard İstatistikleri
+
+**Endpoint:** `GET /api/dashboard/stats`
+
+**Yetki:** `view.dashboard` (SuperAdmin otomatik bypass)
+
+**Açıklama:** Sistem genelindeki istatistikleri ve son aktiviteleri döner.
+
+**Response (200):**
+```json
+{
+  "success": true,
+  "data": {
+    "totalUsers": 150,
+    "activeUsers": 142,
+    "totalBirimler": 12,
+    "activeBirimler": 10,
+    "totalRoles": 5,
+    "usersByBirim": [
+      { "birimId": 1, "birimAdi": "Bilgi İşlem", "userCount": 25 },
+      { "birimId": 2, "birimAdi": "İnsan Kaynakları", "userCount": 18 }
+    ],
+    "recentActivities": [
+      {
+        "id": 1,
+        "action": "Kullanıcı oluşturuldu",
+        "userFullName": "Ahmet Yılmaz",
+        "timeAgo": "5 dakika önce",
+        "iconName": "person_add"
+      }
+    ]
+  }
+}
+```
+
+### 3.2. Son Aktiviteler
+
+**Endpoint:** `GET /api/dashboard/activities`
+
+**Yetki:** `view.dashboard`
+
+**Query Parameters:**
+- `count` (int, default: 10) - Döndürülecek aktivite sayısı
+
+**Response (200):**
+```json
+{
+  "success": true,
+  "data": [
+    {
+      "id": 1,
+      "action": "Kullanıcı oluşturuldu",
+      "userFullName": "Ahmet Yılmaz",
+      "timeAgo": "5 dakika önce",
+      "iconName": "person_add"
+    },
+    {
+      "id": 2,
+      "action": "Rol güncellendi",
+      "userFullName": "Sistem",
+      "timeAgo": "1 saat önce",
+      "iconName": "shield"
+    }
+  ]
+}
+```
+
+---
+
+## 4. User Management Endpoints
+
+### 4.1. Tüm Kullanıcıları Listele
 
 **Endpoint:** `GET /api/users`
 

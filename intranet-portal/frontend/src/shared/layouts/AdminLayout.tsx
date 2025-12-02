@@ -22,7 +22,9 @@ const AdminLayout: React.FC = () => {
     if (path.includes('/users')) setCurrentPage(Page.USER_LIST);
     else if (path.includes('/departments')) setCurrentPage(Page.DEPARTMENT_LIST);
     else if (path.includes('/roles')) setCurrentPage(Page.ROLES_PERMISSIONS);
-    else if (path.includes('/reports')) setCurrentPage(Page.REPORTS);
+    else if (path.includes('/audit-log')) setCurrentPage(Page.AUDIT_LOG);
+    else if (path.includes('/ip-restrictions')) setCurrentPage(Page.IP_RESTRICTIONS);
+    else if (path.includes('/profile')) setCurrentPage(Page.PROFILE);
     else setCurrentPage(Page.DASHBOARD);
   }, []);
 

@@ -10,8 +10,7 @@ export interface User {
   sicil: string;
   ad: string;
   soyad: string;
-  tcKimlikNo?: string;
-  telefon?: string;
+  unvan?: string;
   isActive: boolean;
   createdAt: string;
 }
@@ -96,6 +95,8 @@ export const Page = {
   DEPARTMENT_CREATE: 'DEPARTMENT_CREATE',
   ROLES_PERMISSIONS: 'ROLES_PERMISSIONS',
   REPORTS: 'REPORTS',
+  AUDIT_LOG: 'AUDIT_LOG',
+  IP_RESTRICTIONS: 'IP_RESTRICTIONS',
   PROFILE: 'PROFILE'
 } as const;
 
@@ -104,11 +105,38 @@ export type Page = typeof Page[keyof typeof Page];
 // API Response Types
 export interface ApiResponse<T> {
   success: boolean;
-  data?: T;
+  data: T;
   message?: string;
   error?: {
     code: string;
     message: string;
     details?: string[];
   };
+}
+
+// Dashboard Types
+export interface DashboardStats {
+  totalUsers: number;
+  activeUsers: number;
+  totalBirimler: number;
+  activeBirimler: number;
+  totalRoles: number;
+  birimUserCounts: BirimUserCount[];
+  recentActivities: RecentActivity[];
+}
+
+export interface BirimUserCount {
+  birimId: number;
+  birimAdi: string;
+  userCount: number;
+}
+
+export interface RecentActivity {
+  id: number;
+  action: string;
+  userFullName: string | null;
+  details: string | null;
+  timestamp: string;
+  timeAgo: string;
+  iconName: string;
 }

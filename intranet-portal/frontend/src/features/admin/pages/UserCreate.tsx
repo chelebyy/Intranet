@@ -14,7 +14,8 @@ export const UserCreate: React.FC = () => {
     const [roles, setRoles] = useState<Role[]>([]);
 
     const [formData, setFormData] = useState({
-        adSoyad: '',
+        ad: '',
+        soyad: '',
         sicil: '',
         unvan: '',
         password: '',
@@ -51,7 +52,8 @@ export const UserCreate: React.FC = () => {
 
         try {
             await usersApi.create({
-                adSoyad: formData.adSoyad,
+                ad: formData.ad,
+                soyad: formData.soyad,
                 sicil: formData.sicil,
                 unvan: formData.unvan,
                 sifre: formData.password, // Map password to sifre
@@ -90,16 +92,31 @@ export const UserCreate: React.FC = () => {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div className="space-y-2">
                             <label className="text-sm font-medium text-text-secondary dark:text-dark-text-secondary">
-                                Ad Soyad <span className="text-red-500">*</span>
+                                Ad <span className="text-red-500">*</span>
                             </label>
                             <input
                                 type="text"
-                                name="adSoyad"
-                                value={formData.adSoyad}
+                                name="ad"
+                                value={formData.ad}
                                 onChange={handleChange}
                                 required
                                 className="w-full px-4 py-2 border border-border-color dark:border-dark-border rounded-lg bg-background dark:bg-dark-background focus:outline-none focus:ring-2 focus:ring-primary/50"
-                                placeholder="Örn: Ahmet Yılmaz"
+                                placeholder="Örn: Ahmet"
+                            />
+                        </div>
+
+                        <div className="space-y-2">
+                            <label className="text-sm font-medium text-text-secondary dark:text-dark-text-secondary">
+                                Soyad <span className="text-red-500">*</span>
+                            </label>
+                            <input
+                                type="text"
+                                name="soyad"
+                                value={formData.soyad}
+                                onChange={handleChange}
+                                required
+                                className="w-full px-4 py-2 border border-border-color dark:border-dark-border rounded-lg bg-background dark:bg-dark-background focus:outline-none focus:ring-2 focus:ring-primary/50"
+                                placeholder="Örn: Yılmaz"
                             />
                         </div>
 

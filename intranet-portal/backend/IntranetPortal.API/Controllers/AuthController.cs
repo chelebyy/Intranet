@@ -18,15 +18,18 @@ public class AuthController : ControllerBase
 {
     private readonly IAuthenticationService _authService;
     private readonly IJwtTokenService _jwtTokenService;
+    private readonly IUserService _userService;
     private readonly ILogger<AuthController> _logger;
 
     public AuthController(
         IAuthenticationService authService,
         IJwtTokenService jwtTokenService,
+        IUserService userService,
         ILogger<AuthController> logger)
     {
         _authService = authService;
         _jwtTokenService = jwtTokenService;
+        _userService = userService;
         _logger = logger;
     }
 
@@ -54,7 +57,8 @@ public class AuthController : ControllerBase
                 var user = new User
                 {
                     UserID = loginResponse.User.UserID,
-                    AdSoyad = loginResponse.User.AdSoyad,
+                    Ad = loginResponse.User.Ad,
+                    Soyad = loginResponse.User.Soyad,
                     Sicil = loginResponse.User.Sicil
                 };
 
@@ -121,7 +125,8 @@ public class AuthController : ControllerBase
                 var user = new User
                 {
                     UserID = response.User.UserID,
-                    AdSoyad = response.User.AdSoyad,
+                    Ad = response.User.Ad,
+                    Soyad = response.User.Soyad,
                     Sicil = response.User.Sicil
                 };
 
@@ -242,16 +247,55 @@ public class AuthController : ControllerBase
     }
 
     /// <summary>
+    /// Change current user password
+    /// POST /api/auth/change-password
+    /// </summary>
+    [HttpPost("change-password")]
+    [Authorize]
+    public async Task<ActionResult<ApiResponse<bool>>> ChangePassword([FromBody] ChangePasswordDto dto)
+    {
+        try
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ApiResponse<bool>.Fail("Validasyon hatası", "VALIDATION_ERROR"));
+            }
+
+            var userIdClaim = User.FindFirst("userId")?.Value;
+            if (string.IsNullOrEmpty(userIdClaim) || !int.TryParse(userIdClaim, out var userId))
+            {
+                return Unauthorized(ApiResponse<bool>.Fail("Geçersiz oturum", "INVALID_TOKEN"));
+            }
+
+            var result = await _userService.ChangePasswordAsync(userId, dto.CurrentPassword, dto.NewPassword);
+            if (!result.Success)
+            {
+                return BadRequest(ApiResponse<bool>.Fail(result.Message, "PASSWORD_ERROR"));
+            }
+
+            return Ok(ApiResponse<bool>.Ok(true, "Şifre değiştirildi"));
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Change password error");
+            return StatusCode(500, ApiResponse<bool>.Fail("Bir hata oluştu", "SERVER_ERROR"));
+        }
+    }
+
+    /// <summary>
     /// Sets JWT token as HttpOnly cookie
     /// Reference: SECURITY_ANALYSIS_REPORT.md Finding #2
     /// </summary>
     private void SetAuthCookie(string token)
     {
+        // Determine if we're in development (HTTP) or production (HTTPS)
+        var isHttps = Request.IsHttps;
+        
         var cookieOptions = new CookieOptions
         {
             HttpOnly = true, // Prevents JavaScript access (XSS protection)
-            Secure = true, // HTTPS only
-            SameSite = SameSiteMode.Strict, // CSRF protection
+            Secure = isHttps, // HTTPS only in production, HTTP allowed in development
+            SameSite = isHttps ? SameSiteMode.Strict : SameSiteMode.Lax, // Lax for development cross-origin
             Expires = DateTimeOffset.UtcNow.AddHours(8), // Match JWT expiry
             Path = "/"
         };

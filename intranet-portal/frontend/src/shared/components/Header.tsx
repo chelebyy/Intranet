@@ -40,7 +40,9 @@ const Header: React.FC = () => {
       return;
     }
 
+    const startTime = performance.now();
     setIsSwitching(true);
+    
     try {
       const response = await authApi.selectBirim(birim.birimId);
 
@@ -54,11 +56,14 @@ const Header: React.FC = () => {
           );
         }
 
-        toast.success(`${birim.birimAdi} birimine geçildi`);
+        const endTime = performance.now();
+        const duration = Math.round(endTime - startTime);
+        
+        toast.success(`${birim.birimAdi} birimine geçildi (${duration}ms)`);
         setIsDropdownOpen(false);
         
-        // Refresh the page to reload data for new birim
-        window.location.reload();
+        // Navigate to dashboard instead of full page reload for better performance
+        navigate('/dashboard');
       } else {
         toast.error(response.error?.message || 'Birim değiştirme başarısız');
       }

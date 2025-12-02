@@ -29,8 +29,16 @@ export const usePermission = (): UsePermissionResult => {
   const [error, setError] = useState<string | null>(null);
 
   const fetchPermissions = useCallback(async () => {
-    if (!isAuthenticated || !currentRoleInfo) {
+    // Check if we have valid role info with a roleId
+    if (!isAuthenticated || !currentRoleInfo?.roleId) {
       setPermissions([]);
+      return;
+    }
+
+    // SuperAdmin bypass - no need to fetch permissions
+    if (currentRoleInfo.roleName === 'SuperAdmin') {
+      setPermissions([]);
+      setIsLoading(false);
       return;
     }
 
@@ -128,6 +136,10 @@ export const Permissions = {
     Upload: { resource: 'file', action: 'upload' },
     Download: { resource: 'file', action: 'download' },
     Delete: { resource: 'file', action: 'delete' },
+  },
+  System: {
+    Read: { resource: 'system', action: 'read' },
+    Manage: { resource: 'maintenance', action: 'manage' },
   },
 } as const;
 

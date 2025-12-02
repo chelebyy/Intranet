@@ -52,7 +52,8 @@ public class JwtTokenService : IJwtTokenService
             new Claim("sicil", user.Sicil),
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()), // Unique token ID
             new Claim("userId", user.UserID.ToString()),
-            new Claim("adSoyad", user.AdSoyad),
+            new Claim("ad", user.Ad),
+            new Claim("soyad", user.Soyad),
             new Claim("birimId", birim.BirimID.ToString()),
             new Claim("birimAdi", birim.BirimAdi),
             new Claim("roleId", role.RoleID.ToString()),

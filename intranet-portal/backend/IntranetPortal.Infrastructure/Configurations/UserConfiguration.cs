@@ -23,10 +23,18 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
             .HasColumnName("UserID")
             .ValueGeneratedOnAdd();
 
-        builder.Property(u => u.AdSoyad)
-            .HasColumnName("AdSoyad")
-            .HasMaxLength(100)
+        builder.Property(u => u.Ad)
+            .HasColumnName("Ad")
+            .HasMaxLength(50)
             .IsRequired();
+
+        builder.Property(u => u.Soyad)
+            .HasColumnName("Soyad")
+            .HasMaxLength(50)
+            .IsRequired();
+
+        // Ignore computed property
+        builder.Ignore(u => u.AdSoyad);
 
         builder.Property(u => u.Sicil)
             .HasColumnName("Sicil")

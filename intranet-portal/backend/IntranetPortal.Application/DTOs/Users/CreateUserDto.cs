@@ -5,8 +5,12 @@ namespace IntranetPortal.Application.DTOs.Users
     public class CreateUserDto
     {
         [Required]
-        [MaxLength(100)]
-        public string AdSoyad { get; set; } = string.Empty;
+        [MaxLength(50)]
+        public string Ad { get; set; } = string.Empty;
+
+        [Required]
+        [MaxLength(50)]
+        public string Soyad { get; set; } = string.Empty;
 
         [Required]
         [MaxLength(20)]

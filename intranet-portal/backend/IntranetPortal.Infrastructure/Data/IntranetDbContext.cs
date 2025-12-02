@@ -62,6 +62,11 @@ public class IntranetDbContext : DbContext
     /// </summary>
     public DbSet<SystemSettings> SystemSettings { get; set; } = null!;
 
+    /// <summary>
+    /// IP Restrictions - Whitelist/Blacklist IP management
+    /// </summary>
+    public DbSet<IPRestriction> IPRestrictions { get; set; } = null!;
+
     #endregion
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

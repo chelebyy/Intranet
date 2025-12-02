@@ -39,6 +39,13 @@ namespace IntranetPortal.API.Filters
                 return;
             }
 
+            // 2.5. SuperAdmin bypass - SuperAdmin has ALL permissions
+            var roleName = context.HttpContext.User.FindFirst("roleName")?.Value;
+            if (roleName == IntranetPortal.Domain.Constants.Roles.SuperAdmin)
+            {
+                return; // SuperAdmin is allowed to do anything
+            }
+
             // 3. Check if role has the permission
             var hasPermission = await _permissionService.HasPermissionAsync(roleId.Value, _requiredPermission);
             if (!hasPermission)

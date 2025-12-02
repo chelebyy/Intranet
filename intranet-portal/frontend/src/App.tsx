@@ -4,6 +4,7 @@ import LoginPage from './features/auth/LoginPage';
 import BirimSelection from './features/auth/BirimSelection';
 import AdminLayout from './shared/layouts/AdminLayout';
 import ProtectedRoute from './shared/components/ProtectedRoute';
+import { Permissions } from './hooks/usePermission';
 
 // Lazy load pages for code splitting
 const Dashboard = lazy(() => import('./features/admin/pages/Dashboard').then(module => ({ default: module.Dashboard })));
@@ -13,6 +14,8 @@ const DepartmentList = lazy(() => import('./features/admin/pages/DepartmentList'
 const RolePermissions = lazy(() => import('./features/admin/pages/RolePermissions').then(module => ({ default: module.RolePermissions })));
 const Reports = lazy(() => import('./features/admin/pages/Reports').then(module => ({ default: module.Reports })));
 const Profile = lazy(() => import('./features/admin/pages/Profile').then(module => ({ default: module.Profile })));
+const AuditLogList = lazy(() => import('./features/admin/pages/AuditLogList').then(module => ({ default: module.AuditLogList })));
+const IPRestrictions = lazy(() => import('./features/admin/pages/IPRestrictions').then(module => ({ default: module.IPRestrictions })));
 
 // Loading component
 const PageLoader = () => (
@@ -21,6 +24,10 @@ const PageLoader = () => (
   </div>
 );
 
+/**
+ * Main App component with route-level permission protection
+ * Reference: IMPLEMENTATION_ROADMAP.md - Faz 3
+ */
 function App() {
   return (
     <BrowserRouter>
@@ -38,37 +45,76 @@ function App() {
             </ProtectedRoute>
           }
         >
+          {/* Dashboard - accessible to all authenticated users */}
           <Route index element={<Navigate to="/dashboard" replace />} />
           <Route path="dashboard" element={
             <Suspense fallback={<PageLoader />}>
               <Dashboard />
             </Suspense>
           } />
+
+          {/* User Management - requires user.read permission */}
           <Route path="users" element={
-            <Suspense fallback={<PageLoader />}>
-              <UserList />
-            </Suspense>
+            <ProtectedRoute requiredPermission={Permissions.User.Read}>
+              <Suspense fallback={<PageLoader />}>
+                <UserList />
+              </Suspense>
+            </ProtectedRoute>
           } />
           <Route path="users/create" element={
-            <Suspense fallback={<PageLoader />}>
-              <UserCreate />
-            </Suspense>
+            <ProtectedRoute requiredPermission={Permissions.User.Create}>
+              <Suspense fallback={<PageLoader />}>
+                <UserCreate />
+              </Suspense>
+            </ProtectedRoute>
           } />
+
+          {/* Department Management - requires birim.read permission */}
           <Route path="departments" element={
-            <Suspense fallback={<PageLoader />}>
-              <DepartmentList />
-            </Suspense>
+            <ProtectedRoute requiredPermission={Permissions.Birim.Read}>
+              <Suspense fallback={<PageLoader />}>
+                <DepartmentList />
+              </Suspense>
+            </ProtectedRoute>
           } />
+
+          {/* Role & Permissions - requires role.read permission */}
           <Route path="roles" element={
-            <Suspense fallback={<PageLoader />}>
-              <RolePermissions />
-            </Suspense>
+            <ProtectedRoute requiredPermission={Permissions.Role.Read}>
+              <Suspense fallback={<PageLoader />}>
+                <RolePermissions />
+              </Suspense>
+            </ProtectedRoute>
           } />
+
+          {/* Reports - requires auditlog.read permission */}
           <Route path="reports" element={
-            <Suspense fallback={<PageLoader />}>
-              <Reports />
-            </Suspense>
+            <ProtectedRoute requiredPermission={Permissions.AuditLog.Read}>
+              <Suspense fallback={<PageLoader />}>
+                <Reports />
+              </Suspense>
+            </ProtectedRoute>
           } />
+
+          {/* Audit Log - requires auditlog.read permission */}
+          <Route path="audit-log" element={
+            <ProtectedRoute requiredPermission={Permissions.AuditLog.Read}>
+              <Suspense fallback={<PageLoader />}>
+                <AuditLogList />
+              </Suspense>
+            </ProtectedRoute>
+          } />
+
+          {/* IP Restrictions - requires system.read permission */}
+          <Route path="ip-restrictions" element={
+            <ProtectedRoute requiredPermission={Permissions.System.Read}>
+              <Suspense fallback={<PageLoader />}>
+                <IPRestrictions />
+              </Suspense>
+            </ProtectedRoute>
+          } />
+
+          {/* Profile - accessible to all authenticated users */}
           <Route path="profile" element={
             <Suspense fallback={<PageLoader />}>
               <Profile />

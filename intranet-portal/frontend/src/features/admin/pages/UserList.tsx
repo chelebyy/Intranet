@@ -19,6 +19,10 @@ export const UserList: React.FC = () => {
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
     const [deleteConfirm, setDeleteConfirm] = useState<number | null>(null);
+    const [resetPasswordModal, setResetPasswordModal] = useState<UserListItem | null>(null);
+    const [newPassword, setNewPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+    const [resetLoading, setResetLoading] = useState(false);
 
     useEffect(() => {
         fetchUsers();
@@ -47,6 +51,40 @@ export const UserList: React.FC = () => {
             console.error('Kullanıcı silinirken hata:', error);
             toast.error('Kullanıcı silinemedi');
         }
+    };
+
+    const handleResetPassword = async () => {
+        if (!resetPasswordModal) return;
+        
+        if (newPassword.length < 8) {
+            toast.error('Şifre en az 8 karakter olmalıdır');
+            return;
+        }
+        
+        if (newPassword !== confirmPassword) {
+            toast.error('Şifreler eşleşmiyor');
+            return;
+        }
+
+        try {
+            setResetLoading(true);
+            await usersApi.resetPassword(resetPasswordModal.userID, newPassword);
+            toast.success('Şifre başarıyla sıfırlandı');
+            setResetPasswordModal(null);
+            setNewPassword('');
+            setConfirmPassword('');
+        } catch (error) {
+            console.error('Şifre sıfırlanırken hata:', error);
+            toast.error('Şifre sıfırlanamadı');
+        } finally {
+            setResetLoading(false);
+        }
+    };
+
+    const openResetModal = (user: UserListItem) => {
+        setResetPasswordModal(user);
+        setNewPassword('');
+        setConfirmPassword('');
     };
 
     const filteredUsers = users.filter(user => 
@@ -158,6 +196,13 @@ export const UserList: React.FC = () => {
                                                         <span className="material-symbols-outlined text-lg">edit</span>
                                                     </button>
                                                     <button 
+                                                        onClick={() => openResetModal(user)}
+                                                        className="p-2 text-amber-500 hover:bg-amber-50 dark:hover:bg-amber-900/20 rounded-lg transition-colors"
+                                                        title="Şifre Sıfırla"
+                                                    >
+                                                        <span className="material-symbols-outlined text-lg">key</span>
+                                                    </button>
+                                                    <button 
                                                         onClick={() => setDeleteConfirm(user.userID)}
                                                         className="p-2 text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors"
                                                         title="Sil"
@@ -174,6 +219,71 @@ export const UserList: React.FC = () => {
                     </div>
                 )}
             </div>
+
+            {/* Password Reset Modal */}
+            {resetPasswordModal && (
+                <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+                    <div className="bg-card dark:bg-dark-card rounded-xl shadow-xl max-w-md w-full">
+                        <div className="flex items-center justify-between px-6 py-4 border-b border-border-color dark:border-dark-border">
+                            <h3 className="text-lg font-semibold text-text-primary dark:text-dark-text-primary">
+                                Şifre Sıfırla
+                            </h3>
+                            <button
+                                onClick={() => setResetPasswordModal(null)}
+                                className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors"
+                            >
+                                <span className="material-symbols-outlined">close</span>
+                            </button>
+                        </div>
+                        <div className="p-6">
+                            <p className="text-sm text-text-secondary dark:text-dark-text-secondary mb-4">
+                                <strong>{resetPasswordModal.adSoyad}</strong> kullanıcısı için yeni şifre belirleyin.
+                            </p>
+                            <div className="space-y-4">
+                                <div>
+                                    <label className="block text-sm font-medium text-text-primary dark:text-dark-text-primary mb-1">
+                                        Yeni Şifre
+                                    </label>
+                                    <input
+                                        type="password"
+                                        value={newPassword}
+                                        onChange={(e) => setNewPassword(e.target.value)}
+                                        className="w-full px-3 py-2 border border-border-color dark:border-dark-border rounded-lg bg-background dark:bg-dark-background text-text-primary dark:text-dark-text-primary focus:outline-none focus:ring-2 focus:ring-primary/50"
+                                        placeholder="En az 8 karakter"
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium text-text-primary dark:text-dark-text-primary mb-1">
+                                        Şifre Tekrar
+                                    </label>
+                                    <input
+                                        type="password"
+                                        value={confirmPassword}
+                                        onChange={(e) => setConfirmPassword(e.target.value)}
+                                        className="w-full px-3 py-2 border border-border-color dark:border-dark-border rounded-lg bg-background dark:bg-dark-background text-text-primary dark:text-dark-text-primary focus:outline-none focus:ring-2 focus:ring-primary/50"
+                                        placeholder="Şifreyi tekrar girin"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        <div className="flex justify-end gap-3 px-6 py-4 border-t border-border-color dark:border-dark-border">
+                            <button
+                                onClick={() => setResetPasswordModal(null)}
+                                className="px-4 py-2 text-sm font-medium text-text-secondary dark:text-dark-text-secondary hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors"
+                            >
+                                İptal
+                            </button>
+                            <button
+                                onClick={handleResetPassword}
+                                disabled={resetLoading}
+                                className="px-4 py-2 text-sm font-medium text-white bg-primary hover:bg-primary/80 rounded-lg transition-colors disabled:opacity-50"
+                            >
+                                {resetLoading ? 'Sıfırlanıyor...' : 'Şifreyi Sıfırla'}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

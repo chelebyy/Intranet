@@ -11,5 +11,6 @@ namespace IntranetPortal.Application.Interfaces
         Task<UserDto?> UpdateUserAsync(int id, UpdateUserDto updateUserDto);
         Task<bool> DeleteUserAsync(int id); // Soft delete
         Task<bool> ResetPasswordAsync(int id, string newPassword);
+        Task<(bool Success, string Message)> ChangePasswordAsync(int userId, string currentPassword, string newPassword);
     }
 }

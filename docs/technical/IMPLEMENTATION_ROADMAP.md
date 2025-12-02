@@ -891,14 +891,14 @@ export const LoginPage = () => {
 };
 ```
 
-### ✅ Tamamlanma Kriterleri (Faz 1)
-- [ ] PostgreSQL'de tüm temel tablolar oluşturuldu
-- [ ] İlk admin kullanıcı seed edildi (admin@kurum.local / Admin123!)
-- [ ] Login endpoint çalışıyor ve JWT token dönüyor
-- [ ] Frontend login sayfası backend ile entegre
-- [ ] IP whitelist middleware aktif
-- [ ] Rate limiting (5 deneme/dakika) çalışıyor
-- [ ] Postman ile API testleri başarılı
+### ✅ Tamamlanma Kriterleri (Faz 1) - TAMAMLANDI ✅
+- [x] PostgreSQL'de tüm temel tablolar oluşturuldu (9 tablo)
+- [x] İlk admin kullanıcı seed edildi (Sicil: 00001 / Admin123!)
+- [x] Login endpoint çalışıyor ve JWT token dönüyor (HttpOnly cookie)
+- [x] Frontend login sayfası backend ile entegre (`LoginPage.tsx`)
+- [x] IP whitelist middleware aktif (`IPWhitelistMiddleware.cs`)
+- [x] Rate limiting (5 deneme/dakika) çalışıyor (`RateLimitingMiddleware.cs`)
+- [x] API testleri başarılı
 
 **Tahmini Süre:** 7-10 gün
 
@@ -1283,14 +1283,14 @@ export const UsersPage = () => {
 };
 ```
 
-### ✅ Tamamlanma Kriterleri (Faz 2)
-- [ ] `[HasPermission]` attribute çalışıyor
-- [ ] Kullanıcı CRUD işlemleri tamamlandı (API + UI)
-- [ ] Birim CRUD işlemleri tamamlandı
-- [ ] Rol yönetimi çalışıyor
-- [ ] Admin dashboard layout oluşturuldu
-- [ ] Kullanıcı listesi, arama ve pagination çalışıyor
-- [ ] Audit log yazılıyor ve görüntülenebiliyor
+### ✅ Tamamlanma Kriterleri (Faz 2) - TAMAMLANDI ✅
+- [x] `[HasPermission]` attribute çalışıyor (`HasPermissionAttribute.cs`, `PermissionService.cs`)
+- [x] Kullanıcı CRUD işlemleri tamamlandı (API + UI) (`UsersController.cs`, `UserList.tsx`)
+- [x] Birim CRUD işlemleri tamamlandı (`BirimlerController.cs`, `DepartmentList.tsx`)
+- [x] Rol yönetimi çalışıyor (`RolesController.cs`, `RolePermissions.tsx`)
+- [x] Admin dashboard layout oluşturuldu (`AdminLayout.tsx`, `Sidebar.tsx`)
+- [x] Kullanıcı listesi, arama ve pagination çalışıyor
+- [x] Audit log yazılıyor (görüntüleme Faz 6'ya ertelendi - opsiyonel)
 
 **Tahmini Süre:** 12-15 gün
 
@@ -1499,13 +1499,13 @@ function App() {
 export default App;
 ```
 
-### ✅ Tamamlanma Kriterleri (Faz 3)
-- [ ] Birim değiştirme endpoint'i çalışıyor
-- [ ] Çok birimli kullanıcı login sonrası birim seçim ekranını görüyor
-- [ ] Seçilen birime göre yeni token alınıyor
-- [ ] Protected route component çalışıyor
-- [ ] Birim değişimi ≤ 1 saniye sürüyor
-- [ ] Her birimde farklı menü yapısı gösteriliyor (hazırlık)
+### ✅ Tamamlanma Kriterleri (Faz 3) - TAMAMLANDI ✅
+- [x] Birim değiştirme endpoint'i çalışıyor (`/api/auth/select-birim`)
+- [x] Çok birimli kullanıcı login sonrası birim seçim ekranını görüyor (`BirimSelection.tsx`)
+- [x] Seçilen birime göre yeni token alınıyor (JWT refresh)
+- [x] Protected route component çalışıyor (`ProtectedRoute.tsx`)
+- [x] Birim değişimi ≤ 1 saniye sürüyor (React Router `navigate()`)
+- [x] Her birimde farklı menü yapısı gösteriliyor (`Sidebar.tsx` permission filtreleme)
 
 **Tahmini Süre:** 5-7 gün
 

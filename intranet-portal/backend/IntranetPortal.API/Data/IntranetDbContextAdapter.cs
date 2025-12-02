@@ -27,6 +27,7 @@ public class IntranetDbContextAdapter : IIntranetDbContext
     public DbSet<AuditLog> AuditLogs => _context.AuditLogs;
     public DbSet<UploadedFile> UploadedFiles => _context.UploadedFiles;
     public DbSet<SystemSettings> SystemSettings => _context.SystemSettings;
+    public DbSet<IPRestriction> IPRestrictions => _context.IPRestrictions;
 
     public Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {

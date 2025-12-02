@@ -3,6 +3,7 @@ using System;
 using IntranetPortal.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace IntranetPortal.Infrastructure.Migrations
 {
     [DbContext(typeof(IntranetDbContext))]
-    partial class IntranetDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251202115539_AddIPRestrictions")]
+    partial class AddIPRestrictions
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -456,11 +459,11 @@ namespace IntranetPortal.Infrastructure.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("UserID"));
 
-                    b.Property<string>("Ad")
+                    b.Property<string>("AdSoyad")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)")
-                        .HasColumnName("Ad");
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("AdSoyad");
 
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
@@ -489,12 +492,6 @@ namespace IntranetPortal.Infrastructure.Migrations
                     b.Property<DateTime?>("SonGiris")
                         .HasColumnType("timestamp without time zone")
                         .HasColumnName("SonGiris");
-
-                    b.Property<string>("Soyad")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)")
-                        .HasColumnName("Soyad");
 
                     b.Property<string>("Unvan")
                         .HasMaxLength(100)

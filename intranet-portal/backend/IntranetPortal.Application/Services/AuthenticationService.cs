@@ -299,8 +299,10 @@ public class AuthenticationService : IAuthenticationService
         return new UserDto
         {
             UserID = user.UserID,
-            AdSoyad = user.AdSoyad,
+            Ad = user.Ad,
+            Soyad = user.Soyad,
             Sicil = user.Sicil,
+            Unvan = user.Unvan,
             IsActive = user.IsActive,
             CreatedAt = user.CreatedAt,
             LastLoginAt = user.SonGiris

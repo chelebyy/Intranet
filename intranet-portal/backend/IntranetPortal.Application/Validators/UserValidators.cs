@@ -7,9 +7,13 @@ namespace IntranetPortal.Application.Validators
     {
         public CreateUserDtoValidator()
         {
-            RuleFor(x => x.AdSoyad)
-                .NotEmpty().WithMessage("Ad Soyad zorunludur.")
-                .MaximumLength(100).WithMessage("Ad Soyad en fazla 100 karakter olabilir.");
+            RuleFor(x => x.Ad)
+                .NotEmpty().WithMessage("Ad zorunludur.")
+                .MaximumLength(50).WithMessage("Ad en fazla 50 karakter olabilir.");
+
+            RuleFor(x => x.Soyad)
+                .NotEmpty().WithMessage("Soyad zorunludur.")
+                .MaximumLength(50).WithMessage("Soyad en fazla 50 karakter olabilir.");
 
             RuleFor(x => x.Sicil)
                 .NotEmpty().WithMessage("Sicil numarası zorunludur.")
@@ -25,9 +29,13 @@ namespace IntranetPortal.Application.Validators
     {
         public UpdateUserDtoValidator()
         {
-            RuleFor(x => x.AdSoyad)
-                .NotEmpty().WithMessage("Ad Soyad zorunludur.")
-                .MaximumLength(100).WithMessage("Ad Soyad en fazla 100 karakter olabilir.");
+            RuleFor(x => x.Ad)
+                .NotEmpty().WithMessage("Ad zorunludur.")
+                .MaximumLength(50).WithMessage("Ad en fazla 50 karakter olabilir.");
+
+            RuleFor(x => x.Soyad)
+                .NotEmpty().WithMessage("Soyad zorunludur.")
+                .MaximumLength(50).WithMessage("Soyad en fazla 50 karakter olabilir.");
 
             RuleFor(x => x.Sicil)
                 .NotEmpty().WithMessage("Sicil numarası zorunludur.")

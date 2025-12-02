@@ -21,12 +21,26 @@ namespace IntranetPortal.Domain.Entities
         public int UserID { get; set; }
 
         /// <summary>
-        /// Full name of the user
+        /// First name of the user
         /// </summary>
         [Required]
-        [MaxLength(100)]
-        [Column("AdSoyad")]
-        public string AdSoyad { get; set; } = string.Empty;
+        [MaxLength(50)]
+        [Column("Ad")]
+        public string Ad { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Last name of the user
+        /// </summary>
+        [Required]
+        [MaxLength(50)]
+        [Column("Soyad")]
+        public string Soyad { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Full name (computed property, not mapped to DB)
+        /// </summary>
+        [NotMapped]
+        public string AdSoyad => $"{Ad} {Soyad}";
 
         /// <summary>
         /// Personnel number (sicil) - unique identifier used for login

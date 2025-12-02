@@ -1,7 +1,8 @@
 import type { User } from '../index';
 
 export interface CreateUserRequest {
-    adSoyad: string;
+    ad: string;
+    soyad: string;
     sicil: string;
     unvan?: string;
     sifre?: string;
@@ -10,12 +11,13 @@ export interface CreateUserRequest {
 }
 
 export interface UpdateUserRequest {
-    adSoyad?: string;
+    ad?: string;
+    soyad?: string;
+    sicil?: string;
     unvan?: string;
     isActive?: boolean;
 }
 
 export interface UserDto extends User {
-    unvan?: string;
     lastLoginAt?: string;
 }

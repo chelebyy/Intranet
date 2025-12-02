@@ -1,8 +1,8 @@
 # Kurumsal İntranet Web Portalı - Proje Durumu
 
-**Son Güncelleme:** 27 Kasım 2025 22:30
-**Proje Durumu:** Faz 1 Tamamlandı ✅ | Build İyileştirildi 🔧
-**Son Oturum:** BUILD FIX - Duplicate Entity Sorunu Çözüldü
+**Son Güncelleme:** 2 Aralık 2025 10:50
+**Proje Durumu:** Faz 3.5 Tamamlandı ✅ | Dashboard API Entegrasyonu Aktif
+**Son Oturum:** Dashboard ve Birim Modülleri Tamamlandı
 
 ---
 
@@ -12,13 +12,14 @@
 |-----|------|-------|-----------|--------|
 | Faz 0 | Proje Kurulumu | ✅ Tamamlandı | %100 | .NET 9 solution, PostgreSQL veritabanı |
 | Faz 1 | Authentication & Core | ✅ Tamamlandı | %100 | JWT, BCrypt, Audit logging |
-| Faz 2 | RBAC & Admin Panel | 🔄 Devam Ediyor | %35 | User CRUD & [HasPermission] implemented |
-| Faz 3 | Multi-Unit Support | ⏳ Bekliyor | %0 | Başlanmadı |
+| Faz 2 | RBAC & Admin Panel | ✅ Tamamlandı | %100 | User/Role/Birim CRUD, HasPermission |
+| Faz 3 | Multi-Unit Support | ✅ Tamamlandı | %100 | Birim seçim, permission bazlı menü |
+| Faz 3.5 | Dashboard & Birim UI | ✅ Tamamlandı | %100 | Dashboard API, Grafik, Arama |
 | Faz 4 | First Unit Module (HR) | ⏳ Bekliyor | %0 | Başlanmadı |
 | Faz 5 | Second Unit Module (IT) | ⏳ Bekliyor | %0 | Başlanmadı |
 | Faz 6 | Testing & Optimization | ⏳ Bekliyor | %0 | Başlanmadı |
 
-**Toplam Proje İlerlemesi:** ~16% (1/6 faz tamamlandı)
+**Toplam Proje İlerlemesi:** ~55% (3.5/6 faz tamamlandı)
 
 ---
 
@@ -70,52 +71,77 @@
 
 ---
 
-## 🎯 Sonraki Faz: Faz 2 - RBAC & Admin Panel
+## ✅ Faz 3.5: Dashboard & Birim UI (TAMAMLANDI)
+
+**Tamamlanma Tarihi:** 2 Aralık 2025
+
+### Backend Geliştirmeleri
+
+#### 1. Dashboard API ✅
+- `GET /api/dashboard/stats` - Sistem istatistikleri endpoint'i
+- `GET /api/dashboard/activities` - Son aktiviteler endpoint'i
+- `DashboardService` - İstatistik hesaplama servisi
+- `DashboardStatsDto` - Response DTO'ları
+
+#### 2. Yetkilendirme Güncellemeleri ✅
+- `view.dashboard` permission eklendi
+- SuperAdmin bypass PermissionAuthorizationFilter'a eklendi
+- Database seeder'a yeni permission eklendi
+
+#### 3. API Konfigürasyon Düzeltmeleri ✅
+- CORS: Development modunda tüm origin'lere izin
+- Cookie: HTTP için SameSite.Lax ayarı
+- JSON: camelCase serialization eklendi
+
+### Frontend Geliştirmeleri
+
+#### 1. Dashboard UI ✅
+- Dinamik istatistik kartları (Toplam Kullanıcı, Aktif Birim, Toplam Rol)
+- Recharts ile birim bazlı kullanıcı dağılımı grafiği
+- Son aktiviteler paneli (AuditLog'dan dinamik veri)
+- Loading ve error state'leri
+- `dashboardApi.ts` - API entegrasyonu
+
+#### 2. Birim Modülü Geliştirmeleri ✅
+- Arama özelliği eklendi
+- Lucide icons (Building2, Search, Plus)
+- Filtrelenmiş sonuç gösterimi
+
+#### 3. Permission Hook Düzeltmeleri ✅
+- `usePermission.ts` - roleId undefined kontrolü
+- SuperAdmin bypass optimizasyonu
+
+### Dosya Listesi
+- `backend/IntranetPortal.API/Controllers/DashboardController.cs`
+- `backend/IntranetPortal.Application/Services/DashboardService.cs`
+- `backend/IntranetPortal.Application/DTOs/Dashboard/DashboardStatsDto.cs`
+- `frontend/src/api/dashboardApi.ts`
+- `frontend/src/features/admin/pages/Dashboard.tsx`
+- `frontend/src/features/admin/pages/DepartmentList.tsx`
+- `frontend/src/hooks/usePermission.ts`
+
+---
+
+## 🎯 Sonraki Faz: Faz 4 - İnsan Kaynakları Modülü
 
 ### Planlanan Özellikler
 
-1. **Authorization Attribute**
-   - `[HasPermission("permission.name")]` custom attribute
-   - Permission-based endpoint protection
-   - Role permission caching
+1. **İK Specific Tables**
+   - IK_Personel tablosu
+   - IK_Izin tablosu
+   - IK_Egitim tablosu
 
-2. **User Management API** ✅
-   - GET /api/users (list)
-   - GET /api/users/{id} (single user)
-   - POST /api/users (create user)
-   - PUT /api/users/{id} (update user)
-   - DELETE /api/users/{id} (soft delete)
-   - POST /api/users/{id}/reset-password (password reset)
+2. **İK API Endpoints**
+   - Personel CRUD işlemleri
+   - İzin talepleri yönetimi
+   - Eğitim kayıtları
 
-3. **Role Management API**
-   - GET /api/roles (list all roles)
-   - GET /api/roles/{id} (single role)
-   - POST /api/roles (create role)
-   - PUT /api/roles/{id} (update role)
-   - DELETE /api/roles/{id} (delete role)
+3. **İK Frontend Sayfaları**
+   - Personel listesi ve detay
+   - İzin talep formu
+   - Eğitim takip ekranı
 
-4. **Birim Management API**
-   - GET /api/birimler (list all units)
-   - GET /api/birimler/{id} (single unit)
-   - POST /api/birimler (create unit)
-   - PUT /api/birimler/{id} (update unit)
-   - DELETE /api/birimler/{id} (soft delete)
-
-5. **Permission Management API**
-   - GET /api/permissions (list all permissions)
-   - POST /api/roles/{roleId}/permissions (assign permissions to role)
-   - DELETE /api/roles/{roleId}/permissions/{permissionId} (remove permission)
-
-6. **User-Birim-Role Assignment API**
-   - POST /api/users/{userId}/birim-roles (assign user to birim with role)
-   - DELETE /api/users/{userId}/birim-roles/{id} (remove assignment)
-   - GET /api/users/{userId}/birim-roles (list user's assignments)
-
-7. **Audit Log Query API**
-   - GET /api/auditlogs (with filters: userId, action, dateRange, resource)
-   - GET /api/auditlogs/export (Excel export)
-
-**Tahmini Süre:** 2-3 hafta
+**Tahmini Süre:** 
 **Referans:** docs/technical/IMPLEMENTATION_ROADMAP.md
 
 ---
@@ -205,10 +231,10 @@ IntranetPortal.sln
 5. **Password Policy** - Güçlü şifre gereksinimleri
 
 ### Bekleyen Güvenlik Önlemleri ⏳
-1. **IP Whitelist Middleware** - Faz 2'de uygulanacak
-2. **Rate Limiting** - Faz 2'de uygulanacak
-3. **AES-256 Encryption** - Faz 2'de uygulanacak (pgcrypto)
-4. **RBAC Authorization** - [HasPermission] implemented, pending integration |
+1. **IP Whitelist Middleware** - ✅ Tamamlandı (Faz 1)
+2. **Rate Limiting** - ✅ Tamamlandı (Faz 1)
+3. **AES-256 Encryption** - Faz 6'da uygulanacak (pgcrypto)
+4. **RBAC Authorization** - ✅ Tamamlandı ([HasPermission] attribute aktif)
 
 ---
 
@@ -355,8 +381,8 @@ IntranetPortal.sln
 ---
 
 **Proje Durumu:** Aktif Geliştirme
-**Son İşlem:** Faz 1 tamamlandı, dökümanlar güncellendi
-**Sıradaki Hedef:** Faz 2 - RBAC & Admin Panel
+**Son İşlem:** Faz 3 tamamlandı, Multi-Unit Support aktif
+**Sıradaki Hedef:** Faz 4 - İnsan Kaynakları Modülü
 
 ---
 

@@ -1,18 +1,30 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { birimsApi } from '../../../api/birimsApi';
 import type { Birim, CreateBirimRequest } from '../../../types/api/birims';
 import toast from 'react-hot-toast';
+import { Search, Building2, Plus } from 'lucide-react';
 
 export const DepartmentList: React.FC = () => {
     const [birimler, setBirimler] = useState<Birim[]>([]);
     const [loading, setLoading] = useState(true);
     const [showModal, setShowModal] = useState(false);
     const [editingBirim, setEditingBirim] = useState<Birim | null>(null);
+    const [searchTerm, setSearchTerm] = useState('');
     const [formData, setFormData] = useState<CreateBirimRequest>({
         birimAdi: '',
         aciklama: '',
         isActive: true
     });
+
+    // Filter birimler based on search
+    const filteredBirimler = useMemo(() => {
+        if (!searchTerm.trim()) return birimler;
+        const term = searchTerm.toLowerCase();
+        return birimler.filter(b => 
+            b.birimAdi.toLowerCase().includes(term) ||
+            b.aciklama?.toLowerCase().includes(term)
+        );
+    }, [birimler, searchTerm]);
 
     useEffect(() => {
         fetchBirimler();
@@ -82,21 +94,36 @@ export const DepartmentList: React.FC = () => {
     return (
         <div className="p-6 md:p-8 flex flex-col h-full w-full max-w-7xl mx-auto">
             {/* Header */}
-            <div className="flex justify-between items-center mb-6">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
                 <div className="flex flex-col gap-1">
-                    <h1 className="text-3xl font-bold text-text-primary dark:text-dark-text-primary">Birim Yönetimi</h1>
+                    <h1 className="text-3xl font-bold text-text-primary dark:text-dark-text-primary flex items-center gap-2">
+                        <Building2 className="w-8 h-8 text-primary" />
+                        Birim Yönetimi
+                    </h1>
                     <p className="text-text-secondary dark:text-dark-text-secondary">
                         Sistemdeki birimleri yönetin.
-                        <span className="font-medium ml-1">({birimler.length} birim)</span>
+                        <span className="font-medium ml-1">({filteredBirimler.length}/{birimler.length} birim)</span>
                     </p>
                 </div>
-                <button 
-                    onClick={openCreateModal}
-                    className="bg-primary hover:bg-primary/80 text-white px-4 py-2 rounded-lg flex items-center gap-2 font-bold text-sm shadow-sm transition-colors"
-                >
-                    <span className="material-symbols-outlined">add</span>
-                    Yeni Birim Ekle
-                </button>
+                <div className="flex items-center gap-3 w-full md:w-auto">
+                    <div className="relative flex-1 md:w-64">
+                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-secondary" />
+                        <input
+                            type="text"
+                            placeholder="Birim ara..."
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                            className="w-full pl-9 pr-3 py-2 border border-border-color dark:border-dark-border rounded-lg bg-background dark:bg-dark-background text-text-primary dark:text-dark-text-primary focus:outline-none focus:ring-2 focus:ring-primary/50"
+                        />
+                    </div>
+                    <button 
+                        onClick={openCreateModal}
+                        className="bg-primary hover:bg-primary/80 text-white px-4 py-2 rounded-lg flex items-center gap-2 font-bold text-sm shadow-sm transition-colors whitespace-nowrap"
+                    >
+                        <Plus className="w-4 h-4" />
+                        Yeni Birim
+                    </button>
+                </div>
             </div>
 
             {/* Birim Grid */}
@@ -105,13 +132,13 @@ export const DepartmentList: React.FC = () => {
                     <div className="col-span-full flex items-center justify-center h-64">
                         <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
                     </div>
-                ) : birimler.length === 0 ? (
+                ) : filteredBirimler.length === 0 ? (
                     <div className="col-span-full flex flex-col items-center justify-center h-64 text-text-secondary dark:text-dark-text-secondary">
-                        <span className="material-symbols-outlined text-5xl mb-2">corporate_fare</span>
-                        <p>Henüz birim bulunmuyor</p>
+                        <Building2 className="w-12 h-12 mb-2 opacity-50" />
+                        <p>{searchTerm ? 'Arama sonucu bulunamadı' : 'Henüz birim bulunmuyor'}</p>
                     </div>
                 ) : (
-                    birimler.map((birim) => (
+                    filteredBirimler.map((birim) => (
                         <div 
                             key={birim.birimID} 
                             className="bg-card dark:bg-dark-card border border-border-color dark:border-dark-border rounded-xl p-5 shadow-sm hover:shadow-md transition-shadow"
