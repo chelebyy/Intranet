@@ -22,6 +22,7 @@ const ITDashboard = lazy(() => import('./features/it/pages/ITDashboard').then(mo
 const ArizaList = lazy(() => import('./features/it/pages/ArizaList').then(module => ({ default: module.ArizaList })));
 const TestUnitDashboard = lazy(() => import('./features/test-unit/pages/TestUnitDashboard').then(module => ({ default: module.TestUnitDashboard })));
 const TestCases = lazy(() => import('./features/test-unit/pages/TestCases').then(module => ({ default: module.TestCases })));
+const GenelButceDashboard = lazy(() => import('./features/genelButce/pages/GenelButceDashboard').then(module => ({ default: module.GenelButceDashboard })));
 
 // Loading component
 const PageLoader = () => (
@@ -163,6 +164,13 @@ function App() {
           <Route path="test-unit/cases" element={
             <Suspense fallback={<PageLoader />}>
               <TestCases />
+            </Suspense>
+          } />
+
+          {/* Genel Butce Module Routes */}
+          <Route path="genel-butce/dashboard" element={
+            <Suspense fallback={<PageLoader />}>
+              <GenelButceDashboard />
             </Suspense>
           } />
         </Route>

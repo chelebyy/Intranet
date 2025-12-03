@@ -56,7 +56,8 @@ Yeni bir birim (Örneğin: "Satın Alma") sisteme eklenirken izlenecek adımlar 
 |---------|----------|
 | 101 | Bilgi İşlem |
 | 102 | İnsan Kaynakları |
-| **103** | **Satın Alma** |
+| 103 | Satın Alma |
+| **104** | **Genel Bütçe** |
 
 **Permission Tablosu (Yeni Eklenenler):**
 

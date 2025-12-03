@@ -177,7 +177,9 @@ const Header: React.FC = () => {
         // Navigate to unit specific dashboard
         if (birim.birimAdi === 'Bilgi İşlem') {
           navigate('/it/dashboard');
-        } else if (birim.birimAdi === 'test') {
+        } else if (birim.birimAdi === 'Genel Bütçe') {
+          navigate('/genel-butce/dashboard');
+        } else if (birim.birimAdi === 'Test Birimi') {
           navigate('/test-unit/dashboard');
         } else {
           navigate('/dashboard');
