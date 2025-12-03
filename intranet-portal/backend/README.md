@@ -383,13 +383,12 @@ dotnet test /p:CollectCoverage=true /p:CoverageReportFormat=html
 - [ ] Role CRUD endpoints
 - [ ] Audit log endpoints
 
-### Faz 4 (Advanced)
-- [ ] File upload service
-- [ ] Excel export service
-- [ ] Email service (opsiyonel)
-- [ ] Background jobs (Hangfire)
+### Faz 4 (IT Modülü)
+- [ ] IT birim tabloları (Arıza, Envanter)
+- [ ] IT Service & Controller
+- [ ] Arıza ve Envanter yönetimi
 
-### Faz 5 (Testing & Deployment)
+### Faz 5 (Deployment)
 - [ ] Unit tests
 - [ ] Integration tests
 - [ ] Docker deployment

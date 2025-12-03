@@ -120,7 +120,95 @@ dotnet ef database update
 
 ## Runtime Errors
 
-*To be documented as issues are encountered during runtime testing*
+### ❌ Error: Birim Seçim Ekranında Birim Adları Görünmüyor
+
+**Date Encountered:** 2025-12-03
+
+**Symptom:**
+Birim seçim ekranında (`/select-birim`) birim adları yerine sadece "Rol" yazısı görünüyor.
+
+**Root Cause:**
+Backend ve Frontend arasında veri yapısı uyumsuzluğu:
+- **Backend gönderdiği:** `{ birim: { birimID, birimAdi }, role: { roleID, roleName } }` (nested)
+- **Frontend beklediği:** `{ birimId, birimAdi, roleId, roleName }` (flat)
+
+**Solution:**
+`frontend/src/store/authStore.ts` dosyasında login fonksiyonunda mapping eklendi:
+
+```typescript
+// Map backend birimler structure to frontend UserBirimRole structure
+const mappedBirimler = (birimler || []).map((item: any) => ({
+  birimId: item.birim?.birimID || item.birimId,
+  birimAdi: item.birim?.birimAdi || item.birimAdi,
+  roleId: item.role?.roleID || item.roleId,
+  roleName: item.role?.roleName || item.roleName,
+}));
+```
+
+**Files Modified:**
+- `frontend/src/store/authStore.ts` - Login fonksiyonunda birimler mapping eklendi
+- `frontend/src/features/auth/BirimSelection.tsx` - React key fallback eklendi
+
+---
+
+### ❌ Error: Birim Seçimi Sonrası Login'e Yönlendirme
+
+**Date Encountered:** 2025-12-03
+
+**Symptom:**
+Birim seçim ekranında herhangi bir birime tıklandığında kullanıcı tekrar login sayfasına yönlendiriliyor.
+
+**Root Cause:**
+`/api/auth/select-birim` endpoint'i `[Authorize]` attribute'u gerektiriyor, ancak birden fazla birimi olan kullanıcılar için login sırasında JWT token oluşturulmuyordu.
+
+**Technical Details:**
+```csharp
+// AuthController.cs - Login endpoint
+// Eski kod: Sadece tek birimli kullanıcılar için token oluşturuyordu
+if (!loginResponse.RequiresBirimSelection && loginResponse.SelectedBirim != null)
+{
+    // Token oluştur
+}
+// Birden fazla birim varsa token oluşturulmuyordu!
+```
+
+**Solution:**
+`backend/IntranetPortal.API/Controllers/AuthController.cs` dosyasında login endpoint'ine geçici token oluşturma eklendi:
+
+```csharp
+else if (loginResponse.RequiresBirimSelection && loginResponse.Birimler.Count > 0)
+{
+    // User has multiple birims - generate temporary token with first birim
+    var firstBirim = loginResponse.Birimler.First();
+    var tempBirim = new Birim
+    {
+        BirimID = firstBirim.Birim.BirimID,
+        BirimAdi = firstBirim.Birim.BirimAdi
+    };
+
+    var tempRole = new Role
+    {
+        RoleID = firstBirim.Role.RoleID,
+        RoleAdi = firstBirim.Role.RoleName
+    };
+
+    // Generate temporary JWT token (will be replaced when user selects birim)
+    var tempToken = _jwtTokenService.GenerateToken(user, tempBirim, tempRole);
+    SetAuthCookie(tempToken);
+}
+```
+
+**Files Modified:**
+- `backend/IntranetPortal.API/Controllers/AuthController.cs` - Login endpoint'ine geçici token oluşturma eklendi
+
+**Verification:**
+1. Backend'i yeniden başlatın
+2. Tarayıcı localStorage'ı temizleyin
+3. Admin ile giriş yapın
+4. Birim seçim ekranında bir birime tıklayın
+5. Dashboard'a yönlendirilmeli
+
+---
 
 ---
 
@@ -274,9 +362,11 @@ grep -A5 "ProjectReference" IntranetPortal.Infrastructure/*.csproj
 | Date       | Error Type | Status  | Notes                                    |
 |------------|------------|---------|------------------------------------------|
 | 2025-11-27 | CS1061     | ✅ Fixed | Removed duplicate entities from Infrastructure |
+| 2025-12-03 | Runtime    | ✅ Fixed | Birim adları görünmüyor - Backend/Frontend veri yapısı uyumsuzluğu |
+| 2025-12-03 | Runtime    | ✅ Fixed | Birim seçimi sonrası login'e yönlendirme - Geçici token eksikliği |
 
 ---
 
-**Last Updated:** 2025-11-27
+**Last Updated:** 2025-12-03
 **Maintained By:** Development Team
 **Review Frequency:** After each major build error

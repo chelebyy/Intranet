@@ -15,7 +15,7 @@
 | Faz 2 | RBAC & Admin Panel | ✅ Tamamlandı | %100 | User/Role/Birim CRUD, HasPermission |
 | Faz 3 | Multi-Unit Support | ✅ Tamamlandı | %100 | Birim seçim, permission bazlı menü |
 | Faz 3.5 | Dashboard & Birim UI | ✅ Tamamlandı | %100 | Dashboard API, Grafik, Arama |
-| Faz 4 | First Unit Module (IT) | ⏳ Bekliyor | %0 | Başlanmadı |
+| Faz 4 | Bilişim Sistemleri (IT) | ⏳ Bekliyor | %0 | Başlanmadı |
 | Faz 5 | Testing & Optimization | ⏳ Bekliyor | %0 | Başlanmadı |
 
 **Toplam Proje İlerlemesi:** ~55% (3.5/5 faz tamamlandı)
@@ -121,24 +121,24 @@
 
 ---
 
-## 🎯 Sonraki Faz: Faz 4 - İnsan Kaynakları Modülü
+## 🎯 Sonraki Faz: Faz 4 - Bilişim Sistemleri (IT) Modülü
 
 ### Planlanan Özellikler
 
-1. **İK Specific Tables**
-   - IK_Personel tablosu
-   - IK_Izin tablosu
-   - IK_Egitim tablosu
+1. **IT Specific Tables**
+   - IT_ArizaKayit tablosu
+   - IT_Envanter tablosu
+   - IT_Zimmet tablosu
 
-2. **İK API Endpoints**
-   - Personel CRUD işlemleri
-   - İzin talepleri yönetimi
-   - Eğitim kayıtları
+2. **IT API Endpoints**
+   - Arıza kaydı oluşturma ve takip
+   - Envanter yönetimi
+   - Zimmet işlemleri
 
-3. **İK Frontend Sayfaları**
-   - Personel listesi ve detay
-   - İzin talep formu
-   - Eğitim takip ekranı
+3. **IT Frontend Sayfaları**
+   - Arıza talepleri listesi
+   - Envanter listesi ve detay
+   - Yeni talep oluşturma formu
 
 **Tahmini Süre:** 
 **Referans:** docs/technical/IMPLEMENTATION_ROADMAP.md
@@ -336,8 +336,8 @@ IntranetPortal.sln
 4. Implement rate limiting
 
 ### Uzun Vadeli (7-16 hafta)
-1. Complete Faz 4 (IT Module + Docker deployment)
-2. Complete Faz 5 (Testing & Optimization)
+1. Complete Faz 4 (IT Module)
+2. Complete Faz 5 (Deployment & Optimization)
 3. Production deployment
 
 ---
@@ -380,7 +380,7 @@ IntranetPortal.sln
 
 **Proje Durumu:** Aktif Geliştirme
 **Son İşlem:** Faz 3 tamamlandı, Multi-Unit Support aktif
-**Sıradaki Hedef:** Faz 4 - İnsan Kaynakları Modülü
+**Sıradaki Hedef:** Faz 4 - Bilişim Sistemleri (IT) Modülü
 
 ---
 

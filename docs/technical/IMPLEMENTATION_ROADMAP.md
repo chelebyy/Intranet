@@ -1511,299 +1511,15 @@ export default App;
 
 ---
 
-## Faz 4: İlk Birim Modülü - İnsan Kaynakları (Hafta 9-10)
+## Faz 4: İlk Birim Modülü - Bilişim Sistemleri (IT) (Hafta 9-10)
 
 ### 🎯 Hedef
-İlk fonksiyonel birim modülünü (İK) oluşturmak ve modüler yapıyı kanıtlamak.
+İlk fonksiyonel birim modülünü (IT) oluşturmak ve modüler yapıyı kanıtlamak.
 
 ### Backend Geliştirme
 
-#### 4.1. İK Specific Tables Migration
+#### 4.1. IT Specific Tables Migration
 
-```sql
--- İK_Personel tablosu
-CREATE TABLE "IK_Personel" (
-    "PersonelID" SERIAL PRIMARY KEY,
-    "UserID" INTEGER REFERENCES "User"("UserID"),
-    "SicilNo" VARCHAR(20) UNIQUE NOT NULL,
-    "Departman" VARCHAR(100),
-    "IseGirisTarihi" DATE,
-    "Maas" DECIMAL(10,2),
-    "TelefonNo" VARCHAR(20),
-    "Adres" TEXT,
-    "CreatedAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
--- İK_IzinTalep tablosu
-CREATE TABLE "IK_IzinTalep" (
-    "TalepID" SERIAL PRIMARY KEY,
-    "PersonelID" INTEGER REFERENCES "IK_Personel"("PersonelID"),
-    "IzinTipi" VARCHAR(50), -- Yıllık, Mazeret, Rapor
-    "BaslangicTarihi" DATE NOT NULL,
-    "BitisTarihi" DATE NOT NULL,
-    "Aciklama" TEXT,
-    "Durum" VARCHAR(20) DEFAULT 'Bekliyor', -- Bekliyor, Onaylandi, Reddedildi
-    "OnaylayanUserID" INTEGER REFERENCES "User"("UserID"),
-    "CreatedAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
--- İK_Duyuru tablosu
-CREATE TABLE "IK_Duyuru" (
-    "DuyuruID" SERIAL PRIMARY KEY,
-    "Baslik" VARCHAR(200) NOT NULL,
-    "Icerik" TEXT NOT NULL,
-    "OlusturanUserID" INTEGER REFERENCES "User"("UserID"),
-    "IsPinned" BOOLEAN DEFAULT FALSE,
-    "CreatedAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    "UpdatedAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-```
-
-#### 4.2. İK Service
-
-**Dosya:** `IntranetPortal.Application/Services/IKService.cs`
-```csharp
-public interface IIKService
-{
-    Task<List<PersonelDto>> GetPersonelListAsync();
-    Task<PersonelDetailDto> GetPersonelByIdAsync(int personelId);
-    Task<PersonelDto> CreatePersonelAsync(CreatePersonelDto dto);
-    Task<List<IzinTalepDto>> GetIzinTalepleriAsync(IzinFilterDto filter);
-    Task<IzinTalepDto> CreateIzinTalepAsync(CreateIzinTalepDto dto);
-    Task ApproveIzinTalepAsync(int talepId, int onaylayanUserId);
-}
-
-public class IKService : IIKService
-{
-    private readonly ApplicationDbContext _context;
-    private readonly IAuditLogService _auditLogService;
-
-    public async Task<PersonelDto> CreatePersonelAsync(CreatePersonelDto dto)
-    {
-        var personel = new IK_Personel
-        {
-            UserID = dto.UserID,
-            SicilNo = dto.SicilNo,
-            Departman = dto.Departman,
-            IseGirisTarihi = dto.IseGirisTarihi,
-            Maas = dto.Maas,
-            TelefonNo = dto.TelefonNo,
-            Adres = dto.Adres
-        };
-
-        _context.IK_Personel.Add(personel);
-        await _context.SaveChangesAsync();
-
-        await _auditLogService.LogAsync(
-            GetCurrentUserId(),
-            GetCurrentBirimId(), // İK BirimID
-            "CreatePersonel",
-            "IK_Personel",
-            details: new { personelId = personel.PersonelID, sicilNo = personel.SicilNo }
-        );
-
-        return MapToDto(personel);
-    }
-
-    public async Task<IzinTalepDto> CreateIzinTalepAsync(CreateIzinTalepDto dto)
-    {
-        var talep = new IK_IzinTalep
-        {
-            PersonelID = dto.PersonelID,
-            IzinTipi = dto.IzinTipi,
-            BaslangicTarihi = dto.BaslangicTarihi,
-            BitisTarihi = dto.BitisTarihi,
-            Aciklama = dto.Aciklama,
-            Durum = "Bekliyor"
-        };
-
-        _context.IK_IzinTalep.Add(talep);
-        await _context.SaveChangesAsync();
-
-        return MapToDto(talep);
-    }
-}
-```
-
-#### 4.3. İK Controller
-
-**Dosya:** `IntranetPortal.API/Controllers/IKController.cs`
-```csharp
-[ApiController]
-[Route("api/ik")]
-[Authorize]
-public class IKController : ControllerBase
-{
-    private readonly IIKService _ikService;
-
-    [HttpGet("personel")]
-    [HasPermission("read.ik.personel")]
-    public async Task<IActionResult> GetPersonelList()
-    {
-        var personeller = await _ikService.GetPersonelListAsync();
-        return Ok(new { success = true, data = personeller });
-    }
-
-    [HttpPost("personel")]
-    [HasPermission("create.ik.personel")]
-    public async Task<IActionResult> CreatePersonel([FromBody] CreatePersonelDto dto)
-    {
-        var personel = await _ikService.CreatePersonelAsync(dto);
-        return CreatedAtAction(nameof(GetPersonelList),
-            new { success = true, data = personel });
-    }
-
-    [HttpGet("izin-talepleri")]
-    [HasPermission("read.ik.izin")]
-    public async Task<IActionResult> GetIzinTalepleri([FromQuery] IzinFilterDto filter)
-    {
-        var talepler = await _ikService.GetIzinTalepleriAsync(filter);
-        return Ok(new { success = true, data = talepler });
-    }
-
-    [HttpPost("izin-talepleri")]
-    [HasPermission("create.ik.izin")]
-    public async Task<IActionResult> CreateIzinTalep([FromBody] CreateIzinTalepDto dto)
-    {
-        var talep = await _ikService.CreateIzinTalepAsync(dto);
-        return CreatedAtAction(nameof(GetIzinTalepleri),
-            new { success = true, data = talep });
-    }
-
-    [HttpPost("izin-talepleri/{id}/approve")]
-    [HasPermission("approve.ik.izin")]
-    public async Task<IActionResult> ApproveIzinTalep(int id)
-    {
-        var userId = int.Parse(User.FindFirst("userId")!.Value);
-        await _ikService.ApproveIzinTalepAsync(id, userId);
-        return Ok(new { success = true, message = "İzin talebi onaylandı" });
-    }
-}
-```
-
-### Frontend Geliştirme
-
-#### 4.4. İK Module Structure
-
-```
-src/features/hr/
-├── components/
-│   ├── PersonelCard.tsx
-│   ├── IzinTalepForm.tsx
-│   └── IzinTalepList.tsx
-├── pages/
-│   ├── PersonelListPage.tsx
-│   ├── IzinTalepleriPage.tsx
-│   └── DuyurularPage.tsx
-├── hooks/
-│   ├── usePersonel.ts
-│   └── useIzinTalepleri.ts
-└── types/
-    └── hr.types.ts
-```
-
-#### 4.5. Personel List Page
-
-**Dosya:** `src/features/hr/pages/PersonelListPage.tsx`
-```typescript
-import { useQuery } from '@tanstack/react-query';
-import axiosClient from '@/api/axiosClient';
-import { Users, UserPlus, Search } from 'lucide-react';
-
-export const PersonelListPage = () => {
-  const { data: personeller, isLoading } = useQuery({
-    queryKey: ['personel'],
-    queryFn: async () => {
-      const response = await axiosClient.get('/ik/personel');
-      return response.data.data;
-    },
-  });
-
-  if (isLoading) return <div>Yükleniyor...</div>;
-
-  return (
-    <div className="space-y-6">
-      <div className="flex justify-between items-center">
-        <div>
-          <h2 className="text-2xl font-bold">Personel Listesi</h2>
-          <p className="text-gray-600">Tüm personel kayıtları</p>
-        </div>
-        <button className="bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center gap-2">
-          <UserPlus className="w-4 h-4" />
-          Yeni Personel
-        </button>
-      </div>
-
-      <div className="bg-white rounded-lg shadow overflow-hidden">
-        <table className="w-full">
-          <thead className="bg-gray-50">
-            <tr>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                Sicil No
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                Ad Soyad
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                Departman
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                İşe Giriş
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                Telefon
-              </th>
-            </tr>
-          </thead>
-          <tbody className="divide-y">
-            {personeller?.map((personel: any) => (
-              <tr key={personel.personelId} className="hover:bg-gray-50">
-                <td className="px-6 py-4 whitespace-nowrap font-medium">
-                  {personel.sicilNo}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap">
-                  {personel.user?.adSoyad}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-gray-600">
-                  {personel.departman}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-gray-600">
-                  {new Date(personel.iseGirisTarihi).toLocaleDateString('tr-TR')}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-gray-600">
-                  {personel.telefonNo}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    </div>
-  );
-};
-```
-
-### ✅ Tamamlanma Kriterleri (Faz 4)
-- [ ] İK birim tabloları oluşturuldu
-- [ ] İK permissions ve roller tanımlandı
-- [ ] Personel listesi API ve UI çalışıyor
-- [ ] İzin talep oluşturma çalışıyor
-- [ ] İzin talep onaylama çalışıyor
-- [ ] İK modülü lazy loading ile yükleniyor
-- [ ] Modüler yapı doğrulandı
-
-**Tahmini Süre:** 8-10 gün
-
----
-
-## Faz 5: İkinci Birim Modülü & Deployment (Hafta 11-13)
-
-### 🎯 Hedef
-İkinci birim modülünü (Bilgi İşlem) eklemek ve deployment hazırlığı yapmak.
-
-### 5.1. Bilgi İşlem Modülü
-
-**IT Specific Tables:**
 ```sql
 -- IT_ArizaKayit
 CREATE TABLE "IT_ArizaKayit" (
@@ -1832,18 +1548,214 @@ CREATE TABLE "IT_Envanter" (
 );
 ```
 
-**Backend Implementation:**
-- ITService
-- ITController (`/api/it/*` endpoints)
-- Arıza kaydı oluşturma, atama, güncelleme
-- Envanter listesi ve yönetimi
+#### 4.2. IT Service
 
-**Frontend Implementation:**
-- `src/features/it/` modülü
-- Arıza takip sayfası
-- Envanter yönetimi sayfası
+**Dosya:** `IntranetPortal.Application/Services/ITService.cs`
+```csharp
+public interface IITService
+{
+    Task<List<ArizaKayitDto>> GetArizaListAsync();
+    Task<ArizaKayitDto> CreateArizaKayitAsync(CreateArizaKayitDto dto);
+    Task<List<EnvanterDto>> GetEnvanterListAsync();
+    Task<EnvanterDto> CreateEnvanterAsync(CreateEnvanterDto dto);
+}
 
-### 5.2. Docker Deployment Hazırlığı
+public class ITService : IITService
+{
+    private readonly ApplicationDbContext _context;
+    private readonly IAuditLogService _auditLogService;
+
+    public async Task<ArizaKayitDto> CreateArizaKayitAsync(CreateArizaKayitDto dto)
+    {
+        var ariza = new IT_ArizaKayit
+        {
+            OlusturanUserID = GetCurrentUserId(),
+            Konu = dto.Konu,
+            Aciklama = dto.Aciklama,
+            Oncelik = dto.Oncelik ?? "Normal",
+            Durum = "Açık"
+        };
+
+        _context.IT_ArizaKayit.Add(ariza);
+        await _context.SaveChangesAsync();
+
+        await _auditLogService.LogAsync(
+            GetCurrentUserId(),
+            GetCurrentBirimId(),
+            "CreateAriza",
+            "IT_ArizaKayit",
+            details: new { arizaId = ariza.ArizaID }
+        );
+
+        return MapToDto(ariza);
+    }
+}
+```
+
+#### 4.3. IT Controller
+
+**Dosya:** `IntranetPortal.API/Controllers/ITController.cs`
+```csharp
+[ApiController]
+[Route("api/it")]
+[Authorize]
+public class ITController : ControllerBase
+{
+    private readonly IITService _itService;
+
+    [HttpGet("ariza")]
+    [HasPermission("read.it.ariza")]
+    public async Task<IActionResult> GetArizaList()
+    {
+        var arizalar = await _itService.GetArizaListAsync();
+        return Ok(new { success = true, data = arizalar });
+    }
+
+    [HttpPost("ariza")]
+    [HasPermission("create.it.ariza")]
+    public async Task<IActionResult> CreateAriza([FromBody] CreateArizaKayitDto dto)
+    {
+        var ariza = await _itService.CreateArizaKayitAsync(dto);
+        return CreatedAtAction(nameof(GetArizaList),
+            new { success = true, data = ariza });
+    }
+
+    [HttpGet("envanter")]
+    [HasPermission("read.it.envanter")]
+    public async Task<IActionResult> GetEnvanterList()
+    {
+        var envanter = await _itService.GetEnvanterListAsync();
+        return Ok(new { success = true, data = envanter });
+    }
+}
+```
+
+### Frontend Geliştirme
+
+#### 4.4. IT Module Structure
+
+```
+src/features/it/
+├── components/
+│   ├── ArizaCard.tsx
+│   ├── EnvanterList.tsx
+│   └── NewArizaForm.tsx
+├── pages/
+│   ├── ArizaListPage.tsx
+│   ├── EnvanterPage.tsx
+│   └── DashboardPage.tsx
+├── hooks/
+│   ├── useAriza.ts
+│   └── useEnvanter.ts
+└── types/
+    └── it.types.ts
+```
+
+#### 4.5. Ariza List Page
+
+**Dosya:** `src/features/it/pages/ArizaListPage.tsx`
+```typescript
+import { useQuery } from '@tanstack/react-query';
+import axiosClient from '@/api/axiosClient';
+import { AlertCircle, Plus, CheckCircle } from 'lucide-react';
+
+export const ArizaListPage = () => {
+  const { data: arizalar, isLoading } = useQuery({
+    queryKey: ['ariza'],
+    queryFn: async () => {
+      const response = await axiosClient.get('/it/ariza');
+      return response.data.data;
+    },
+  });
+
+  if (isLoading) return <div>Yükleniyor...</div>;
+
+  return (
+    <div className="space-y-6">
+      <div className="flex justify-between items-center">
+        <div>
+          <h2 className="text-2xl font-bold">Arıza Kayıtları</h2>
+          <p className="text-gray-600">Destek talepleri ve durumları</p>
+        </div>
+        <button className="bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center gap-2">
+          <Plus className="w-4 h-4" />
+          Yeni Kayıt
+        </button>
+      </div>
+
+      <div className="bg-white rounded-lg shadow overflow-hidden">
+        <table className="w-full">
+          <thead className="bg-gray-50">
+            <tr>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                ID
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                Konu
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                Öncelik
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                Durum
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                Tarih
+              </th>
+            </tr>
+          </thead>
+          <tbody className="divide-y">
+            {arizalar?.map((ariza: any) => (
+              <tr key={ariza.arizaId} className="hover:bg-gray-50">
+                <td className="px-6 py-4 whitespace-nowrap font-medium">
+                  #{ariza.arizaId}
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap">
+                  {ariza.konu}
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap">
+                  <span className={`px-2 py-1 text-xs rounded-full ${
+                    ariza.oncelik === 'Yüksek' ? 'bg-red-100 text-red-800' : 'bg-gray-100 text-gray-800'
+                  }`}>
+                    {ariza.oncelik}
+                  </span>
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap">
+                   <span className="px-2 py-1 text-xs rounded-full bg-blue-100 text-blue-800">
+                    {ariza.durum}
+                  </span>
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-gray-600">
+                  {new Date(ariza.createdAt).toLocaleDateString('tr-TR')}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+};
+```
+
+### ✅ Tamamlanma Kriterleri (Faz 4)
+- [ ] IT birim tabloları oluşturuldu (Arıza, Envanter)
+- [ ] IT permissions ve roller tanımlandı
+- [ ] Arıza kayıt sistemi API ve UI çalışıyor
+- [ ] Envanter yönetimi API ve UI çalışıyor
+- [ ] IT modülü lazy loading ile yükleniyor
+- [ ] Modüler yapı doğrulandı
+
+**Tahmini Süre:** 8-10 gün
+
+---
+
+## Faz 5: Deployment & Optimization (Hafta 11-13)
+
+### 🎯 Hedef
+Production deployment hazırlığı yapmak ve sistem optimizasyonlarını tamamlamak.
+
+### 5.1. Deployment Hazırlığı
 
 #### Backend Dockerfile
 
@@ -2020,7 +1932,6 @@ JWT_SECRET=Kurumsal-Intranet-2025-Secret-Key-Min-32-Characters-Long!
 ```
 
 ### ✅ Tamamlanma Kriterleri (Faz 5)
-- [ ] IT modülü tamamlandı (arıza kayıt + envanter)
 - [ ] Docker Compose ile sistem çalışıyor
 - [ ] Production environment variables yapılandırıldı
 - [ ] Database migration production'da uygulanabiliyor
@@ -2200,8 +2111,8 @@ const ITPage = lazy(() => import('@/features/it/pages/ArizaListPage'));
 | Faz 1 | Auth & Core Infrastructure | 7-10 gün | 15 gün |
 | Faz 2 | RBAC & Admin Panel | 12-15 gün | 30 gün |
 | Faz 3 | Multi-Unit Support | 5-7 gün | 37 gün |
-| Faz 4 | İK Modülü | 8-10 gün | 47 gün |
-| Faz 5 | IT Modülü & Deployment | 10-12 gün | 59 gün |
+| Faz 4 | IT Modülü | 8-10 gün | 47 gün |
+| Faz 5 | Deployment & Optimization | 10-12 gün | 59 gün |
 | Faz 6 | Testing & Optimization | 10-15 gün | 74 gün |
 
 **Toplam Tahmini Süre:** 12-16 hafta (3-4 ay)
@@ -2223,11 +2134,10 @@ const ITPage = lazy(() => import('@/features/it/pages/ArizaListPage'));
 - ✅ Birim seçim ekranı aktif
 
 **M4 - Faz 4 Tamamlandı (Hafta 10)**
-- ✅ İlk birim modülü (İK) tamamlandı
+- ✅ İlk birim modülü (IT) tamamlandı
 - ✅ Modüler yapı doğrulandı
 
 **M5 - Faz 5 Tamamlandı (Hafta 13)**
-- ✅ İkinci birim modülü (IT) tamamlandı
 - ✅ Docker deployment hazır
 - ✅ Production environment kuruldu
 

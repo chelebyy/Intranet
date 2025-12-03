@@ -18,6 +18,9 @@ import {
     Moon,
     Sun,
     ChevronRight,
+    Activity,
+    Server,
+    Bug,
 } from 'lucide-react';
 
 import {
@@ -67,6 +70,9 @@ export function AppSidebar({ isDarkMode, toggleTheme }: AppSidebarProps) {
     const isActive = (path: string) => location.pathname === path;
     const isGroupActive = (subItems: any[]) => subItems.some(item => location.pathname === item.path);
 
+    const isITUnit = selectedBirim?.birimAdi === 'Bilgi İşlem';
+    const isTestUnit = selectedBirim?.birimAdi === 'test';
+
     const menuItems = useMemo(() => [
         {
             title: "Genel",
@@ -78,6 +84,38 @@ export function AppSidebar({ isDarkMode, toggleTheme }: AppSidebarProps) {
                 },
             ]
         },
+        // IT Module - Conditional
+        ...(isITUnit ? [{
+            title: "Bilgi İşlem Modülü",
+            items: [
+                {
+                    title: "IT Dashboard",
+                    url: "/it/dashboard",
+                    icon: Activity,
+                },
+                {
+                    title: "Arıza Kayıtları",
+                    url: "/it/ariza",
+                    icon: Server,
+                }
+            ]
+        }] : []),
+        // Test Module - Conditional
+        ...(isTestUnit ? [{
+            title: "Test Birimi Modülü",
+            items: [
+                {
+                    title: "Test Paneli",
+                    url: "/test-unit/dashboard",
+                    icon: FlaskConical,
+                },
+                {
+                    title: "Test Senaryoları",
+                    url: "/test-unit/cases",
+                    icon: Bug,
+                }
+            ]
+        }] : []),
         {
             title: "Yönetim",
             items: [
@@ -136,7 +174,7 @@ export function AppSidebar({ isDarkMode, toggleTheme }: AppSidebarProps) {
                 }
             ]
         }
-    ], []);
+    ], [isITUnit, isTestUnit]);
 
     const handleLogout = () => {
         logout();

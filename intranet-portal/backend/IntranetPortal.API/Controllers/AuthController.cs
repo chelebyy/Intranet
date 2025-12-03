@@ -50,18 +50,18 @@ public class AuthController : ControllerBase
             // Authenticate user
             var loginResponse = await _authService.LoginAsync(request.Sicil, request.Password, ipAddress);
 
-            // If user has only one birim, generate JWT token immediately
+            // Create user entity for token generation
+            var user = new User
+            {
+                UserID = loginResponse.User.UserID,
+                Ad = loginResponse.User.Ad,
+                Soyad = loginResponse.User.Soyad,
+                Sicil = loginResponse.User.Sicil
+            };
+
+            // If user has only one birim, generate full JWT token immediately
             if (!loginResponse.RequiresBirimSelection && loginResponse.SelectedBirim != null && loginResponse.SelectedRole != null)
             {
-                // Find the user and birim/role entities for token generation
-                var user = new User
-                {
-                    UserID = loginResponse.User.UserID,
-                    Ad = loginResponse.User.Ad,
-                    Soyad = loginResponse.User.Soyad,
-                    Sicil = loginResponse.User.Sicil
-                };
-
                 var birim = new Birim
                 {
                     BirimID = loginResponse.SelectedBirim.BirimID,
@@ -74,11 +74,32 @@ public class AuthController : ControllerBase
                     RoleAdi = loginResponse.SelectedRole.RoleName
                 };
 
-                // Generate JWT token
+                // Generate JWT token with birim and role
                 var token = _jwtTokenService.GenerateToken(user, birim, role);
 
                 // Set HttpOnly cookie (SECURITY_ANALYSIS_REPORT.md Finding #2)
                 SetAuthCookie(token);
+            }
+            else if (loginResponse.RequiresBirimSelection && loginResponse.Birimler.Count > 0)
+            {
+                // User has multiple birims - generate temporary token with first birim
+                // This allows the user to call select-birim endpoint
+                var firstBirim = loginResponse.Birimler.First();
+                var tempBirim = new Birim
+                {
+                    BirimID = firstBirim.Birim.BirimID,
+                    BirimAdi = firstBirim.Birim.BirimAdi
+                };
+
+                var tempRole = new Role
+                {
+                    RoleID = firstBirim.Role.RoleID,
+                    RoleAdi = firstBirim.Role.RoleName
+                };
+
+                // Generate temporary JWT token (will be replaced when user selects birim)
+                var tempToken = _jwtTokenService.GenerateToken(user, tempBirim, tempRole);
+                SetAuthCookie(tempToken);
             }
 
             var message = loginResponse.RequiresBirimSelection

@@ -167,8 +167,8 @@ Projenin ana dizininde bulunan scriptler ile tüm sistemi yönetebilirsiniz:
 | **Faz 1** | ✅ Tamamlandı | Authentication, Core, Sicil Login |
 | **Faz 2** | 🔄 Devam Ediyor | RBAC, Admin Panel, Dashboard |
 | **Faz 3** | ⏳ Beklemede | Multi-Unit Support |
-| **Faz 4** | ⏳ Beklemede | HR Modülü |
-| **Faz 5** | ⏳ Beklemede | IT Modülü + Docker |
+| **Faz 4** | ⏳ Beklemede | IT Modülü |
+| **Faz 5** | ⏳ Beklemede | Deployment & Optimizasyon |
 | **Faz 6** | ⏳ Beklemede | Test & Optimizasyon |
 
 ---

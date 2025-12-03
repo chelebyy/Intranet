@@ -23,15 +23,25 @@ export const useAuthStore = create<AuthState>()(
             // Note: Token is in HttpOnly cookie, not in response
             const { user, birimler, selectedBirim, selectedRole } = response.data;
 
+            // Map backend birimler structure to frontend UserBirimRole structure
+            // Backend: { birim: { birimID, birimAdi }, role: { roleID, roleName } }
+            // Frontend: { birimId, birimAdi, roleId, roleName }
+            const mappedBirimler = (birimler || []).map((item: any) => ({
+              birimId: item.birim?.birimID || item.birimId,
+              birimAdi: item.birim?.birimAdi || item.birimAdi,
+              roleId: item.role?.roleID || item.roleId,
+              roleName: item.role?.roleName || item.roleName,
+            }));
+
             set({
               user,
               token: null, // Token is in HttpOnly cookie
-              birimleri: birimler || [],
+              birimleri: mappedBirimler,
               isAuthenticated: true,
               // Use selectedBirim from backend if available
               selectedBirim: selectedBirim || null,
-              currentBirimInfo: selectedBirim ? { birimId: selectedBirim.birimId, birimAdi: selectedBirim.birimAdi } : null,
-              currentRoleInfo: selectedRole ? { roleId: selectedRole.roleId, roleName: selectedRole.roleName } : null,
+              currentBirimInfo: selectedBirim ? { birimId: selectedBirim.birimID || selectedBirim.birimId, birimAdi: selectedBirim.birimAdi } : null,
+              currentRoleInfo: selectedRole ? { roleId: selectedRole.roleID || selectedRole.roleId, roleName: selectedRole.roleName } : null,
             });
           } else {
             throw new Error(response.message || 'Login failed');

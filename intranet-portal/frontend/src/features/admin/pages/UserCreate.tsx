@@ -3,11 +3,31 @@ import { useNavigate } from 'react-router-dom';
 import { usersApi } from '../../../api/usersApi';
 import { unvansApi } from '../../../api/unvansApi';
 import type { Unvan } from '../../../types/api/unvans';
+import toast from 'react-hot-toast';
+import { ArrowLeft, Save, Loader2, Info } from 'lucide-react';
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardFooter,
+    CardHeader,
+    CardTitle,
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 export const UserCreate: React.FC = () => {
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
-    const [error, setError] = useState<string | null>(null);
     const [unvanlar, setUnvanlar] = useState<Unvan[]>([]);
 
     const [formData, setFormData] = useState({
@@ -25,21 +45,24 @@ export const UserCreate: React.FC = () => {
                 setUnvanlar(unvanData.filter(u => u.isActive));
             } catch (err) {
                 console.error('Error fetching form data:', err);
-                setError('Form verileri yüklenirken bir hata oluştu.');
+                toast.error('Form verileri yüklenirken bir hata oluştu.');
             }
         };
         fetchData();
     }, []);
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setFormData(prev => ({ ...prev, [name]: value }));
+    };
+
+    const handleUnvanChange = (value: string) => {
+        setFormData(prev => ({ ...prev, unvan: value }));
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setLoading(true);
-        setError(null);
 
         try {
             await usersApi.create({
@@ -49,156 +72,138 @@ export const UserCreate: React.FC = () => {
                 unvan: formData.unvan,
                 sifre: formData.password
             });
+            toast.success('Kullanıcı başarıyla oluşturuldu');
             navigate('/users');
         } catch (err: any) {
             console.error('Error creating user:', err);
-            setError(err.message || 'Kullanıcı oluşturulurken bir hata oluştu.');
+            toast.error(err.message || 'Kullanıcı oluşturulurken bir hata oluştu.');
         } finally {
             setLoading(false);
         }
     };
 
     return (
-        <div className="p-6 md:p-8 max-w-3xl mx-auto">
-            <div className="flex items-center gap-4 mb-6">
-                <button
-                    onClick={() => navigate('/users')}
-                    className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full transition-colors"
-                >
-                    <span className="material-symbols-outlined">arrow_back</span>
-                </button>
-                <h1 className="text-2xl font-bold text-text-primary dark:text-dark-text-primary">Yeni Kullanıcı Ekle</h1>
+        <div className="h-full flex-1 flex-col space-y-8 p-8 md:flex max-w-3xl mx-auto">
+            <div className="flex items-center gap-4">
+                <Button variant="ghost" size="icon" onClick={() => navigate('/users')}>
+                    <ArrowLeft className="h-4 w-4" />
+                </Button>
+                <div>
+                    <h2 className="text-2xl font-bold tracking-tight">Yeni Kullanıcı Ekle</h2>
+                    <p className="text-muted-foreground">
+                        Sisteme yeni bir personel tanımlayın.
+                    </p>
+                </div>
             </div>
 
-            <div className="bg-card dark:bg-dark-card border border-border-color dark:border-dark-border rounded-xl p-6 shadow-sm">
-                {error && (
-                    <div className="mb-6 p-4 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 rounded-lg text-sm">
-                        {error}
-                    </div>
-                )}
+            <Card>
+                <form onSubmit={handleSubmit}>
+                    <CardHeader>
+                        <CardTitle>Kullanıcı Bilgileri</CardTitle>
+                        <CardDescription>
+                            Kullanıcının temel kimlik ve giriş bilgilerini giriniz.
+                        </CardDescription>
+                    </CardHeader>
+                    <CardContent className="space-y-6">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div className="space-y-2">
+                                <Label htmlFor="ad">Ad <span className="text-destructive">*</span></Label>
+                                <Input
+                                    id="ad"
+                                    name="ad"
+                                    value={formData.ad}
+                                    onChange={handleChange}
+                                    required
+                                    placeholder="Örn: Ahmet"
+                                />
+                            </div>
 
-                <form onSubmit={handleSubmit} className="space-y-6">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div className="space-y-2">
-                            <label className="text-sm font-medium text-text-secondary dark:text-dark-text-secondary">
-                                Ad <span className="text-red-500">*</span>
-                            </label>
-                            <input
-                                type="text"
-                                name="ad"
-                                value={formData.ad}
-                                onChange={handleChange}
-                                required
-                                className="w-full px-4 py-2 border border-border-color dark:border-dark-border rounded-lg bg-background dark:bg-dark-background focus:outline-none focus:ring-2 focus:ring-primary/50"
-                                placeholder="Örn: Ahmet"
-                            />
-                        </div>
+                            <div className="space-y-2">
+                                <Label htmlFor="soyad">Soyad <span className="text-destructive">*</span></Label>
+                                <Input
+                                    id="soyad"
+                                    name="soyad"
+                                    value={formData.soyad}
+                                    onChange={handleChange}
+                                    required
+                                    placeholder="Örn: Yılmaz"
+                                />
+                            </div>
 
-                        <div className="space-y-2">
-                            <label className="text-sm font-medium text-text-secondary dark:text-dark-text-secondary">
-                                Soyad <span className="text-red-500">*</span>
-                            </label>
-                            <input
-                                type="text"
-                                name="soyad"
-                                value={formData.soyad}
-                                onChange={handleChange}
-                                required
-                                className="w-full px-4 py-2 border border-border-color dark:border-dark-border rounded-lg bg-background dark:bg-dark-background focus:outline-none focus:ring-2 focus:ring-primary/50"
-                                placeholder="Örn: Yılmaz"
-                            />
-                        </div>
+                            <div className="space-y-2">
+                                <Label htmlFor="sicil">Sicil No <span className="text-destructive">*</span></Label>
+                                <Input
+                                    id="sicil"
+                                    name="sicil"
+                                    value={formData.sicil}
+                                    onChange={handleChange}
+                                    required
+                                    placeholder="Örn: 12345"
+                                />
+                            </div>
 
-                        <div className="space-y-2">
-                            <label className="text-sm font-medium text-text-secondary dark:text-dark-text-secondary">
-                                Sicil No <span className="text-red-500">*</span>
-                            </label>
-                            <input
-                                type="text"
-                                name="sicil"
-                                value={formData.sicil}
-                                onChange={handleChange}
-                                required
-                                className="w-full px-4 py-2 border border-border-color dark:border-dark-border rounded-lg bg-background dark:bg-dark-background focus:outline-none focus:ring-2 focus:ring-primary/50"
-                                placeholder="Örn: 12345"
-                            />
-                        </div>
+                            <div className="space-y-2">
+                                <Label htmlFor="unvan">Ünvan</Label>
+                                <Select value={formData.unvan} onValueChange={handleUnvanChange}>
+                                    <SelectTrigger>
+                                        <SelectValue placeholder="Seçiniz" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        {unvanlar.map(unvan => (
+                                            <SelectItem key={unvan.unvanID} value={unvan.unvanAdi}>
+                                                {unvan.unvanAdi}
+                                            </SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </Select>
+                            </div>
 
-                        <div className="space-y-2">
-                            <label className="text-sm font-medium text-text-secondary dark:text-dark-text-secondary">
-                                Ünvan
-                            </label>
-                            <select
-                                name="unvan"
-                                value={formData.unvan}
-                                onChange={handleChange}
-                                className="w-full px-4 py-2 border border-border-color dark:border-dark-border rounded-lg bg-background dark:bg-dark-background focus:outline-none focus:ring-2 focus:ring-primary/50"
-                            >
-                                <option value="">Seçiniz</option>
-                                {unvanlar.map(unvan => (
-                                    <option key={unvan.unvanID} value={unvan.unvanAdi}>
-                                        {unvan.unvanAdi}
-                                    </option>
-                                ))}
-                            </select>
-                        </div>
-
-                        <div className="space-y-2">
-                            <label className="text-sm font-medium text-text-secondary dark:text-dark-text-secondary">
-                                Şifre <span className="text-red-500">*</span>
-                            </label>
-                            <input
-                                type="password"
-                                name="password"
-                                value={formData.password}
-                                onChange={handleChange}
-                                required
-                                className="w-full px-4 py-2 border border-border-color dark:border-dark-border rounded-lg bg-background dark:bg-dark-background focus:outline-none focus:ring-2 focus:ring-primary/50"
-                                placeholder="En az 12 karakter"
-                                minLength={12}
-                            />
-                        </div>
-
-                    </div>
-
-                    {/* Info box about birim-role assignment */}
-                    <div className="p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg">
-                        <div className="flex items-start gap-3">
-                            <span className="material-symbols-outlined text-blue-600 dark:text-blue-400 mt-0.5">info</span>
-                            <div>
-                                <p className="text-sm text-blue-800 dark:text-blue-300 font-medium">Birim ve Rol Ataması</p>
-                                <p className="text-sm text-blue-700 dark:text-blue-400 mt-1">
-                                    Kullanıcı oluşturulduktan sonra, düzenleme sayfasından birim ve rol ataması yapabilirsiniz.
+                            <div className="space-y-2 md:col-span-2">
+                                <Label htmlFor="password">Şifre <span className="text-destructive">*</span></Label>
+                                <Input
+                                    id="password"
+                                    name="password"
+                                    type="password"
+                                    value={formData.password}
+                                    onChange={handleChange}
+                                    required
+                                    minLength={12}
+                                    placeholder="En az 12 karakter"
+                                />
+                                <p className="text-[0.8rem] text-muted-foreground">
+                                    Şifre en az 12 karakter uzunluğunda olmalıdır.
                                 </p>
                             </div>
                         </div>
-                    </div>
 
-                    <div className="flex justify-end gap-4 pt-4 border-t border-border-color dark:border-dark-border mt-6">
-                        <button
-                            type="button"
-                            onClick={() => navigate('/users')}
-                            className="px-4 py-2 text-text-secondary dark:text-dark-text-secondary hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors"
-                        >
+                        <Alert className="bg-blue-50 border-blue-200 text-blue-800 dark:bg-blue-900/20 dark:border-blue-800 dark:text-blue-300">
+                            <Info className="h-4 w-4 !text-blue-600 dark:!text-blue-400" />
+                            <AlertTitle>Birim ve Rol Ataması</AlertTitle>
+                            <AlertDescription>
+                                Kullanıcı oluşturulduktan sonra, düzenleme sayfasından birim ve rol ataması yapabilirsiniz.
+                            </AlertDescription>
+                        </Alert>
+                    </CardContent>
+                    <CardFooter className="flex justify-end gap-4 border-t bg-muted/50 px-6 py-4">
+                        <Button type="button" variant="ghost" onClick={() => navigate('/users')}>
                             İptal
-                        </button>
-                        <button
-                            type="submit"
-                            disabled={loading}
-                            className="bg-primary hover:bg-primary/90 text-white px-6 py-2 rounded-lg font-medium shadow-sm transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
-                        >
+                        </Button>
+                        <Button type="submit" disabled={loading} className="bg-purple-600 hover:bg-purple-700 text-white">
                             {loading ? (
                                 <>
-                                    <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>
+                                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                                     Kaydediliyor...
                                 </>
                             ) : (
-                                'Kaydet'
+                                <>
+                                    <Save className="mr-2 h-4 w-4" />
+                                    Kaydet
+                                </>
                             )}
-                        </button>
-                    </div>
+                        </Button>
+                    </CardFooter>
                 </form>
-            </div>
+            </Card>
         </div>
     );
 };

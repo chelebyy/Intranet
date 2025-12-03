@@ -70,7 +70,7 @@ const BirimSelection: React.FC = () => {
                     <div className="grid gap-4">
                         {birimleri.map((birim, index) => (
                             <button
-                                key={birim.birimId}
+                                key={birim.birimId || index}
                                 onClick={() => handleSelectBirim(index)}
                                 disabled={isLoading}
                                 className={`w-full p-6 bg-white/10 border border-white/20 rounded-xl text-left 

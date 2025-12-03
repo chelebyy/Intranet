@@ -45,8 +45,8 @@
 | Faz 1: Authentication & Core | 🟡 DEVAM EDİYOR | 30% | Seed data complete |
 | Faz 2: RBAC & Admin Panel | ⚪ BEKLİYOR | 0% | Not started |
 | Faz 3: Multi-Unit Support | ⚪ BEKLİYOR | 0% | Not started |
-| Faz 4: First Unit Module (HR) | ⚪ BEKLİYOR | 0% | Not started |
-| Faz 5: Second Unit Module (IT) | ⚪ BEKLİYOR | 0% | Not started |
+| Faz 4 | First Unit Module (IT) | ⚪ BEKLİYOR | 0% | Not started |
+| Faz 5 | Deployment & Optimization | ⚪ BEKLİYOR | 0% | Not started |
 | Faz 6: Testing & Optimization | ⚪ BEKLİYOR | 0% | Not started |
 
 ### Technology Stack Status

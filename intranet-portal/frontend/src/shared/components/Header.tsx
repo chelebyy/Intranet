@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuthStore } from '../../store/authStore';
 import { authApi } from '../../api/authApi';
 import toast from 'react-hot-toast';
@@ -10,6 +10,16 @@ import {
   User, 
   Check 
 } from 'lucide-react';
+import { SidebarTrigger } from "@/components/ui/sidebar";
+import { Separator } from "@/components/ui/separator";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
 
 /**
  * Header component with birim switcher dropdown
@@ -17,10 +27,26 @@ import {
  */
 const Header: React.FC = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const { user, birimleri, selectedBirim, selectBirim, setSelectedBirimRole, logout } = useAuthStore();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isSwitching, setIsSwitching] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+
+  // Get current page name for breadcrumb
+  const getPageTitle = () => {
+    const path = location.pathname;
+    if (path.includes('/dashboard')) return 'Dashboard';
+    if (path.includes('/users')) return 'Kullanıcı Yönetimi';
+    if (path.includes('/definitions/unvanlar')) return 'Ünvanlar';
+    if (path.includes('/definitions/departments')) return 'Birimler';
+    if (path.includes('/roles')) return 'Roller ve İzinler';
+    if (path.includes('/audit-log')) return 'Denetim Kayıtları';
+    if (path.includes('/ip-restrictions')) return 'IP Kısıtlamaları';
+    if (path.includes('/profile')) return 'Profil';
+    if (path.includes('/test')) return 'Test Sayfası';
+    return 'Dashboard';
+  };
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -62,8 +88,14 @@ const Header: React.FC = () => {
         toast.success(`${birim.birimAdi} birimine geçildi (${duration}ms)`);
         setIsDropdownOpen(false);
         
-        // Navigate to dashboard instead of full page reload for better performance
-        navigate('/dashboard');
+        // Navigate to unit specific dashboard
+        if (birim.birimAdi === 'Bilgi İşlem') {
+          navigate('/it/dashboard');
+        } else if (birim.birimAdi === 'test') {
+          navigate('/test-unit/dashboard');
+        } else {
+          navigate('/dashboard');
+        }
       } else {
         toast.error(response.error?.message || 'Birim değiştirme başarısız');
       }
@@ -83,11 +115,26 @@ const Header: React.FC = () => {
   if (!user) return null;
 
   return (
-    <header className="h-16 border-b border-border dark:border-dark-border bg-surface dark:bg-dark-surface flex items-center justify-between px-6">
-      {/* Left side - Page title can go here */}
-      <div className="flex items-center gap-4">
-        {/* Placeholder for breadcrumb or page title */}
+    <header className="flex h-16 shrink-0 items-center gap-2 border-b bg-white dark:bg-slate-900 px-4 shadow-sm">
+      {/* Left side - Sidebar trigger & Breadcrumb */}
+      <div className="flex items-center gap-2">
+        <SidebarTrigger className="-ml-1" />
+        <Separator orientation="vertical" className="mr-2 h-4" />
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem className="hidden md:block">
+              <BreadcrumbLink href="#">Yönetim Paneli</BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator className="hidden md:block" />
+            <BreadcrumbItem>
+              <BreadcrumbPage>{getPageTitle()}</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
       </div>
+
+      {/* Spacer */}
+      <div className="flex-1" />
 
       {/* Right side - User info & birim switcher */}
       <div className="flex items-center gap-4">
@@ -109,33 +156,33 @@ const Header: React.FC = () => {
 
             {/* Dropdown */}
             {isDropdownOpen && (
-              <div className="absolute right-0 top-full mt-2 w-64 bg-surface dark:bg-dark-surface border border-border 
-                            dark:border-dark-border rounded-lg shadow-lg z-50 py-2">
-                <div className="px-3 py-2 border-b border-border dark:border-dark-border">
-                  <p className="text-xs text-text-secondary dark:text-dark-text-secondary font-medium uppercase">
+              <div className="absolute right-0 top-full mt-2 w-64 bg-white dark:bg-slate-800 border border-gray-200 
+                            dark:border-slate-700 rounded-lg shadow-xl z-[100] py-2">
+                <div className="px-3 py-2 border-b border-gray-200 dark:border-slate-700 bg-gray-50 dark:bg-slate-900">
+                  <p className="text-xs text-gray-500 dark:text-gray-400 font-medium uppercase tracking-wide">
                     Birim Değiştir
                   </p>
                 </div>
-                <div className="max-h-64 overflow-y-auto">
+                <div className="max-h-64 overflow-y-auto bg-white dark:bg-slate-800">
                   {birimleri.map((birim) => (
                     <button
                       key={birim.birimId}
                       onClick={() => handleSwitchBirim(birim)}
                       disabled={isSwitching}
                       className={`w-full flex items-center justify-between px-3 py-2.5 text-left
-                                hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors
-                                ${birim.birimId === selectedBirim?.birimId ? 'bg-primary/10' : ''}`}
+                                hover:bg-gray-100 dark:hover:bg-slate-700 transition-colors
+                                ${birim.birimId === selectedBirim?.birimId ? 'bg-blue-50 dark:bg-slate-700' : 'bg-white dark:bg-slate-800'}`}
                     >
                       <div className="flex flex-col">
-                        <span className="text-sm font-medium text-text-primary dark:text-dark-text-primary">
+                        <span className="text-sm font-medium text-gray-900 dark:text-gray-100">
                           {birim.birimAdi}
                         </span>
-                        <span className="text-xs text-text-secondary dark:text-dark-text-secondary">
+                        <span className="text-xs text-gray-500 dark:text-gray-400">
                           {birim.roleName}
                         </span>
                       </div>
                       {birim.birimId === selectedBirim?.birimId && (
-                        <Check className="w-4 h-4 text-primary" />
+                        <Check className="w-4 h-4 text-blue-600 dark:text-blue-400" />
                       )}
                     </button>
                   ))}

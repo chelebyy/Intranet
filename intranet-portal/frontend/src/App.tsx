@@ -19,6 +19,10 @@ const AuditLogList = lazy(() => import('./features/admin/pages/AuditLogList').th
 const IPRestrictions = lazy(() => import('./features/admin/pages/IPRestrictions').then(module => ({ default: module.IPRestrictions })));
 const UnvanList = lazy(() => import('./features/admin/pages/UnvanList').then(module => ({ default: module.UnvanList })));
 const TestPage = lazy(() => import('./features/test/pages/TestPage').then(module => ({ default: module.TestPage })));
+const ITDashboard = lazy(() => import('./features/it/pages/ITDashboard').then(module => ({ default: module.ITDashboard })));
+const ArizaList = lazy(() => import('./features/it/pages/ArizaList').then(module => ({ default: module.ArizaList })));
+const TestUnitDashboard = lazy(() => import('./features/test-unit/pages/TestUnitDashboard').then(module => ({ default: module.TestUnitDashboard })));
+const TestCases = lazy(() => import('./features/test-unit/pages/TestCases').then(module => ({ default: module.TestCases })));
 
 // Loading component
 const PageLoader = () => (
@@ -143,6 +147,30 @@ function App() {
           <Route path="test" element={
             <Suspense fallback={<PageLoader />}>
               <TestPage />
+            </Suspense>
+          } />
+
+          {/* IT Module Routes */}
+          <Route path="it/dashboard" element={
+            <Suspense fallback={<PageLoader />}>
+              <ITDashboard />
+            </Suspense>
+          } />
+          <Route path="it/ariza" element={
+            <Suspense fallback={<PageLoader />}>
+              <ArizaList />
+            </Suspense>
+          } />
+
+          {/* Test Unit Module Routes */}
+          <Route path="test-unit/dashboard" element={
+            <Suspense fallback={<PageLoader />}>
+              <TestUnitDashboard />
+            </Suspense>
+          } />
+          <Route path="test-unit/cases" element={
+            <Suspense fallback={<PageLoader />}>
+              <TestCases />
             </Suspense>
           } />
         </Route>

@@ -97,7 +97,7 @@ var user = await _context.Users
 ---
 
 ### 4. ⚠️ IMPLEMENTATION_ROADMAP: SİCİL KULLANIMI VAR (TUTARSIZLIK!)
-**Kaynak**: IMPLEMENTATION_ROADMAP.md - Faz 4: HR Module Example (Line 1528, 1586, 1602, 1742, 1762)
+**Kaynak**: IMPLEMENTATION_ROADMAP.md - Faz 4: IT Module Example (Line 1528, 1586, 1602, 1742, 1762)
 
 **Personel Tablosu Örneği (HR Modülü - Line 1528)**:
 ```sql
