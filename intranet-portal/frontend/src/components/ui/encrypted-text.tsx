@@ -36,14 +36,20 @@ export function EncryptedText({
   }, [text, getRandomChar])
 
   // Flip random characters continuously for unrevealed positions
+  // Stop when all characters are revealed
   useEffect(() => {
+    // If all characters revealed, don't run interval
+    if (revealedIndices.size >= text.length) {
+      setDisplayText(text.split(""))
+      return
+    }
+
     const interval = setInterval(() => {
       setDisplayText((prev) =>
         prev.map((char, index) => {
           if (revealedIndices.has(index)) {
             return text[index]
           }
-          // Keep spaces as spaces
           if (text[index] === " ") {
             return " "
           }

@@ -70,7 +70,7 @@ const LoginPage: React.FC = () => {
                         borderWidth={2}
                         duration={10}
                     />
-                    <Card className="bg-black/40 backdrop-blur-xl border-white/10 shadow-2xl rounded-xl">
+                    <Card className="bg-black/60 backdrop-blur-md border-white/10 shadow-2xl rounded-xl">
                     <CardHeader className="space-y-1 text-center pb-8">
                         <CardTitle className="text-3xl font-bold bg-gradient-to-br from-purple-400 to-purple-600 bg-clip-text text-transparent">
                             Hoş Geldiniz
@@ -78,8 +78,8 @@ const LoginPage: React.FC = () => {
                         <CardDescription className="text-gray-400 text-base">
                             <EncryptedText 
                                 text="Kurumsal İntranet Portalı"
-                                revealDelayMs={80}
-                                flipDelayMs={40}
+                                revealDelayMs={100}
+                                flipDelayMs={80}
                                 encryptedClassName="text-purple-400/60"
                                 revealedClassName="text-gray-400"
                             />
@@ -96,7 +96,7 @@ const LoginPage: React.FC = () => {
 
                             <div className="space-y-2 group">
                                 <Label htmlFor="sicil" className="text-gray-300 font-medium ml-1">Sicil Numarası</Label>
-                                <div className="relative transition-all duration-300 group-focus-within:scale-[1.02]">
+                                <div className="relative">
                                     <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 transition-colors duration-300 group-focus-within:text-purple-400">
                                         <User className="h-5 w-5" />
                                     </div>
@@ -114,7 +114,7 @@ const LoginPage: React.FC = () => {
 
                             <div className="space-y-2 group">
                                 <Label htmlFor="password" className="text-gray-300 font-medium ml-1">Şifre</Label>
-                                <div className="relative transition-all duration-300 group-focus-within:scale-[1.02]">
+                                <div className="relative">
                                     <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 transition-colors duration-300 group-focus-within:text-purple-400">
                                         <Lock className="h-5 w-5" />
                                     </div>
