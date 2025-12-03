@@ -42,6 +42,8 @@ public class BirimlerController : ControllerBase
     [HasPermission(Permissions.CreateBirim)]
     public async Task<ActionResult<ApiResponse<BirimDto>>> Create(CreateBirimDto createBirimDto)
     {
+        return BadRequest(ApiResponse<BirimDto>.Fail("Birimler sistem modüllerinden otomatik olarak yönetilmektedir. Manuel ekleme yapılamaz.", "OPERATION_NOT_ALLOWED"));
+        /*
         try
         {
             var birim = await _birimService.CreateBirimAsync(createBirimDto);
@@ -51,6 +53,7 @@ public class BirimlerController : ControllerBase
         {
             return BadRequest(ApiResponse<BirimDto>.Fail(ex.Message, "VALIDATION_ERROR"));
         }
+        */
     }
 
     [HttpPut("{id}")]
@@ -76,5 +79,24 @@ public class BirimlerController : ControllerBase
         var result = await _birimService.DeleteBirimAsync(id);
         if (!result) return NotFound(ApiResponse<bool>.Fail("Birim bulunamadı", "NOT_FOUND"));
         return Ok(ApiResponse<bool>.Ok(true, "Birim silindi"));
+    }
+
+    /// <summary>
+    /// Duplicate ve geçersiz birimleri temizler.
+    /// Sadece sistem modülleri kalır: Sistem Yönetimi, Bilgi İşlem, Test Birimi
+    /// </summary>
+    [HttpPost("cleanup")]
+    [HasPermission(Permissions.ManageBirim)]
+    public async Task<ActionResult<ApiResponse<Application.DTOs.Birims.CleanupResultDto>>> CleanupDuplicates()
+    {
+        try
+        {
+            var result = await _birimService.CleanupDuplicateBirimsAsync();
+            return Ok(ApiResponse<Application.DTOs.Birims.CleanupResultDto>.Ok(result, result.Message));
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ApiResponse<Application.DTOs.Birims.CleanupResultDto>.Fail(ex.Message, "CLEANUP_ERROR"));
+        }
     }
 }

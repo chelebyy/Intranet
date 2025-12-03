@@ -52,7 +52,7 @@ export function AppSidebar() {
     const isGroupActive = (subItems: any[]) => subItems.some(item => location.pathname === item.path);
 
     const isITUnit = selectedBirim?.birimAdi === 'Bilgi İşlem';
-    const isTestUnit = selectedBirim?.birimAdi === 'test';
+    const isTestUnit = selectedBirim?.birimAdi === 'Test Birimi';
 
     const menuItems = useMemo(() => [
         {
@@ -148,11 +148,6 @@ export function AppSidebar() {
                     icon: Shield,
                     permission: Permissions.System.Read
                 },
-                {
-                    title: "Test Sayfası",
-                    url: "/test",
-                    icon: FlaskConical,
-                }
             ]
         }
     ], [isITUnit, isTestUnit]);

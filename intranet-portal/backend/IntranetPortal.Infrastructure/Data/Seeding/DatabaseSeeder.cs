@@ -40,8 +40,8 @@ public class DatabaseSeeder
             await SeedRolePermissionsAsync();
             await _context.SaveChangesAsync(); // Save role-permission mappings
 
-            await SeedDefaultBirimAsync();
-            await _context.SaveChangesAsync(); // Save default birim
+            await SeedSystemModulesAsync();
+            await _context.SaveChangesAsync(); // Save default birim and modules
 
             await SeedSuperAdminUserAsync();
             await _context.SaveChangesAsync(); // Save super admin user
@@ -245,27 +245,56 @@ public class DatabaseSeeder
     }
 
     /// <summary>
-    /// Create default "Sistem Yönetimi" birim
+    /// Seed system modules defined in SystemModules constant
+    /// Ensures all code-defined modules exist as Birim entities
     /// </summary>
-    private async Task SeedDefaultBirimAsync()
+    private async Task SeedSystemModulesAsync()
     {
-        if (await _context.Birimler.AnyAsync())
+        // Geçerli birim isimleri
+        var validBirimNames = new List<string>
         {
-            _logger.LogInformation("Birimler already exist, skipping...");
+            "Sistem Yönetimi",
+            SystemModules.IT,      // "Bilgi İşlem"
+            SystemModules.TestUnit // "Test Birimi"
+        };
+
+        // Mevcut birim sayısını kontrol et
+        var existingBirims = await _context.Birimler.ToListAsync();
+        var existingNames = existingBirims.Select(b => b.BirimAdi).ToHashSet();
+        
+        // Eğer tam olarak geçerli birimler varsa ve fazlası yoksa, hiçbir şey yapma
+        var hasOnlyValidBirims = existingBirims.Count == validBirimNames.Count 
+            && existingBirims.All(b => validBirimNames.Contains(b.BirimAdi));
+        
+        if (hasOnlyValidBirims)
+        {
+            _logger.LogInformation("System modules already configured correctly, skipping...");
             return;
         }
 
-        var sistemBirim = new Birim
+        // Eksik sistem birimlerini oluştur (temizlik yapmadan)
+        foreach (var birimName in validBirimNames)
         {
-            BirimAdi = "Sistem Yönetimi",
-            Aciklama = "Sistem yöneticileri için varsayılan birim",
-            IsActive = true,
-            CreatedAt = DateTime.UtcNow,
-            UpdatedAt = DateTime.UtcNow
-        };
-
-        await _context.Birimler.AddAsync(sistemBirim);
-        _logger.LogInformation("Created default birim: Sistem Yönetimi");
+            if (!existingNames.Contains(birimName))
+            {
+                var aciklama = birimName == "Sistem Yönetimi" 
+                    ? "Sistem yöneticileri için varsayılan birim"
+                    : SystemModules.GetDescription(birimName);
+                    
+                var newBirim = new Birim
+                {
+                    BirimAdi = birimName,
+                    Aciklama = aciklama,
+                    IsActive = true,
+                    CreatedAt = DateTime.UtcNow,
+                    UpdatedAt = DateTime.UtcNow
+                };
+                await _context.Birimler.AddAsync(newBirim);
+                _logger.LogInformation("Created birim: {Name}", birimName);
+            }
+        }
+        
+        // NOT: Temizlik artık sadece /api/birimler/cleanup endpoint'i ile yapılır
     }
 
     /// <summary>

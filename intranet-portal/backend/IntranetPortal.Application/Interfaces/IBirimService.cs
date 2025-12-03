@@ -10,4 +10,5 @@ public interface IBirimService
     Task<BirimDto> CreateBirimAsync(CreateBirimDto createBirimDto);
     Task<BirimDto?> UpdateBirimAsync(int id, UpdateBirimDto updateBirimDto);
     Task<bool> DeleteBirimAsync(int id);
+    Task<CleanupResultDto> CleanupDuplicateBirimsAsync();
 }

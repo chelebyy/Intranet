@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { birimsApi } from '../../../api/birimsApi';
 import type { Birim, CreateBirimRequest } from '../../../types/api/birims';
 import toast from 'react-hot-toast';
-import { Search, Building2, Plus, Edit, Ban, Loader2 } from 'lucide-react';
+import { Search, Building2, Edit, Loader2 } from 'lucide-react';
 import {
     Card,
     CardContent,
@@ -23,7 +23,6 @@ import {
 } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Checkbox } from "@/components/ui/checkbox";
 
 export const DepartmentList: React.FC = () => {
     const [birimler, setBirimler] = useState<Birim[]>([]);
@@ -67,14 +66,10 @@ export const DepartmentList: React.FC = () => {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        if (!editingBirim) return; // Sadece güncelleme destekleniyor
         try {
-            if (editingBirim) {
-                await birimsApi.update(editingBirim.birimID, formData);
-                toast.success('Birim başarıyla güncellendi');
-            } else {
-                await birimsApi.create(formData);
-                toast.success('Birim başarıyla oluşturuldu');
-            }
+            await birimsApi.update(editingBirim.birimID, formData);
+            toast.success('Birim başarıyla güncellendi');
             setShowModal(false);
             setEditingBirim(null);
             setFormData({ birimAdi: '', aciklama: '', isActive: true });
@@ -95,32 +90,6 @@ export const DepartmentList: React.FC = () => {
         setShowModal(true);
     };
 
-    const handleDeactivate = async (birimId: number) => {
-        if (!window.confirm('Bu birimi pasife almak istediğinizden emin misiniz?')) return;
-        try {
-            await birimsApi.delete(birimId);
-            toast.success('Birim pasife alındı');
-            fetchBirimler();
-        } catch (error: any) {
-            console.error('Birim pasife alınırken hata:', error);
-            const status = error?.response?.status;
-            const message = error?.response?.data?.message || error?.response?.data?.error?.message;
-            
-            if (status === 403) {
-                toast.error('Bu işlem için yetkiniz bulunmuyor');
-            } else if (status === 404) {
-                toast.error('Birim bulunamadı');
-            } else {
-                toast.error(message || 'Birim pasife alınamadı');
-            }
-        }
-    };
-
-    const openCreateModal = () => {
-        setEditingBirim(null);
-        setFormData({ birimAdi: '', aciklama: '', isActive: true });
-        setShowModal(true);
-    };
 
     return (
         <div className="h-full flex-1 flex-col space-y-8 p-8 md:flex">
@@ -133,10 +102,7 @@ export const DepartmentList: React.FC = () => {
                     </p>
                 </div>
                 <div className="flex items-center space-x-2">
-                    <Button onClick={openCreateModal} className="bg-purple-600 hover:bg-purple-700 text-white">
-                        <Plus className="mr-2 h-4 w-4" />
-                        Yeni Birim
-                    </Button>
+                    {/* Manuel birim ekleme devre dışı bırakıldı - Sistem modülleri otomatik yüklenir */}
                 </div>
             </div>
 
@@ -191,24 +157,15 @@ export const DepartmentList: React.FC = () => {
                                 )}
                             </CardContent>
                             <CardFooter className="border-t bg-muted/50 px-6 py-3">
-                                <div className="flex w-full items-center justify-between gap-2">
+                                <div className="flex w-full items-center justify-center">
                                     <Button 
                                         variant="ghost" 
                                         size="sm" 
-                                        className="flex-1 h-8"
+                                        className="h-8"
                                         onClick={() => handleEdit(birim)}
                                     >
                                         <Edit className="w-4 h-4 mr-2" />
                                         Düzenle
-                                    </Button>
-                                    <Button 
-                                        variant="ghost" 
-                                        size="sm" 
-                                        className="flex-1 h-8 text-orange-500 hover:text-orange-600 hover:bg-orange-50 dark:hover:bg-orange-950/50"
-                                        onClick={() => handleDeactivate(birim.birimID)}
-                                    >
-                                        <Ban className="w-4 h-4 mr-2" />
-                                        Pasife Al
                                     </Button>
                                 </div>
                             </CardFooter>
@@ -221,21 +178,20 @@ export const DepartmentList: React.FC = () => {
             <Dialog open={showModal} onOpenChange={setShowModal}>
                 <DialogContent className="sm:max-w-[425px]">
                     <DialogHeader>
-                        <DialogTitle>{editingBirim ? 'Birim Düzenle' : 'Yeni Birim Oluştur'}</DialogTitle>
+                        <DialogTitle>Birim Düzenle</DialogTitle>
                         <DialogDescription>
-                            Birim bilgilerini aşağıdan yönetebilirsiniz.
+                            Birim açıklamasını düzenleyebilirsiniz.
                         </DialogDescription>
                     </DialogHeader>
                     <form onSubmit={handleSubmit}>
                         <div className="grid gap-4 py-4">
                             <div className="grid gap-2">
-                                <Label htmlFor="birimAdi">Birim Adı <span className="text-destructive">*</span></Label>
+                                <Label htmlFor="birimAdi">Birim Adı</Label>
                                 <Input
                                     id="birimAdi"
                                     value={formData.birimAdi}
-                                    onChange={(e) => setFormData({ ...formData, birimAdi: e.target.value })}
-                                    required
-                                    placeholder="Örn: İnsan Kaynakları"
+                                    disabled
+                                    className="bg-muted"
                                 />
                             </div>
                             <div className="grid gap-2">
@@ -248,21 +204,11 @@ export const DepartmentList: React.FC = () => {
                                     className="resize-none"
                                 />
                             </div>
-                            <div className="flex items-center space-x-2">
-                                <Checkbox 
-                                    id="isActive" 
-                                    checked={formData.isActive}
-                                    onCheckedChange={(checked) => setFormData({ ...formData, isActive: checked as boolean })}
-                                />
-                                <Label htmlFor="isActive" className="font-normal cursor-pointer">
-                                    Aktif
-                                </Label>
-                            </div>
                         </div>
                         <DialogFooter>
                             <Button type="button" variant="outline" onClick={() => setShowModal(false)}>İptal</Button>
                             <Button type="submit" className="bg-purple-600 text-white hover:bg-purple-700">
-                                {editingBirim ? 'Güncelle' : 'Oluştur'}
+                                Güncelle
                             </Button>
                         </DialogFooter>
                     </form>

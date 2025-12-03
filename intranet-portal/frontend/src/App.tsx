@@ -18,7 +18,6 @@ const Profile = lazy(() => import('./features/admin/pages/Profile').then(module 
 const AuditLogList = lazy(() => import('./features/admin/pages/AuditLogList').then(module => ({ default: module.AuditLogList })));
 const IPRestrictions = lazy(() => import('./features/admin/pages/IPRestrictions').then(module => ({ default: module.IPRestrictions })));
 const UnvanList = lazy(() => import('./features/admin/pages/UnvanList').then(module => ({ default: module.UnvanList })));
-const TestPage = lazy(() => import('./features/test/pages/TestPage').then(module => ({ default: module.TestPage })));
 const ITDashboard = lazy(() => import('./features/it/pages/ITDashboard').then(module => ({ default: module.ITDashboard })));
 const ArizaList = lazy(() => import('./features/it/pages/ArizaList').then(module => ({ default: module.ArizaList })));
 const TestUnitDashboard = lazy(() => import('./features/test-unit/pages/TestUnitDashboard').then(module => ({ default: module.TestUnitDashboard })));
@@ -141,13 +140,6 @@ function App() {
                 <DepartmentList />
               </Suspense>
             </ProtectedRoute>
-          } />
-
-          {/* Test Page - Sandbox ortamı */}
-          <Route path="test" element={
-            <Suspense fallback={<PageLoader />}>
-              <TestPage />
-            </Suspense>
           } />
 
           {/* IT Module Routes */}

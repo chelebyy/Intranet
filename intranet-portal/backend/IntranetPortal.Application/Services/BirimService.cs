@@ -1,6 +1,7 @@
 using IntranetPortal.Application.DTOs;
 using IntranetPortal.Application.DTOs.Birims;
 using IntranetPortal.Application.Interfaces;
+using IntranetPortal.Domain.Constants;
 using IntranetPortal.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
@@ -114,5 +115,65 @@ public class BirimService : IBirimService
 
         await _context.SaveChangesAsync();
         return true;
+    }
+
+    /// <summary>
+    /// Duplicate ve geçersiz birimleri temizler.
+    /// Sadece sistem modülleri (Sistem Yönetimi, Bilgi İşlem, Test Birimi) kalır.
+    /// </summary>
+    public async Task<CleanupResultDto> CleanupDuplicateBirimsAsync()
+    {
+        var result = new CleanupResultDto();
+        
+        // Korunacak birim isimleri
+        var validBirimNames = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
+        {
+            "Sistem Yönetimi",
+            SystemModules.IT,      // "Bilgi İşlem"
+            SystemModules.TestUnit // "Test Birimi"
+        };
+
+        var allBirims = await _context.Birimler.ToListAsync();
+        var birimsToDelete = new List<Birim>();
+        var keptBirimNames = new HashSet<string>();
+
+        foreach (var birim in allBirims)
+        {
+            // Geçerli isimde mi?
+            if (validBirimNames.Contains(birim.BirimAdi))
+            {
+                // Bu isimde zaten bir birim tuttuk mu? (duplicate kontrolü)
+                if (keptBirimNames.Contains(birim.BirimAdi))
+                {
+                    // Duplicate - sil
+                    birimsToDelete.Add(birim);
+                }
+                else
+                {
+                    // İlk kez görüyoruz - tut
+                    keptBirimNames.Add(birim.BirimAdi);
+                    result.KeptBirims.Add($"{birim.BirimAdi} (ID: {birim.BirimID})");
+                }
+            }
+            else
+            {
+                // Geçersiz isim - sil
+                birimsToDelete.Add(birim);
+            }
+        }
+
+        // Silinecek birimleri kaydet
+        foreach (var birim in birimsToDelete)
+        {
+            result.DeletedBirims.Add($"{birim.BirimAdi} (ID: {birim.BirimID})");
+            _context.Birimler.Remove(birim);
+        }
+
+        await _context.SaveChangesAsync();
+
+        result.DeletedCount = birimsToDelete.Count;
+        result.Message = $"{result.DeletedCount} birim silindi, {result.KeptBirims.Count} birim korundu.";
+
+        return result;
     }
 }
