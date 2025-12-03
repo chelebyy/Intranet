@@ -219,9 +219,10 @@ public class DatabaseSeeder
         // BirimEditor - Create, read, update (no delete)
         var birimEditorRole = roles.First(r => r.RoleAdi == Domain.Constants.Roles.BirimEditor);
         var birimEditorPermissions = permissions.Where(p =>
-            (p.Action == "create" || p.Action == "read" || p.Action == "update" ||
-             p.Action == "upload" || p.Action == "download") &&
-            (p.Resource == "user" || p.Resource == "file")).ToList();
+            ((p.Action == "create" || p.Action == "read" || p.Action == "update" ||
+              p.Action == "upload" || p.Action == "download") &&
+             (p.Resource == "user" || p.Resource == "file")) ||
+            (p.Resource == "dashboard" && p.Action == "view")).ToList();
         rolePermissions.AddRange(birimEditorPermissions.Select(p => new RolePermission
         {
             RoleID = birimEditorRole.RoleID,
@@ -232,7 +233,8 @@ public class DatabaseSeeder
         // BirimGoruntuleyen - Read only
         var birimGoruntUleyenRole = roles.First(r => r.RoleAdi == Domain.Constants.Roles.BirimGoruntuleyen);
         var birimGoruntUleyenPermissions = permissions.Where(p =>
-            p.Action == "read" || p.Action == "download").ToList();
+            p.Action == "read" || p.Action == "download" ||
+            (p.Resource == "dashboard" && p.Action == "view")).ToList();
         rolePermissions.AddRange(birimGoruntUleyenPermissions.Select(p => new RolePermission
         {
             RoleID = birimGoruntUleyenRole.RoleID,
