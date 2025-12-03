@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/table";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { RainbowButton } from "@/components/ui/rainbow-button";
 import {
     Dialog,
     DialogContent,
@@ -132,12 +133,6 @@ export const UserList: React.FC = () => {
                         Sistemdeki tüm kullanıcıları yönetin ve görüntüleyin ({users.length} kullanıcı)
                     </p>
                 </div>
-                <div className="flex items-center space-x-2">
-                    <Button onClick={() => navigate('/users/create')} className="bg-purple-600 hover:bg-purple-700 text-white">
-                        <Plus className="mr-2 h-4 w-4" />
-                        Yeni Kullanıcı Ekle
-                    </Button>
-                </div>
             </div>
 
             <div className="flex items-center justify-between space-x-2">
@@ -150,10 +145,16 @@ export const UserList: React.FC = () => {
                         className="pl-8"
                     />
                 </div>
-                <Button variant="outline" onClick={fetchUsers}>
-                    <RefreshCw className="mr-2 h-4 w-4" />
-                    Yenile
-                </Button>
+                <div className="flex items-center gap-2">
+                    <RainbowButton variant="outline" onClick={fetchUsers} size="sm">
+                        <RefreshCw className="mr-1 h-4 w-4" />
+                        Yenile
+                    </RainbowButton>
+                    <RainbowButton variant="outline" onClick={() => navigate('/users/create')} size="sm">
+                        <Plus className="mr-1 h-4 w-4" />
+                        Yeni Kullanıcı
+                    </RainbowButton>
+                </div>
             </div>
 
             <div className="rounded-md border bg-card text-card-foreground shadow-sm">
