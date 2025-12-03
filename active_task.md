@@ -1,28 +1,13 @@
-# Aktif Görev: Faz 3 - Çoklu Birim ve Rol Yönetimi (TAMAMLANDI) ✅
+# Aktif Görev: Birim Yönetim Prototipi (Playground)
 
-**Başlangıç Tarihi:** 28 Kasım 2025
-**Bitiş Tarihi:** 2 Aralık 2025
-**Durum:** ✅ Tamamlandı
+## Durum
+Kullanıcı isteği üzerine strateji "Unit Playground" olarak güncellendi.
 
-## 🚀 Faz 3 Özeti
-"Her birim kendi başına bir modül/sayfa" vizyonu başarıyla hayata geçirildi. Kullanıcılar artık farklı birimlerde farklı rollere sahip olabiliyor ve sistem bu bağlam (context) geçişlerini güvenli bir şekilde yönetiyor.
+## Yapılan İşlemler
+1.  Eski "Test Sayfası" planları iptal edildi.
+2.  Yeni `docs/technical/ANALYSIS_UNIT_PROTOTYPE.md` analiz raporu yazıldı.
+3.  Yeni `docs/technical/IMPLEMENTATION_PLAN_UNIT_PROTOTYPE.md` uygulama planı oluşturuldu.
 
-### Tamamlanan Kritik Özellikler
-1.  **Birim Bazlı Dinamik Bağlam (Context):**
-    *   Kullanıcılar giriş yaptıktan sonra çalışmak istedikleri birimi seçiyor.
-    *   JWT Token artık aktif `BirimID` bilgisini taşıyor.
-    *   Tüm API istekleri otomatik olarak bu birime göre filtreleniyor.
-
-2.  **Backend Güvenliği:**
-    *   `GetUsers` gibi kritik endpoint'ler artık "Global Admin" değilse, sadece aktif birimdeki veriyi döndürüyor.
-    *   Veri izolasyonu %100 sağlandı.
-
-3.  **Frontend Deneyimi:**
-    *   **Birim Değiştirici (Switcher):** Üst menüden tek tıkla birimler arası geçiş yapılabiliyor.
-    *   **Kullanıcı Yönetimi:** Admin panelinde kullanıcıya çoklu birim/rol atama arayüzü (Matris yapı) eklendi.
-    *   **Dashboard:** Seçilen birimin adını ve özetini gösteren dinamik yapıya kavuştu.
-
-## ⏭️ Sıradaki Adımlar (Faz 4 Hazırlık)
-*   **QA & Test:** Oluşturulan yapının test kullanıcısı ile uçtan uca test edilmesi.
-*   **Dokümantasyon:** `API_SPECIFICATION.md` ve Kullanıcı Kılavuzu'nun güncellenmesi.
-*   **Yeni Modüller:** Artık birim altyapısı hazır olduğuna göre, "İzin Yönetimi", "Demirbaş" gibi modüllerin geliştirilmesi.
+## Sonraki Adımlar
+-   `UnitPlaygroundPage` ve alt bileşenlerinin (UserList, AddForm, RoleManager) kodlanması.
+-   Routing ve Sidebar entegrasyonu.

@@ -66,7 +66,7 @@ namespace IntranetPortal.API.Extensions
         public static bool IsSuperAdmin(this ClaimsPrincipal user)
         {
             var roleName = user.GetRoleName();
-            return roleName == IntranetPortal.Domain.Constants.Roles.SuperAdmin || 
+            return roleName == IntranetPortal.Domain.Constants.Roles.SuperAdmin ||
                    roleName == IntranetPortal.Domain.Constants.Roles.SistemAdmin;
         }
     }

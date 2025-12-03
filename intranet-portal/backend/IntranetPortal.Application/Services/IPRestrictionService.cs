@@ -157,7 +157,7 @@ public class IPRestrictionService : IIPRestrictionService
             try
             {
                 var parts = ruleIP.Split('/');
-                if (IPAddress.TryParse(parts[0], out var network) && 
+                if (IPAddress.TryParse(parts[0], out var network) &&
                     int.TryParse(parts[1], out var prefixLength) &&
                     IPAddress.TryParse(clientIP, out var client))
                 {

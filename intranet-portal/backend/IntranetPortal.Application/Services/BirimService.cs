@@ -18,12 +18,12 @@ public class BirimService : IBirimService
     public async Task<IEnumerable<BirimDto>> GetAllBirimsAsync(bool includeInactive = false)
     {
         var query = _context.Birimler.AsQueryable();
-        
+
         if (!includeInactive)
         {
             query = query.Where(b => b.IsActive);
         }
-        
+
         return await query
             .Select(b => new BirimDto
             {
@@ -111,7 +111,7 @@ public class BirimService : IBirimService
         // Soft delete - mark as inactive
         birim.IsActive = false;
         birim.UpdatedAt = DateTime.UtcNow;
-        
+
         await _context.SaveChangesAsync();
         return true;
     }

@@ -28,7 +28,7 @@ namespace IntranetPortal.API.Controllers
         {
             // 1. Get Active Birim ID from Token
             var activeBirimId = User.GetBirimId();
-            
+
             // 2. Check if user is SuperAdmin
             if (User.IsSuperAdmin() || !activeBirimId.HasValue)
             {

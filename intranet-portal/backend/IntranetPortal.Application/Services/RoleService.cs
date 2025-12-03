@@ -77,7 +77,7 @@ public class RoleService : IRoleService
 
         role.RoleAdi = updateRoleDto.RoleAdi;
         role.Aciklama = updateRoleDto.Aciklama;
-        
+
         await _context.SaveChangesAsync();
 
         return new RoleDto
@@ -97,7 +97,7 @@ public class RoleService : IRoleService
         bool isAssigned = await _context.UserBirimRoles.AnyAsync(ubr => ubr.RoleID == id);
         if (isAssigned)
         {
-             throw new InvalidOperationException("Cannot delete role because it is assigned to users.");
+            throw new InvalidOperationException("Cannot delete role because it is assigned to users.");
         }
 
         _context.Roles.Remove(role);

@@ -74,7 +74,7 @@ public class UnvanService : IUnvanService
         var unvan = await _context.Unvanlar.FindAsync(id);
         if (unvan == null) return null;
 
-        if (unvan.UnvanAdi != updateUnvanDto.UnvanAdi && 
+        if (unvan.UnvanAdi != updateUnvanDto.UnvanAdi &&
             await _context.Unvanlar.AnyAsync(u => u.UnvanAdi == updateUnvanDto.UnvanAdi))
         {
             throw new InvalidOperationException($"'{updateUnvanDto.UnvanAdi}' adında bir ünvan zaten mevcut.");
@@ -104,7 +104,7 @@ public class UnvanService : IUnvanService
         // Soft delete
         unvan.IsActive = false;
         unvan.UpdatedAt = DateTime.UtcNow;
-        
+
         await _context.SaveChangesAsync();
         return true;
     }

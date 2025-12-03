@@ -96,7 +96,7 @@ public class RolesController : ControllerBase
         if (role == null) return NotFound(ApiResponse<IEnumerable<Application.DTOs.Permissions.PermissionDto>>.Fail("Rol bulunamadı", "NOT_FOUND"));
 
         var permissions = await _permissionService.GetPermissionsByRoleIdAsync(id);
-        
+
         return Ok(ApiResponse<IEnumerable<Application.DTOs.Permissions.PermissionDto>>.Ok(permissions));
     }
 

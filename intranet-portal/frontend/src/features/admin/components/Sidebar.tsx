@@ -110,6 +110,13 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentPage, onNavigate, isDar
       label: 'IP Kısıtlamaları',
       permission: Permissions.System.Read
     },
+    { 
+      page: Page.TEST, 
+      path: '/test', 
+      icon: 'science', 
+      label: 'Test Sayfası'
+      // Test sayfası - tüm authenticated kullanıcılara açık
+    },
   ], []);
 
   // Filter menu items based on permissions

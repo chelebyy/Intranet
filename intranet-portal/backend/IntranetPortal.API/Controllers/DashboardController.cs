@@ -40,7 +40,7 @@ namespace IntranetPortal.API.Controllers
         {
             if (count < 1 || count > 50)
                 count = 10;
-                
+
             var activities = await _dashboardService.GetRecentActivitiesAsync(count);
             return Ok(ApiResponse<List<RecentActivityDto>>.Ok(activities));
         }

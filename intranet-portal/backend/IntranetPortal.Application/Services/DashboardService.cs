@@ -108,7 +108,7 @@ namespace IntranetPortal.Application.Services
                 return $"{(int)(diff.TotalDays / 7)} hafta önce";
             if (diff.TotalDays < 365)
                 return $"{(int)(diff.TotalDays / 30)} ay önce";
-            
+
             return $"{(int)(diff.TotalDays / 365)} yıl önce";
         }
     }

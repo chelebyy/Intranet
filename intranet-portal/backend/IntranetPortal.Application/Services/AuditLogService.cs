@@ -42,7 +42,7 @@ public class AuditLogService : IAuditLogService
         if (!string.IsNullOrEmpty(filter.SearchTerm))
         {
             var searchLower = filter.SearchTerm.ToLower();
-            query = query.Where(a => 
+            query = query.Where(a =>
                 (a.User != null && (a.User.Ad.ToLower().Contains(searchLower) || a.User.Soyad.ToLower().Contains(searchLower))) ||
                 (a.Action.ToLower().Contains(searchLower)) ||
                 (a.Resource != null && a.Resource.ToLower().Contains(searchLower)) ||

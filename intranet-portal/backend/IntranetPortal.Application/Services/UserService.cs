@@ -61,7 +61,7 @@ namespace IntranetPortal.Application.Services
                 .Include(u => u.UserBirimRoles)
                     .ThenInclude(ubr => ubr.Role)
                 .FirstOrDefaultAsync(u => u.UserID == id);
-                
+
             if (user == null) return null;
 
             return new UserDto
@@ -162,7 +162,7 @@ namespace IntranetPortal.Application.Services
             var userBirimRoles = await _context.UserBirimRoles
                 .Where(ubr => ubr.UserID == id)
                 .ToListAsync();
-            
+
             if (userBirimRoles.Any())
             {
                 _context.UserBirimRoles.RemoveRange(userBirimRoles);
@@ -217,7 +217,7 @@ namespace IntranetPortal.Application.Services
             // Check if assignment already exists
             var existingAssignment = await _context.UserBirimRoles
                 .FirstOrDefaultAsync(ubr => ubr.UserID == userId && ubr.BirimID == birimId);
-            
+
             if (existingAssignment != null)
             {
                 // Update existing assignment's role
@@ -244,7 +244,7 @@ namespace IntranetPortal.Application.Services
         {
             var assignment = await _context.UserBirimRoles
                 .FirstOrDefaultAsync(ubr => ubr.UserID == userId && ubr.BirimID == birimId);
-            
+
             if (assignment == null) return false;
 
             _context.UserBirimRoles.Remove(assignment);
@@ -256,7 +256,7 @@ namespace IntranetPortal.Application.Services
         {
             var assignment = await _context.UserBirimRoles
                 .FirstOrDefaultAsync(ubr => ubr.UserID == userId && ubr.BirimID == birimId);
-            
+
             if (assignment == null) return false;
 
             assignment.RoleID = newRoleId;

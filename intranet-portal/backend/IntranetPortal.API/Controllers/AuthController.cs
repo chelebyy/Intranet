@@ -290,7 +290,7 @@ public class AuthController : ControllerBase
     {
         // Determine if we're in development (HTTP) or production (HTTPS)
         var isHttps = Request.IsHttps;
-        
+
         var cookieOptions = new CookieOptions
         {
             HttpOnly = true, // Prevents JavaScript access (XSS protection)

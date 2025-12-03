@@ -100,7 +100,8 @@ export const Page = {
   PROFILE: 'PROFILE',
   DEFINITIONS: 'DEFINITIONS',
   UNVAN_LIST: 'UNVAN_LIST',
-  BIRIM_DEFINITIONS: 'BIRIM_DEFINITIONS'
+  BIRIM_DEFINITIONS: 'BIRIM_DEFINITIONS',
+  TEST: 'TEST'
 } as const;
 
 export type Page = typeof Page[keyof typeof Page];

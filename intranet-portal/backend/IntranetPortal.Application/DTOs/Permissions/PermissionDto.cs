@@ -6,7 +6,7 @@ public class PermissionDto
     public string Action { get; set; } = string.Empty;
     public string Resource { get; set; } = string.Empty;
     public string? Description { get; set; }
-    
+
     // Helper property for frontend
     public string FullPermission => $"{Action}.{Resource}";
 }

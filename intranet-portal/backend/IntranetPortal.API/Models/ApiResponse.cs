@@ -16,10 +16,10 @@ namespace IntranetPortal.API.Models
 
         public static ApiResponse<T> Fail(string message, string code = "ERROR")
         {
-            return new ApiResponse<T> 
-            { 
-                Success = false, 
-                Error = new ApiError { Code = code, Message = message } 
+            return new ApiResponse<T>
+            {
+                Success = false,
+                Error = new ApiError { Code = code, Message = message }
             };
         }
     }

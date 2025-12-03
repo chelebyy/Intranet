@@ -15,11 +15,10 @@
 | Faz 2 | RBAC & Admin Panel | ✅ Tamamlandı | %100 | User/Role/Birim CRUD, HasPermission |
 | Faz 3 | Multi-Unit Support | ✅ Tamamlandı | %100 | Birim seçim, permission bazlı menü |
 | Faz 3.5 | Dashboard & Birim UI | ✅ Tamamlandı | %100 | Dashboard API, Grafik, Arama |
-| Faz 4 | First Unit Module (HR) | ⏳ Bekliyor | %0 | Başlanmadı |
-| Faz 5 | Second Unit Module (IT) | ⏳ Bekliyor | %0 | Başlanmadı |
-| Faz 6 | Testing & Optimization | ⏳ Bekliyor | %0 | Başlanmadı |
+| Faz 4 | First Unit Module (IT) | ⏳ Bekliyor | %0 | Başlanmadı |
+| Faz 5 | Testing & Optimization | ⏳ Bekliyor | %0 | Başlanmadı |
 
-**Toplam Proje İlerlemesi:** ~55% (3.5/6 faz tamamlandı)
+**Toplam Proje İlerlemesi:** ~55% (3.5/5 faz tamamlandı)
 
 ---
 
@@ -337,10 +336,9 @@ IntranetPortal.sln
 4. Implement rate limiting
 
 ### Uzun Vadeli (7-16 hafta)
-1. Complete Faz 4 (HR Module)
-2. Complete Faz 5 (IT Module + Docker deployment)
-3. Complete Faz 6 (Testing & Optimization)
-4. Production deployment
+1. Complete Faz 4 (IT Module + Docker deployment)
+2. Complete Faz 5 (Testing & Optimization)
+3. Production deployment
 
 ---
 
