@@ -2,6 +2,32 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { auditLogApi } from '../../../api/auditLogApi';
 import type { AuditLogItem, AuditLogFilter } from '../../../api/auditLogApi';
 import toast from 'react-hot-toast';
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from "@/components/ui/table";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select";
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogHeader,
+    DialogTitle,
+} from "@/components/ui/dialog";
+import { Badge } from "@/components/ui/badge";
+import { Search, RefreshCw, Filter, Eye, History, Loader2 } from 'lucide-react';
 
 export const AuditLogList: React.FC = () => {
     const [logs, setLogs] = useState<AuditLogItem[]>([]);
@@ -70,205 +96,207 @@ export const AuditLogList: React.FC = () => {
         });
     };
 
-    const getActionColor = (action: string) => {
-        if (action.includes('Login') || action.includes('Logout')) return 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400';
-        if (action.includes('Create') || action.includes('Add')) return 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400';
-        if (action.includes('Update') || action.includes('Edit')) return 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400';
-        if (action.includes('Delete') || action.includes('Remove')) return 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400';
-        return 'bg-slate-100 text-slate-800 dark:bg-slate-800 dark:text-slate-400';
+    const getActionVariant = (action: string): "default" | "secondary" | "destructive" | "outline" => {
+        if (action.includes('Login') || action.includes('Logout')) return 'outline';
+        if (action.includes('Create') || action.includes('Add')) return 'default'; // Greenish usually, using default/primary
+        if (action.includes('Update') || action.includes('Edit')) return 'secondary';
+        if (action.includes('Delete') || action.includes('Remove')) return 'destructive';
+        return 'outline';
     };
 
     return (
-        <div className="p-6 md:p-8 flex flex-col h-full w-full max-w-7xl mx-auto">
-            {/* Header */}
-            <div className="flex flex-col gap-1 mb-6">
-                <h1 className="text-3xl font-bold text-text-primary dark:text-dark-text-primary">Audit Log</h1>
-                <p className="text-text-secondary dark:text-dark-text-secondary">
-                    Sistemdeki tüm işlemlerin kayıtlarını görüntüleyin.
-                    <span className="font-medium ml-1">({totalCount} kayıt)</span>
-                </p>
+        <div className="h-full flex-1 flex-col space-y-8 p-8 md:flex">
+            <div className="flex items-center justify-between space-y-2">
+                <div>
+                    <h2 className="text-2xl font-bold tracking-tight">Audit Log</h2>
+                    <p className="text-muted-foreground">
+                        Sistemdeki tüm işlemlerin kayıtlarını görüntüleyin ({totalCount} kayıt)
+                    </p>
+                </div>
             </div>
 
-            {/* Filters */}
-            <form onSubmit={handleSearch} className="bg-card dark:bg-dark-card border border-border-color dark:border-dark-border rounded-xl p-4 mb-6 shadow-sm">
-                <div className="flex flex-col md:flex-row gap-4">
-                    <div className="relative flex-grow">
-                        <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-text-secondary dark:text-dark-text-secondary">search</span>
-                        <input 
-                            type="text" 
-                            placeholder="Kullanıcı adı, IP adresi veya kaynak ara..." 
+            <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
+                <div className="flex flex-1 items-center space-x-2">
+                    <div className="relative flex-1 max-w-sm">
+                        <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                        <Input
+                            placeholder="Kullanıcı, IP veya kaynak ara..."
                             value={filter.searchTerm}
                             onChange={(e) => setFilter(prev => ({ ...prev, searchTerm: e.target.value }))}
-                            className="w-full pl-10 pr-4 py-2 border border-border-color dark:border-dark-border rounded-lg bg-background dark:bg-dark-background focus:outline-none focus:ring-2 focus:ring-primary/50 text-sm text-text-primary dark:text-dark-text-primary" 
+                            className="pl-8"
                         />
                     </div>
-                    <select
+                    <Select
                         value={filter.action}
-                        onChange={(e) => setFilter(prev => ({ ...prev, action: e.target.value, page: 1 }))}
-                        className="px-4 py-2 border border-border-color dark:border-dark-border rounded-lg bg-background dark:bg-dark-background text-sm text-text-primary dark:text-dark-text-primary focus:outline-none focus:ring-2 focus:ring-primary/50"
+                        onValueChange={(value) => setFilter(prev => ({ ...prev, action: value, page: 1 }))}
                     >
-                        <option value="">Tüm Aksiyonlar</option>
-                        {actions.map(action => (
-                            <option key={action} value={action}>{action}</option>
-                        ))}
-                    </select>
-                    <button 
-                        type="submit"
-                        className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/80 transition-colors flex items-center gap-2 text-sm font-medium"
-                    >
-                        <span className="material-symbols-outlined text-lg">filter_alt</span>
+                        <SelectTrigger className="w-[180px]">
+                            <SelectValue placeholder="Tüm Aksiyonlar" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem value="all">Tüm Aksiyonlar</SelectItem>
+                            {actions.map(action => (
+                                <SelectItem key={action} value={action}>{action}</SelectItem>
+                            ))}
+                        </SelectContent>
+                    </Select>
+                    <Button variant="secondary" onClick={() => fetchLogs()}>
+                        <Filter className="mr-2 h-4 w-4" />
                         Filtrele
-                    </button>
-                    <button 
-                        type="button"
-                        onClick={fetchLogs}
-                        className="px-4 py-2 border border-border-color dark:border-dark-border rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors flex items-center gap-2 text-sm"
-                    >
-                        <span className="material-symbols-outlined text-lg">refresh</span>
-                        Yenile
-                    </button>
+                    </Button>
                 </div>
-            </form>
+                <Button variant="outline" onClick={fetchLogs}>
+                    <RefreshCw className="mr-2 h-4 w-4" />
+                    Yenile
+                </Button>
+            </div>
 
-            {/* Table */}
-            <div className="bg-card dark:bg-dark-card border border-border-color dark:border-dark-border rounded-xl shadow-sm overflow-hidden flex-1 flex flex-col">
-                {loading ? (
-                    <div className="flex items-center justify-center h-64">
-                        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
-                    </div>
-                ) : logs.length === 0 ? (
-                    <div className="flex flex-col items-center justify-center h-64 text-text-secondary dark:text-dark-text-secondary">
-                        <span className="material-symbols-outlined text-5xl mb-2">history</span>
-                        <p>Kayıt bulunamadı</p>
-                    </div>
-                ) : (
-                    <>
-                        <div className="overflow-x-auto flex-1">
-                            <table className="w-full text-sm text-left text-text-secondary dark:text-dark-text-secondary">
-                                <thead className="text-xs text-text-primary dark:text-dark-text-primary uppercase bg-slate-50 dark:bg-slate-800 border-b border-border-color dark:border-dark-border">
-                                    <tr>
-                                        <th className="px-4 py-3">Tarih/Saat</th>
-                                        <th className="px-4 py-3">Kullanıcı</th>
-                                        <th className="px-4 py-3">Aksiyon</th>
-                                        <th className="px-4 py-3">Kaynak</th>
-                                        <th className="px-4 py-3">IP Adresi</th>
-                                        <th className="px-4 py-3">Detay</th>
-                                    </tr>
-                                </thead>
-                                <tbody className="divide-y divide-border-color dark:divide-dark-border">
-                                    {logs.map((log) => (
-                                        <tr key={log.logID} className="hover:bg-slate-50 dark:hover:bg-slate-800 bg-white dark:bg-dark-card">
-                                            <td className="px-4 py-3 whitespace-nowrap text-xs">
-                                                {formatDate(log.tarihSaat)}
-                                            </td>
-                                            <td className="px-4 py-3">
-                                                <div className="flex flex-col">
-                                                    <span className="font-medium text-text-primary dark:text-dark-text-primary">
-                                                        {log.userName || 'Sistem'}
-                                                    </span>
-                                                    {log.birimName && (
-                                                        <span className="text-xs text-text-secondary dark:text-dark-text-secondary">
-                                                            {log.birimName}
-                                                        </span>
-                                                    )}
-                                                </div>
-                                            </td>
-                                            <td className="px-4 py-3">
-                                                <span className={`inline-flex px-2 py-1 rounded-full text-xs font-medium ${getActionColor(log.action)}`}>
-                                                    {log.action}
+            <div className="rounded-md border bg-card text-card-foreground shadow-sm">
+                <Table>
+                    <TableHeader>
+                        <TableRow>
+                            <TableHead>Tarih/Saat</TableHead>
+                            <TableHead>Kullanıcı</TableHead>
+                            <TableHead>Aksiyon</TableHead>
+                            <TableHead>Kaynak</TableHead>
+                            <TableHead>IP Adresi</TableHead>
+                            <TableHead className="text-right">Detay</TableHead>
+                        </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                        {loading ? (
+                            <TableRow>
+                                <TableCell colSpan={6} className="h-24 text-center">
+                                    <div className="flex items-center justify-center">
+                                        <Loader2 className="h-6 w-6 animate-spin text-primary" />
+                                        <span className="ml-2 text-muted-foreground">Yükleniyor...</span>
+                                    </div>
+                                </TableCell>
+                            </TableRow>
+                        ) : logs.length === 0 ? (
+                            <TableRow>
+                                <TableCell colSpan={6} className="h-24 text-center">
+                                    <div className="flex flex-col items-center justify-center text-muted-foreground">
+                                        <History className="h-8 w-8 mb-2" />
+                                        Kayıt bulunamadı
+                                    </div>
+                                </TableCell>
+                            </TableRow>
+                        ) : (
+                            logs.map((log) => (
+                                <TableRow key={log.logID} className="hover:bg-muted/50">
+                                    <TableCell className="font-mono text-xs text-muted-foreground">
+                                        {formatDate(log.tarihSaat)}
+                                    </TableCell>
+                                    <TableCell>
+                                        <div className="flex flex-col">
+                                            <span className="font-medium">
+                                                {log.userName || 'Sistem'}
+                                            </span>
+                                            {log.birimName && (
+                                                <span className="text-xs text-muted-foreground">
+                                                    {log.birimName}
                                                 </span>
-                                            </td>
-                                            <td className="px-4 py-3 text-xs">{log.resource || '-'}</td>
-                                            <td className="px-4 py-3 font-mono text-xs">{log.ipAddress || '-'}</td>
-                                            <td className="px-4 py-3">
-                                                {log.details && (
-                                                    <button
-                                                        onClick={() => setSelectedLog(log)}
-                                                        className="p-1.5 text-primary hover:bg-primary/10 rounded-lg transition-colors"
-                                                        title="Detayları Görüntüle"
-                                                    >
-                                                        <span className="material-symbols-outlined text-lg">visibility</span>
-                                                    </button>
-                                                )}
-                                            </td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                        </div>
+                                            )}
+                                        </div>
+                                    </TableCell>
+                                    <TableCell>
+                                        <Badge variant={getActionVariant(log.action)}>
+                                            {log.action}
+                                        </Badge>
+                                    </TableCell>
+                                    <TableCell className="text-xs font-medium">{log.resource || '-'}</TableCell>
+                                    <TableCell className="font-mono text-xs text-muted-foreground">{log.ipAddress || '-'}</TableCell>
+                                    <TableCell className="text-right">
+                                        {log.details && (
+                                            <Button
+                                                variant="ghost"
+                                                size="icon"
+                                                onClick={() => setSelectedLog(log)}
+                                                title="Detayları Görüntüle"
+                                                className="h-8 w-8"
+                                            >
+                                                <Eye className="h-4 w-4" />
+                                            </Button>
+                                        )}
+                                    </TableCell>
+                                </TableRow>
+                            ))
+                        )}
+                    </TableBody>
+                </Table>
+            </div>
 
-                        {/* Pagination */}
-                        <div className="flex items-center justify-between px-4 py-3 border-t border-border-color dark:border-dark-border bg-slate-50 dark:bg-slate-800">
-                            <div className="text-sm text-text-secondary dark:text-dark-text-secondary">
-                                Sayfa {filter.page} / {totalPages} ({totalCount} kayıt)
-                            </div>
-                            <div className="flex gap-2">
-                                <button
-                                    onClick={() => handlePageChange(filter.page! - 1)}
-                                    disabled={filter.page === 1}
-                                    className="px-3 py-1 border border-border-color dark:border-dark-border rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-white dark:hover:bg-slate-700 transition-colors text-sm"
-                                >
-                                    Önceki
-                                </button>
-                                <button
-                                    onClick={() => handlePageChange(filter.page! + 1)}
-                                    disabled={filter.page === totalPages}
-                                    className="px-3 py-1 border border-border-color dark:border-dark-border rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-white dark:hover:bg-slate-700 transition-colors text-sm"
-                                >
-                                    Sonraki
-                                </button>
-                            </div>
-                        </div>
-                    </>
-                )}
+            {/* Pagination */}
+            <div className="flex items-center justify-between px-2">
+                <div className="text-sm text-muted-foreground">
+                    Sayfa {filter.page} / {totalPages}
+                </div>
+                <div className="flex gap-2">
+                    <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => handlePageChange(filter.page! - 1)}
+                        disabled={filter.page === 1}
+                    >
+                        Önceki
+                    </Button>
+                    <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => handlePageChange(filter.page! + 1)}
+                        disabled={filter.page === totalPages}
+                    >
+                        Sonraki
+                    </Button>
+                </div>
             </div>
 
             {/* Detail Modal */}
-            {selectedLog && (
-                <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-                    <div className="bg-card dark:bg-dark-card rounded-xl shadow-xl max-w-2xl w-full max-h-[80vh] overflow-hidden">
-                        <div className="flex items-center justify-between px-6 py-4 border-b border-border-color dark:border-dark-border">
-                            <h3 className="text-lg font-semibold text-text-primary dark:text-dark-text-primary">
-                                Log Detayı #{selectedLog.logID}
-                            </h3>
-                            <button
-                                onClick={() => setSelectedLog(null)}
-                                className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors"
-                            >
-                                <span className="material-symbols-outlined">close</span>
-                            </button>
-                        </div>
-                        <div className="p-6 overflow-y-auto max-h-[60vh]">
-                            <div className="grid grid-cols-2 gap-4 mb-4">
-                                <div>
-                                    <label className="text-xs text-text-secondary dark:text-dark-text-secondary">Tarih/Saat</label>
-                                    <p className="font-medium text-text-primary dark:text-dark-text-primary">{formatDate(selectedLog.tarihSaat)}</p>
+            <Dialog open={!!selectedLog} onOpenChange={(open) => !open && setSelectedLog(null)}>
+                <DialogContent className="max-w-2xl max-h-[80vh] overflow-hidden flex flex-col">
+                    <DialogHeader>
+                        <DialogTitle>Log Detayı #{selectedLog?.logID}</DialogTitle>
+                        <DialogDescription>
+                            İşlem detayları ve JSON verisi.
+                        </DialogDescription>
+                    </DialogHeader>
+                    
+                    {selectedLog && (
+                        <div className="flex-1 overflow-y-auto pr-2">
+                            <div className="grid grid-cols-2 gap-4 mb-6 text-sm">
+                                <div className="space-y-1">
+                                    <p className="text-muted-foreground text-xs">Tarih/Saat</p>
+                                    <p className="font-medium">{formatDate(selectedLog.tarihSaat)}</p>
                                 </div>
-                                <div>
-                                    <label className="text-xs text-text-secondary dark:text-dark-text-secondary">Kullanıcı</label>
-                                    <p className="font-medium text-text-primary dark:text-dark-text-primary">{selectedLog.userName || 'Sistem'}</p>
+                                <div className="space-y-1">
+                                    <p className="text-muted-foreground text-xs">Kullanıcı</p>
+                                    <p className="font-medium">{selectedLog.userName || 'Sistem'}</p>
                                 </div>
-                                <div>
-                                    <label className="text-xs text-text-secondary dark:text-dark-text-secondary">Aksiyon</label>
-                                    <p className="font-medium text-text-primary dark:text-dark-text-primary">{selectedLog.action}</p>
+                                <div className="space-y-1">
+                                    <p className="text-muted-foreground text-xs">Aksiyon</p>
+                                    <Badge variant={getActionVariant(selectedLog.action)}>{selectedLog.action}</Badge>
                                 </div>
-                                <div>
-                                    <label className="text-xs text-text-secondary dark:text-dark-text-secondary">IP Adresi</label>
-                                    <p className="font-mono text-text-primary dark:text-dark-text-primary">{selectedLog.ipAddress || '-'}</p>
+                                <div className="space-y-1">
+                                    <p className="text-muted-foreground text-xs">IP Adresi</p>
+                                    <p className="font-mono">{selectedLog.ipAddress || '-'}</p>
                                 </div>
                             </div>
+                            
                             {selectedLog.details && (
-                                <div>
-                                    <label className="text-xs text-text-secondary dark:text-dark-text-secondary">Detaylar (JSON)</label>
-                                    <pre className="mt-1 p-4 bg-slate-100 dark:bg-slate-800 rounded-lg text-xs overflow-x-auto text-text-primary dark:text-dark-text-primary">
-                                        {JSON.stringify(JSON.parse(selectedLog.details), null, 2)}
-                                    </pre>
+                                <div className="space-y-2">
+                                    <p className="text-muted-foreground text-xs font-medium uppercase tracking-wider">Detaylar (JSON)</p>
+                                    <div className="rounded-md bg-muted p-4 overflow-x-auto">
+                                        <pre className="text-xs font-mono">
+                                            {JSON.stringify(JSON.parse(selectedLog.details), null, 2)}
+                                        </pre>
+                                    </div>
                                 </div>
                             )}
                         </div>
-                    </div>
-                </div>
-            )}
+                    )}
+                </DialogContent>
+            </Dialog>
         </div>
     );
 };

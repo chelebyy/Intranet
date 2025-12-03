@@ -1,6 +1,28 @@
 import React, { useState, useEffect } from 'react';
 import { unvansApi } from '../../../api/unvansApi';
 import type { Unvan } from '../../../types/api/unvans';
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from "@/components/ui/table";
+import { Button } from "@/components/ui/button";
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Plus, Edit, Trash2, Loader2, ShieldX } from 'lucide-react';
 
 export const UnvanList: React.FC = () => {
     const [unvanlar, setUnvanlar] = useState<Unvan[]>([]);
@@ -97,178 +119,159 @@ export const UnvanList: React.FC = () => {
         }
     };
 
-    if (loading) {
-        return (
-            <div className="p-6 md:p-8 flex items-center justify-center">
-                <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
-            </div>
-        );
-    }
-
     return (
-        <div className="p-6 md:p-8">
-            <div className="flex items-center justify-between mb-6">
+        <div className="h-full flex-1 flex-col space-y-8 p-8 md:flex">
+            <div className="flex items-center justify-between space-y-2">
                 <div>
-                    <h1 className="text-2xl font-bold text-text-primary dark:text-dark-text-primary">Ünvan Tanımlamaları</h1>
-                    <p className="text-text-secondary dark:text-dark-text-secondary text-sm mt-1">
+                    <h2 className="text-2xl font-bold tracking-tight">Ünvan Tanımlamaları</h2>
+                    <p className="text-muted-foreground">
                         Sistemde kullanılacak ünvanları buradan yönetebilirsiniz.
                     </p>
                 </div>
-                <button
-                    onClick={() => handleOpenModal()}
-                    className="bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded-lg font-medium shadow-sm transition-colors flex items-center gap-2"
-                >
-                    <span className="material-symbols-outlined text-xl">add</span>
-                    Yeni Ünvan
-                </button>
+                <div className="flex items-center space-x-2">
+                    <Button onClick={() => handleOpenModal()} className="bg-purple-600 hover:bg-purple-700 text-white">
+                        <Plus className="mr-2 h-4 w-4" />
+                        Yeni Ünvan
+                    </Button>
+                </div>
             </div>
 
             {error && (
-                <div className="mb-6 p-4 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 rounded-lg text-sm">
+                <div className="p-4 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 rounded-lg text-sm">
                     {error}
                 </div>
             )}
 
-            <div className="bg-card dark:bg-dark-card border border-border-color dark:border-dark-border rounded-xl shadow-sm overflow-hidden">
-                <table className="w-full">
-                    <thead>
-                        <tr className="bg-slate-50 dark:bg-slate-800/50 border-b border-border-color dark:border-dark-border">
-                            <th className="text-left px-6 py-4 text-sm font-semibold text-text-primary dark:text-dark-text-primary">Ünvan Adı</th>
-                            <th className="text-left px-6 py-4 text-sm font-semibold text-text-primary dark:text-dark-text-primary">Açıklama</th>
-                            <th className="text-center px-6 py-4 text-sm font-semibold text-text-primary dark:text-dark-text-primary">Durum</th>
-                            <th className="text-right px-6 py-4 text-sm font-semibold text-text-primary dark:text-dark-text-primary">İşlemler</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {unvanlar.length === 0 ? (
-                            <tr>
-                                <td colSpan={4} className="px-6 py-12 text-center text-text-secondary dark:text-dark-text-secondary">
-                                    Henüz ünvan tanımlanmamış.
-                                </td>
-                            </tr>
+            <div className="rounded-md border bg-card text-card-foreground shadow-sm">
+                <Table>
+                    <TableHeader>
+                        <TableRow>
+                            <TableHead>Ünvan Adı</TableHead>
+                            <TableHead>Açıklama</TableHead>
+                            <TableHead className="text-center">Durum</TableHead>
+                            <TableHead className="text-right">İşlemler</TableHead>
+                        </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                        {loading ? (
+                            <TableRow>
+                                <TableCell colSpan={4} className="h-24 text-center">
+                                    <div className="flex items-center justify-center">
+                                        <Loader2 className="h-6 w-6 animate-spin text-primary" />
+                                        <span className="ml-2 text-muted-foreground">Yükleniyor...</span>
+                                    </div>
+                                </TableCell>
+                            </TableRow>
+                        ) : unvanlar.length === 0 ? (
+                            <TableRow>
+                                <TableCell colSpan={4} className="h-24 text-center">
+                                    <div className="flex flex-col items-center justify-center text-muted-foreground">
+                                        <ShieldX className="h-8 w-8 mb-2" />
+                                        Henüz ünvan tanımlanmamış.
+                                    </div>
+                                </TableCell>
+                            </TableRow>
                         ) : (
                             unvanlar.map((unvan) => (
-                                <tr key={unvan.unvanID} className="border-b border-border-color dark:border-dark-border last:border-b-0 hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
-                                    <td className="px-6 py-4">
-                                        <span className="font-medium text-text-primary dark:text-dark-text-primary">{unvan.unvanAdi}</span>
-                                    </td>
-                                    <td className="px-6 py-4 text-text-secondary dark:text-dark-text-secondary">
-                                        {unvan.aciklama || '-'}
-                                    </td>
-                                    <td className="px-6 py-4 text-center">
+                                <TableRow key={unvan.unvanID} className="group">
+                                    <TableCell className="font-medium">{unvan.unvanAdi}</TableCell>
+                                    <TableCell className="text-muted-foreground">{unvan.aciklama || '-'}</TableCell>
+                                    <TableCell className="text-center">
                                         <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
                                             unvan.isActive 
-                                                ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400'
-                                                : 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400'
+                                                ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300'
+                                                : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300'
                                         }`}>
                                             {unvan.isActive ? 'Aktif' : 'Pasif'}
                                         </span>
-                                    </td>
-                                    <td className="px-6 py-4 text-right">
-                                        <div className="flex items-center justify-end gap-2">
-                                            <button
+                                    </TableCell>
+                                    <TableCell className="text-right">
+                                        <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                                            <Button
+                                                variant="ghost"
+                                                size="icon"
                                                 onClick={() => handleOpenModal(unvan)}
-                                                className="p-2 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg transition-colors"
                                                 title="Düzenle"
+                                                className="h-8 w-8 text-muted-foreground hover:text-primary"
                                             >
-                                                <span className="material-symbols-outlined text-xl text-text-secondary dark:text-dark-text-secondary">edit</span>
-                                            </button>
-                                            <button
+                                                <Edit className="h-4 w-4" />
+                                            </Button>
+                                            <Button
+                                                variant="ghost"
+                                                size="icon"
                                                 onClick={() => handleDelete(unvan.unvanID)}
-                                                className="p-2 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors"
                                                 title="Sil"
+                                                className="h-8 w-8 text-muted-foreground hover:text-destructive"
                                             >
-                                                <span className="material-symbols-outlined text-xl text-red-500">delete</span>
-                                            </button>
+                                                <Trash2 className="h-4 w-4" />
+                                            </Button>
                                         </div>
-                                    </td>
-                                </tr>
+                                    </TableCell>
+                                </TableRow>
                             ))
                         )}
-                    </tbody>
-                </table>
+                    </TableBody>
+                </Table>
             </div>
 
             {/* Modal */}
-            {showModal && (
-                <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-                    <div className="bg-card dark:bg-dark-card border border-border-color dark:border-dark-border rounded-xl shadow-xl w-full max-w-md mx-4">
-                        <div className="flex items-center justify-between px-6 py-4 border-b border-border-color dark:border-dark-border">
-                            <h2 className="text-lg font-semibold text-text-primary dark:text-dark-text-primary">
-                                {editingUnvan ? 'Ünvan Düzenle' : 'Yeni Ünvan Ekle'}
-                            </h2>
-                            <button
-                                onClick={handleCloseModal}
-                                className="p-1 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg transition-colors"
-                            >
-                                <span className="material-symbols-outlined text-xl text-text-secondary dark:text-dark-text-secondary">close</span>
-                            </button>
-                        </div>
-                        <form onSubmit={handleSubmit} className="p-6 space-y-4">
-                            <div className="space-y-2">
-                                <label className="text-sm font-medium text-text-secondary dark:text-dark-text-secondary">
-                                    Ünvan Adı <span className="text-red-500">*</span>
-                                </label>
-                                <input
-                                    type="text"
+            <Dialog open={showModal} onOpenChange={setShowModal}>
+                <DialogContent className="sm:max-w-[425px]">
+                    <DialogHeader>
+                        <DialogTitle>{editingUnvan ? 'Ünvan Düzenle' : 'Yeni Ünvan Ekle'}</DialogTitle>
+                        <DialogDescription>
+                            Ünvan bilgilerini aşağıdan düzenleyebilirsiniz.
+                        </DialogDescription>
+                    </DialogHeader>
+                    <form onSubmit={handleSubmit}>
+                        <div className="grid gap-4 py-4">
+                            <div className="grid gap-2">
+                                <Label htmlFor="unvanAdi">Ünvan Adı <span className="text-red-500">*</span></Label>
+                                <Input
+                                    id="unvanAdi"
                                     value={formData.unvanAdi}
                                     onChange={(e) => setFormData(prev => ({ ...prev, unvanAdi: e.target.value }))}
                                     required
-                                    className="w-full px-4 py-2 border border-border-color dark:border-dark-border rounded-lg bg-background dark:bg-dark-background focus:outline-none focus:ring-2 focus:ring-primary/50"
                                     placeholder="Örn: Uzman, Müdür, Şef"
                                 />
                             </div>
-                            <div className="space-y-2">
-                                <label className="text-sm font-medium text-text-secondary dark:text-dark-text-secondary">
-                                    Açıklama
-                                </label>
-                                <textarea
+                            <div className="grid gap-2">
+                                <Label htmlFor="aciklama">Açıklama</Label>
+                                <Textarea
+                                    id="aciklama"
                                     value={formData.aciklama}
                                     onChange={(e) => setFormData(prev => ({ ...prev, aciklama: e.target.value }))}
-                                    rows={3}
-                                    className="w-full px-4 py-2 border border-border-color dark:border-dark-border rounded-lg bg-background dark:bg-dark-background focus:outline-none focus:ring-2 focus:ring-primary/50 resize-none"
                                     placeholder="Ünvan hakkında açıklama..."
+                                    className="resize-none"
                                 />
                             </div>
-                            <div className="flex items-center gap-2">
-                                <input
-                                    type="checkbox"
-                                    id="isActive"
+                            <div className="flex items-center space-x-2">
+                                <Checkbox 
+                                    id="isActive" 
                                     checked={formData.isActive}
-                                    onChange={(e) => setFormData(prev => ({ ...prev, isActive: e.target.checked }))}
-                                    className="w-4 h-4 rounded border-border-color dark:border-dark-border text-primary focus:ring-primary/50"
+                                    onCheckedChange={(checked) => setFormData(prev => ({ ...prev, isActive: checked as boolean }))}
                                 />
-                                <label htmlFor="isActive" className="text-sm text-text-secondary dark:text-dark-text-secondary">
+                                <Label htmlFor="isActive" className="font-normal cursor-pointer">
                                     Aktif
-                                </label>
+                                </Label>
                             </div>
-                            <div className="flex justify-end gap-3 pt-4">
-                                <button
-                                    type="button"
-                                    onClick={handleCloseModal}
-                                    className="px-4 py-2 text-text-secondary dark:text-dark-text-secondary hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors"
-                                >
-                                    İptal
-                                </button>
-                                <button
-                                    type="submit"
-                                    disabled={saving}
-                                    className="bg-primary hover:bg-primary/90 text-white px-6 py-2 rounded-lg font-medium shadow-sm transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
-                                >
-                                    {saving ? (
-                                        <>
-                                            <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>
-                                            Kaydediliyor...
-                                        </>
-                                    ) : (
-                                        'Kaydet'
-                                    )}
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            )}
+                        </div>
+                        <DialogFooter>
+                            <Button type="button" variant="outline" onClick={handleCloseModal}>İptal</Button>
+                            <Button type="submit" disabled={saving} className="bg-purple-600 text-white hover:bg-purple-700">
+                                {saving ? (
+                                    <>
+                                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                        Kaydediliyor...
+                                    </>
+                                ) : (
+                                    'Kaydet'
+                                )}
+                            </Button>
+                        </DialogFooter>
+                    </form>
+                </DialogContent>
+            </Dialog>
         </div>
     );
 };

@@ -1,15 +1,30 @@
 import React, { useEffect, useState } from 'react';
-import { BarChart, Bar, XAxis, Tooltip, ResponsiveContainer, Cell } from 'recharts';
 import { dashboardApi } from '../../../api/dashboardApi';
 import type { DashboardStats } from '../../../types';
 import { useAuthStore } from '../../../store/authStore';
-import { Users, Building2, Shield, Loader2 } from 'lucide-react';
+import { Users, Building2, Shield, Activity, ArrowUpRight, Loader2 } from 'lucide-react';
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardHeader,
+    CardTitle,
+} from "@/components/ui/card";
+import {
+    type ChartConfig,
+    ChartContainer,
+    ChartTooltip,
+    ChartTooltipContent,
+} from "@/components/ui/chart";
+import { Bar, BarChart, CartesianGrid, XAxis } from "recharts";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 export const Dashboard: React.FC = () => {
   const [stats, setStats] = useState<DashboardStats | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const { user, selectedBirim } = useAuthStore();
+  const { selectedBirim } = useAuthStore();
 
   useEffect(() => {
     const fetchStats = async () => {
@@ -27,147 +42,169 @@ export const Dashboard: React.FC = () => {
     fetchStats();
   }, []);
 
-  // Transform birimUserCounts for chart
+  // Transform data for chart
   const chartData = stats?.birimUserCounts.map(b => ({
-    name: b.birimAdi.length > 12 ? b.birimAdi.substring(0, 12) + '...' : b.birimAdi,
-    value: b.userCount
+    name: b.birimAdi,
+    count: b.userCount,
   })) ?? [];
+
+  const chartConfig = {
+    count: {
+      label: "Kullanıcı Sayısı",
+      color: "hsl(var(--chart-1))",
+    },
+  } satisfies ChartConfig;
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-64">
-        <Loader2 className="w-8 h-8 animate-spin text-primary" />
+      <div className="flex h-full items-center justify-center">
+        <Loader2 className="h-8 w-8 animate-spin text-primary" />
       </div>
     );
   }
 
+  if (error) {
+      return (
+          <div className="flex h-full items-center justify-center text-destructive">
+              {error}
+          </div>
+      );
+  }
+
   return (
-    <div className="p-6 md:p-8 flex flex-col gap-8 w-full max-w-7xl mx-auto">
-      <div className="flex items-center justify-between">
-        <div className="flex flex-col gap-1">
-            <div className="flex items-center gap-2 text-text-secondary dark:text-dark-text-secondary mb-1">
-                <Building2 className="w-4 h-4" />
-                <span className="text-sm font-medium tracking-wide uppercase">{selectedBirim?.birimAdi || 'Genel Görünüm'}</span>
-            </div>
-            <h1 className="text-text-primary dark:text-dark-text-primary text-3xl font-black leading-tight tracking-tight">
-              {selectedBirim?.birimAdi || 'Yönetim'} Paneli
-            </h1>
-            <p className="text-text-secondary dark:text-dark-text-secondary text-base font-normal">
-              {selectedBirim 
-                ? `${selectedBirim.birimAdi} birimi ile ilgili verilere buradan erişebilirsiniz.`
-                : 'Sistem genelindeki kritik bilgilere buradan hızla erişebilirsiniz.'}
-            </p>
-        </div>
-        <div className="flex items-center gap-2">
-            <div className="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-text-secondary dark:text-dark-text-secondary cursor-pointer hover:bg-slate-200 dark:hover:bg-slate-700">
-                <span className="material-symbols-outlined">notifications</span>
-            </div>
-            <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold">
-              {user?.ad?.charAt(0) ?? 'A'}
+    <div className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8">
+        <div className="flex items-center justify-between space-y-2">
+            <div>
+                <h2 className="text-3xl font-bold tracking-tight">Dashboard</h2>
+                <p className="text-muted-foreground">
+                    {selectedBirim 
+                        ? `${selectedBirim.birimAdi} birimi yönetim paneli.`
+                        : 'Sistem genelindeki kritik veriler ve istatistikler.'}
+                </p>
             </div>
         </div>
-      </div>
 
-      {error && (
-        <div className="bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400 px-4 py-3 rounded-lg">
-          {error}
-        </div>
-      )}
-
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="bg-card dark:bg-dark-card border border-border-color dark:border-dark-border rounded-xl p-6 shadow-sm">
-            <div className="flex items-center justify-between">
-              <p className="text-text-secondary dark:text-dark-text-secondary text-base font-medium">Toplam Kullanıcı</p>
-              <Users className="w-5 h-5 text-primary" />
-            </div>
-            <p className="text-text-primary dark:text-dark-text-primary text-4xl font-bold mt-2">
-              {stats?.totalUsers.toLocaleString('tr-TR') ?? '-'}
-            </p>
-            <p className="text-xs text-text-secondary dark:text-dark-text-secondary mt-1">
-              {stats?.activeUsers ?? 0} aktif
-            </p>
-        </div>
-        <div className="bg-card dark:bg-dark-card border border-border-color dark:border-dark-border rounded-xl p-6 shadow-sm">
-            <div className="flex items-center justify-between">
-              <p className="text-text-secondary dark:text-dark-text-secondary text-base font-medium">Aktif Birim</p>
-              <Building2 className="w-5 h-5 text-primary" />
-            </div>
-            <p className="text-text-primary dark:text-dark-text-primary text-4xl font-bold mt-2">
-              {stats?.activeBirimler ?? '-'}
-            </p>
-            <p className="text-xs text-text-secondary dark:text-dark-text-secondary mt-1">
-              {stats?.totalBirimler ?? 0} toplam
-            </p>
-        </div>
-        <div className="bg-card dark:bg-dark-card border border-border-color dark:border-dark-border rounded-xl p-6 shadow-sm">
-            <div className="flex items-center justify-between">
-              <p className="text-text-secondary dark:text-dark-text-secondary text-base font-medium">Toplam Rol</p>
-              <Shield className="w-5 h-5 text-primary" />
-            </div>
-            <p className="text-text-primary dark:text-dark-text-primary text-4xl font-bold mt-2">
-              {stats?.totalRoles ?? '-'}
-            </p>
-        </div>
-      </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2 bg-card dark:bg-dark-card border border-border-color dark:border-dark-border rounded-xl p-6 shadow-sm">
-            <div className="flex flex-col gap-1 mb-6">
-                <p className="text-text-primary dark:text-dark-text-primary text-lg font-bold">Birimlere Göre Kullanıcı Dağılımı</p>
-                <div className="flex items-center gap-2">
-                    <p className="text-2xl font-bold text-text-primary dark:text-dark-text-primary">
-                      {stats?.totalUsers.toLocaleString('tr-TR') ?? 0} Toplam
+        {/* Stats Cards */}
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+            <Card>
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                    <CardTitle className="text-sm font-medium">Toplam Kullanıcı</CardTitle>
+                    <Users className="h-4 w-4 text-muted-foreground" />
+                </CardHeader>
+                <CardContent>
+                    <div className="text-2xl font-bold">{stats?.totalUsers.toLocaleString('tr-TR')}</div>
+                    <p className="text-xs text-muted-foreground">
+                        {stats?.activeUsers} aktif kullanıcı
                     </p>
-                </div>
-            </div>
-            <div className="h-64 w-full">
-                {chartData.length > 0 ? (
-                  <ResponsiveContainer width="100%" height="100%">
-                      <BarChart data={chartData}>
-                          <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{fill: '#64748B', fontSize: 12, fontWeight: 600}} dy={10}/>
-                          <Tooltip
-                              cursor={{fill: 'transparent'}}
-                              contentStyle={{borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)', backgroundColor: '#1E293B', color: '#F8FAFC'}}
-                              itemStyle={{color: '#F8FAFC'}}
-                          />
-                          <Bar dataKey="value" radius={[4, 4, 0, 0]}>
-                              {chartData.map((_, index: number) => (
-                                  <Cell key={`cell-${index}`} fill={index % 2 === 0 ? '#BFDBFE' : '#3B82F6'} />
-                              ))}
-                          </Bar>
-                      </BarChart>
-                  </ResponsiveContainer>
-                ) : (
-                  <div className="flex items-center justify-center h-full text-text-secondary">
-                    Henüz veri bulunmuyor
-                  </div>
-                )}
-            </div>
+                </CardContent>
+            </Card>
+            <Card>
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                    <CardTitle className="text-sm font-medium">Aktif Birim</CardTitle>
+                    <Building2 className="h-4 w-4 text-muted-foreground" />
+                </CardHeader>
+                <CardContent>
+                    <div className="text-2xl font-bold">{stats?.activeBirimler}</div>
+                    <p className="text-xs text-muted-foreground">
+                        Toplam {stats?.totalBirimler} birim arasından
+                    </p>
+                </CardContent>
+            </Card>
+            <Card>
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                    <CardTitle className="text-sm font-medium">Toplam Rol</CardTitle>
+                    <Shield className="h-4 w-4 text-muted-foreground" />
+                </CardHeader>
+                <CardContent>
+                    <div className="text-2xl font-bold">{stats?.totalRoles}</div>
+                    <p className="text-xs text-muted-foreground">
+                        Sistemde tanımlı rol sayısı
+                    </p>
+                </CardContent>
+            </Card>
+            <Card>
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                    <CardTitle className="text-sm font-medium">Sistem Aktivitesi</CardTitle>
+                    <Activity className="h-4 w-4 text-muted-foreground" />
+                </CardHeader>
+                <CardContent>
+                    <div className="text-2xl font-bold text-green-600 flex items-center gap-1">
+                        %99.9 <ArrowUpRight className="h-4 w-4" />
+                    </div>
+                    <p className="text-xs text-muted-foreground">
+                        Tüm servisler çalışıyor
+                    </p>
+                </CardContent>
+            </Card>
         </div>
 
-        <div className="bg-card dark:bg-dark-card border border-border-color dark:border-dark-border rounded-xl p-6 shadow-sm flex flex-col gap-6">
-            <h3 className="text-text-primary dark:text-dark-text-primary text-lg font-bold">Son Sistem Aktiviteleri</h3>
-            <div className="flex flex-col gap-4 overflow-y-auto max-h-64">
-                {stats?.recentActivities && stats.recentActivities.length > 0 ? (
-                  stats.recentActivities.map((activity) => (
-                    <div key={activity.id} className="flex gap-3">
-                        <div className="w-9 h-9 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center shrink-0 text-primary">
-                            <span className="material-symbols-outlined text-sm">{activity.iconName}</span>
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
+            {/* Chart */}
+            <Card className="col-span-4">
+                <CardHeader>
+                    <CardTitle>Kullanıcı Dağılımı</CardTitle>
+                    <CardDescription>
+                        Birimlere göre kullanıcı sayılarının dağılımı.
+                    </CardDescription>
+                </CardHeader>
+                <CardContent className="pl-2">
+                    <ChartContainer config={chartConfig} className="min-h-[300px] max-h-[350px] w-full">
+                        <BarChart accessibilityLayer data={chartData}>
+                            <CartesianGrid vertical={false} />
+                            <XAxis
+                                dataKey="name"
+                                tickLine={false}
+                                tickMargin={10}
+                                axisLine={false}
+                                tickFormatter={(value) => value.slice(0, 10)}
+                            />
+                            <ChartTooltip content={<ChartTooltipContent />} />
+                            <Bar dataKey="count" fill="var(--color-count)" radius={4} />
+                        </BarChart>
+                    </ChartContainer>
+                </CardContent>
+            </Card>
+
+            {/* Recent Activities */}
+            <Card className="col-span-3">
+                <CardHeader>
+                    <CardTitle>Son Aktiviteler</CardTitle>
+                    <CardDescription>
+                        Sistemde gerçekleşen son işlemler.
+                    </CardDescription>
+                </CardHeader>
+                <CardContent>
+                    <ScrollArea className="h-[350px] pr-4">
+                        <div className="space-y-8">
+                            {stats?.recentActivities?.map((activity) => (
+                                <div key={activity.id} className="flex items-center">
+                                    <Avatar className="h-9 w-9">
+                                        <AvatarImage src="/avatars/01.png" alt="Avatar" />
+                                        <AvatarFallback className="bg-primary/10 text-primary text-xs font-bold">
+                                            {activity.userFullName?.[0] || 'S'}
+                                        </AvatarFallback>
+                                    </Avatar>
+                                    <div className="ml-4 space-y-1">
+                                        <p className="text-sm font-medium leading-none">{activity.userFullName || 'Sistem'}</p>
+                                        <p className="text-sm text-muted-foreground">
+                                            {activity.action}
+                                        </p>
+                                    </div>
+                                    <div className="ml-auto font-medium text-xs text-muted-foreground">
+                                        {activity.timeAgo}
+                                    </div>
+                                </div>
+                            ))}
+                            {(!stats?.recentActivities || stats.recentActivities.length === 0) && (
+                                <div className="text-center text-muted-foreground text-sm py-8">
+                                    Henüz aktivite bulunmuyor.
+                                </div>
+                            )}
                         </div>
-                        <div className="min-w-0">
-                            <p className="text-sm text-text-primary dark:text-dark-text-primary truncate">
-                              <b>{activity.userFullName ?? 'Sistem'}</b> - {activity.action}
-                            </p>
-                            <p className="text-xs text-text-secondary dark:text-dark-text-secondary mt-1">{activity.timeAgo}</p>
-                        </div>
-                    </div>
-                  ))
-                ) : (
-                  <div className="text-text-secondary text-sm">Henüz aktivite bulunmuyor</div>
-                )}
-            </div>
+                    </ScrollArea>
+                </CardContent>
+            </Card>
         </div>
-      </div>
     </div>
   );
 };

@@ -2,6 +2,27 @@ import React, { useState } from 'react';
 import { useAuthStore } from '../../../store/authStore';
 import { profileApi } from '../../../api/profileApi';
 import toast from 'react-hot-toast';
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardFooter,
+    CardHeader,
+    CardTitle,
+} from "@/components/ui/card";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+} from "@/components/ui/dialog";
+import { User, Building2, BadgeCheck, Calendar, Activity, Key, Loader2 } from 'lucide-react';
 
 export const Profile: React.FC = () => {
   const { user, selectedBirim } = useAuthStore();
@@ -47,155 +68,170 @@ export const Profile: React.FC = () => {
   };
 
   return (
-    <div className="p-6 md:p-8 flex flex-col h-full w-full max-w-5xl mx-auto">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-bold text-text-primary dark:text-dark-text-primary">Profil Bilgileri</h1>
-        <button
-          onClick={() => setShowPasswordModal(true)}
-          className="bg-primary hover:bg-primary/80 text-white px-4 py-2 rounded-lg flex items-center gap-2 font-medium text-sm shadow-sm transition-colors"
-        >
-          <span className="material-symbols-outlined text-lg">key</span>
-          Şifre Değiştir
-        </button>
+    <div className="h-full flex-1 flex-col space-y-8 p-8 md:flex max-w-5xl mx-auto">
+      <div className="flex items-center justify-between space-y-2">
+        <div>
+          <h2 className="text-2xl font-bold tracking-tight">Profil Bilgileri</h2>
+          <p className="text-muted-foreground">
+            Kişisel bilgilerinizi ve hesap ayarlarınızı buradan yönetebilirsiniz.
+          </p>
+        </div>
+        <Button onClick={() => setShowPasswordModal(true)} className="bg-purple-600 hover:bg-purple-700 text-white">
+            <Key className="mr-2 h-4 w-4" />
+            Şifre Değiştir
+        </Button>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid gap-6 md:grid-cols-2">
         {/* Kullanıcı Kartı */}
-        <div className="bg-card dark:bg-dark-card p-6 rounded-xl shadow-sm border border-border-color dark:border-dark-border">
-          <div className="flex items-center gap-4 mb-6">
-            <div className="bg-primary/10 rounded-full h-20 w-20 flex items-center justify-center">
-              <span className="material-symbols-outlined text-4xl text-primary">person</span>
-            </div>
-            <div>
-              <h2 className="text-xl font-semibold text-text-primary dark:text-dark-text-primary">
-                {user.ad} {user.soyad}
-              </h2>
-              <p className="text-sm text-text-secondary dark:text-dark-text-secondary">
-                {selectedBirim?.roleName || 'Kullanıcı'}
-              </p>
-            </div>
-          </div>
+        <Card>
+            <CardHeader>
+                <CardTitle>Kişisel Bilgiler</CardTitle>
+                <CardDescription>Temel kimlik bilgileriniz</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-6">
+                <div className="flex items-center gap-4">
+                    <Avatar className="h-20 w-20">
+                        <AvatarImage src={user.avatar} alt={user.ad} />
+                        <AvatarFallback className="text-2xl bg-primary/10 text-primary">
+                            {user.ad?.[0]}{user.soyad?.[0]}
+                        </AvatarFallback>
+                    </Avatar>
+                    <div>
+                        <h3 className="text-xl font-semibold">{user.ad} {user.soyad}</h3>
+                        <p className="text-sm text-muted-foreground">{selectedBirim?.roleName || 'Kullanıcı'}</p>
+                    </div>
+                </div>
+                <div className="grid gap-4">
+                    <div className="grid gap-1">
+                        <Label className="text-muted-foreground">Sicil Numarası</Label>
+                        <div className="flex items-center gap-2 font-medium">
+                            <User className="h-4 w-4 text-primary" />
+                            {user.sicil}
+                        </div>
+                    </div>
+                    <div className="grid gap-1">
+                        <Label className="text-muted-foreground">Unvan</Label>
+                        <div className="flex items-center gap-2 font-medium">
+                            <BadgeCheck className="h-4 w-4 text-primary" />
+                            {user.unvan || '-'}
+                        </div>
+                    </div>
+                </div>
+            </CardContent>
+        </Card>
 
-          <div className="space-y-4">
-            <div>
-              <span className="block text-sm font-medium text-text-secondary dark:text-dark-text-secondary">Sicil Numarası</span>
-              <p className="mt-1 text-lg font-medium text-text-primary dark:text-dark-text-primary">{user.sicil}</p>
-            </div>
-            
-            <div>
-              <span className="block text-sm font-medium text-text-secondary dark:text-dark-text-secondary">Unvan</span>
-              <p className="mt-1 text-lg font-medium text-text-primary dark:text-dark-text-primary">{user.unvan || '-'}</p>
-            </div>
-          </div>
-        </div>
+        {/* Organizasyon Kartı */}
+        <Card>
+            <CardHeader>
+                <CardTitle>Organizasyon Bilgileri</CardTitle>
+                <CardDescription>Birim ve yetki detaylarınız</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-6">
+                <div className="grid gap-4">
+                    <div className="p-4 rounded-lg bg-muted/50 space-y-3">
+                        <div className="flex items-center justify-between">
+                            <Label className="text-muted-foreground">Aktif Birim</Label>
+                            <Building2 className="h-4 w-4 text-primary" />
+                        </div>
+                        <p className="text-lg font-semibold text-primary">
+                            {selectedBirim?.birimAdi}
+                        </p>
+                    </div>
 
-        {/* Birim & Yetki Kartı */}
-        <div className="bg-card dark:bg-dark-card p-6 rounded-xl shadow-sm border border-border-color dark:border-dark-border">
-          <h3 className="text-lg font-semibold text-text-primary dark:text-dark-text-primary mb-4">Organizasyon Bilgileri</h3>
-          
-          <div className="space-y-4">
-            <div>
-              <span className="block text-sm font-medium text-text-secondary dark:text-dark-text-secondary">Aktif Birim</span>
-              <div className="mt-1 flex items-center gap-2 p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
-                <span className="material-symbols-outlined text-blue-600 dark:text-blue-400">corporate_fare</span>
-                <span className="font-medium text-blue-900 dark:text-blue-100">{selectedBirim?.birimAdi}</span>
-              </div>
-            </div>
+                    <div className="p-4 rounded-lg bg-muted/50 space-y-3">
+                        <div className="flex items-center justify-between">
+                            <Label className="text-muted-foreground">Aktif Rol</Label>
+                            <BadgeCheck className="h-4 w-4 text-primary" />
+                        </div>
+                        <p className="text-lg font-semibold text-primary">
+                            {selectedBirim?.roleName}
+                        </p>
+                    </div>
+                </div>
 
-            <div>
-              <span className="block text-sm font-medium text-text-secondary dark:text-dark-text-secondary">Aktif Rol</span>
-              <div className="mt-1 flex items-center gap-2 p-3 bg-green-50 dark:bg-green-900/20 rounded-lg">
-                <span className="material-symbols-outlined text-green-600 dark:text-green-400">badge</span>
-                <span className="font-medium text-green-900 dark:text-green-100">{selectedBirim?.roleName}</span>
-              </div>
-            </div>
-            
-            <div className="pt-4 border-t border-border-color dark:border-dark-border mt-4">
-               <p className="text-xs text-text-secondary dark:text-dark-text-secondary">
-                 Hesap Oluşturulma Tarihi: {new Date(user.createdAt).toLocaleDateString('tr-TR')}
-               </p>
-               <p className="text-xs text-text-secondary dark:text-dark-text-secondary mt-1">
-                 Durum: <span className={user.isActive ? 'text-green-600' : 'text-red-600'}>{user.isActive ? 'Aktif' : 'Pasif'}</span>
-               </p>
-            </div>
-          </div>
-        </div>
+                <div className="pt-4 border-t space-y-3">
+                    <div className="flex items-center justify-between text-sm">
+                        <span className="flex items-center gap-2 text-muted-foreground">
+                            <Calendar className="h-4 w-4" />
+                            Oluşturulma Tarihi
+                        </span>
+                        <span>{new Date(user.createdAt).toLocaleDateString('tr-TR')}</span>
+                    </div>
+                    <div className="flex items-center justify-between text-sm">
+                        <span className="flex items-center gap-2 text-muted-foreground">
+                            <Activity className="h-4 w-4" />
+                            Hesap Durumu
+                        </span>
+                        <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${user.isActive ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300' : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300'}`}>
+                            {user.isActive ? 'Aktif' : 'Pasif'}
+                        </span>
+                    </div>
+                </div>
+            </CardContent>
+        </Card>
       </div>
 
       {/* Password Change Modal */}
-      {showPasswordModal && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="bg-card dark:bg-dark-card rounded-xl shadow-xl max-w-md w-full">
-            <div className="flex items-center justify-between px-6 py-4 border-b border-border-color dark:border-dark-border">
-              <h3 className="text-lg font-semibold text-text-primary dark:text-dark-text-primary">
-                Şifre Değiştir
-              </h3>
-              <button
-                onClick={() => setShowPasswordModal(false)}
-                className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors"
-              >
-                <span className="material-symbols-outlined">close</span>
-              </button>
-            </div>
-            <form onSubmit={handleChangePassword} className="p-6 space-y-4">
-              <div>
-                <span className="block text-sm font-medium text-text-primary dark:text-dark-text-primary mb-1">
-                  Mevcut Şifre
-                </span>
-                <input
-                  type="password"
-                  value={passwordData.currentPassword}
-                  onChange={(e) => setPasswordData({ ...passwordData, currentPassword: e.target.value })}
-                  required
-                  className="w-full px-3 py-2 border border-border-color dark:border-dark-border rounded-lg bg-background dark:bg-dark-background text-text-primary dark:text-dark-text-primary focus:outline-none focus:ring-2 focus:ring-primary/50"
-                />
-              </div>
-              <div>
-                <span className="block text-sm font-medium text-text-primary dark:text-dark-text-primary mb-1">
-                  Yeni Şifre
-                </span>
-                <input
-                  type="password"
-                  value={passwordData.newPassword}
-                  onChange={(e) => setPasswordData({ ...passwordData, newPassword: e.target.value })}
-                  required
-                  minLength={8}
-                  className="w-full px-3 py-2 border border-border-color dark:border-dark-border rounded-lg bg-background dark:bg-dark-background text-text-primary dark:text-dark-text-primary focus:outline-none focus:ring-2 focus:ring-primary/50"
-                  placeholder="En az 8 karakter"
-                />
-              </div>
-              <div>
-                <span className="block text-sm font-medium text-text-primary dark:text-dark-text-primary mb-1">
-                  Yeni Şifre Tekrar
-                </span>
-                <input
-                  type="password"
-                  value={passwordData.confirmPassword}
-                  onChange={(e) => setPasswordData({ ...passwordData, confirmPassword: e.target.value })}
-                  required
-                  className="w-full px-3 py-2 border border-border-color dark:border-dark-border rounded-lg bg-background dark:bg-dark-background text-text-primary dark:text-dark-text-primary focus:outline-none focus:ring-2 focus:ring-primary/50"
-                />
-              </div>
-              <div className="flex justify-end gap-3 pt-4">
-                <button
-                  type="button"
-                  onClick={() => setShowPasswordModal(false)}
-                  className="px-4 py-2 text-sm font-medium text-text-secondary hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors"
-                >
-                  İptal
-                </button>
-                <button
-                  type="submit"
-                  disabled={loading}
-                  className="px-4 py-2 text-sm font-medium text-white bg-primary hover:bg-primary/80 rounded-lg transition-colors disabled:opacity-50"
-                >
-                  {loading ? 'Değiştiriliyor...' : 'Şifreyi Değiştir'}
-                </button>
-              </div>
+      <Dialog open={showPasswordModal} onOpenChange={setShowPasswordModal}>
+        <DialogContent className="sm:max-w-[425px]">
+            <DialogHeader>
+                <DialogTitle>Şifre Değiştir</DialogTitle>
+                <DialogDescription>
+                    Hesap güvenliğiniz için güçlü bir şifre belirleyin.
+                </DialogDescription>
+            </DialogHeader>
+            <form onSubmit={handleChangePassword}>
+                <div className="grid gap-4 py-4">
+                    <div className="grid gap-2">
+                        <Label htmlFor="currentPassword">Mevcut Şifre</Label>
+                        <Input
+                            id="currentPassword"
+                            type="password"
+                            value={passwordData.currentPassword}
+                            onChange={(e) => setPasswordData({ ...passwordData, currentPassword: e.target.value })}
+                            required
+                        />
+                    </div>
+                    <div className="grid gap-2">
+                        <Label htmlFor="newPassword">Yeni Şifre</Label>
+                        <Input
+                            id="newPassword"
+                            type="password"
+                            value={passwordData.newPassword}
+                            onChange={(e) => setPasswordData({ ...passwordData, newPassword: e.target.value })}
+                            required
+                            minLength={8}
+                            placeholder="En az 8 karakter"
+                        />
+                    </div>
+                    <div className="grid gap-2">
+                        <Label htmlFor="confirmPassword">Yeni Şifre Tekrar</Label>
+                        <Input
+                            id="confirmPassword"
+                            type="password"
+                            value={passwordData.confirmPassword}
+                            onChange={(e) => setPasswordData({ ...passwordData, confirmPassword: e.target.value })}
+                            required
+                        />
+                    </div>
+                </div>
+                <DialogFooter>
+                    <Button type="button" variant="outline" onClick={() => setShowPasswordModal(false)}>İptal</Button>
+                    <Button type="submit" disabled={loading} className="bg-purple-600 hover:bg-purple-700 text-white">
+                        {loading ? (
+                            <>
+                                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                Değiştiriliyor...
+                            </>
+                        ) : (
+                            'Şifreyi Değiştir'
+                        )}
+                    </Button>
+                </DialogFooter>
             </form>
-          </div>
-        </div>
-      )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };

@@ -2,6 +2,21 @@ import React, { useEffect, useState } from 'react';
 import { rolesApi, permissionsApi } from '../../../api/rolesApi';
 import type { Role, Permission } from '../../../types/api/roles';
 import { toast } from 'react-hot-toast';
+import { Shield, Check, Save, Loader2, Search, Filter } from 'lucide-react';
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardFooter,
+    CardHeader,
+    CardTitle,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Input } from "@/components/ui/input";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Separator } from "@/components/ui/separator";
+import { Badge } from "@/components/ui/badge";
 
 export const RolePermissions: React.FC = () => {
   const [roles, setRoles] = useState<Role[]>([]);
@@ -11,6 +26,10 @@ export const RolePermissions: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [permissionsLoading, setPermissionsLoading] = useState(false);
   const [saving, setSaving] = useState(false);
+  
+  // Search states
+  const [roleSearch, setRoleSearch] = useState('');
+  const [permissionSearch, setPermissionSearch] = useState('');
 
   // Load initial data
   useEffect(() => {
@@ -90,18 +109,29 @@ export const RolePermissions: React.FC = () => {
     
     setRolePermissionIds(prev => {
       if (checked) {
-        // Add all permissions for this resource that aren't already selected
         const toAdd = permissionsInResource.filter(id => !prev.includes(id));
         return [...prev, ...toAdd];
       } else {
-        // Remove all permissions for this resource
         return prev.filter(id => !permissionsInResource.includes(id));
       }
     });
   };
 
-  // Group permissions by resource
-  const groupedPermissions = allPermissions.reduce((acc, permission) => {
+  // Filter roles based on search
+  const filteredRoles = roles.filter(role => 
+    role.roleName.toLowerCase().includes(roleSearch.toLowerCase())
+  );
+
+  // Filter permissions based on search
+  const filteredPermissions = allPermissions.filter(p => 
+    permissionSearch === '' || 
+    p.action.toLowerCase().includes(permissionSearch.toLowerCase()) ||
+    p.description?.toLowerCase().includes(permissionSearch.toLowerCase()) ||
+    p.resource.toLowerCase().includes(permissionSearch.toLowerCase())
+  );
+
+  // Group filtered permissions by resource
+  const groupedPermissions = filteredPermissions.reduce((acc, permission) => {
     if (!acc[permission.resource]) {
       acc[permission.resource] = [];
     }
@@ -110,128 +140,202 @@ export const RolePermissions: React.FC = () => {
   }, {} as Record<string, Permission[]>);
 
   if (loading) {
-    return <div className="p-8 text-center">Yükleniyor...</div>;
+    return (
+        <div className="flex h-full items-center justify-center">
+            <Loader2 className="h-8 w-8 animate-spin text-primary" />
+        </div>
+    );
   }
 
   return (
-    <div className="p-6 md:p-8 flex flex-col h-full w-full max-w-7xl mx-auto">
-      <h1 className="text-3xl font-bold text-text-primary dark:text-dark-text-primary mb-6">Rol ve İzin Yönetimi</h1>
-
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 h-full">
-        {/* Left Column: Roles List */}
-        <div className="lg:col-span-1 bg-white dark:bg-dark-surface rounded-lg shadow overflow-hidden border border-gray-200 dark:border-gray-700">
-          <div className="p-4 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800">
-            <h2 className="font-semibold text-text-primary dark:text-dark-text-primary">Roller</h2>
-          </div>
-          <div className="overflow-y-auto max-h-[600px]">
-            {roles.map(role => (
-              <button
-                key={role.roleID}
-                onClick={() => setSelectedRoleId(role.roleID)}
-                className={`w-full text-left p-4 border-b border-gray-100 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors
-                  ${selectedRoleId === role.roleID ? 'bg-brand-primary/10 border-l-4 border-l-brand-primary' : 'border-l-4 border-l-transparent'}
-                `}
-              >
-                <div className="font-medium text-text-primary dark:text-dark-text-primary">{role.roleName}</div>
-                {role.description && (
-                  <div className="text-xs text-text-secondary dark:text-dark-text-secondary truncate mt-1">{role.description}</div>
-                )}
-              </button>
-            ))}
-          </div>
+    <div className="h-full flex flex-col p-8 space-y-8">
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="text-2xl font-bold tracking-tight">Rol ve İzin Yönetimi</h2>
+          <p className="text-muted-foreground">
+            Sistemdeki rolleri ve yetkilerini yönetin.
+          </p>
         </div>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 h-[calc(100vh-200px)]">
+        {/* Left Column: Roles List */}
+        <Card className="lg:col-span-1 flex flex-col overflow-hidden shadow-md border-0 bg-card/50 backdrop-blur-sm">
+          <CardHeader className="pb-3 px-4 pt-4">
+            <CardTitle className="text-lg flex items-center gap-2 mb-2">
+                <Shield className="w-5 h-5 text-primary" />
+                Roller
+            </CardTitle>
+            <div className="relative">
+                <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                <Input 
+                    placeholder="Rol ara..." 
+                    value={roleSearch}
+                    onChange={(e) => setRoleSearch(e.target.value)}
+                    className="pl-8 h-9 bg-background/50"
+                />
+            </div>
+          </CardHeader>
+          <Separator className="opacity-50" />
+          <ScrollArea className="flex-1">
+            <div className="p-3 space-y-1">
+              {filteredRoles.map(role => (
+                <button
+                  key={role.roleID}
+                  onClick={() => setSelectedRoleId(role.roleID)}
+                  className={`w-full text-left p-3 rounded-lg transition-all flex flex-col gap-1 border group relative overflow-hidden
+                    ${selectedRoleId === role.roleID 
+                      ? 'bg-primary text-primary-foreground border-primary shadow-md' 
+                      : 'hover:bg-muted/80 border-transparent text-card-foreground'
+                    }
+                  `}
+                >
+                  <div className="flex items-center justify-between z-10 relative">
+                      <span className="font-medium text-sm">{role.roleName}</span>
+                      {selectedRoleId === role.roleID && <Check className="h-3 w-3" />}
+                  </div>
+                  {role.description && (
+                    <span className={`text-xs line-clamp-1 z-10 relative ${selectedRoleId === role.roleID ? 'text-primary-foreground/80' : 'text-muted-foreground group-hover:text-foreground'}`}>
+                        {role.description}
+                    </span>
+                  )}
+                </button>
+              ))}
+              {filteredRoles.length === 0 && (
+                  <div className="text-center py-4 text-sm text-muted-foreground">
+                      Rol bulunamadı.
+                  </div>
+              )}
+            </div>
+          </ScrollArea>
+        </Card>
 
         {/* Right Column: Permissions Matrix */}
-        <div className="lg:col-span-3 bg-white dark:bg-dark-surface rounded-lg shadow border border-gray-200 dark:border-gray-700 flex flex-col">
-          <div className="p-4 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 flex justify-between items-center sticky top-0 z-10">
-            <div>
-              <h2 className="font-semibold text-text-primary dark:text-dark-text-primary">
-                {roles.find(r => r.roleID === selectedRoleId)?.roleName} İzinleri
-              </h2>
-              <p className="text-xs text-text-secondary dark:text-dark-text-secondary mt-1">
-                Bu rol için yetkileri aşağıdan düzenleyebilirsiniz.
-              </p>
-            </div>
-            <button
-              onClick={handleSave}
-              disabled={saving || permissionsLoading}
-              className="px-4 py-2 bg-brand-primary text-white rounded-md hover:bg-brand-secondary transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
-            >
-              {saving ? 'Kaydediliyor...' : 'Kaydet'}
-            </button>
-          </div>
-
-          <div className="p-6 overflow-y-auto max-h-[600px]">
-            {permissionsLoading ? (
-              <div className="text-center py-8 text-text-secondary">İzinler yükleniyor...</div>
-            ) : (
-              <div className="space-y-8">
-                {Object.entries(groupedPermissions).map(([resource, permissions]) => {
-                  const allSelected = permissions.every(p => rolePermissionIds.includes(p.permissionID));
-                  const someSelected = permissions.some(p => rolePermissionIds.includes(p.permissionID));
-                  
-                  return (
-                    <div key={resource} className="border border-gray-200 dark:border-gray-700 rounded-lg p-4">
-                      <div className="flex items-center justify-between mb-4 pb-2 border-b border-gray-100 dark:border-gray-700">
-                        <h3 className="text-lg font-medium text-text-primary dark:text-dark-text-primary capitalize">
-                          {resource} Yönetimi
-                        </h3>
-                        <label className="flex items-center gap-2 text-sm cursor-pointer select-none">
-                          <input
-                            type="checkbox"
-                            checked={allSelected}
-                            ref={input => {
-                              if (input) {
-                                input.indeterminate = someSelected && !allSelected;
-                              }
-                            }}
-                            onChange={(e) => handleSelectAll(resource, e.target.checked)}
-                            className="w-4 h-4 text-brand-primary rounded border-gray-300 focus:ring-brand-primary"
-                          />
-                          <span className="text-text-secondary dark:text-dark-text-secondary">Tümünü Seç</span>
-                        </label>
-                      </div>
-                      
-                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                        {permissions.map(permission => (
-                          <label
-                            key={permission.permissionID}
-                            className={`flex items-start gap-3 p-3 rounded-md border cursor-pointer transition-all select-none
-                              ${rolePermissionIds.includes(permission.permissionID) 
-                                ? 'bg-brand-primary/5 border-brand-primary/30' 
-                                : 'bg-gray-50 dark:bg-gray-800 border-transparent hover:bg-gray-100 dark:hover:bg-gray-700'
-                              }
-                            `}
-                          >
-                            <input
-                              type="checkbox"
-                              checked={rolePermissionIds.includes(permission.permissionID)}
-                              onChange={() => togglePermission(permission.permissionID)}
-                              className="mt-1 w-4 h-4 text-brand-primary rounded border-gray-300 focus:ring-brand-primary"
-                            />
-                            <div>
-                              <div className="font-medium text-sm text-text-primary dark:text-dark-text-primary">
-                                {permission.action}
-                              </div>
-                              {permission.description && (
-                                <div className="text-xs text-text-secondary dark:text-dark-text-secondary mt-0.5">
-                                  {permission.description}
-                                </div>
-                              )}
-                              <div className="text-[10px] text-gray-400 mt-1 font-mono">
-                                {permission.fullPermission}
-                              </div>
-                            </div>
-                          </label>
-                        ))}
-                      </div>
+        <Card className="lg:col-span-3 flex flex-col overflow-hidden border-0 shadow-md bg-card/50 backdrop-blur-sm">
+            <CardHeader className="border-b bg-muted/30 py-3 px-6">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                    <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2">
+                            <CardTitle className="text-lg truncate">
+                                {roles.find(r => r.roleID === selectedRoleId)?.roleName} <span className="text-muted-foreground font-normal">İzinleri</span>
+                            </CardTitle>
+                            <Badge variant="secondary" className="hidden sm:inline-flex">{rolePermissionIds.length} seçili</Badge>
+                        </div>
+                        <CardDescription className="truncate">
+                            Yetkileri düzenlemek için kutucukları işaretleyin.
+                        </CardDescription>
                     </div>
-                  );
-                })}
-              </div>
-            )}
-          </div>
-        </div>
+                    
+                    <div className="flex items-center gap-3 w-full sm:w-auto">
+                        <div className="relative flex-1 sm:w-64">
+                            <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                            <Input 
+                                placeholder="İzinlerde ara..." 
+                                value={permissionSearch}
+                                onChange={(e) => setPermissionSearch(e.target.value)}
+                                className="pl-8 h-9 bg-background"
+                            />
+                        </div>
+                        <Button onClick={handleSave} disabled={saving || permissionsLoading} className="bg-primary hover:bg-primary/90 text-primary-foreground shadow-sm">
+                            {saving ? (
+                                <>
+                                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                    Kaydediliyor
+                                </>
+                            ) : (
+                                <>
+                                    <Save className="mr-2 h-4 w-4" />
+                                    Kaydet
+                                </>
+                            )}
+                        </Button>
+                    </div>
+                </div>
+            </CardHeader>
+            
+            <ScrollArea className="flex-1 bg-muted/5">
+                <div className="p-6 space-y-6">
+                    {permissionsLoading ? (
+                        <div className="flex items-center justify-center h-64">
+                            <Loader2 className="h-8 w-8 animate-spin text-primary" />
+                        </div>
+                    ) : Object.keys(groupedPermissions).length === 0 ? (
+                        <div className="flex flex-col items-center justify-center h-64 text-muted-foreground">
+                            <Filter className="h-8 w-8 mb-2 opacity-50" />
+                            <p>Görüntülenecek izin bulunamadı.</p>
+                        </div>
+                    ) : (
+                        Object.entries(groupedPermissions).map(([resource, permissions]) => {
+                            const allSelected = permissions.every(p => rolePermissionIds.includes(p.permissionID));
+                            const someSelected = permissions.some(p => rolePermissionIds.includes(p.permissionID));
+                            
+                            return (
+                                <Card key={resource} className="overflow-hidden border shadow-sm bg-card transition-all hover:shadow-md">
+                                    <div className="bg-muted/30 px-4 py-3 border-b flex items-center justify-between group">
+                                        <div className="flex items-center gap-2">
+                                            <Badge variant="outline" className="capitalize bg-background px-3 py-1 text-sm font-semibold">
+                                                {resource}
+                                            </Badge>
+                                        </div>
+                                        <div className="flex items-center space-x-2 opacity-70 group-hover:opacity-100 transition-opacity">
+                                            <Checkbox 
+                                                id={`select-all-${resource}`}
+                                                checked={allSelected || (someSelected && "indeterminate")}
+                                                onCheckedChange={(checked) => handleSelectAll(resource, checked as boolean)}
+                                                className="data-[state=checked]:bg-primary data-[state=checked]:border-primary"
+                                            />
+                                            <label
+                                                htmlFor={`select-all-${resource}`}
+                                                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer select-none"
+                                            >
+                                                Grubu Seç
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div className="p-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+                                        {permissions.map(permission => (
+                                            <div
+                                                key={permission.permissionID}
+                                                onClick={() => togglePermission(permission.permissionID)}
+                                                className={`flex items-start space-x-3 p-3 rounded-lg border cursor-pointer transition-all duration-200 select-none
+                                                    ${rolePermissionIds.includes(permission.permissionID)
+                                                        ? 'bg-primary/5 border-primary/40 shadow-sm'
+                                                        : 'bg-background hover:bg-muted/60 hover:border-muted-foreground/30'
+                                                    }
+                                                `}
+                                            >
+                                                <Checkbox 
+                                                    id={`perm-${permission.permissionID}`}
+                                                    checked={rolePermissionIds.includes(permission.permissionID)}
+                                                    onCheckedChange={() => togglePermission(permission.permissionID)}
+                                                    className="mt-1"
+                                                />
+                                                <div className="grid gap-1 leading-tight flex-1">
+                                                    <label
+                                                        htmlFor={`perm-${permission.permissionID}`}
+                                                        className="text-sm font-medium leading-none cursor-pointer"
+                                                    >
+                                                        {permission.action}
+                                                    </label>
+                                                    {permission.description && (
+                                                        <p className="text-xs text-muted-foreground line-clamp-2">
+                                                            {permission.description}
+                                                        </p>
+                                                    )}
+                                                    <code className="text-[10px] text-muted-foreground bg-muted px-1.5 py-0.5 rounded w-fit font-mono mt-1">
+                                                        {permission.fullPermission}
+                                                    </code>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </Card>
+                            );
+                        })
+                    )}
+                </div>
+            </ScrollArea>
+        </Card>
       </div>
     </div>
   );

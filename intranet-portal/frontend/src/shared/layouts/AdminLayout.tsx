@@ -1,12 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
-import { Sidebar } from '../../features/admin/components/Sidebar';
-import Header from '../components/Header';
-import { Page } from '../../types';
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { AppSidebar } from './AppSidebar';
+import { Separator } from "@/components/ui/separator";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
+import { useLocation } from 'react-router-dom';
 
 const AdminLayout: React.FC = () => {
-  const [currentPage, setCurrentPage] = useState<Page>(Page.DASHBOARD);
   const [darkMode, setDarkMode] = useState(false);
+  const location = useLocation();
 
   useEffect(() => {
     if (darkMode) {
@@ -16,33 +25,45 @@ const AdminLayout: React.FC = () => {
     }
   }, [darkMode]);
 
-  // Update current page based on URL
-  useEffect(() => {
-    const path = window.location.pathname;
-    if (path.includes('/users')) setCurrentPage(Page.USER_LIST);
-    else if (path.includes('/departments')) setCurrentPage(Page.DEPARTMENT_LIST);
-    else if (path.includes('/roles')) setCurrentPage(Page.ROLES_PERMISSIONS);
-    else if (path.includes('/audit-log')) setCurrentPage(Page.AUDIT_LOG);
-    else if (path.includes('/ip-restrictions')) setCurrentPage(Page.IP_RESTRICTIONS);
-    else if (path.includes('/profile')) setCurrentPage(Page.PROFILE);
-    else setCurrentPage(Page.DASHBOARD);
-  }, []);
+  // Get current page name for breadcrumb
+  const getPageTitle = () => {
+    const path = location.pathname;
+    if (path.includes('/dashboard')) return 'Dashboard';
+    if (path.includes('/users')) return 'Kullanıcı Yönetimi';
+    if (path.includes('/definitions/unvanlar')) return 'Ünvanlar';
+    if (path.includes('/definitions/departments')) return 'Birimler';
+    if (path.includes('/roles')) return 'Roller ve İzinler';
+    if (path.includes('/audit-log')) return 'Denetim Kayıtları';
+    if (path.includes('/ip-restrictions')) return 'IP Kısıtlamaları';
+    if (path.includes('/profile')) return 'Profil';
+    if (path.includes('/test')) return 'Test Sayfası';
+    return 'Dashboard';
+  };
 
   return (
-    <div className="flex h-screen w-full bg-background dark:bg-dark-background text-text-primary dark:text-dark-text-primary overflow-hidden transition-colors duration-200">
-      <Sidebar
-        currentPage={currentPage}
-        onNavigate={setCurrentPage}
-        isDarkMode={darkMode}
-        toggleTheme={() => setDarkMode(!darkMode)}
-      />
-      <main className="flex-1 flex flex-col h-full overflow-hidden">
-        <Header />
-        <div className="flex-1 overflow-auto">
+    <SidebarProvider>
+      <AppSidebar isDarkMode={darkMode} toggleTheme={() => setDarkMode(!darkMode)} />
+      <main className="flex-1 flex flex-col h-screen overflow-hidden bg-slate-50 dark:bg-slate-950 transition-colors duration-200">
+        <header className="flex h-16 shrink-0 items-center gap-2 border-b bg-white dark:bg-slate-900 px-4 shadow-sm">
+          <SidebarTrigger className="-ml-1" />
+          <Separator orientation="vertical" className="mr-2 h-4" />
+          <Breadcrumb>
+            <BreadcrumbList>
+              <BreadcrumbItem className="hidden md:block">
+                <BreadcrumbLink href="#">Yönetim Paneli</BreadcrumbLink>
+              </BreadcrumbItem>
+              <BreadcrumbSeparator className="hidden md:block" />
+              <BreadcrumbItem>
+                <BreadcrumbPage>{getPageTitle()}</BreadcrumbPage>
+              </BreadcrumbItem>
+            </BreadcrumbList>
+          </Breadcrumb>
+        </header>
+        <div className="flex-1 overflow-auto p-6">
           <Outlet />
         </div>
       </main>
-    </div>
+    </SidebarProvider>
   );
 };
 

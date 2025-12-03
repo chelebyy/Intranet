@@ -2,6 +2,37 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { usersApi } from '../../../api/usersApi';
 import toast from 'react-hot-toast';
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from "@/components/ui/table";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+} from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
+import { 
+    Search, 
+    Plus, 
+    RefreshCw, 
+    UserX, 
+    Edit, 
+    Key, 
+    Trash2, 
+    Check, 
+    X, 
+    Loader2 
+} from 'lucide-react';
 
 interface UserListItem {
     userID: number;
@@ -93,197 +124,190 @@ export const UserList: React.FC = () => {
     );
 
     return (
-        <div className="p-6 md:p-8 flex flex-col h-full w-full max-w-7xl mx-auto">
-            <div className="flex justify-between items-center mb-6">
-                <div className="flex flex-col gap-1">
-                    <h1 className="text-3xl font-bold text-text-primary dark:text-dark-text-primary">Kullanıcı Listesi</h1>
-                    <p className="text-text-secondary dark:text-dark-text-secondary">
-                        Sistemdeki tüm kullanıcıları yönetin ve görüntüleyin. 
-                        <span className="font-medium ml-1">({users.length} kullanıcı)</span>
+        <div className="h-full flex-1 flex-col space-y-8 p-8 md:flex">
+            <div className="flex items-center justify-between space-y-2">
+                <div>
+                    <h2 className="text-2xl font-bold tracking-tight">Kullanıcı Listesi</h2>
+                    <p className="text-muted-foreground">
+                        Sistemdeki tüm kullanıcıları yönetin ve görüntüleyin ({users.length} kullanıcı)
                     </p>
                 </div>
-                <button onClick={() => navigate('/users/create')} className="bg-primary hover:bg-primary/80 text-white px-4 py-2 rounded-lg flex items-center gap-2 font-bold text-sm shadow-sm transition-colors">
-                    <span className="material-symbols-outlined">add</span>
-                    Yeni Kullanıcı Ekle
-                </button>
+                <div className="flex items-center space-x-2">
+                    <Button onClick={() => navigate('/users/create')} className="bg-purple-600 hover:bg-purple-700 text-white">
+                        <Plus className="mr-2 h-4 w-4" />
+                        Yeni Kullanıcı Ekle
+                    </Button>
+                </div>
             </div>
 
-            <div className="bg-card dark:bg-dark-card border border-border-color dark:border-dark-border rounded-xl p-4 mb-6 shadow-sm flex flex-col md:flex-row gap-4">
-                <div className="relative flex-grow">
-                    <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-text-secondary dark:text-dark-text-secondary">search</span>
-                    <input 
-                        type="text" 
-                        placeholder="Ad soyad veya sicil numarası ile ara..." 
+            <div className="flex items-center justify-between space-x-2">
+                <div className="relative flex-1 max-w-sm">
+                    <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                    <Input
+                        placeholder="Ad soyad veya sicil numarası ile ara..."
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
-                        className="w-full pl-10 pr-4 py-2 border border-border-color dark:border-dark-border rounded-lg bg-background dark:bg-dark-background focus:outline-none focus:ring-2 focus:ring-primary/50 text-sm text-text-primary dark:text-dark-text-primary" 
+                        className="pl-8"
                     />
                 </div>
-                <button 
-                    onClick={fetchUsers}
-                    className="px-4 py-2 border border-border-color dark:border-dark-border rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors flex items-center gap-2 text-sm"
-                >
-                    <span className="material-symbols-outlined text-lg">refresh</span>
+                <Button variant="outline" onClick={fetchUsers}>
+                    <RefreshCw className="mr-2 h-4 w-4" />
                     Yenile
-                </button>
+                </Button>
             </div>
 
-            <div className="bg-card dark:bg-dark-card border border-border-color dark:border-dark-border rounded-xl shadow-sm overflow-hidden flex-1 flex flex-col">
-                {loading ? (
-                    <div className="flex items-center justify-center h-64">
-                        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
-                    </div>
-                ) : filteredUsers.length === 0 ? (
-                    <div className="flex flex-col items-center justify-center h-64 text-text-secondary dark:text-dark-text-secondary">
-                        <span className="material-symbols-outlined text-5xl mb-2">person_off</span>
-                        <p>{searchTerm ? 'Arama sonucu bulunamadı' : 'Henüz kullanıcı bulunmuyor'}</p>
-                    </div>
-                ) : (
-                    <div className="overflow-x-auto">
-                        <table className="w-full text-sm text-left text-text-secondary dark:text-dark-text-secondary">
-                            <thead className="text-xs text-text-primary dark:text-dark-text-primary uppercase bg-slate-50 dark:bg-slate-800 border-b border-border-color dark:border-dark-border">
-                                <tr>
-                                    <th className="px-6 py-3">Adı Soyadı</th>
-                                    <th className="px-6 py-3">Sicil</th>
-                                    <th className="px-6 py-3">Ünvan</th>
-                                    <th className="px-6 py-3">Durum</th>
-                                    <th className="px-6 py-3">Son Giriş</th>
-                                    <th className="px-6 py-3">İşlemler</th>
-                                </tr>
-                            </thead>
-                            <tbody className="divide-y divide-border-color dark:divide-dark-border">
-                                {filteredUsers.map((user) => (
-                                    <tr key={user.userID} className="hover:bg-slate-50 dark:hover:bg-slate-800 bg-white dark:bg-dark-card">
-                                        <th className="px-6 py-4 font-semibold text-text-primary dark:text-dark-text-primary whitespace-nowrap">
-                                            {user.adSoyad}
-                                        </th>
-                                        <td className="px-6 py-4 font-mono">{user.sicil}</td>
-                                        <td className="px-6 py-4">{user.unvan || '-'}</td>
-                                        <td className="px-6 py-4">
-                                            <span className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium ${user.isActive ? 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-400' : 'bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-400'}`}>
-                                                <span className={`w-2 h-2 rounded-full ${user.isActive ? 'bg-green-500' : 'bg-slate-500'}`}></span>
-                                                {user.isActive ? 'Aktif' : 'Pasif'}
-                                            </span>
-                                        </td>
-                                        <td className="px-6 py-4 text-xs">
-                                            {user.lastLoginAt 
-                                                ? new Date(user.lastLoginAt).toLocaleString('tr-TR') 
-                                                : 'Hiç giriş yapmadı'}
-                                        </td>
-                                        <td className="px-6 py-4">
-                                            {deleteConfirm === user.userID ? (
-                                                <div className="flex items-center gap-2">
-                                                    <button 
-                                                        onClick={() => handleDelete(user.userID)}
-                                                        className="px-2 py-1 bg-red-500 text-white text-xs rounded hover:bg-red-600"
-                                                    >
-                                                        Onayla
-                                                    </button>
-                                                    <button 
-                                                        onClick={() => setDeleteConfirm(null)}
-                                                        className="px-2 py-1 bg-slate-200 dark:bg-slate-700 text-xs rounded hover:bg-slate-300 dark:hover:bg-slate-600"
-                                                    >
-                                                        İptal
-                                                    </button>
-                                                </div>
-                                            ) : (
-                                                <div className="flex items-center gap-2">
-                                                    <button 
-                                                        onClick={() => navigate(`/users/${user.userID}/edit`)}
-                                                        className="p-2 text-text-secondary dark:text-dark-text-secondary hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors"
-                                                        title="Düzenle"
-                                                    >
-                                                        <span className="material-symbols-outlined text-lg">edit</span>
-                                                    </button>
-                                                    <button 
-                                                        onClick={() => openResetModal(user)}
-                                                        className="p-2 text-amber-500 hover:bg-amber-50 dark:hover:bg-amber-900/20 rounded-lg transition-colors"
-                                                        title="Şifre Sıfırla"
-                                                    >
-                                                        <span className="material-symbols-outlined text-lg">key</span>
-                                                    </button>
-                                                    <button 
-                                                        onClick={() => setDeleteConfirm(user.userID)}
-                                                        className="p-2 text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors"
-                                                        title="Sil"
-                                                    >
-                                                        <span className="material-symbols-outlined text-lg">delete</span>
-                                                    </button>
-                                                </div>
-                                            )}
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>
-                )}
+            <div className="rounded-md border bg-card text-card-foreground shadow-sm">
+                <Table>
+                    <TableHeader>
+                        <TableRow>
+                            <TableHead>Adı Soyadı</TableHead>
+                            <TableHead>Sicil</TableHead>
+                            <TableHead>Ünvan</TableHead>
+                            <TableHead>Durum</TableHead>
+                            <TableHead>Son Giriş</TableHead>
+                            <TableHead className="text-right">İşlemler</TableHead>
+                        </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                        {loading ? (
+                            <TableRow>
+                                <TableCell colSpan={6} className="h-24 text-center">
+                                    <div className="flex items-center justify-center">
+                                        <Loader2 className="h-6 w-6 animate-spin text-primary" />
+                                        <span className="ml-2 text-muted-foreground">Yükleniyor...</span>
+                                    </div>
+                                </TableCell>
+                            </TableRow>
+                        ) : filteredUsers.length === 0 ? (
+                            <TableRow>
+                                <TableCell colSpan={6} className="h-24 text-center">
+                                    <div className="flex flex-col items-center justify-center text-muted-foreground">
+                                        <UserX className="h-8 w-8 mb-2" />
+                                        {searchTerm ? 'Arama sonucu bulunamadı' : 'Henüz kullanıcı bulunmuyor'}
+                                    </div>
+                                </TableCell>
+                            </TableRow>
+                        ) : (
+                            filteredUsers.map((user) => (
+                                <TableRow key={user.userID} className="group">
+                                    <TableCell className="font-medium">{user.adSoyad}</TableCell>
+                                    <TableCell className="font-mono text-xs">{user.sicil}</TableCell>
+                                    <TableCell>{user.unvan || '-'}</TableCell>
+                                    <TableCell>
+                                        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${user.isActive ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300' : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300'}`}>
+                                            {user.isActive ? 'Aktif' : 'Pasif'}
+                                        </span>
+                                    </TableCell>
+                                    <TableCell className="text-muted-foreground text-xs">
+                                        {user.lastLoginAt 
+                                            ? new Date(user.lastLoginAt).toLocaleString('tr-TR') 
+                                            : 'Hiç giriş yapmadı'}
+                                    </TableCell>
+                                    <TableCell className="text-right">
+                                        {deleteConfirm === user.userID ? (
+                                            <div className="flex items-center justify-end gap-2">
+                                                <Button 
+                                                    size="sm" 
+                                                    variant="destructive" 
+                                                    onClick={() => handleDelete(user.userID)}
+                                                    className="h-8 px-2"
+                                                >
+                                                    <Check className="h-4 w-4 mr-1" /> Sil
+                                                </Button>
+                                                <Button 
+                                                    size="sm" 
+                                                    variant="ghost" 
+                                                    onClick={() => setDeleteConfirm(null)}
+                                                    className="h-8 px-2"
+                                                >
+                                                    <X className="h-4 w-4 mr-1" /> İptal
+                                                </Button>
+                                            </div>
+                                        ) : (
+                                            <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                                                <Button
+                                                    variant="ghost"
+                                                    size="icon"
+                                                    onClick={() => navigate(`/users/${user.userID}/edit`)}
+                                                    title="Düzenle"
+                                                    className="h-8 w-8 text-muted-foreground hover:text-primary"
+                                                >
+                                                    <Edit className="h-4 w-4" />
+                                                </Button>
+                                                <Button
+                                                    variant="ghost"
+                                                    size="icon"
+                                                    onClick={() => openResetModal(user)}
+                                                    title="Şifre Sıfırla"
+                                                    className="h-8 w-8 text-muted-foreground hover:text-amber-500"
+                                                >
+                                                    <Key className="h-4 w-4" />
+                                                </Button>
+                                                <Button
+                                                    variant="ghost"
+                                                    size="icon"
+                                                    onClick={() => setDeleteConfirm(user.userID)}
+                                                    title="Sil"
+                                                    className="h-8 w-8 text-muted-foreground hover:text-destructive"
+                                                >
+                                                    <Trash2 className="h-4 w-4" />
+                                                </Button>
+                                            </div>
+                                        )}
+                                    </TableCell>
+                                </TableRow>
+                            ))
+                        )}
+                    </TableBody>
+                </Table>
             </div>
 
             {/* Password Reset Modal */}
-            {resetPasswordModal && (
-                <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-                    <div className="bg-card dark:bg-dark-card rounded-xl shadow-xl max-w-md w-full">
-                        <div className="flex items-center justify-between px-6 py-4 border-b border-border-color dark:border-dark-border">
-                            <h3 className="text-lg font-semibold text-text-primary dark:text-dark-text-primary">
-                                Şifre Sıfırla
-                            </h3>
-                            <button
-                                onClick={() => setResetPasswordModal(null)}
-                                className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors"
-                            >
-                                <span className="material-symbols-outlined">close</span>
-                            </button>
+            <Dialog open={!!resetPasswordModal} onOpenChange={(open) => !open && setResetPasswordModal(null)}>
+                <DialogContent className="sm:max-w-[425px]">
+                    <DialogHeader>
+                        <DialogTitle>Şifre Sıfırla</DialogTitle>
+                        <DialogDescription>
+                            <strong>{resetPasswordModal?.adSoyad}</strong> kullanıcısı için yeni şifre belirleyin.
+                        </DialogDescription>
+                    </DialogHeader>
+                    <div className="grid gap-4 py-4">
+                        <div className="grid gap-2">
+                            <Label htmlFor="new-password">Yeni Şifre</Label>
+                            <Input
+                                id="new-password"
+                                type="password"
+                                value={newPassword}
+                                onChange={(e) => setNewPassword(e.target.value)}
+                                placeholder="En az 8 karakter"
+                            />
                         </div>
-                        <div className="p-6">
-                            <p className="text-sm text-text-secondary dark:text-dark-text-secondary mb-4">
-                                <strong>{resetPasswordModal.adSoyad}</strong> kullanıcısı için yeni şifre belirleyin.
-                            </p>
-                            <div className="space-y-4">
-                                <div>
-                                    <label className="block text-sm font-medium text-text-primary dark:text-dark-text-primary mb-1">
-                                        Yeni Şifre
-                                    </label>
-                                    <input
-                                        type="password"
-                                        value={newPassword}
-                                        onChange={(e) => setNewPassword(e.target.value)}
-                                        className="w-full px-3 py-2 border border-border-color dark:border-dark-border rounded-lg bg-background dark:bg-dark-background text-text-primary dark:text-dark-text-primary focus:outline-none focus:ring-2 focus:ring-primary/50"
-                                        placeholder="En az 8 karakter"
-                                    />
-                                </div>
-                                <div>
-                                    <label className="block text-sm font-medium text-text-primary dark:text-dark-text-primary mb-1">
-                                        Şifre Tekrar
-                                    </label>
-                                    <input
-                                        type="password"
-                                        value={confirmPassword}
-                                        onChange={(e) => setConfirmPassword(e.target.value)}
-                                        className="w-full px-3 py-2 border border-border-color dark:border-dark-border rounded-lg bg-background dark:bg-dark-background text-text-primary dark:text-dark-text-primary focus:outline-none focus:ring-2 focus:ring-primary/50"
-                                        placeholder="Şifreyi tekrar girin"
-                                    />
-                                </div>
-                            </div>
-                        </div>
-                        <div className="flex justify-end gap-3 px-6 py-4 border-t border-border-color dark:border-dark-border">
-                            <button
-                                onClick={() => setResetPasswordModal(null)}
-                                className="px-4 py-2 text-sm font-medium text-text-secondary dark:text-dark-text-secondary hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors"
-                            >
-                                İptal
-                            </button>
-                            <button
-                                onClick={handleResetPassword}
-                                disabled={resetLoading}
-                                className="px-4 py-2 text-sm font-medium text-white bg-primary hover:bg-primary/80 rounded-lg transition-colors disabled:opacity-50"
-                            >
-                                {resetLoading ? 'Sıfırlanıyor...' : 'Şifreyi Sıfırla'}
-                            </button>
+                        <div className="grid gap-2">
+                            <Label htmlFor="confirm-password">Şifre Tekrar</Label>
+                            <Input
+                                id="confirm-password"
+                                type="password"
+                                value={confirmPassword}
+                                onChange={(e) => setConfirmPassword(e.target.value)}
+                                placeholder="Şifreyi tekrar girin"
+                            />
                         </div>
                     </div>
-                </div>
-            )}
+                    <DialogFooter>
+                        <Button variant="outline" onClick={() => setResetPasswordModal(null)}>İptal</Button>
+                        <Button onClick={handleResetPassword} disabled={resetLoading} className="bg-purple-600 text-white hover:bg-purple-700">
+                            {resetLoading ? (
+                                <>
+                                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                    Sıfırlanıyor...
+                                </>
+                            ) : (
+                                'Şifreyi Sıfırla'
+                            )}
+                        </Button>
+                    </DialogFooter>
+                </DialogContent>
+            </Dialog>
         </div>
     );
 };

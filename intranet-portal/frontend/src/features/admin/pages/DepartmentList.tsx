@@ -2,7 +2,28 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { birimsApi } from '../../../api/birimsApi';
 import type { Birim, CreateBirimRequest } from '../../../types/api/birims';
 import toast from 'react-hot-toast';
-import { Search, Building2, Plus } from 'lucide-react';
+import { Search, Building2, Plus, Edit, Ban, Loader2 } from 'lucide-react';
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardFooter,
+    CardHeader,
+    CardTitle,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+} from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { Checkbox } from "@/components/ui/checkbox";
 
 export const DepartmentList: React.FC = () => {
     const [birimler, setBirimler] = useState<Birim[]>([]);
@@ -102,37 +123,33 @@ export const DepartmentList: React.FC = () => {
     };
 
     return (
-        <div className="p-6 md:p-8 flex flex-col h-full w-full max-w-7xl mx-auto">
+        <div className="h-full flex-1 flex-col space-y-8 p-8 md:flex">
             {/* Header */}
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
-                <div className="flex flex-col gap-1">
-                    <h1 className="text-3xl font-bold text-text-primary dark:text-dark-text-primary flex items-center gap-2">
-                        <Building2 className="w-8 h-8 text-primary" />
-                        Birim Yönetimi
-                    </h1>
-                    <p className="text-text-secondary dark:text-dark-text-secondary">
-                        Sistemdeki birimleri yönetin.
-                        <span className="font-medium ml-1">({filteredBirimler.length}/{birimler.length} birim)</span>
+            <div className="flex items-center justify-between space-y-2">
+                <div>
+                    <h2 className="text-2xl font-bold tracking-tight">Birim Yönetimi</h2>
+                    <p className="text-muted-foreground">
+                        Sistemdeki birimleri yönetin ({filteredBirimler.length}/{birimler.length} birim)
                     </p>
                 </div>
-                <div className="flex items-center gap-3 w-full md:w-auto">
-                    <div className="relative flex-1 md:w-64">
-                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-secondary" />
-                        <input
-                            type="text"
-                            placeholder="Birim ara..."
-                            value={searchTerm}
-                            onChange={(e) => setSearchTerm(e.target.value)}
-                            className="w-full pl-9 pr-3 py-2 border border-border-color dark:border-dark-border rounded-lg bg-background dark:bg-dark-background text-text-primary dark:text-dark-text-primary focus:outline-none focus:ring-2 focus:ring-primary/50"
-                        />
-                    </div>
-                    <button 
-                        onClick={openCreateModal}
-                        className="bg-primary hover:bg-primary/80 text-white px-4 py-2 rounded-lg flex items-center gap-2 font-bold text-sm shadow-sm transition-colors whitespace-nowrap"
-                    >
-                        <Plus className="w-4 h-4" />
+                <div className="flex items-center space-x-2">
+                    <Button onClick={openCreateModal} className="bg-purple-600 hover:bg-purple-700 text-white">
+                        <Plus className="mr-2 h-4 w-4" />
                         Yeni Birim
-                    </button>
+                    </Button>
+                </div>
+            </div>
+
+            {/* Search */}
+            <div className="flex items-center space-x-2">
+                <div className="relative flex-1 max-w-sm">
+                    <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                    <Input
+                        placeholder="Birim ara..."
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        className="pl-8"
+                    />
                 </div>
             </div>
 
@@ -140,131 +157,117 @@ export const DepartmentList: React.FC = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {loading ? (
                     <div className="col-span-full flex items-center justify-center h-64">
-                        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+                        <Loader2 className="h-8 w-8 animate-spin text-primary" />
                     </div>
                 ) : filteredBirimler.length === 0 ? (
-                    <div className="col-span-full flex flex-col items-center justify-center h-64 text-text-secondary dark:text-dark-text-secondary">
+                    <div className="col-span-full flex flex-col items-center justify-center h-64 text-muted-foreground">
                         <Building2 className="w-12 h-12 mb-2 opacity-50" />
                         <p>{searchTerm ? 'Arama sonucu bulunamadı' : 'Henüz birim bulunmuyor'}</p>
                     </div>
                 ) : (
                     filteredBirimler.map((birim) => (
-                        <div 
-                            key={birim.birimID} 
-                            className="bg-card dark:bg-dark-card border border-border-color dark:border-dark-border rounded-xl p-5 shadow-sm hover:shadow-md transition-shadow"
-                        >
-                            <div className="flex items-start justify-between mb-3">
+                        <Card key={birim.birimID} className="hover:shadow-md transition-shadow">
+                            <CardHeader className="flex flex-row items-start justify-between space-y-0 pb-2">
                                 <div className="flex items-center gap-3">
                                     <div className="p-2 bg-primary/10 rounded-lg">
-                                        <span className="material-symbols-outlined text-primary">corporate_fare</span>
+                                        <Building2 className="w-5 h-5 text-primary" />
                                     </div>
                                     <div>
-                                        <h3 className="font-semibold text-text-primary dark:text-dark-text-primary">
+                                        <CardTitle className="text-base font-semibold">
                                             {birim.birimAdi}
-                                        </h3>
-                                        <span className={`inline-flex items-center gap-1 text-xs ${birim.isActive ? 'text-green-600' : 'text-slate-500'}`}>
+                                        </CardTitle>
+                                        <div className={`inline-flex items-center gap-1 text-xs mt-1 ${birim.isActive ? 'text-green-600 dark:text-green-400' : 'text-slate-500'}`}>
                                             <span className={`w-1.5 h-1.5 rounded-full ${birim.isActive ? 'bg-green-500' : 'bg-slate-400'}`}></span>
                                             {birim.isActive ? 'Aktif' : 'Pasif'}
-                                        </span>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            
-                            {birim.aciklama && (
-                                <p className="text-sm text-text-secondary dark:text-dark-text-secondary mb-4 line-clamp-2">
-                                    {birim.aciklama}
-                                </p>
-                            )}
-                            
-                            <div className="flex items-center gap-2 pt-3 border-t border-border-color dark:border-dark-border">
-                                <button 
-                                    onClick={() => handleEdit(birim)}
-                                    className="flex-1 px-3 py-1.5 text-sm text-text-secondary dark:text-dark-text-secondary hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors flex items-center justify-center gap-1"
-                                >
-                                    <span className="material-symbols-outlined text-lg">edit</span>
-                                    Düzenle
-                                </button>
-                                <button 
-                                    onClick={() => handleDeactivate(birim.birimID)}
-                                    className="flex-1 px-3 py-1.5 text-sm text-orange-500 hover:bg-orange-50 dark:hover:bg-orange-900/20 rounded-lg transition-colors flex items-center justify-center gap-1"
-                                >
-                                    <span className="material-symbols-outlined text-lg">block</span>
-                                    Pasife Al
-                                </button>
-                            </div>
-                        </div>
+                            </CardHeader>
+                            <CardContent>
+                                {birim.aciklama && (
+                                    <CardDescription className="line-clamp-2 mt-2">
+                                        {birim.aciklama}
+                                    </CardDescription>
+                                )}
+                            </CardContent>
+                            <CardFooter className="border-t bg-muted/50 px-6 py-3">
+                                <div className="flex w-full items-center justify-between gap-2">
+                                    <Button 
+                                        variant="ghost" 
+                                        size="sm" 
+                                        className="flex-1 h-8"
+                                        onClick={() => handleEdit(birim)}
+                                    >
+                                        <Edit className="w-4 h-4 mr-2" />
+                                        Düzenle
+                                    </Button>
+                                    <Button 
+                                        variant="ghost" 
+                                        size="sm" 
+                                        className="flex-1 h-8 text-orange-500 hover:text-orange-600 hover:bg-orange-50 dark:hover:bg-orange-950/50"
+                                        onClick={() => handleDeactivate(birim.birimID)}
+                                    >
+                                        <Ban className="w-4 h-4 mr-2" />
+                                        Pasife Al
+                                    </Button>
+                                </div>
+                            </CardFooter>
+                        </Card>
                     ))
                 )}
             </div>
 
             {/* Modal */}
-            {showModal && (
-                <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-                    <div className="bg-card dark:bg-dark-card rounded-xl p-6 w-full max-w-md mx-4 shadow-xl">
-                        <h2 className="text-xl font-bold text-text-primary dark:text-dark-text-primary mb-4">
-                            {editingBirim ? 'Birim Düzenle' : 'Yeni Birim Oluştur'}
-                        </h2>
-                        
-                        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-                            <div>
-                                <label className="block text-sm font-medium text-text-secondary dark:text-dark-text-secondary mb-1">
-                                    Birim Adı *
-                                </label>
-                                <input
-                                    type="text"
+            <Dialog open={showModal} onOpenChange={setShowModal}>
+                <DialogContent className="sm:max-w-[425px]">
+                    <DialogHeader>
+                        <DialogTitle>{editingBirim ? 'Birim Düzenle' : 'Yeni Birim Oluştur'}</DialogTitle>
+                        <DialogDescription>
+                            Birim bilgilerini aşağıdan yönetebilirsiniz.
+                        </DialogDescription>
+                    </DialogHeader>
+                    <form onSubmit={handleSubmit}>
+                        <div className="grid gap-4 py-4">
+                            <div className="grid gap-2">
+                                <Label htmlFor="birimAdi">Birim Adı <span className="text-destructive">*</span></Label>
+                                <Input
+                                    id="birimAdi"
                                     value={formData.birimAdi}
                                     onChange={(e) => setFormData({ ...formData, birimAdi: e.target.value })}
                                     required
-                                    className="w-full px-3 py-2 border border-border-color dark:border-dark-border rounded-lg bg-background dark:bg-dark-background text-text-primary dark:text-dark-text-primary focus:outline-none focus:ring-2 focus:ring-primary/50"
                                     placeholder="Örn: İnsan Kaynakları"
                                 />
                             </div>
-                            
-                            <div>
-                                <label className="block text-sm font-medium text-text-secondary dark:text-dark-text-secondary mb-1">
-                                    Açıklama
-                                </label>
-                                <textarea
+                            <div className="grid gap-2">
+                                <Label htmlFor="aciklama">Açıklama</Label>
+                                <Textarea
+                                    id="aciklama"
                                     value={formData.aciklama}
                                     onChange={(e) => setFormData({ ...formData, aciklama: e.target.value })}
-                                    rows={3}
-                                    className="w-full px-3 py-2 border border-border-color dark:border-dark-border rounded-lg bg-background dark:bg-dark-background text-text-primary dark:text-dark-text-primary focus:outline-none focus:ring-2 focus:ring-primary/50 resize-none"
                                     placeholder="Birim hakkında kısa açıklama..."
+                                    className="resize-none"
                                 />
                             </div>
-                            
-                            <div className="flex items-center gap-2">
-                                <input
-                                    type="checkbox"
-                                    id="isActive"
+                            <div className="flex items-center space-x-2">
+                                <Checkbox 
+                                    id="isActive" 
                                     checked={formData.isActive}
-                                    onChange={(e) => setFormData({ ...formData, isActive: e.target.checked })}
-                                    className="w-4 h-4 accent-primary"
+                                    onCheckedChange={(checked) => setFormData({ ...formData, isActive: checked as boolean })}
                                 />
-                                <label htmlFor="isActive" className="text-sm text-text-secondary dark:text-dark-text-secondary">
+                                <Label htmlFor="isActive" className="font-normal cursor-pointer">
                                     Aktif
-                                </label>
+                                </Label>
                             </div>
-                            
-                            <div className="flex gap-3 mt-2">
-                                <button
-                                    type="button"
-                                    onClick={() => setShowModal(false)}
-                                    className="flex-1 px-4 py-2 border border-border-color dark:border-dark-border rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
-                                >
-                                    İptal
-                                </button>
-                                <button
-                                    type="submit"
-                                    className="flex-1 px-4 py-2 bg-primary hover:bg-primary/80 text-white rounded-lg transition-colors font-medium"
-                                >
-                                    {editingBirim ? 'Güncelle' : 'Oluştur'}
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            )}
+                        </div>
+                        <DialogFooter>
+                            <Button type="button" variant="outline" onClick={() => setShowModal(false)}>İptal</Button>
+                            <Button type="submit" className="bg-purple-600 text-white hover:bg-purple-700">
+                                {editingBirim ? 'Güncelle' : 'Oluştur'}
+                            </Button>
+                        </DialogFooter>
+                    </form>
+                </DialogContent>
+            </Dialog>
         </div>
     );
 };

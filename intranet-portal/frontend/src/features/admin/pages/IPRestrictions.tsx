@@ -2,6 +2,40 @@ import React, { useState, useEffect } from 'react';
 import { ipRestrictionsApi } from '../../../api/ipRestrictionsApi';
 import type { IPRestriction, CreateIPRestrictionDto } from '../../../api/ipRestrictionsApi';
 import toast from 'react-hot-toast';
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from "@/components/ui/table";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import {
+    Card,
+    CardContent,
+    CardHeader,
+    CardTitle,
+} from "@/components/ui/card";
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select";
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+} from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
+import { Badge } from "@/components/ui/badge";
+import { CheckCircle2, Ban, Plus, Trash2, Shield, Loader2, Check, X } from 'lucide-react';
 
 export const IPRestrictions: React.FC = () => {
     const [restrictions, setRestrictions] = useState<IPRestriction[]>([]);
@@ -78,210 +112,207 @@ export const IPRestrictions: React.FC = () => {
     };
 
     return (
-        <div className="p-6 md:p-8 flex flex-col h-full w-full max-w-7xl mx-auto">
-            {/* Header */}
-            <div className="flex justify-between items-center mb-6">
-                <div className="flex flex-col gap-1">
-                    <h1 className="text-3xl font-bold text-text-primary dark:text-dark-text-primary">IP Kısıtlamaları</h1>
-                    <p className="text-text-secondary dark:text-dark-text-secondary">
+        <div className="h-full flex-1 flex-col space-y-8 p-8 md:flex">
+            <div className="flex items-center justify-between space-y-2">
+                <div>
+                    <h2 className="text-2xl font-bold tracking-tight">IP Kısıtlamaları</h2>
+                    <p className="text-muted-foreground">
                         Sisteme erişim izni verilen veya engellenen IP adreslerini yönetin.
                     </p>
                 </div>
-                <button 
-                    onClick={() => setShowModal(true)}
-                    className="bg-primary hover:bg-primary/80 text-white px-4 py-2 rounded-lg flex items-center gap-2 font-bold text-sm shadow-sm transition-colors"
-                >
-                    <span className="material-symbols-outlined">add</span>
+                <Button onClick={() => setShowModal(true)} className="bg-purple-600 hover:bg-purple-700 text-white">
+                    <Plus className="mr-2 h-4 w-4" />
                     Yeni Kural Ekle
-                </button>
+                </Button>
             </div>
 
-            {/* Info Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-xl p-4">
-                    <div className="flex items-center gap-3">
-                        <span className="material-symbols-outlined text-green-600 dark:text-green-400 text-2xl">check_circle</span>
-                        <div>
-                            <h3 className="font-semibold text-green-800 dark:text-green-300">Whitelist</h3>
-                            <p className="text-sm text-green-600 dark:text-green-400">
-                                {restrictions.filter(r => r.type === 'Whitelist' && r.isActive).length} aktif kural
-                            </p>
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+                <Card>
+                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                        <CardTitle className="text-sm font-medium">
+                            Whitelist
+                        </CardTitle>
+                        <CheckCircle2 className="h-4 w-4 text-green-600" />
+                    </CardHeader>
+                    <CardContent>
+                        <div className="text-2xl font-bold">
+                            {restrictions.filter(r => r.type === 'Whitelist' && r.isActive).length}
                         </div>
-                    </div>
-                </div>
-                <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl p-4">
-                    <div className="flex items-center gap-3">
-                        <span className="material-symbols-outlined text-red-600 dark:text-red-400 text-2xl">block</span>
-                        <div>
-                            <h3 className="font-semibold text-red-800 dark:text-red-300">Blacklist</h3>
-                            <p className="text-sm text-red-600 dark:text-red-400">
-                                {restrictions.filter(r => r.type === 'Blacklist' && r.isActive).length} aktif kural
-                            </p>
+                        <p className="text-xs text-muted-foreground">
+                            Aktif izin verilen kural
+                        </p>
+                    </CardContent>
+                </Card>
+                <Card>
+                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                        <CardTitle className="text-sm font-medium">
+                            Blacklist
+                        </CardTitle>
+                        <Ban className="h-4 w-4 text-red-600" />
+                    </CardHeader>
+                    <CardContent>
+                        <div className="text-2xl font-bold">
+                            {restrictions.filter(r => r.type === 'Blacklist' && r.isActive).length}
                         </div>
-                    </div>
-                </div>
+                        <p className="text-xs text-muted-foreground">
+                            Aktif engellenen kural
+                        </p>
+                    </CardContent>
+                </Card>
             </div>
 
-            {/* Table */}
-            <div className="bg-card dark:bg-dark-card border border-border-color dark:border-dark-border rounded-xl shadow-sm overflow-hidden flex-1">
-                {loading ? (
-                    <div className="flex items-center justify-center h-64">
-                        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
-                    </div>
-                ) : restrictions.length === 0 ? (
-                    <div className="flex flex-col items-center justify-center h-64 text-text-secondary dark:text-dark-text-secondary">
-                        <span className="material-symbols-outlined text-5xl mb-2">security</span>
-                        <p>Henüz IP kuralı bulunmuyor</p>
-                    </div>
-                ) : (
-                    <div className="overflow-x-auto">
-                        <table className="w-full text-sm text-left text-text-secondary dark:text-dark-text-secondary">
-                            <thead className="text-xs text-text-primary dark:text-dark-text-primary uppercase bg-slate-50 dark:bg-slate-800 border-b border-border-color dark:border-dark-border">
-                                <tr>
-                                    <th className="px-6 py-3">IP Adresi</th>
-                                    <th className="px-6 py-3">Tip</th>
-                                    <th className="px-6 py-3">Açıklama</th>
-                                    <th className="px-6 py-3">Durum</th>
-                                    <th className="px-6 py-3">Oluşturulma</th>
-                                    <th className="px-6 py-3">İşlemler</th>
-                                </tr>
-                            </thead>
-                            <tbody className="divide-y divide-border-color dark:divide-dark-border">
-                                {restrictions.map((restriction) => (
-                                    <tr key={restriction.id} className="hover:bg-slate-50 dark:hover:bg-slate-800 bg-white dark:bg-dark-card">
-                                        <td className="px-6 py-4 font-mono font-medium text-text-primary dark:text-dark-text-primary">
-                                            {restriction.ipAddress}
-                                        </td>
-                                        <td className="px-6 py-4">
-                                            <span className={`inline-flex px-2 py-1 rounded-full text-xs font-medium ${
-                                                restriction.type === 'Whitelist' 
-                                                    ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400'
-                                                    : 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400'
-                                            }`}>
-                                                {restriction.type}
-                                            </span>
-                                        </td>
-                                        <td className="px-6 py-4">{restriction.description || '-'}</td>
-                                        <td className="px-6 py-4">
-                                            <button
-                                                onClick={() => handleToggleActive(restriction)}
-                                                className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium cursor-pointer transition-colors ${
-                                                    restriction.isActive 
-                                                        ? 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-400 hover:bg-green-200'
-                                                        : 'bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-400 hover:bg-slate-200'
-                                                }`}
-                                            >
-                                                <span className={`w-2 h-2 rounded-full ${restriction.isActive ? 'bg-green-500' : 'bg-slate-500'}`}></span>
-                                                {restriction.isActive ? 'Aktif' : 'Pasif'}
-                                            </button>
-                                        </td>
-                                        <td className="px-6 py-4 text-xs">{formatDate(restriction.createdAt)}</td>
-                                        <td className="px-6 py-4">
-                                            {deleteConfirm === restriction.id ? (
-                                                <div className="flex items-center gap-2">
-                                                    <button 
-                                                        onClick={() => handleDelete(restriction.id)}
-                                                        className="px-2 py-1 bg-red-500 text-white text-xs rounded hover:bg-red-600"
-                                                    >
-                                                        Onayla
-                                                    </button>
-                                                    <button 
-                                                        onClick={() => setDeleteConfirm(null)}
-                                                        className="px-2 py-1 bg-slate-200 dark:bg-slate-700 text-xs rounded hover:bg-slate-300"
-                                                    >
-                                                        İptal
-                                                    </button>
-                                                </div>
-                                            ) : (
-                                                <button 
-                                                    onClick={() => setDeleteConfirm(restriction.id)}
-                                                    className="p-2 text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors"
-                                                    title="Sil"
+            <div className="rounded-md border bg-card text-card-foreground shadow-sm">
+                <Table>
+                    <TableHeader>
+                        <TableRow>
+                            <TableHead>IP Adresi</TableHead>
+                            <TableHead>Tip</TableHead>
+                            <TableHead>Açıklama</TableHead>
+                            <TableHead>Durum</TableHead>
+                            <TableHead>Oluşturulma</TableHead>
+                            <TableHead className="text-right">İşlemler</TableHead>
+                        </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                        {loading ? (
+                            <TableRow>
+                                <TableCell colSpan={6} className="h-24 text-center">
+                                    <div className="flex items-center justify-center">
+                                        <Loader2 className="h-6 w-6 animate-spin text-primary" />
+                                        <span className="ml-2 text-muted-foreground">Yükleniyor...</span>
+                                    </div>
+                                </TableCell>
+                            </TableRow>
+                        ) : restrictions.length === 0 ? (
+                            <TableRow>
+                                <TableCell colSpan={6} className="h-24 text-center">
+                                    <div className="flex flex-col items-center justify-center text-muted-foreground">
+                                        <Shield className="h-8 w-8 mb-2" />
+                                        Henüz IP kuralı bulunmuyor
+                                    </div>
+                                </TableCell>
+                            </TableRow>
+                        ) : (
+                            restrictions.map((restriction) => (
+                                <TableRow key={restriction.id} className="group">
+                                    <TableCell className="font-mono">{restriction.ipAddress}</TableCell>
+                                    <TableCell>
+                                        <Badge variant={restriction.type === 'Whitelist' ? 'secondary' : 'destructive'}>
+                                            {restriction.type}
+                                        </Badge>
+                                    </TableCell>
+                                    <TableCell>{restriction.description || '-'}</TableCell>
+                                    <TableCell>
+                                        <Button
+                                            variant="ghost"
+                                            size="sm"
+                                            onClick={() => handleToggleActive(restriction)}
+                                            className={`h-6 text-xs font-medium rounded-full px-2 ${
+                                                restriction.isActive 
+                                                    ? 'bg-green-100 text-green-800 hover:bg-green-200 dark:bg-green-900 dark:text-green-300 dark:hover:bg-green-800'
+                                                    : 'bg-slate-100 text-slate-800 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700'
+                                            }`}
+                                        >
+                                            {restriction.isActive ? 'Aktif' : 'Pasif'}
+                                        </Button>
+                                    </TableCell>
+                                    <TableCell className="text-muted-foreground text-xs">
+                                        {formatDate(restriction.createdAt)}
+                                    </TableCell>
+                                    <TableCell className="text-right">
+                                        {deleteConfirm === restriction.id ? (
+                                            <div className="flex items-center justify-end gap-2">
+                                                <Button 
+                                                    size="sm" 
+                                                    variant="destructive" 
+                                                    onClick={() => handleDelete(restriction.id)}
+                                                    className="h-8 px-2"
                                                 >
-                                                    <span className="material-symbols-outlined text-lg">delete</span>
-                                                </button>
-                                            )}
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>
-                )}
+                                                    <Check className="h-4 w-4 mr-1" /> Onayla
+                                                </Button>
+                                                <Button 
+                                                    size="sm" 
+                                                    variant="ghost" 
+                                                    onClick={() => setDeleteConfirm(null)}
+                                                    className="h-8 px-2"
+                                                >
+                                                    <X className="h-4 w-4 mr-1" /> İptal
+                                                </Button>
+                                            </div>
+                                        ) : (
+                                            <Button
+                                                variant="ghost"
+                                                size="icon"
+                                                onClick={() => setDeleteConfirm(restriction.id)}
+                                                title="Sil"
+                                                className="h-8 w-8 text-muted-foreground hover:text-destructive opacity-0 group-hover:opacity-100 transition-opacity"
+                                            >
+                                                <Trash2 className="h-4 w-4" />
+                                            </Button>
+                                        )}
+                                    </TableCell>
+                                </TableRow>
+                            ))
+                        )}
+                    </TableBody>
+                </Table>
             </div>
 
             {/* Create Modal */}
-            {showModal && (
-                <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-                    <div className="bg-card dark:bg-dark-card rounded-xl shadow-xl max-w-md w-full">
-                        <div className="flex items-center justify-between px-6 py-4 border-b border-border-color dark:border-dark-border">
-                            <h3 className="text-lg font-semibold text-text-primary dark:text-dark-text-primary">
-                                Yeni IP Kuralı
-                            </h3>
-                            <button
-                                onClick={() => setShowModal(false)}
-                                className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors"
-                            >
-                                <span className="material-symbols-outlined">close</span>
-                            </button>
-                        </div>
-                        <form onSubmit={handleCreate} className="p-6 space-y-4">
-                            <div>
-                                <label className="block text-sm font-medium text-text-primary dark:text-dark-text-primary mb-1">
-                                    IP Adresi / CIDR
-                                </label>
-                                <input
-                                    type="text"
+            <Dialog open={showModal} onOpenChange={setShowModal}>
+                <DialogContent className="sm:max-w-[425px]">
+                    <DialogHeader>
+                        <DialogTitle>Yeni IP Kuralı</DialogTitle>
+                        <DialogDescription>
+                            Erişimi yönetmek için yeni bir IP kuralı ekleyin.
+                        </DialogDescription>
+                    </DialogHeader>
+                    <form onSubmit={handleCreate}>
+                        <div className="grid gap-4 py-4">
+                            <div className="grid gap-2">
+                                <Label htmlFor="ipAddress">IP Adresi / CIDR</Label>
+                                <Input
+                                    id="ipAddress"
                                     value={formData.ipAddress}
                                     onChange={(e) => setFormData({ ...formData, ipAddress: e.target.value })}
-                                    className="w-full px-3 py-2 border border-border-color dark:border-dark-border rounded-lg bg-background dark:bg-dark-background text-text-primary dark:text-dark-text-primary focus:outline-none focus:ring-2 focus:ring-primary/50"
                                     placeholder="192.168.1.1 veya 192.168.1.0/24"
+                                    required
                                 />
                             </div>
-                            <div>
-                                <label className="block text-sm font-medium text-text-primary dark:text-dark-text-primary mb-1">
-                                    Tip
-                                </label>
-                                <select
+                            <div className="grid gap-2">
+                                <Label htmlFor="type">Tip</Label>
+                                <Select
                                     value={formData.type}
-                                    onChange={(e) => setFormData({ ...formData, type: e.target.value as 'Whitelist' | 'Blacklist' })}
-                                    className="w-full px-3 py-2 border border-border-color dark:border-dark-border rounded-lg bg-background dark:bg-dark-background text-text-primary dark:text-dark-text-primary focus:outline-none focus:ring-2 focus:ring-primary/50"
+                                    onValueChange={(value) => setFormData({ ...formData, type: value as 'Whitelist' | 'Blacklist' })}
                                 >
-                                    <option value="Whitelist">Whitelist (İzin Ver)</option>
-                                    <option value="Blacklist">Blacklist (Engelle)</option>
-                                </select>
+                                    <SelectTrigger>
+                                        <SelectValue placeholder="Tip seçin" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectItem value="Whitelist">Whitelist (İzin Ver)</SelectItem>
+                                        <SelectItem value="Blacklist">Blacklist (Engelle)</SelectItem>
+                                    </SelectContent>
+                                </Select>
                             </div>
-                            <div>
-                                <label className="block text-sm font-medium text-text-primary dark:text-dark-text-primary mb-1">
-                                    Açıklama
-                                </label>
-                                <input
-                                    type="text"
+                            <div className="grid gap-2">
+                                <Label htmlFor="description">Açıklama</Label>
+                                <Input
+                                    id="description"
                                     value={formData.description}
                                     onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                                    className="w-full px-3 py-2 border border-border-color dark:border-dark-border rounded-lg bg-background dark:bg-dark-background text-text-primary dark:text-dark-text-primary focus:outline-none focus:ring-2 focus:ring-primary/50"
                                     placeholder="Örn: Ofis ağı"
                                 />
                             </div>
-                            <div className="flex justify-end gap-3 pt-4">
-                                <button
-                                    type="button"
-                                    onClick={() => setShowModal(false)}
-                                    className="px-4 py-2 text-sm font-medium text-text-secondary hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors"
-                                >
-                                    İptal
-                                </button>
-                                <button
-                                    type="submit"
-                                    className="px-4 py-2 text-sm font-medium text-white bg-primary hover:bg-primary/80 rounded-lg transition-colors"
-                                >
-                                    Ekle
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            )}
+                        </div>
+                        <DialogFooter>
+                            <Button type="button" variant="outline" onClick={() => setShowModal(false)}>İptal</Button>
+                            <Button type="submit" className="bg-purple-600 hover:bg-purple-700 text-white">
+                                Ekle
+                            </Button>
+                        </DialogFooter>
+                    </form>
+                </DialogContent>
+            </Dialog>
         </div>
     );
 };
