@@ -88,6 +88,7 @@
   }
   .theme {
     --animate-rainbow: rainbow var(--speed, 2s) infinite linear;
+    --animate-shine: shine var(--duration) infinite linear;
   }
 }
 
@@ -127,6 +128,17 @@
     }
   100% {
     background-position: 200%;
+    }
+  }
+  @keyframes shine {
+  0% {
+    background-position: 0% 0%;
+    }
+  50% {
+    background-position: 100% 100%;
+    }
+  to {
+    background-position: 0% 0%;
     }
   }
 }

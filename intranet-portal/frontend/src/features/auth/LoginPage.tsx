@@ -5,6 +5,7 @@ import MatrixBackground from '../../shared/components/MatrixBackground';
 import { useAuthStore } from '../../store/authStore';
 
 import { Button } from "@/components/ui/button";
+import { AnimatedShinyButton } from "@/components/ui/animated-shiny-button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -16,6 +17,8 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card";
+import { ShineBorder } from "@/components/ui/shine-border";
+import { EncryptedText } from "@/components/ui/encrypted-text";
 
 const LoginPage: React.FC = () => {
     const navigate = useNavigate();
@@ -60,13 +63,26 @@ const LoginPage: React.FC = () => {
         <>
             <MatrixBackground />
             <div className="relative z-10 flex min-h-screen items-center justify-center p-4">
-                <Card className="w-full max-w-[400px] bg-black/40 backdrop-blur-xl border-white/10 shadow-2xl">
+                <div className="relative w-full max-w-[400px]">
+                    <ShineBorder
+                        className="rounded-xl"
+                        shineColor={["#A07CFE", "#FE8FB5", "#FFBE7B"]}
+                        borderWidth={2}
+                        duration={10}
+                    />
+                    <Card className="bg-black/40 backdrop-blur-xl border-white/10 shadow-2xl rounded-xl">
                     <CardHeader className="space-y-1 text-center pb-8">
                         <CardTitle className="text-3xl font-bold bg-gradient-to-br from-purple-400 to-purple-600 bg-clip-text text-transparent">
                             Hoş Geldiniz
                         </CardTitle>
                         <CardDescription className="text-gray-400 text-base">
-                            Kurumsal İntranet Portalı
+                            <EncryptedText 
+                                text="Kurumsal İntranet Portalı"
+                                revealDelayMs={80}
+                                flipDelayMs={40}
+                                encryptedClassName="text-purple-400/60"
+                                revealedClassName="text-gray-400"
+                            />
                         </CardDescription>
                     </CardHeader>
                     
@@ -140,9 +156,9 @@ const LoginPage: React.FC = () => {
                                 </label>
                             </div>
 
-                            <Button 
+                            <AnimatedShinyButton 
                                 type="submit" 
-                                className="w-full bg-gradient-to-r from-purple-600 to-purple-800 hover:from-purple-500 hover:to-purple-700 text-white shadow-lg shadow-purple-900/20 border-0 h-11"
+                                className="w-full h-11"
                                 disabled={isLoading}
                             >
                                 {isLoading ? (
@@ -153,7 +169,7 @@ const LoginPage: React.FC = () => {
                                 ) : (
                                     'Giriş Yap'
                                 )}
-                            </Button>
+                            </AnimatedShinyButton>
                         </form>
                     </CardContent>
                     
@@ -162,7 +178,8 @@ const LoginPage: React.FC = () => {
                             Şifremi Unuttum
                         </Button>
                     </CardFooter>
-                </Card>
+                    </Card>
+                </div>
             </div>
         </>
     );

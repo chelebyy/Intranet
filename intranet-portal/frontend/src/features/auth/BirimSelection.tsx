@@ -4,6 +4,7 @@ import { useAuthStore } from '../../store/authStore';
 import { authApi } from '../../api/authApi';
 import MatrixBackground from '../../shared/components/MatrixBackground';
 import toast from 'react-hot-toast';
+import { GradientBorder } from "@/components/ui/gradient-border";
 
 const BirimSelection: React.FC = () => {
     const navigate = useNavigate();
@@ -55,7 +56,7 @@ const BirimSelection: React.FC = () => {
         <>
             <MatrixBackground />
             <div className="relative z-10 flex min-h-screen items-center justify-center p-4">
-                <div className="w-full max-w-[600px] bg-white/5 backdrop-blur-md border border-white/15 rounded-[20px] p-10 shadow-2xl">
+                <GradientBorder className="w-full max-w-[600px] p-10">
                     {/* Header */}
                     <div className="text-center mb-8">
                         <h1 className="text-3xl font-bold text-white mb-2">
@@ -110,7 +111,7 @@ const BirimSelection: React.FC = () => {
                             Çıkış Yap
                         </button>
                     </div>
-                </div>
+                </GradientBorder>
             </div>
         </>
     );
