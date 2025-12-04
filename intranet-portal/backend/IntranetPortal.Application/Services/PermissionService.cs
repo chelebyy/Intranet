@@ -137,7 +137,9 @@ namespace IntranetPortal.Application.Services
                 var permissionSet = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
                 foreach (var p in permissions)
                 {
-                    permissionSet.Add($"{p.Action}.{p.Resource}");
+                    var fullPerm = $"{p.Action}.{p.Resource}";
+                    Console.WriteLine($"PermissionService: Found permission: '{fullPerm}' (Action='{p.Action}', Resource='{p.Resource}')");
+                    permissionSet.Add(fullPerm);
                 }
 
                 return permissionSet;
