@@ -51,6 +51,118 @@ npm run dev
 
 Frontend varsayılan olarak `http://localhost:5173` adresinde çalışır.
 
+## 🏠 Yeni Ortam Kurulumu (Ev/İş Bilgisayarı)
+
+Bu projeyi farklı bilgisayarlarda (ev/iş) kullanmak için:
+
+### 1. Repository'yi Klonlayın
+
+```bash
+cd "c:\Users\IT\Desktop\Bilişim Sistemi"
+git clone https://github.com/chelebyy/Intranet.git intranet-portal
+cd intranet-portal
+```
+
+### 2. Backend Konfigürasyonu
+
+**`appsettings.Development.json` dosyası oluşturun:**
+
+```bash
+cd backend/IntranetPortal.API
+```
+
+`appsettings.Development.json` adında yeni bir dosya oluşturup aşağıdaki içeriği ekleyin:
+
+```json
+{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Debug",
+      "Microsoft.AspNetCore": "Information",
+      "Microsoft.EntityFrameworkCore": "Information"
+    }
+  },
+  "ConnectionStrings": {
+    "DefaultConnection": "Host=localhost;Port=5432;Database=IntranetDB;Username=YOUR_DB_USER;Password=YOUR_DB_PASSWORD"
+  },
+  "JwtSettings": {
+    "SecretKey": "YOUR_STRONG_SECRET_KEY_MIN_32_CHARS",
+    "Issuer": "IntranetPortal",
+    "Audience": "IntranetUsers",
+    "ExpiryMinutes": 480
+  }
+}
+```
+
+> ⚠️ **ÖNEMLİ:** Bu dosya `.gitignore` tarafından hariç tutulmuştur. Her bilgisayarda ayrı ayrı oluşturmanız gerekir.
+
+**Bağımlılıkları yükleyin ve veritabanını oluşturun:**
+
+```bash
+dotnet restore
+dotnet ef database update --startup-project ../IntranetPortal.API
+```
+
+### 3. Frontend Konfigürasyonu
+
+```bash
+cd ../../frontend
+```
+
+**`.env` dosyası oluşturun:**
+
+`.env.example` dosyasını kopyalayarak `.env` oluşturun:
+
+```bash
+copy .env.example .env
+```
+
+Veya manuel olarak `.env` dosyası oluşturup şu içeriği ekleyin:
+
+```env
+# Backend API Base URL
+VITE_API_BASE_URL=https://localhost:5001/api
+
+# Environment (development, production)
+VITE_ENV=development
+```
+
+**Bağımlılıkları yükleyin:**
+
+```bash
+npm install
+```
+
+### 4. İlk Çalıştırma
+
+**Backend:**
+```bash
+cd backend
+dotnet run --project IntranetPortal.API
+```
+
+**Frontend:**
+```bash
+cd frontend
+npm run dev
+```
+
+### 5. Günlük Git İş Akışı
+
+**Çalışmaya başlamadan önce:**
+```bash
+git pull origin main
+```
+
+**Gün sonunda (değişiklikleri paylaş):**
+```bash
+git add .
+git commit -m "Açıklayıcı commit mesajı"
+git push origin main
+```
+
+> 💡 **İpucu:** Detaylı git iş akışı için [GITHUB_WORKFLOW.md](docs/GITHUB_WORKFLOW.md) dosyasına bakın.
+
 ## 📚 Dokümantasyon
 
 Tüm teknik dokümantasyon kök dizinde bulunmaktadır:
