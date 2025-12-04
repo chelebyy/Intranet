@@ -121,11 +121,16 @@ namespace IntranetPortal.Application.Services
                 entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromHours(1);
                 entry.SlidingExpiration = TimeSpan.FromMinutes(20);
 
-                // Query database
-                var permissions = await _context.RolePermissions
-                    .Where(rp => rp.RoleID == roleId)
-                    .Select(rp => new { rp.Permission.Action, rp.Permission.Resource })
+                // Query database using Raw SQL to bypass EF Core mapping issues
+                // This fixes the issue where shadow property 'PermissionID1' caused empty results
+                var permissions = await _context.Database.SqlQueryRaw<PermissionResult>(
+                    @"SELECT p.""Action"", p.""Resource""
+                      FROM ""RolePermission"" rp
+                      JOIN ""Permission"" p ON rp.""PermissionID"" = p.""PermissionID""
+                      WHERE rp.""RoleID"" = {0}", roleId)
                     .ToListAsync();
+
+                Console.WriteLine($"PermissionService: Found {permissions.Count} permissions for RoleID {roleId} via Raw SQL.");
 
                 // Construct full permission strings "action.resource"
                 var permissionSet = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
@@ -136,6 +141,13 @@ namespace IntranetPortal.Application.Services
 
                 return permissionSet;
             }) ?? new HashSet<string>();
+        }
+
+        // Helper class for raw SQL result
+        private class PermissionResult
+        {
+            public string Action { get; set; } = string.Empty;
+            public string Resource { get; set; } = string.Empty;
         }
     }
 }
