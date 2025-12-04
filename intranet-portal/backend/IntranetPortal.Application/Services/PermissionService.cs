@@ -10,11 +10,11 @@ namespace IntranetPortal.Application.Services
 {
     public class PermissionService : IPermissionService
     {
-        private readonly IIntranetDbContext _context;
+        private readonly IntranetDbContext _context;
         private readonly IMemoryCache _cache;
         private const string CacheKeyPrefix = "permissions_role_";
 
-        public PermissionService(IIntranetDbContext context, IMemoryCache cache)
+        public PermissionService(IntranetDbContext context, IMemoryCache cache)
         {
             _context = context;
             _cache = cache;
@@ -123,13 +123,8 @@ namespace IntranetPortal.Application.Services
                 entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromHours(1);
                 entry.SlidingExpiration = TimeSpan.FromMinutes(20);
 
-                // Cast to concrete DbContext to access Database property
-                var dbContext = _context as DbContext 
-                    ?? throw new InvalidOperationException("Context is not a DbContext");
-
                 // Query database using Raw SQL to bypass EF Core mapping issues
-                // This fixes the issue where shadow property 'PermissionID1' caused empty results
-                var permissions = await dbContext.Database.SqlQueryRaw<PermissionResult>(
+                var permissions = await _context.Database.SqlQueryRaw<PermissionResult>(
                     @"SELECT p.""Action"", p.""Resource""
                       FROM ""RolePermission"" rp
                       JOIN ""Permission"" p ON rp.""PermissionID"" = p.""PermissionID""
