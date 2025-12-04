@@ -26,6 +26,7 @@ namespace IntranetPortal.API.Filters
             // 1. Check if user is authenticated
             if (context.HttpContext.User.Identity?.IsAuthenticated != true)
             {
+                Console.WriteLine("PermissionFilter: User not authenticated.");
                 context.Result = new ChallengeResult();
                 return;
             }
@@ -35,6 +36,7 @@ namespace IntranetPortal.API.Filters
             if (!roleId.HasValue)
             {
                 // Authenticated but no role? Should not happen with valid token.
+                Console.WriteLine($"PermissionFilter: User {context.HttpContext.User.Identity.Name} has no RoleID in claims.");
                 context.Result = new ForbidResult();
                 return;
             }
@@ -48,6 +50,9 @@ namespace IntranetPortal.API.Filters
 
             // 3. Check if role has the permission
             var hasPermission = await _permissionService.HasPermissionAsync(roleId.Value, _requiredPermission);
+            
+            Console.WriteLine($"PermissionFilter: User={context.HttpContext.User.Identity.Name}, RoleID={roleId}, RoleName={roleName}, Required={_requiredPermission}, Result={hasPermission}");
+
             if (!hasPermission)
             {
                 context.Result = new ForbidResult();
