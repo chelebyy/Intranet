@@ -65,7 +65,7 @@ export const UserEdit: React.FC = () => {
     useEffect(() => {
         const fetchData = async () => {
             if (!id) return;
-            
+
             try {
                 setLoading(true);
                 const [userData, unvanData, birimData, roleData] = await Promise.all([
@@ -74,12 +74,12 @@ export const UserEdit: React.FC = () => {
                     birimsApi.getAll(),
                     rolesApi.getAll()
                 ]);
-                
+
                 setUser(userData);
                 setUnvanlar(unvanData.filter(u => u.isActive));
                 setBirimler(birimData.filter(b => b.isActive));
                 setRoller(roleData);
-                
+
                 setFormData({
                     ad: userData.ad || '',
                     soyad: userData.soyad || '',
@@ -113,7 +113,7 @@ export const UserEdit: React.FC = () => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!id) return;
-        
+
         setSaving(true);
 
         try {
@@ -213,7 +213,7 @@ export const UserEdit: React.FC = () => {
                         </p>
                     </div>
                 </div>
-                <Badge variant={formData.isActive ? "default" : "destructive"} className="px-3 py-1">
+                <Badge className={`px-3 py-1 ${formData.isActive ? "bg-green-600 hover:bg-green-700" : "bg-red-600 hover:bg-red-700"}`}>
                     {formData.isActive ? 'Aktif' : 'Pasif'}
                 </Badge>
             </div>
@@ -224,7 +224,7 @@ export const UserEdit: React.FC = () => {
                     <TabsTrigger value="assignments">Birim & Rol Atamaları</TabsTrigger>
                     <TabsTrigger value="permissions" disabled>Sayfa Yetkileri</TabsTrigger>
                 </TabsList>
-                
+
                 <TabsContent value="general" className="mt-6">
                     <Card>
                         <form onSubmit={handleSubmit}>
@@ -282,9 +282,9 @@ export const UserEdit: React.FC = () => {
                                         </Select>
                                     </div>
                                 </div>
-                                
+
                                 <Separator />
-                                
+
                                 <div className="flex items-center justify-between">
                                     <div className="space-y-0.5">
                                         <Label>Kullanıcı Durumu</Label>
@@ -295,14 +295,15 @@ export const UserEdit: React.FC = () => {
                                     <Switch
                                         checked={formData.isActive}
                                         onCheckedChange={handleSwitchChange}
+                                        className="data-[state=checked]:bg-green-600"
                                     />
                                 </div>
                             </CardContent>
                             <CardFooter className="flex justify-end gap-4 border-t bg-muted/50 px-6 py-4">
-                                <Button type="button" variant="ghost" onClick={() => navigate('/users')}>
+                                <Button type="button" className="bg-red-600 hover:bg-red-700 text-white" onClick={() => navigate('/users')}>
                                     İptal
                                 </Button>
-                                <Button type="submit" disabled={saving} className="bg-purple-600 hover:bg-purple-700 text-white">
+                                <Button type="submit" disabled={saving} className="bg-blue-600 hover:bg-blue-700 text-white">
                                     {saving ? (
                                         <>
                                             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -389,7 +390,7 @@ export const UserEdit: React.FC = () => {
                             </div>
                             <h3 className="text-lg font-medium mb-2">Yakında Eklenecek</h3>
                             <p className="text-muted-foreground max-w-md mx-auto">
-                                Sayfa bazlı yetkilendirme sistemi henüz geliştirme aşamasındadır. 
+                                Sayfa bazlı yetkilendirme sistemi henüz geliştirme aşamasındadır.
                                 Bu özellik ile kullanıcılara özel sayfa erişim yetkileri tanımlayabileceksiniz.
                             </p>
                         </CardContent>
@@ -410,8 +411,8 @@ export const UserEdit: React.FC = () => {
                         <div className="grid gap-4 py-4">
                             <div className="space-y-2">
                                 <Label htmlFor="birimId">Birim <span className="text-destructive">*</span></Label>
-                                <Select 
-                                    value={assignmentForm.birimId} 
+                                <Select
+                                    value={assignmentForm.birimId}
                                     onValueChange={(value) => setAssignmentForm(prev => ({ ...prev, birimId: value }))}
                                 >
                                     <SelectTrigger>
@@ -428,8 +429,8 @@ export const UserEdit: React.FC = () => {
                             </div>
                             <div className="space-y-2">
                                 <Label htmlFor="roleId">Rol <span className="text-destructive">*</span></Label>
-                                <Select 
-                                    value={assignmentForm.roleId} 
+                                <Select
+                                    value={assignmentForm.roleId}
                                     onValueChange={(value) => setAssignmentForm(prev => ({ ...prev, roleId: value }))}
                                 >
                                     <SelectTrigger>

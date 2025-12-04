@@ -185,10 +185,10 @@ export const UserCreate: React.FC = () => {
                         </Alert>
                     </CardContent>
                     <CardFooter className="flex justify-end gap-4 border-t bg-muted/50 px-6 py-4">
-                        <Button type="button" variant="ghost" onClick={() => navigate('/users')}>
+                        <Button type="button" className="bg-red-600 hover:bg-red-700 text-white" onClick={() => navigate('/users')}>
                             İptal
                         </Button>
-                        <Button type="submit" disabled={loading} className="bg-purple-600 hover:bg-purple-700 text-white">
+                        <Button type="submit" disabled={loading} className="bg-blue-600 hover:bg-blue-700 text-white">
                             {loading ? (
                                 <>
                                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />

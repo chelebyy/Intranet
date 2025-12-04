@@ -36,6 +36,7 @@ import {
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { CheckCircle2, Ban, Plus, Trash2, Shield, Loader2, Check, X } from 'lucide-react';
+import AnimatedBadge from "@/components/ui/animated-badge";
 
 export const IPRestrictions: React.FC = () => {
     const [restrictions, setRestrictions] = useState<IPRestriction[]>([]);
@@ -120,10 +121,12 @@ export const IPRestrictions: React.FC = () => {
                         Sisteme erişim izni verilen veya engellenen IP adreslerini yönetin.
                     </p>
                 </div>
-                <Button onClick={() => setShowModal(true)} className="bg-purple-600 hover:bg-purple-700 text-white">
-                    <Plus className="mr-2 h-4 w-4" />
-                    Yeni Kural Ekle
-                </Button>
+                <div onClick={() => setShowModal(true)} className="cursor-pointer">
+                    <AnimatedBadge
+                        text="Yeni Kural Ekle"
+                        color="#22d3ee"
+                    />
+                </div>
             </div>
 
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
@@ -207,11 +210,10 @@ export const IPRestrictions: React.FC = () => {
                                             variant="ghost"
                                             size="sm"
                                             onClick={() => handleToggleActive(restriction)}
-                                            className={`h-6 text-xs font-medium rounded-full px-2 ${
-                                                restriction.isActive 
-                                                    ? 'bg-green-100 text-green-800 hover:bg-green-200 dark:bg-green-900 dark:text-green-300 dark:hover:bg-green-800'
-                                                    : 'bg-slate-100 text-slate-800 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700'
-                                            }`}
+                                            className={`h-6 text-xs font-medium rounded-full px-2 ${restriction.isActive
+                                                ? 'bg-green-100 text-green-800 hover:bg-green-200 dark:bg-green-900 dark:text-green-300 dark:hover:bg-green-800'
+                                                : 'bg-slate-100 text-slate-800 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700'
+                                                }`}
                                         >
                                             {restriction.isActive ? 'Aktif' : 'Pasif'}
                                         </Button>
@@ -222,17 +224,17 @@ export const IPRestrictions: React.FC = () => {
                                     <TableCell className="text-right">
                                         {deleteConfirm === restriction.id ? (
                                             <div className="flex items-center justify-end gap-2">
-                                                <Button 
-                                                    size="sm" 
-                                                    variant="destructive" 
+                                                <Button
+                                                    size="sm"
+                                                    variant="destructive"
                                                     onClick={() => handleDelete(restriction.id)}
                                                     className="h-8 px-2"
                                                 >
                                                     <Check className="h-4 w-4 mr-1" /> Onayla
                                                 </Button>
-                                                <Button 
-                                                    size="sm" 
-                                                    variant="ghost" 
+                                                <Button
+                                                    size="sm"
+                                                    variant="ghost"
                                                     onClick={() => setDeleteConfirm(null)}
                                                     className="h-8 px-2"
                                                 >

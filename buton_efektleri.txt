@@ -1,0 +1,4 @@
+Burası geliştiricinin not alanı. Bu kısmı inceleme
+1-Kısa İsim: "Buraya Eldora Glow (veya Beta Efekti) uygulayalım."
+Tarif: "Butonun etrafına dönen ışık efekti ekleyelim."
+

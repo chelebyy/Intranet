@@ -129,7 +129,7 @@ export const UnvanList: React.FC = () => {
                     </p>
                 </div>
                 <div className="flex items-center space-x-2">
-                    <Button onClick={() => handleOpenModal()} className="bg-purple-600 hover:bg-purple-700 text-white">
+                    <Button onClick={() => handleOpenModal()} className="bg-blue-600 hover:bg-blue-700 text-white">
                         <Plus className="mr-2 h-4 w-4" />
                         Yeni Ünvan
                     </Button>
@@ -177,11 +177,10 @@ export const UnvanList: React.FC = () => {
                                     <TableCell className="font-medium">{unvan.unvanAdi}</TableCell>
                                     <TableCell className="text-muted-foreground">{unvan.aciklama || '-'}</TableCell>
                                     <TableCell className="text-center">
-                                        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                                            unvan.isActive 
-                                                ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300'
-                                                : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300'
-                                        }`}>
+                                        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${unvan.isActive
+                                            ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300'
+                                            : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300'
+                                            }`}>
                                             {unvan.isActive ? 'Aktif' : 'Pasif'}
                                         </span>
                                     </TableCell>
@@ -246,10 +245,11 @@ export const UnvanList: React.FC = () => {
                                 />
                             </div>
                             <div className="flex items-center space-x-2">
-                                <Checkbox 
-                                    id="isActive" 
+                                <Checkbox
+                                    id="isActive"
                                     checked={formData.isActive}
                                     onCheckedChange={(checked) => setFormData(prev => ({ ...prev, isActive: checked as boolean }))}
+                                    className="data-[state=checked]:bg-green-600 data-[state=checked]:border-green-600"
                                 />
                                 <Label htmlFor="isActive" className="font-normal cursor-pointer">
                                     Aktif
@@ -257,8 +257,8 @@ export const UnvanList: React.FC = () => {
                             </div>
                         </div>
                         <DialogFooter>
-                            <Button type="button" variant="outline" onClick={handleCloseModal}>İptal</Button>
-                            <Button type="submit" disabled={saving} className="bg-purple-600 text-white hover:bg-purple-700">
+                            <Button type="button" className="bg-red-600 hover:bg-red-700 text-white" onClick={handleCloseModal}>İptal</Button>
+                            <Button type="submit" disabled={saving} className="bg-blue-600 text-white hover:bg-blue-700">
                                 {saving ? (
                                     <>
                                         <Loader2 className="mr-2 h-4 w-4 animate-spin" />

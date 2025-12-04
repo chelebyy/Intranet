@@ -36,7 +36,7 @@ export const AuditLogList: React.FC = () => {
     const [totalPages, setTotalPages] = useState(0);
     const [actions, setActions] = useState<string[]>([]);
     const [selectedLog, setSelectedLog] = useState<AuditLogItem | null>(null);
-    
+
     const [filter, setFilter] = useState<AuditLogFilter>({
         page: 1,
         pageSize: 20,
@@ -145,10 +145,16 @@ export const AuditLogList: React.FC = () => {
                         Filtrele
                     </Button>
                 </div>
-                <Button variant="outline" onClick={fetchLogs}>
-                    <RefreshCw className="mr-2 h-4 w-4" />
-                    Yenile
-                </Button>
+                <button
+                    onClick={fetchLogs}
+                    className="relative inline-flex h-10 overflow-hidden rounded-md p-[1px] focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50"
+                >
+                    <span className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#E2CBFF_0%,#393BB2_50%,#E2CBFF_100%)]" />
+                    <span className="inline-flex h-full w-full cursor-pointer items-center justify-center rounded-md bg-white dark:bg-slate-950 px-4 py-2 text-sm font-medium text-slate-900 dark:text-white backdrop-blur-3xl hover:bg-slate-50 dark:hover:bg-slate-900 transition-colors">
+                        <RefreshCw className="mr-2 h-4 w-4" />
+                        Yenile
+                    </span>
+                </button>
             </div>
 
             <div className="rounded-md border bg-card text-card-foreground shadow-sm">
@@ -261,7 +267,7 @@ export const AuditLogList: React.FC = () => {
                             İşlem detayları ve JSON verisi.
                         </DialogDescription>
                     </DialogHeader>
-                    
+
                     {selectedLog && (
                         <div className="flex-1 overflow-y-auto pr-2">
                             <div className="grid grid-cols-2 gap-4 mb-6 text-sm">
@@ -282,7 +288,7 @@ export const AuditLogList: React.FC = () => {
                                     <p className="font-mono">{selectedLog.ipAddress || '-'}</p>
                                 </div>
                             </div>
-                            
+
                             {selectedLog.details && (
                                 <div className="space-y-2">
                                     <p className="text-muted-foreground text-xs font-medium uppercase tracking-wider">Detaylar (JSON)</p>
