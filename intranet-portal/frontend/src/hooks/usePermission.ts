@@ -147,6 +147,9 @@ export const Permissions = {
     Update: { resource: 'unvan', action: 'update' },
     Delete: { resource: 'unvan', action: 'delete' },
   },
+  Dashboard: {
+    View: { resource: 'dashboard', action: 'view' },
+  },
 } as const;
 
 export default usePermission;

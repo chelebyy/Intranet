@@ -55,7 +55,8 @@ export function AppSidebar() {
     const isTestUnit = selectedBirim?.birimAdi === 'Test Birimi';
 
     const menuItems = useMemo(() => [
-        {
+        // Genel - Dashboard (SuperAdmin Only)
+        ...(isSuperAdmin ? [{
             title: "Genel",
             items: [
                 {
@@ -64,7 +65,7 @@ export function AppSidebar() {
                     icon: LayoutDashboard,
                 },
             ]
-        },
+        }] : []),
         // IT Module - Conditional
         ...(isITUnit ? [{
             title: "Bilgi İşlem Modülü",

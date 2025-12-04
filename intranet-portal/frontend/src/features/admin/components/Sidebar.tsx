@@ -56,8 +56,8 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentPage, onNavigate, isDar
       page: Page.DASHBOARD, 
       path: '/dashboard', 
       icon: 'dashboard', 
-      label: 'Dashboard' 
-      // Dashboard is accessible to all authenticated users
+      label: 'Dashboard',
+      permission: Permissions.Dashboard.View
     },
     { 
       page: Page.USER_LIST, 
@@ -115,6 +115,11 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentPage, onNavigate, isDar
   // Filter menu items based on permissions
   const visibleMenuItems = useMemo(() => {
     return menuItems.filter(item => {
+      // Dashboard is restricted to SuperAdmin only for now
+      if (item.page === Page.DASHBOARD) {
+        return isSuperAdmin;
+      }
+
       // No permission required - show to everyone
       if (!item.permission) return true;
       // SuperAdmin sees everything
