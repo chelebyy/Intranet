@@ -1,0 +1,22 @@
+�
+�C:\Users\IT\Desktop\Bilişim Sistemi\intranet-portal\backend\IntranetPortal.Domain\obj\Debug\net9.0\IntranetPortal.Domain.AssemblyInfo.csutf-8�
+�C:\Users\IT\Desktop\Bilişim Sistemi\intranet-portal\backend\IntranetPortal.Domain\obj\Debug\net9.0\.NETCoreApp,Version=v9.0.AssemblyAttributes.csutf-8�
+�C:\Users\IT\Desktop\Bilişim Sistemi\intranet-portal\backend\IntranetPortal.Domain\obj\Debug\net9.0\IntranetPortal.Domain.GlobalUsings.g.csutf-8m
+dC:\Users\IT\Desktop\Bilişim Sistemi\intranet-portal\backend\IntranetPortal.Domain\Enums\RoleType.csutf-8r
+iC:\Users\IT\Desktop\Bilişim Sistemi\intranet-portal\backend\IntranetPortal.Domain\Enums\IT\ArizaDurum.csutf-8p
+gC:\Users\IT\Desktop\Bilişim Sistemi\intranet-portal\backend\IntranetPortal.Domain\Enums\AuditAction.csutf-8u
+lC:\Users\IT\Desktop\Bilişim Sistemi\intranet-portal\backend\IntranetPortal.Domain\Entities\UserBirimRole.csutf-8l
+cC:\Users\IT\Desktop\Bilişim Sistemi\intranet-portal\backend\IntranetPortal.Domain\Entities\User.csutf-8t
+kC:\Users\IT\Desktop\Bilişim Sistemi\intranet-portal\backend\IntranetPortal.Domain\Entities\UploadedFile.csutf-8m
+dC:\Users\IT\Desktop\Bilişim Sistemi\intranet-portal\backend\IntranetPortal.Domain\Entities\Unvan.csutf-8v
+mC:\Users\IT\Desktop\Bilişim Sistemi\intranet-portal\backend\IntranetPortal.Domain\Entities\SystemSettings.csutf-8v
+mC:\Users\IT\Desktop\Bilişim Sistemi\intranet-portal\backend\IntranetPortal.Domain\Entities\RolePermission.csutf-8l
+cC:\Users\IT\Desktop\Bilişim Sistemi\intranet-portal\backend\IntranetPortal.Domain\Entities\Role.csutf-8r
+iC:\Users\IT\Desktop\Bilişim Sistemi\intranet-portal\backend\IntranetPortal.Domain\Entities\Permission.csutf-8u
+lC:\Users\IT\Desktop\Bilişim Sistemi\intranet-portal\backend\IntranetPortal.Domain\Entities\IPRestriction.csutf-8m
+dC:\Users\IT\Desktop\Bilişim Sistemi\intranet-portal\backend\IntranetPortal.Domain\Entities\Birim.csutf-8p
+gC:\Users\IT\Desktop\Bilişim Sistemi\intranet-portal\backend\IntranetPortal.Domain\Entities\AuditLog.csutf-8z
+qC:\Users\IT\Desktop\Bilişim Sistemi\intranet-portal\backend\IntranetPortal.Domain\Constants\SystemSettingKeys.csutf-8v
+mC:\Users\IT\Desktop\Bilişim Sistemi\intranet-portal\backend\IntranetPortal.Domain\Constants\SystemModules.csutf-8n
+eC:\Users\IT\Desktop\Bilişim Sistemi\intranet-portal\backend\IntranetPortal.Domain\Constants\Roles.csutf-8t
+kC:\Users\IT\Desktop\Bilişim Sistemi\intranet-portal\backend\IntranetPortal.Domain\Constants\Permissions.csutf-8

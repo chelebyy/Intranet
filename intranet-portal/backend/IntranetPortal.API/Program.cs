@@ -78,20 +78,7 @@ builder.Services.AddAuthentication(options =>
     {
         OnMessageReceived = context =>
         {
-            // Try to read token from cookie first
-            if (context.Request.Cookies.TryGetValue("auth_token", out var token))
-            {
-                context.Token = token;
-            }
-            // Fallback to Authorization header for API clients (optional)
-            else if (context.Request.Headers.Authorization.Count > 0)
-            {
-                var authHeader = context.Request.Headers.Authorization.ToString();
-                if (authHeader.StartsWith("Bearer ", StringComparison.OrdinalIgnoreCase))
-                {
-                    context.Token = authHeader.Substring("Bearer ".Length).Trim();
-                }
-            }
+            context.Token = ExtractJwtToken(context.Request);
             return Task.CompletedTask;
         }
     };
@@ -172,3 +159,25 @@ app.MapGet("/api/health", () => new
 .WithName("HealthCheck");
 
 app.Run();
+
+// Helper method to extract JWT token from request (reduces cognitive complexity)
+static string? ExtractJwtToken(HttpRequest request)
+{
+    // Try to read token from cookie first
+    if (request.Cookies.TryGetValue("auth_token", out var token))
+    {
+        return token;
+    }
+    
+    // Fallback to Authorization header for API clients
+    if (request.Headers.Authorization.Count > 0)
+    {
+        var authHeader = request.Headers.Authorization.ToString();
+        if (authHeader.StartsWith("Bearer ", StringComparison.OrdinalIgnoreCase))
+        {
+            return authHeader.Substring("Bearer ".Length).Trim();
+        }
+    }
+    
+    return null;
+}

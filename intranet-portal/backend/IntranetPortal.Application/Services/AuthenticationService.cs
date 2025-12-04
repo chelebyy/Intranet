@@ -17,18 +17,15 @@ public class AuthenticationService : IAuthenticationService
 {
     private readonly IIntranetDbContext _context;
     private readonly IPasswordService _passwordService;
-    private readonly IJwtTokenService _jwtTokenService;
     private readonly ILogger<AuthenticationService> _logger;
 
     public AuthenticationService(
         IIntranetDbContext context,
         IPasswordService passwordService,
-        IJwtTokenService jwtTokenService,
         ILogger<AuthenticationService> logger)
     {
         _context = context;
         _passwordService = passwordService;
-        _jwtTokenService = jwtTokenService;
         _logger = logger;
     }
 

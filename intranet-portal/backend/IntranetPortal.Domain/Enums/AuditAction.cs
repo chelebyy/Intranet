@@ -55,6 +55,11 @@ namespace IntranetPortal.Domain.Enums
         // Security Events
         UnauthorizedAccess,
         IPBlocked,
-        RateLimitExceeded
+        RateLimitExceeded,
+
+        // Backup Operations
+        BackupCreated,
+        BackupDownloaded,
+        BackupDeleted
     }
 }

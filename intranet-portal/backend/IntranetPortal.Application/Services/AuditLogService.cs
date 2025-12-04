@@ -114,4 +114,28 @@ public class AuditLogService : IAuditLogService
             .OrderBy(a => a)
             .ToListAsync();
     }
+
+    public async Task CreateLogAsync(int? userId, int? birimId, string action, string? resource, string? details, string? ipAddress)
+    {
+        // Details'i JSON formatına dönüştür
+        string? detailsJson = null;
+        if (!string.IsNullOrEmpty(details))
+        {
+            detailsJson = System.Text.Json.JsonSerializer.Serialize(new { message = details });
+        }
+        
+        var auditLog = new IntranetPortal.Domain.Entities.AuditLog
+        {
+            UserID = userId,
+            BirimID = birimId,
+            Action = action,
+            Resource = resource,
+            Details = detailsJson,
+            IPAddress = ipAddress,
+            TarihSaat = DateTime.UtcNow
+        };
+
+        await _context.AuditLogs.AddAsync(auditLog);
+        await _context.SaveChangesAsync();
+    }
 }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<AnalysisConfig xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.sonarsource.com/msbuild/integration/2015/1">
+<AnalysisConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.sonarsource.com/msbuild/integration/2015/1">
   <SonarConfigDir>C:\Users\IT\Desktop\Bilişim Sistemi\intranet-portal\backend\.sonarqube\conf</SonarConfigDir>
   <SonarOutputDir>C:\Users\IT\Desktop\Bilişim Sistemi\intranet-portal\backend\.sonarqube\out</SonarOutputDir>
   <SonarBinDir>C:\Users\IT\Desktop\Bilişim Sistemi\intranet-portal\backend\.sonarqube\bin</SonarBinDir>
@@ -12,14 +12,14 @@
   <HasBeginStepCommandLineTruststorePassword>false</HasBeginStepCommandLineTruststorePassword>
   <SonarQubeHostUrl>http://localhost:9000</SonarQubeHostUrl>
   <SonarQubeVersion>25.11.0.114957</SonarQubeVersion>
-  <SonarProjectKey>Bilisim</SonarProjectKey>
+  <SonarProjectKey>Bilisim1</SonarProjectKey>
   <AdditionalConfig>
     <ConfigSetting Id="BuildUri" />
     <ConfigSetting Id="TfsUri" />
     <ConfigSetting Id="VsCoverageConverterToolPath" />
     <ConfigSetting Id="UnchangedFilesPath" />
     <ConfigSetting Id="sonar.pullrequest.cache.basepath" Value="C:\Users\IT\Desktop\Bilişim Sistemi\intranet-portal\backend" />
-    <ConfigSetting Id="settings.file.path" Value="C:\SonarScanner\SonarQube.Analysis.xml" />
+    <ConfigSetting Id="settings.file.path" Value="C:\Users\IT\.dotnet\tools\.store\dotnet-sonarscanner\11.0.0\dotnet-sonarscanner\11.0.0\tools\netcoreapp3.1\any\SonarQube.Analysis.xml" />
   </AdditionalConfig>
   <ServerSettings>
     <Property Name="sonar.cs.ignoreHeaderComments">true</Property>

@@ -1,0 +1,3044 @@
+{
+  "$schema": "http://json.schemastore.org/sarif-1.0.0",
+  "version": "1.0.0",
+  "runs": [
+    {
+      "tool": {
+        "name": "Microsoft (R) Visual C# Derleyicisi",
+        "version": "4.14.0.0",
+        "fileVersion": "4.14.0-3.25465.8 (b0a9adbf)",
+        "semanticVersion": "4.14.0",
+        "language": "tr-TR"
+      },
+      "results": [
+        {
+          "ruleId": "S1192",
+          "level": "warning",
+          "message": "Define a constant instead of using this literal 'timestamp without time zone' 4 times.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126214725_FixDateTimeHandling.cs",
+                "region": {
+                  "startLine": 17,
+                  "startColumn": 23,
+                  "endLine": 17,
+                  "endColumn": 52
+                }
+              }
+            }
+          ],
+          "relatedLocations": [
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126214725_FixDateTimeHandling.cs",
+                "region": {
+                  "startLine": 26,
+                  "startColumn": 23,
+                  "endLine": 26,
+                  "endColumn": 52
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126214725_FixDateTimeHandling.cs",
+                "region": {
+                  "startLine": 41,
+                  "startColumn": 26,
+                  "endLine": 41,
+                  "endColumn": 55
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126214725_FixDateTimeHandling.cs",
+                "region": {
+                  "startLine": 50,
+                  "startColumn": 26,
+                  "endLine": 50,
+                  "endColumn": 55
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1,
+            "customProperties": {
+              "0": null,
+              "1": null,
+              "2": null
+            }
+          }
+        },
+        {
+          "ruleId": "S1192",
+          "level": "warning",
+          "message": "Define a constant instead of using this literal 'timestamp with time zone' 4 times.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126214725_FixDateTimeHandling.cs",
+                "region": {
+                  "startLine": 20,
+                  "startColumn": 26,
+                  "endLine": 20,
+                  "endColumn": 52
+                }
+              }
+            }
+          ],
+          "relatedLocations": [
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126214725_FixDateTimeHandling.cs",
+                "region": {
+                  "startLine": 29,
+                  "startColumn": 26,
+                  "endLine": 29,
+                  "endColumn": 52
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126214725_FixDateTimeHandling.cs",
+                "region": {
+                  "startLine": 38,
+                  "startColumn": 23,
+                  "endLine": 38,
+                  "endColumn": 49
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126214725_FixDateTimeHandling.cs",
+                "region": {
+                  "startLine": 47,
+                  "startColumn": 23,
+                  "endLine": 47,
+                  "endColumn": 49
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1,
+            "customProperties": {
+              "0": null,
+              "1": null,
+              "2": null
+            }
+          }
+        },
+        {
+          "ruleId": "S1192",
+          "level": "warning",
+          "message": "Define a constant instead of using this literal 'Birim' 7 times.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 16,
+                  "startColumn": 23,
+                  "endLine": 16,
+                  "endColumn": 30
+                }
+              }
+            }
+          ],
+          "relatedLocations": [
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 137,
+                  "startColumn": 41,
+                  "endLine": 137,
+                  "endColumn": 48
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 147,
+                  "startColumn": 41,
+                  "endLine": 147,
+                  "endColumn": 48
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 208,
+                  "startColumn": 41,
+                  "endLine": 208,
+                  "endColumn": 48
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 247,
+                  "startColumn": 41,
+                  "endLine": 247,
+                  "endColumn": 48
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 301,
+                  "startColumn": 24,
+                  "endLine": 301,
+                  "endColumn": 31
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 436,
+                  "startColumn": 23,
+                  "endLine": 436,
+                  "endColumn": 30
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1,
+            "customProperties": {
+              "0": null,
+              "1": null,
+              "2": null,
+              "3": null,
+              "4": null,
+              "5": null
+            }
+          }
+        },
+        {
+          "ruleId": "S1192",
+          "level": "warning",
+          "message": "Define a constant instead of using this literal 'integer' 23 times.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 19,
+                  "startColumn": 55,
+                  "endLine": 19,
+                  "endColumn": 64
+                }
+              }
+            }
+          ],
+          "relatedLocations": [
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 36,
+                  "startColumn": 60,
+                  "endLine": 36,
+                  "endColumn": 69
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 51,
+                  "startColumn": 54,
+                  "endLine": 51,
+                  "endColumn": 63
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 66,
+                  "startColumn": 54,
+                  "endLine": 66,
+                  "endColumn": 63
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 86,
+                  "startColumn": 50,
+                  "endLine": 86,
+                  "endColumn": 59
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 88,
+                  "startColumn": 54,
+                  "endLine": 88,
+                  "endColumn": 63
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 89,
+                  "startColumn": 60,
+                  "endLine": 89,
+                  "endColumn": 69
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 91,
+                  "startColumn": 61,
+                  "endLine": 91,
+                  "endColumn": 70
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 121,
+                  "startColumn": 54,
+                  "endLine": 121,
+                  "endColumn": 63
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 122,
+                  "startColumn": 55,
+                  "endLine": 122,
+                  "endColumn": 64
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 128,
+                  "startColumn": 56,
+                  "endLine": 128,
+                  "endColumn": 65
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 129,
+                  "startColumn": 55,
+                  "endLine": 129,
+                  "endColumn": 64
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 162,
+                  "startColumn": 57,
+                  "endLine": 162,
+                  "endColumn": 66
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 168,
+                  "startColumn": 63,
+                  "endLine": 168,
+                  "endColumn": 72
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 193,
+                  "startColumn": 56,
+                  "endLine": 193,
+                  "endColumn": 65
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 194,
+                  "startColumn": 64,
+                  "endLine": 194,
+                  "endColumn": 73
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 195,
+                  "startColumn": 55,
+                  "endLine": 195,
+                  "endColumn": 64
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 200,
+                  "startColumn": 54,
+                  "endLine": 200,
+                  "endColumn": 63
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 228,
+                  "startColumn": 50,
+                  "endLine": 228,
+                  "endColumn": 59
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 230,
+                  "startColumn": 54,
+                  "endLine": 230,
+                  "endColumn": 63
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 231,
+                  "startColumn": 55,
+                  "endLine": 231,
+                  "endColumn": 64
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 232,
+                  "startColumn": 54,
+                  "endLine": 232,
+                  "endColumn": 63
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 234,
+                  "startColumn": 55,
+                  "endLine": 234,
+                  "endColumn": 64
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1,
+            "customProperties": {
+              "0": null,
+              "1": null,
+              "10": null,
+              "11": null,
+              "12": null,
+              "13": null,
+              "14": null,
+              "15": null,
+              "16": null,
+              "17": null,
+              "18": null,
+              "19": null,
+              "2": null,
+              "20": null,
+              "21": null,
+              "3": null,
+              "4": null,
+              "5": null,
+              "6": null,
+              "7": null,
+              "8": null,
+              "9": null
+            }
+          }
+        },
+        {
+          "ruleId": "S1192",
+          "level": "warning",
+          "message": "Define a constant instead of using this literal 'Npgsql:ValueGenerationStrategy' 8 times.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 20,
+                  "startColumn": 37,
+                  "endLine": 20,
+                  "endColumn": 69
+                }
+              }
+            }
+          ],
+          "relatedLocations": [
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 37,
+                  "startColumn": 37,
+                  "endLine": 37,
+                  "endColumn": 69
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 52,
+                  "startColumn": 37,
+                  "endLine": 52,
+                  "endColumn": 69
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 67,
+                  "startColumn": 37,
+                  "endLine": 67,
+                  "endColumn": 69
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 87,
+                  "startColumn": 37,
+                  "endLine": 87,
+                  "endColumn": 69
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 120,
+                  "startColumn": 37,
+                  "endLine": 120,
+                  "endColumn": 69
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 163,
+                  "startColumn": 37,
+                  "endLine": 163,
+                  "endColumn": 69
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 229,
+                  "startColumn": 37,
+                  "endLine": 229,
+                  "endColumn": 69
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1,
+            "customProperties": {
+              "0": null,
+              "1": null,
+              "2": null,
+              "3": null,
+              "4": null,
+              "5": null,
+              "6": null
+            }
+          }
+        },
+        {
+          "ruleId": "S1192",
+          "level": "warning",
+          "message": "Define a constant instead of using this literal 'character varying(100)' 9 times.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 21,
+                  "startColumn": 59,
+                  "endLine": 21,
+                  "endColumn": 83
+                }
+              }
+            }
+          ],
+          "relatedLocations": [
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 39,
+                  "startColumn": 59,
+                  "endLine": 39,
+                  "endColumn": 83
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 68,
+                  "startColumn": 58,
+                  "endLine": 68,
+                  "endColumn": 82
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 71,
+                  "startColumn": 56,
+                  "endLine": 71,
+                  "endColumn": 80
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 123,
+                  "startColumn": 57,
+                  "endLine": 123,
+                  "endColumn": 81
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 124,
+                  "startColumn": 59,
+                  "endLine": 124,
+                  "endColumn": 83
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 164,
+                  "startColumn": 61,
+                  "endLine": 164,
+                  "endColumn": 85
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 189,
+                  "startColumn": 59,
+                  "endLine": 189,
+                  "endColumn": 83
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 192,
+                  "startColumn": 61,
+                  "endLine": 192,
+                  "endColumn": 85
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1,
+            "customProperties": {
+              "0": null,
+              "1": null,
+              "2": null,
+              "3": null,
+              "4": null,
+              "5": null,
+              "6": null,
+              "7": null
+            }
+          }
+        },
+        {
+          "ruleId": "S1192",
+          "level": "warning",
+          "message": "Define a constant instead of using this literal 'timestamp without time zone' 10 times.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 24,
+                  "startColumn": 62,
+                  "endLine": 24,
+                  "endColumn": 91
+                }
+              }
+            }
+          ],
+          "relatedLocations": [
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 55,
+                  "startColumn": 62,
+                  "endLine": 55,
+                  "endColumn": 91
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 72,
+                  "startColumn": 61,
+                  "endLine": 72,
+                  "endColumn": 90
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 74,
+                  "startColumn": 62,
+                  "endLine": 74,
+                  "endColumn": 91
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 75,
+                  "startColumn": 62,
+                  "endLine": 75,
+                  "endColumn": 91
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 90,
+                  "startColumn": 62,
+                  "endLine": 90,
+                  "endColumn": 91
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 127,
+                  "startColumn": 62,
+                  "endLine": 127,
+                  "endColumn": 91
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 167,
+                  "startColumn": 62,
+                  "endLine": 167,
+                  "endColumn": 91
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 196,
+                  "startColumn": 63,
+                  "endLine": 196,
+                  "endColumn": 92
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 233,
+                  "startColumn": 63,
+                  "endLine": 233,
+                  "endColumn": 92
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1,
+            "customProperties": {
+              "0": null,
+              "1": null,
+              "2": null,
+              "3": null,
+              "4": null,
+              "5": null,
+              "6": null,
+              "7": null,
+              "8": null
+            }
+          }
+        },
+        {
+          "ruleId": "S1192",
+          "level": "warning",
+          "message": "Define a constant instead of using this literal 'CURRENT_TIMESTAMP' 9 times.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 24,
+                  "startColumn": 127,
+                  "endLine": 24,
+                  "endColumn": 146
+                }
+              }
+            }
+          ],
+          "relatedLocations": [
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 55,
+                  "startColumn": 127,
+                  "endLine": 55,
+                  "endColumn": 146
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 74,
+                  "startColumn": 127,
+                  "endLine": 74,
+                  "endColumn": 146
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 75,
+                  "startColumn": 127,
+                  "endLine": 75,
+                  "endColumn": 146
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 90,
+                  "startColumn": 127,
+                  "endLine": 90,
+                  "endColumn": 146
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 127,
+                  "startColumn": 127,
+                  "endLine": 127,
+                  "endColumn": 146
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 167,
+                  "startColumn": 127,
+                  "endLine": 167,
+                  "endColumn": 146
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 196,
+                  "startColumn": 128,
+                  "endLine": 196,
+                  "endColumn": 147
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 233,
+                  "startColumn": 128,
+                  "endLine": 233,
+                  "endColumn": 147
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1,
+            "customProperties": {
+              "0": null,
+              "1": null,
+              "2": null,
+              "3": null,
+              "4": null,
+              "5": null,
+              "6": null,
+              "7": null
+            }
+          }
+        },
+        {
+          "ruleId": "S1192",
+          "level": "warning",
+          "message": "Define a constant instead of using this literal 'Permission' 5 times.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 33,
+                  "startColumn": 23,
+                  "endLine": 33,
+                  "endColumn": 35
+                }
+              }
+            }
+          ],
+          "relatedLocations": [
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 99,
+                  "startColumn": 41,
+                  "endLine": 99,
+                  "endColumn": 53
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 104,
+                  "startColumn": 41,
+                  "endLine": 104,
+                  "endColumn": 53
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 306,
+                  "startColumn": 24,
+                  "endLine": 306,
+                  "endColumn": 36
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 430,
+                  "startColumn": 23,
+                  "endLine": 430,
+                  "endColumn": 35
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1,
+            "customProperties": {
+              "0": null,
+              "1": null,
+              "2": null,
+              "3": null
+            }
+          }
+        },
+        {
+          "ruleId": "S1192",
+          "level": "warning",
+          "message": "Define a constant instead of using this literal 'character varying(255)' 6 times.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 40,
+                  "startColumn": 62,
+                  "endLine": 40,
+                  "endColumn": 86
+                }
+              }
+            }
+          ],
+          "relatedLocations": [
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 54,
+                  "startColumn": 59,
+                  "endLine": 54,
+                  "endColumn": 83
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 70,
+                  "startColumn": 60,
+                  "endLine": 70,
+                  "endColumn": 84
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 166,
+                  "startColumn": 62,
+                  "endLine": 166,
+                  "endColumn": 86
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 185,
+                  "startColumn": 59,
+                  "endLine": 185,
+                  "endColumn": 83
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 186,
+                  "startColumn": 67,
+                  "endLine": 186,
+                  "endColumn": 91
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1,
+            "customProperties": {
+              "0": null,
+              "1": null,
+              "2": null,
+              "3": null,
+              "4": null
+            }
+          }
+        },
+        {
+          "ruleId": "S1192",
+          "level": "warning",
+          "message": "Define a constant instead of using this literal 'RolePermission' 6 times.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 83,
+                  "startColumn": 23,
+                  "endLine": 83,
+                  "endColumn": 39
+                }
+              }
+            }
+          ],
+          "relatedLocations": [
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 318,
+                  "startColumn": 24,
+                  "endLine": 318,
+                  "endColumn": 40
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 323,
+                  "startColumn": 24,
+                  "endLine": 323,
+                  "endColumn": 40
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 328,
+                  "startColumn": 24,
+                  "endLine": 328,
+                  "endColumn": 40
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 333,
+                  "startColumn": 24,
+                  "endLine": 333,
+                  "endColumn": 40
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 418,
+                  "startColumn": 23,
+                  "endLine": 418,
+                  "endColumn": 39
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1,
+            "customProperties": {
+              "0": null,
+              "1": null,
+              "2": null,
+              "3": null,
+              "4": null
+            }
+          }
+        },
+        {
+          "ruleId": "S1192",
+          "level": "warning",
+          "message": "Define a constant instead of using this literal 'PermissionID' 4 times.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 100,
+                  "startColumn": 42,
+                  "endLine": 100,
+                  "endColumn": 56
+                }
+              }
+            }
+          ],
+          "relatedLocations": [
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 105,
+                  "startColumn": 42,
+                  "endLine": 105,
+                  "endColumn": 56
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 324,
+                  "startColumn": 25,
+                  "endLine": 324,
+                  "endColumn": 39
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 334,
+                  "startColumn": 44,
+                  "endLine": 334,
+                  "endColumn": 58
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1,
+            "customProperties": {
+              "0": null,
+              "1": null,
+              "2": null
+            }
+          }
+        },
+        {
+          "ruleId": "S1192",
+          "level": "warning",
+          "message": "Define a constant instead of using this literal 'UnvanID' 5 times.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251202123934_AddUnvanTable.cs",
+                "region": {
+                  "startLine": 16,
+                  "startColumn": 23,
+                  "endLine": 16,
+                  "endColumn": 32
+                }
+              }
+            }
+          ],
+          "relatedLocations": [
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251202123934_AddUnvanTable.cs",
+                "region": {
+                  "startLine": 41,
+                  "startColumn": 25,
+                  "endLine": 41,
+                  "endColumn": 34
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251202123934_AddUnvanTable.cs",
+                "region": {
+                  "startLine": 57,
+                  "startColumn": 25,
+                  "endLine": 57,
+                  "endColumn": 34
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251202123934_AddUnvanTable.cs",
+                "region": {
+                  "startLine": 59,
+                  "startColumn": 34,
+                  "endLine": 59,
+                  "endColumn": 43
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251202123934_AddUnvanTable.cs",
+                "region": {
+                  "startLine": 77,
+                  "startColumn": 23,
+                  "endLine": 77,
+                  "endColumn": 32
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1,
+            "customProperties": {
+              "0": null,
+              "1": null,
+              "2": null,
+              "3": null
+            }
+          }
+        },
+        {
+          "ruleId": "S1192",
+          "level": "warning",
+          "message": "Define a constant instead of using this literal 'character varying(50)' 4 times.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251202121515_SplitAdSoyad.cs",
+                "region": {
+                  "startLine": 17,
+                  "startColumn": 23,
+                  "endLine": 17,
+                  "endColumn": 46
+                }
+              }
+            }
+          ],
+          "relatedLocations": [
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251202121515_SplitAdSoyad.cs",
+                "region": {
+                  "startLine": 24,
+                  "startColumn": 23,
+                  "endLine": 24,
+                  "endColumn": 46
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251202121515_SplitAdSoyad.cs",
+                "region": {
+                  "startLine": 49,
+                  "startColumn": 23,
+                  "endLine": 49,
+                  "endColumn": 46
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251202121515_SplitAdSoyad.cs",
+                "region": {
+                  "startLine": 57,
+                  "startColumn": 23,
+                  "endLine": 57,
+                  "endColumn": 46
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1,
+            "customProperties": {
+              "0": null,
+              "1": null,
+              "2": null
+            }
+          }
+        },
+        {
+          "ruleId": "S1192",
+          "level": "warning",
+          "message": "Define a constant instead of using this literal 'RoleID' 6 times.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 111,
+                  "startColumn": 42,
+                  "endLine": 111,
+                  "endColumn": 50
+                }
+              }
+            }
+          ],
+          "relatedLocations": [
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 243,
+                  "startColumn": 42,
+                  "endLine": 243,
+                  "endColumn": 50
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 254,
+                  "startColumn": 42,
+                  "endLine": 254,
+                  "endColumn": 50
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 329,
+                  "startColumn": 25,
+                  "endLine": 329,
+                  "endColumn": 33
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 334,
+                  "startColumn": 34,
+                  "endLine": 334,
+                  "endColumn": 42
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 397,
+                  "startColumn": 25,
+                  "endLine": 397,
+                  "endColumn": 33
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1,
+            "customProperties": {
+              "0": null,
+              "1": null,
+              "2": null,
+              "3": null,
+              "4": null
+            }
+          }
+        },
+        {
+          "ruleId": "S1192",
+          "level": "warning",
+          "message": "Define a constant instead of using this literal 'AuditLog' 9 times.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 116,
+                  "startColumn": 23,
+                  "endLine": 116,
+                  "endColumn": 33
+                }
+              }
+            }
+          ],
+          "relatedLocations": [
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 266,
+                  "startColumn": 24,
+                  "endLine": 266,
+                  "endColumn": 34
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 271,
+                  "startColumn": 24,
+                  "endLine": 271,
+                  "endColumn": 34
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 276,
+                  "startColumn": 24,
+                  "endLine": 276,
+                  "endColumn": 34
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 281,
+                  "startColumn": 24,
+                  "endLine": 281,
+                  "endColumn": 34
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 286,
+                  "startColumn": 24,
+                  "endLine": 286,
+                  "endColumn": 34
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 291,
+                  "startColumn": 24,
+                  "endLine": 291,
+                  "endColumn": 34
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 296,
+                  "startColumn": 24,
+                  "endLine": 296,
+                  "endColumn": 34
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 415,
+                  "startColumn": 23,
+                  "endLine": 415,
+                  "endColumn": 33
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1,
+            "customProperties": {
+              "0": null,
+              "1": null,
+              "2": null,
+              "3": null,
+              "4": null,
+              "5": null,
+              "6": null,
+              "7": null
+            }
+          }
+        },
+        {
+          "ruleId": "S1192",
+          "level": "warning",
+          "message": "Define a constant instead of using this literal 'Unvan' 5 times.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251202123934_AddUnvanTable.cs",
+                "region": {
+                  "startLine": 22,
+                  "startColumn": 23,
+                  "endLine": 22,
+                  "endColumn": 30
+                }
+              }
+            }
+          ],
+          "relatedLocations": [
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251202123934_AddUnvanTable.cs",
+                "region": {
+                  "startLine": 45,
+                  "startColumn": 24,
+                  "endLine": 45,
+                  "endColumn": 31
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251202123934_AddUnvanTable.cs",
+                "region": {
+                  "startLine": 50,
+                  "startColumn": 24,
+                  "endLine": 50,
+                  "endColumn": 31
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251202123934_AddUnvanTable.cs",
+                "region": {
+                  "startLine": 58,
+                  "startColumn": 33,
+                  "endLine": 58,
+                  "endColumn": 40
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251202123934_AddUnvanTable.cs",
+                "region": {
+                  "startLine": 70,
+                  "startColumn": 23,
+                  "endLine": 70,
+                  "endColumn": 30
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1,
+            "customProperties": {
+              "0": null,
+              "1": null,
+              "2": null,
+              "3": null
+            }
+          }
+        },
+        {
+          "ruleId": "S1192",
+          "level": "warning",
+          "message": "Define a constant instead of using this literal 'BirimID' 8 times.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 138,
+                  "startColumn": 42,
+                  "endLine": 138,
+                  "endColumn": 51
+                }
+              }
+            }
+          ],
+          "relatedLocations": [
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 148,
+                  "startColumn": 42,
+                  "endLine": 148,
+                  "endColumn": 51
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 209,
+                  "startColumn": 42,
+                  "endLine": 209,
+                  "endColumn": 51
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 248,
+                  "startColumn": 42,
+                  "endLine": 248,
+                  "endColumn": 51
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 282,
+                  "startColumn": 25,
+                  "endLine": 282,
+                  "endColumn": 34
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 351,
+                  "startColumn": 25,
+                  "endLine": 351,
+                  "endColumn": 34
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 392,
+                  "startColumn": 25,
+                  "endLine": 392,
+                  "endColumn": 34
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 407,
+                  "startColumn": 44,
+                  "endLine": 407,
+                  "endColumn": 53
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1,
+            "customProperties": {
+              "0": null,
+              "1": null,
+              "2": null,
+              "3": null,
+              "4": null,
+              "5": null,
+              "6": null
+            }
+          }
+        },
+        {
+          "ruleId": "S1192",
+          "level": "warning",
+          "message": "Define a constant instead of using this literal 'UserID' 11 times.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 143,
+                  "startColumn": 42,
+                  "endLine": 143,
+                  "endColumn": 50
+                }
+              }
+            }
+          ],
+          "relatedLocations": [
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 154,
+                  "startColumn": 42,
+                  "endLine": 154,
+                  "endColumn": 50
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 177,
+                  "startColumn": 42,
+                  "endLine": 177,
+                  "endColumn": 50
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 215,
+                  "startColumn": 42,
+                  "endLine": 215,
+                  "endColumn": 50
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 220,
+                  "startColumn": 42,
+                  "endLine": 220,
+                  "endColumn": 50
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 260,
+                  "startColumn": 42,
+                  "endLine": 260,
+                  "endColumn": 50
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 292,
+                  "startColumn": 25,
+                  "endLine": 292,
+                  "endColumn": 33
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 297,
+                  "startColumn": 34,
+                  "endLine": 297,
+                  "endColumn": 42
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 356,
+                  "startColumn": 25,
+                  "endLine": 356,
+                  "endColumn": 33
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 402,
+                  "startColumn": 25,
+                  "endLine": 402,
+                  "endColumn": 33
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 407,
+                  "startColumn": 34,
+                  "endLine": 407,
+                  "endColumn": 42
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1,
+            "customProperties": {
+              "0": null,
+              "1": null,
+              "2": null,
+              "3": null,
+              "4": null,
+              "5": null,
+              "6": null,
+              "7": null,
+              "8": null,
+              "9": null
+            }
+          }
+        },
+        {
+          "ruleId": "S1192",
+          "level": "warning",
+          "message": "Define a constant instead of using this literal 'SystemSettings' 4 times.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 159,
+                  "startColumn": 23,
+                  "endLine": 159,
+                  "endColumn": 39
+                }
+              }
+            }
+          ],
+          "relatedLocations": [
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 339,
+                  "startColumn": 24,
+                  "endLine": 339,
+                  "endColumn": 40
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 344,
+                  "startColumn": 24,
+                  "endLine": 344,
+                  "endColumn": 40
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 421,
+                  "startColumn": 23,
+                  "endLine": 421,
+                  "endColumn": 39
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1,
+            "customProperties": {
+              "0": null,
+              "1": null,
+              "2": null
+            }
+          }
+        },
+        {
+          "ruleId": "S1192",
+          "level": "warning",
+          "message": "Define a constant instead of using this literal 'UploadedFile' 7 times.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 181,
+                  "startColumn": 23,
+                  "endLine": 181,
+                  "endColumn": 37
+                }
+              }
+            }
+          ],
+          "relatedLocations": [
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 350,
+                  "startColumn": 24,
+                  "endLine": 350,
+                  "endColumn": 38
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 355,
+                  "startColumn": 24,
+                  "endLine": 355,
+                  "endColumn": 38
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 360,
+                  "startColumn": 24,
+                  "endLine": 360,
+                  "endColumn": 38
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 365,
+                  "startColumn": 24,
+                  "endLine": 365,
+                  "endColumn": 38
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 370,
+                  "startColumn": 24,
+                  "endLine": 370,
+                  "endColumn": 38
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 424,
+                  "startColumn": 23,
+                  "endLine": 424,
+                  "endColumn": 37
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1,
+            "customProperties": {
+              "0": null,
+              "1": null,
+              "2": null,
+              "3": null,
+              "4": null,
+              "5": null
+            }
+          }
+        },
+        {
+          "ruleId": "S1192",
+          "level": "warning",
+          "message": "Define a constant instead of using this literal 'UserBirimRole' 7 times.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 225,
+                  "startColumn": 23,
+                  "endLine": 225,
+                  "endColumn": 38
+                }
+              }
+            }
+          ],
+          "relatedLocations": [
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 386,
+                  "startColumn": 24,
+                  "endLine": 386,
+                  "endColumn": 39
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 391,
+                  "startColumn": 24,
+                  "endLine": 391,
+                  "endColumn": 39
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 396,
+                  "startColumn": 24,
+                  "endLine": 396,
+                  "endColumn": 39
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 401,
+                  "startColumn": 24,
+                  "endLine": 401,
+                  "endColumn": 39
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 406,
+                  "startColumn": 24,
+                  "endLine": 406,
+                  "endColumn": 39
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 427,
+                  "startColumn": 23,
+                  "endLine": 427,
+                  "endColumn": 38
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1,
+            "customProperties": {
+              "0": null,
+              "1": null,
+              "2": null,
+              "3": null,
+              "4": null,
+              "5": null
+            }
+          }
+        },
+        {
+          "ruleId": "S1192",
+          "level": "warning",
+          "message": "Define a constant instead of using this literal 'create' 4 times.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Data/Seeding/DatabaseSeeder.cs",
+                "region": {
+                  "startLine": 123,
+                  "startColumn": 39,
+                  "endLine": 123,
+                  "endColumn": 47
+                }
+              }
+            }
+          ],
+          "relatedLocations": [
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Data/Seeding/DatabaseSeeder.cs",
+                "region": {
+                  "startLine": 130,
+                  "startColumn": 39,
+                  "endLine": 130,
+                  "endColumn": 47
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Data/Seeding/DatabaseSeeder.cs",
+                "region": {
+                  "startLine": 137,
+                  "startColumn": 39,
+                  "endLine": 137,
+                  "endColumn": 47
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Data/Seeding/DatabaseSeeder.cs",
+                "region": {
+                  "startLine": 222,
+                  "startColumn": 27,
+                  "endLine": 222,
+                  "endColumn": 35
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1,
+            "customProperties": {
+              "0": null,
+              "1": null,
+              "2": null
+            }
+          }
+        },
+        {
+          "ruleId": "S1192",
+          "level": "warning",
+          "message": "Define a constant instead of using this literal 'update' 5 times.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Data/Seeding/DatabaseSeeder.cs",
+                "region": {
+                  "startLine": 125,
+                  "startColumn": 39,
+                  "endLine": 125,
+                  "endColumn": 47
+                }
+              }
+            }
+          ],
+          "relatedLocations": [
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Data/Seeding/DatabaseSeeder.cs",
+                "region": {
+                  "startLine": 132,
+                  "startColumn": 39,
+                  "endLine": 132,
+                  "endColumn": 47
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Data/Seeding/DatabaseSeeder.cs",
+                "region": {
+                  "startLine": 139,
+                  "startColumn": 39,
+                  "endLine": 139,
+                  "endColumn": 47
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Data/Seeding/DatabaseSeeder.cs",
+                "region": {
+                  "startLine": 154,
+                  "startColumn": 39,
+                  "endLine": 154,
+                  "endColumn": 47
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Data/Seeding/DatabaseSeeder.cs",
+                "region": {
+                  "startLine": 222,
+                  "startColumn": 73,
+                  "endLine": 222,
+                  "endColumn": 81
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1,
+            "customProperties": {
+              "0": null,
+              "1": null,
+              "2": null,
+              "3": null
+            }
+          }
+        },
+        {
+          "ruleId": "S1192",
+          "level": "warning",
+          "message": "Define a constant instead of using this literal 'delete' 4 times.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Data/Seeding/DatabaseSeeder.cs",
+                "region": {
+                  "startLine": 126,
+                  "startColumn": 39,
+                  "endLine": 126,
+                  "endColumn": 47
+                }
+              }
+            }
+          ],
+          "relatedLocations": [
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Data/Seeding/DatabaseSeeder.cs",
+                "region": {
+                  "startLine": 133,
+                  "startColumn": 39,
+                  "endLine": 133,
+                  "endColumn": 47
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Data/Seeding/DatabaseSeeder.cs",
+                "region": {
+                  "startLine": 140,
+                  "startColumn": 39,
+                  "endLine": 140,
+                  "endColumn": 47
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Data/Seeding/DatabaseSeeder.cs",
+                "region": {
+                  "startLine": 160,
+                  "startColumn": 39,
+                  "endLine": 160,
+                  "endColumn": 47
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1,
+            "customProperties": {
+              "0": null,
+              "1": null,
+              "2": null
+            }
+          }
+        },
+        {
+          "ruleId": "S1192",
+          "level": "warning",
+          "message": "Define a constant instead of using this literal 'manage' 6 times.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Data/Seeding/DatabaseSeeder.cs",
+                "region": {
+                  "startLine": 127,
+                  "startColumn": 39,
+                  "endLine": 127,
+                  "endColumn": 47
+                }
+              }
+            }
+          ],
+          "relatedLocations": [
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Data/Seeding/DatabaseSeeder.cs",
+                "region": {
+                  "startLine": 134,
+                  "startColumn": 39,
+                  "endLine": 134,
+                  "endColumn": 47
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Data/Seeding/DatabaseSeeder.cs",
+                "region": {
+                  "startLine": 141,
+                  "startColumn": 39,
+                  "endLine": 141,
+                  "endColumn": 47
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Data/Seeding/DatabaseSeeder.cs",
+                "region": {
+                  "startLine": 146,
+                  "startColumn": 39,
+                  "endLine": 146,
+                  "endColumn": 47
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Data/Seeding/DatabaseSeeder.cs",
+                "region": {
+                  "startLine": 155,
+                  "startColumn": 39,
+                  "endLine": 155,
+                  "endColumn": 47
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Data/Seeding/DatabaseSeeder.cs",
+                "region": {
+                  "startLine": 199,
+                  "startColumn": 27,
+                  "endLine": 199,
+                  "endColumn": 35
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1,
+            "customProperties": {
+              "0": null,
+              "1": null,
+              "2": null,
+              "3": null,
+              "4": null
+            }
+          }
+        },
+        {
+          "ruleId": "S1192",
+          "level": "warning",
+          "message": "Define a constant instead of using this literal 'birim' 5 times.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Data/Seeding/DatabaseSeeder.cs",
+                "region": {
+                  "startLine": 130,
+                  "startColumn": 60,
+                  "endLine": 130,
+                  "endColumn": 67
+                }
+              }
+            }
+          ],
+          "relatedLocations": [
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Data/Seeding/DatabaseSeeder.cs",
+                "region": {
+                  "startLine": 131,
+                  "startColumn": 58,
+                  "endLine": 131,
+                  "endColumn": 65
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Data/Seeding/DatabaseSeeder.cs",
+                "region": {
+                  "startLine": 132,
+                  "startColumn": 60,
+                  "endLine": 132,
+                  "endColumn": 67
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Data/Seeding/DatabaseSeeder.cs",
+                "region": {
+                  "startLine": 133,
+                  "startColumn": 60,
+                  "endLine": 133,
+                  "endColumn": 67
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Data/Seeding/DatabaseSeeder.cs",
+                "region": {
+                  "startLine": 134,
+                  "startColumn": 60,
+                  "endLine": 134,
+                  "endColumn": 67
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1,
+            "customProperties": {
+              "0": null,
+              "1": null,
+              "2": null,
+              "3": null
+            }
+          }
+        },
+        {
+          "ruleId": "S1192",
+          "level": "warning",
+          "message": "Define a constant instead of using this literal 'system' 4 times.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Data/Seeding/DatabaseSeeder.cs",
+                "region": {
+                  "startLine": 153,
+                  "startColumn": 58,
+                  "endLine": 153,
+                  "endColumn": 66
+                }
+              }
+            }
+          ],
+          "relatedLocations": [
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Data/Seeding/DatabaseSeeder.cs",
+                "region": {
+                  "startLine": 154,
+                  "startColumn": 60,
+                  "endLine": 154,
+                  "endColumn": 68
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Data/Seeding/DatabaseSeeder.cs",
+                "region": {
+                  "startLine": 155,
+                  "startColumn": 60,
+                  "endLine": 155,
+                  "endColumn": 68
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Data/Seeding/DatabaseSeeder.cs",
+                "region": {
+                  "startLine": 199,
+                  "startColumn": 53,
+                  "endLine": 199,
+                  "endColumn": 61
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1,
+            "customProperties": {
+              "0": null,
+              "1": null,
+              "2": null
+            }
+          }
+        },
+        {
+          "ruleId": "S2325",
+          "level": "warning",
+          "message": "Make 'ConfigurePostgresql' a static method.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Data/IntranetDbContext.cs",
+                "region": {
+                  "startLine": 91,
+                  "startColumn": 18,
+                  "endLine": 91,
+                  "endColumn": 37
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "S2139",
+          "level": "warning",
+          "message": "Either log this exception and handle it, or rethrow it with some contextual information.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Data/Seeding/DatabaseSeeder.cs",
+                "region": {
+                  "startLine": 51,
+                  "startColumn": 26,
+                  "endLine": 51,
+                  "endColumn": 28
+                }
+              }
+            }
+          ],
+          "relatedLocations": [
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Data/Seeding/DatabaseSeeder.cs",
+                "region": {
+                  "startLine": 53,
+                  "startColumn": 13,
+                  "endLine": 53,
+                  "endColumn": 74
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Data/Seeding/DatabaseSeeder.cs",
+                "region": {
+                  "startLine": 54,
+                  "startColumn": 13,
+                  "endLine": 54,
+                  "endColumn": 19
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1,
+            "customProperties": {
+              "0": "Logging statement.",
+              "1": "Thrown exception."
+            }
+          }
+        },
+        {
+          "ruleId": "CA1822",
+          "level": "note",
+          "message": "'ConfigurePostgresql' adlı üye örnek verilerine erişmiyor ve statik olarak işaretlenebilir",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Data/IntranetDbContext.cs",
+                "region": {
+                  "startLine": 91,
+                  "startColumn": 18,
+                  "endLine": 91,
+                  "endColumn": 37
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "S2139",
+          "level": "warning",
+          "message": "Either log this exception and handle it, or rethrow it with some contextual information.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Data/Seeding/DatabaseSeederExtensions.cs",
+                "region": {
+                  "startLine": 34,
+                  "startColumn": 26,
+                  "endLine": 34,
+                  "endColumn": 28
+                }
+              }
+            }
+          ],
+          "relatedLocations": [
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Data/Seeding/DatabaseSeederExtensions.cs",
+                "region": {
+                  "startLine": 37,
+                  "startColumn": 13,
+                  "endLine": 37,
+                  "endColumn": 80
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Data/Seeding/DatabaseSeederExtensions.cs",
+                "region": {
+                  "startLine": 38,
+                  "startColumn": 13,
+                  "endLine": 38,
+                  "endColumn": 19
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1,
+            "customProperties": {
+              "0": "Logging statement.",
+              "1": "Thrown exception."
+            }
+          }
+        },
+        {
+          "ruleId": "S3267",
+          "level": "warning",
+          "message": "Loops should be simplified using the \"Where\" LINQ method",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Data/Seeding/DatabaseSeeder.cs",
+                "region": {
+                  "startLine": 278,
+                  "startColumn": 35,
+                  "endLine": 278,
+                  "endColumn": 50
+                }
+              }
+            }
+          ],
+          "relatedLocations": [
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Data/Seeding/DatabaseSeeder.cs",
+                "region": {
+                  "startLine": 280,
+                  "startColumn": 17,
+                  "endLine": 280,
+                  "endColumn": 51
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1,
+            "customProperties": {
+              "0": null
+            }
+          }
+        },
+        {
+          "ruleId": "CA1861",
+          "level": "note",
+          "message": "Çağrılan yöntem art arda çağrılırsa ve geçirilen diziyi değiştirmezse 'static readonly' alanları sabit dizi bağımsız değişkenlerine tercih edilir",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 297,
+                  "startColumn": 26,
+                  "endLine": 297,
+                  "endColumn": 57
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1,
+            "customProperties": {
+              "paramName": "columns"
+            }
+          }
+        },
+        {
+          "ruleId": "CA1861",
+          "level": "note",
+          "message": "Çağrılan yöntem art arda çağrılırsa ve geçirilen diziyi değiştirmezse 'static readonly' alanları sabit dizi bağımsız değişkenlerine tercih edilir",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 307,
+                  "startColumn": 26,
+                  "endLine": 307,
+                  "endColumn": 56
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1,
+            "customProperties": {
+              "paramName": "columns"
+            }
+          }
+        },
+        {
+          "ruleId": "CA1861",
+          "level": "note",
+          "message": "Çağrılan yöntem art arda çağrılırsa ve geçirilen diziyi değiştirmezse 'static readonly' alanları sabit dizi bağımsız değişkenlerine tercih edilir",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 334,
+                  "startColumn": 26,
+                  "endLine": 334,
+                  "endColumn": 60
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1,
+            "customProperties": {
+              "paramName": "columns"
+            }
+          }
+        },
+        {
+          "ruleId": "CA1861",
+          "level": "note",
+          "message": "Çağrılan yöntem art arda çağrılırsa ve geçirilen diziyi değiştirmezse 'static readonly' alanları sabit dizi bağımsız değişkenlerine tercih edilir",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 366,
+                  "startColumn": 26,
+                  "endLine": 366,
+                  "endColumn": 60
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1,
+            "customProperties": {
+              "paramName": "columns"
+            }
+          }
+        },
+        {
+          "ruleId": "CA1861",
+          "level": "note",
+          "message": "Çağrılan yöntem art arda çağrılırsa ve geçirilen diziyi değiştirmezse 'static readonly' alanları sabit dizi bağımsız değişkenlerine tercih edilir",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251126055557_InitialCreate.cs",
+                "region": {
+                  "startLine": 407,
+                  "startColumn": 26,
+                  "endLine": 407,
+                  "endColumn": 55
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1,
+            "customProperties": {
+              "paramName": "columns"
+            }
+          }
+        }
+      ],
+      "rules": {
+        "CA1822": {
+          "id": "CA1822",
+          "shortDescription": "Üyeleri statik olarak işaretleyin",
+          "fullDescription": "Örnek verilerine erişmeyen veya örnek yöntemlerini çağırmayan üyeler statik olarak işaretlenebilir. Yöntemleri statik olarak işaretledikten sonra, derleyici bu üyelere yönelik sanal olmayan çağrı konumlarını gösterir. Bu, performans açısından duyarlı kod için önemli ölçüde performans kazanımı sağlar.",
+          "defaultLevel": "note",
+          "helpUri": "https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca1822",
+          "properties": {
+            "category": "Performance",
+            "isEnabledByDefault": true,
+            "tags": [
+              "PortedFromFxCop",
+              "Telemetry",
+              "EnabledRuleInAggressiveMode"
+            ]
+          }
+        },
+        "CA1861": {
+          "id": "CA1861",
+          "shortDescription": "Sabit dizileri bağımsız değişkenler olarak kullanmaktan sakının",
+          "fullDescription": "Bağımsız değişkenler olarak geçirilen sabit diziler art arda çağrıldığında yeniden kullanılmaz, yani her seferinde yeni bir dizi oluşturulur. Geçirilen dizi çağrılan yöntem içinde değiştirilmezse performansı iyileştirmek için 'static readonly' alanlarına ayıklamayı deneyin.",
+          "defaultLevel": "note",
+          "helpUri": "https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca1861",
+          "properties": {
+            "category": "Performance",
+            "isEnabledByDefault": true,
+            "tags": [
+              "Telemetry",
+              "EnabledRuleInAggressiveMode"
+            ]
+          }
+        },
+        "S1192": {
+          "id": "S1192",
+          "shortDescription": "String literals should not be duplicated",
+          "fullDescription": "Duplicated string literals make the process of refactoring complex and error-prone, as any change would need to be propagated on all occurrences.",
+          "defaultLevel": "warning",
+          "helpUri": "https://rules.sonarsource.com/csharp/RSPEC-1192",
+          "properties": {
+            "category": "Minor Code Smell",
+            "isEnabledByDefault": false,
+            "tags": [
+              "C#",
+              "MainSourceScope",
+              "SonarWay"
+            ]
+          }
+        },
+        "S2139": {
+          "id": "S2139",
+          "shortDescription": "Exceptions should be either logged or rethrown but not both",
+          "fullDescription": "When an exception is logged and rethrown, the upstream code may not be aware that the exception has already been logged. As a result, the same exception gets logged multiple times, making it difficult to identify the root cause of the issue. This can be particularly problematic in multi-threaded applications where messages from other threads can be interwoven with the repeated log entries.",
+          "defaultLevel": "warning",
+          "helpUri": "https://rules.sonarsource.com/csharp/RSPEC-2139",
+          "properties": {
+            "category": "Major Code Smell",
+            "isEnabledByDefault": true,
+            "tags": [
+              "C#",
+              "MainSourceScope",
+              "SonarWay"
+            ]
+          }
+        },
+        "S2325": {
+          "id": "S2325",
+          "shortDescription": "Methods and properties that don't access instance data should be static",
+          "fullDescription": "Methods and properties that don’t access instance data should be marked as static for the following reasons:",
+          "defaultLevel": "warning",
+          "helpUri": "https://rules.sonarsource.com/csharp/RSPEC-2325",
+          "properties": {
+            "category": "Minor Code Smell",
+            "isEnabledByDefault": true,
+            "tags": [
+              "C#",
+              "MainSourceScope",
+              "TestSourceScope",
+              "SonarWay"
+            ]
+          }
+        },
+        "S3267": {
+          "id": "S3267",
+          "shortDescription": "Loops should be simplified with \"LINQ\" expressions",
+          "fullDescription": "Using explicit loops for filtering, selecting, or aggregating elements can make code more verbose and harder to read. LINQ expressions provide a more concise and expressive way to perform these operations, improving code clarity and maintainability.",
+          "defaultLevel": "warning",
+          "helpUri": "https://rules.sonarsource.com/csharp/RSPEC-3267",
+          "properties": {
+            "category": "Minor Code Smell",
+            "isEnabledByDefault": true,
+            "tags": [
+              "C#",
+              "MainSourceScope",
+              "SonarWay"
+            ]
+          }
+        }
+      }
+    }
+  ]
+}

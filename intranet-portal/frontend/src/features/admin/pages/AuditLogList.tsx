@@ -96,12 +96,51 @@ export const AuditLogList: React.FC = () => {
         });
     };
 
-    const getActionVariant = (action: string): "default" | "secondary" | "destructive" | "outline" => {
-        if (action.includes('Login') || action.includes('Logout')) return 'outline';
-        if (action.includes('Create') || action.includes('Add')) return 'default'; // Greenish usually, using default/primary
-        if (action.includes('Update') || action.includes('Edit')) return 'secondary';
-        if (action.includes('Delete') || action.includes('Remove')) return 'destructive';
-        return 'outline';
+    // Aksiyon türüne göre renk sınıfları döndürür
+    const getActionColor = (action: string): string => {
+        // Authentication - Giriş/Çıkış işlemleri
+        if (action === 'Login') return 'bg-emerald-500 hover:bg-emerald-600 text-white border-emerald-600';
+        if (action === 'Logout') return 'bg-sky-500 hover:bg-sky-600 text-white border-sky-600';
+        if (action === 'LoginFailed') return 'bg-rose-500 hover:bg-rose-600 text-white border-rose-600';
+        if (action === 'TokenRefresh') return 'bg-cyan-500 hover:bg-cyan-600 text-white border-cyan-600';
+
+        // Backup - Yedekleme işlemleri
+        if (action === 'BackupCreated') return 'bg-violet-500 hover:bg-violet-600 text-white border-violet-600';
+        if (action === 'BackupDownloaded') return 'bg-indigo-500 hover:bg-indigo-600 text-white border-indigo-600';
+        if (action === 'BackupDeleted') return 'bg-fuchsia-500 hover:bg-fuchsia-600 text-white border-fuchsia-600';
+
+        // User Management - Kullanıcı işlemleri
+        if (action === 'CreateUser') return 'bg-green-500 hover:bg-green-600 text-white border-green-600';
+        if (action === 'UpdateUser') return 'bg-amber-500 hover:bg-amber-600 text-white border-amber-600';
+        if (action === 'DeleteUser') return 'bg-red-500 hover:bg-red-600 text-white border-red-600';
+        if (action === 'ActivateUser') return 'bg-teal-500 hover:bg-teal-600 text-white border-teal-600';
+        if (action === 'DeactivateUser') return 'bg-orange-500 hover:bg-orange-600 text-white border-orange-600';
+
+        // Role & Permission - Rol ve yetki işlemleri
+        if (action.includes('Role')) return 'bg-purple-500 hover:bg-purple-600 text-white border-purple-600';
+        if (action.includes('Permission')) return 'bg-pink-500 hover:bg-pink-600 text-white border-pink-600';
+
+        // Birim - Birim işlemleri
+        if (action.includes('Birim')) return 'bg-blue-500 hover:bg-blue-600 text-white border-blue-600';
+
+        // File - Dosya işlemleri
+        if (action === 'UploadFile') return 'bg-lime-500 hover:bg-lime-600 text-white border-lime-600';
+        if (action === 'DownloadFile') return 'bg-cyan-500 hover:bg-cyan-600 text-white border-cyan-600';
+        if (action === 'DeleteFile') return 'bg-red-400 hover:bg-red-500 text-white border-red-500';
+
+        // Security - Güvenlik olayları
+        if (action === 'UnauthorizedAccess') return 'bg-red-600 hover:bg-red-700 text-white border-red-700';
+        if (action === 'IPBlocked') return 'bg-red-700 hover:bg-red-800 text-white border-red-800';
+        if (action === 'RateLimitExceeded') return 'bg-yellow-500 hover:bg-yellow-600 text-white border-yellow-600';
+
+        // Genel kurallar (fallback)
+        if (action.includes('Create') || action.includes('Add')) return 'bg-green-500 hover:bg-green-600 text-white border-green-600';
+        if (action.includes('Update') || action.includes('Edit')) return 'bg-amber-500 hover:bg-amber-600 text-white border-amber-600';
+        if (action.includes('Delete') || action.includes('Remove')) return 'bg-red-500 hover:bg-red-600 text-white border-red-600';
+        if (action.includes('Export')) return 'bg-slate-500 hover:bg-slate-600 text-white border-slate-600';
+
+        // Varsayılan
+        return 'bg-gray-500 hover:bg-gray-600 text-white border-gray-600';
     };
 
     return (
@@ -207,7 +246,7 @@ export const AuditLogList: React.FC = () => {
                                         </div>
                                     </TableCell>
                                     <TableCell>
-                                        <Badge variant={getActionVariant(log.action)}>
+                                        <Badge className={getActionColor(log.action)}>
                                             {log.action}
                                         </Badge>
                                     </TableCell>
@@ -281,7 +320,7 @@ export const AuditLogList: React.FC = () => {
                                 </div>
                                 <div className="space-y-1">
                                     <p className="text-muted-foreground text-xs">Aksiyon</p>
-                                    <Badge variant={getActionVariant(selectedLog.action)}>{selectedLog.action}</Badge>
+                                    <Badge className={getActionColor(selectedLog.action)}>{selectedLog.action}</Badge>
                                 </div>
                                 <div className="space-y-1">
                                     <p className="text-muted-foreground text-xs">IP Adresi</p>

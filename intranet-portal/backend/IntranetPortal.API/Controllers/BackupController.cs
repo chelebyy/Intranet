@@ -1,8 +1,10 @@
 using IntranetPortal.API.Attributes;
+using IntranetPortal.API.Extensions;
 using IntranetPortal.API.Models;
 using IntranetPortal.Application.DTOs.Backup;
 using IntranetPortal.Application.Interfaces;
 using IntranetPortal.Domain.Constants;
+using IntranetPortal.Domain.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,10 +20,12 @@ namespace IntranetPortal.API.Controllers;
 public class BackupController : ControllerBase
 {
     private readonly IBackupService _backupService;
+    private readonly IAuditLogService _auditLogService;
 
-    public BackupController(IBackupService backupService)
+    public BackupController(IBackupService backupService, IAuditLogService auditLogService)
     {
         _backupService = backupService;
+        _auditLogService = auditLogService;
     }
 
     /// <summary>
@@ -55,8 +59,20 @@ public class BackupController : ControllerBase
     {
         var result = await _backupService.TriggerBackupAsync();
         
+        // Audit Log
+        var userId = User.GetUserId();
+        var birimId = User.GetBirimId();
+        var ipAddress = HttpContext.Connection.RemoteIpAddress?.ToString();
+        
         if (result.Success)
         {
+            await _auditLogService.CreateLogAsync(
+                userId, birimId, 
+                AuditAction.BackupCreated.ToString(), 
+                "Backup", 
+                "Manuel yedekleme başarıyla oluşturuldu", 
+                ipAddress);
+            
             return Ok(ApiResponse<BackupTriggerResultDto>.Ok(result, "Yedekleme başarıyla tamamlandı."));
         }
         
@@ -76,6 +92,18 @@ public class BackupController : ControllerBase
         {
             return NotFound(ApiResponse<object>.Fail("Yedek dosyası bulunamadı."));
         }
+
+        // Audit Log
+        var userId = User.GetUserId();
+        var birimId = User.GetBirimId();
+        var ipAddress = HttpContext.Connection.RemoteIpAddress?.ToString();
+        
+        await _auditLogService.CreateLogAsync(
+            userId, birimId, 
+            AuditAction.BackupDownloaded.ToString(), 
+            "Backup", 
+            $"Yedek dosyası indirildi: {fileName}", 
+            ipAddress);
 
         return File(fileStream, contentType!, actualFileName!);
     }
@@ -107,6 +135,18 @@ public class BackupController : ControllerBase
         
         if (result)
         {
+            // Audit Log
+            var userId = User.GetUserId();
+            var birimId = User.GetBirimId();
+            var ipAddress = HttpContext.Connection.RemoteIpAddress?.ToString();
+            
+            await _auditLogService.CreateLogAsync(
+                userId, birimId, 
+                AuditAction.BackupDeleted.ToString(), 
+                "Backup", 
+                $"Yedek dosyası silindi: {fileName}", 
+                ipAddress);
+            
             return Ok(ApiResponse<bool>.Ok(true, "Yedek dosyası silindi."));
         }
         

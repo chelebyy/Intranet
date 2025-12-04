@@ -13,7 +13,7 @@ if (!(Test-Path $backupDir)) {
 
 try {
     # Yedekleme
-    $env:PGPASSWORD = "SecureP@ssw0rd!2025"
+    $env:PGPASSWORD = "SecurePassword123!"
     & "C:\Program Files\PostgreSQL\16\bin\pg_dump.exe" `
         -U intranet_user `
         -h localhost `

@@ -14,6 +14,9 @@ public class BackupService : IBackupService
     private readonly string _backupDirectory = @"C:\Backups";
     private readonly string _logFilePath = @"C:\Backups\backup.log";
     private readonly string _scriptPath = @"C:\Users\IT\Desktop\Bilişim Sistemi\intranet-portal\scripts\PostgreSQLBackup.ps1";
+    
+    // Thread-safe backup running flag with lock
+    private static readonly object _backupLock = new();
     private static bool _isBackupRunning;
 
     public BackupService(ILogger<BackupService> logger)
@@ -91,18 +94,22 @@ public class BackupService : IBackupService
 
     public async Task<BackupTriggerResultDto> TriggerBackupAsync()
     {
-        if (_isBackupRunning)
+        // Thread-safe check and set using lock
+        lock (_backupLock)
         {
-            return new BackupTriggerResultDto
+            if (_isBackupRunning)
             {
-                Success = false,
-                Message = "Bir yedekleme işlemi zaten çalışıyor. Lütfen bekleyin."
-            };
+                return new BackupTriggerResultDto
+                {
+                    Success = false,
+                    Message = "Bir yedekleme işlemi zaten çalışıyor. Lütfen bekleyin."
+                };
+            }
+            _isBackupRunning = true;
         }
 
         try
         {
-            _isBackupRunning = true;
             _logger.LogInformation("Manual backup triggered");
 
             // PowerShell scriptini çalıştır
@@ -161,10 +168,19 @@ public class BackupService : IBackupService
         }
         finally
         {
-            _isBackupRunning = false;
+            // Thread-safe reset using lock
+            lock (_backupLock)
+            {
+                _isBackupRunning = false;
+            }
         }
     }
 
+    /// <summary>
+    /// Gets backup file stream for download.
+    /// IMPORTANT: Caller is responsible for disposing the returned stream!
+    /// The stream should be used with 'using' statement or in a context that handles disposal.
+    /// </summary>
     public async Task<(Stream? FileStream, string? ContentType, string? FileName)> GetBackupFileAsync(string fileName)
     {
         try
@@ -200,8 +216,10 @@ public class BackupService : IBackupService
                 return (null, null, null);
             }
 
+            // Stream will be disposed by ASP.NET Core after the response is sent
+            // FileStreamResult or File() method handles disposal automatically
             var stream = new FileStream(fullPath, FileMode.Open, FileAccess.Read, FileShare.Read);
-            return await Task.FromResult((stream as Stream, "application/octet-stream", sanitizedFileName));
+            return await Task.FromResult<(Stream?, string?, string?)>((stream, "application/octet-stream", sanitizedFileName));
         }
         catch (Exception ex)
         {

@@ -9,14 +9,14 @@ namespace IntranetPortal.Application.Interfaces;
 public interface IAuthenticationService
 {
     /// <summary>
-    /// Authenticates user with email and password
+    /// Authenticates user with sicil (registration number) and password
     /// Returns user info and list of associated birims (organizational units)
     /// </summary>
-    /// <param name="email">User email</param>
+    /// <param name="sicil">User sicil (registration number)</param>
     /// <param name="password">User password (plaintext)</param>
     /// <param name="ipAddress">Client IP address for audit logging</param>
     /// <returns>Login response with user and birim list</returns>
-    Task<LoginResponseDto> LoginAsync(string email, string password, string ipAddress);
+    Task<LoginResponseDto> LoginAsync(string sicil, string password, string ipAddress);
 
     /// <summary>
     /// Selects a specific birim for multi-birim users
