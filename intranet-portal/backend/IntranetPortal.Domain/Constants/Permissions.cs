@@ -43,6 +43,7 @@ namespace IntranetPortal.Domain.Constants
         // System Management (PRD FR-44 to FR-47)
         public const string ManageMaintenance = "manage.maintenance";
         public const string ReadSystem = "read.system";
+        public const string ManageBackups = "manage.backups";
 
         // Role & Permission Management (typically SuperAdmin only)
         public const string ManageRoles = "manage.roles";

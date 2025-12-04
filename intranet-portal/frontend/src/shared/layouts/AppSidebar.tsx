@@ -16,6 +16,7 @@ import {
     Activity,
     Server,
     Bug,
+    DatabaseBackup,
 } from 'lucide-react';
 
 import {
@@ -147,6 +148,12 @@ export function AppSidebar() {
                     title: "IP Kısıtlamaları",
                     url: "/ip-restrictions",
                     icon: Shield,
+                    permission: Permissions.System.Read
+                },
+                {
+                    title: "Yedekleme Merkezi",
+                    url: "/admin/backups",
+                    icon: DatabaseBackup,
                     permission: Permissions.System.Read
                 },
             ]

@@ -23,6 +23,7 @@ const ArizaList = lazy(() => import('./features/it/pages/ArizaList').then(module
 const TestUnitDashboard = lazy(() => import('./features/test-unit/pages/TestUnitDashboard').then(module => ({ default: module.TestUnitDashboard })));
 const TestCases = lazy(() => import('./features/test-unit/pages/TestCases').then(module => ({ default: module.TestCases })));
 const GenelButceDashboard = lazy(() => import('./features/genelButce/pages/GenelButceDashboard').then(module => ({ default: module.GenelButceDashboard })));
+const BackupPage = lazy(() => import('./features/admin/pages/BackupPage').then(module => ({ default: module.BackupPage })));
 
 // Loading component
 const PageLoader = () => (
@@ -116,6 +117,15 @@ function App() {
             <ProtectedRoute requiredPermission={Permissions.System.Read}>
               <Suspense fallback={<PageLoader />}>
                 <IPRestrictions />
+              </Suspense>
+            </ProtectedRoute>
+          } />
+
+          {/* Backup Management - SuperAdmin only (manage.backups permission) */}
+          <Route path="admin/backups" element={
+            <ProtectedRoute requiredPermission={Permissions.System.Read}>
+              <Suspense fallback={<PageLoader />}>
+                <BackupPage />
               </Suspense>
             </ProtectedRoute>
           } />

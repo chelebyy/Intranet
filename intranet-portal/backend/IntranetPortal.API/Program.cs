@@ -45,6 +45,7 @@ builder.Services.AddScoped<IDashboardService, DashboardService>();
 builder.Services.AddScoped<IAuditLogService, AuditLogService>();
 builder.Services.AddScoped<IIPRestrictionService, IPRestrictionService>();
 builder.Services.AddScoped<IUnvanService, UnvanService>();
+builder.Services.AddScoped<IBackupService, BackupService>();
 builder.Services.AddMemoryCache();
 
 // JWT Authentication Configuration

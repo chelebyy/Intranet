@@ -40,8 +40,8 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentPage, onNavigate, isDar
   };
 
   const toggleSubMenu = (page: string) => {
-    setExpandedMenus(prev => 
-      prev.includes(page) 
+    setExpandedMenus(prev =>
+      prev.includes(page)
         ? prev.filter(p => p !== page)
         : [...prev, page]
     );
@@ -52,17 +52,17 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentPage, onNavigate, isDar
 
   // Menu items with permission requirements
   const menuItems: MenuItem[] = useMemo(() => [
-    { 
-      page: Page.DASHBOARD, 
-      path: '/dashboard', 
-      icon: 'dashboard', 
+    {
+      page: Page.DASHBOARD,
+      path: '/dashboard',
+      icon: 'dashboard',
       label: 'Dashboard',
       permission: Permissions.Dashboard.View
     },
-    { 
-      page: Page.USER_LIST, 
-      path: '/users', 
-      icon: 'group', 
+    {
+      page: Page.USER_LIST,
+      path: '/users',
+      icon: 'group',
       label: 'Kullanıcı Yönetimi',
       permission: Permissions.User.Read
     },
@@ -89,43 +89,63 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentPage, onNavigate, isDar
         }
       ]
     },
-    { 
-      page: Page.ROLES_PERMISSIONS, 
-      path: '/roles', 
-      icon: 'security', 
+    {
+      page: Page.ROLES_PERMISSIONS,
+      path: '/roles',
+      icon: 'security',
       label: 'Role & Permission',
       permission: Permissions.Role.Read
     },
-    { 
-      page: Page.AUDIT_LOG, 
-      path: '/audit-log', 
-      icon: 'history', 
+    {
+      page: Page.AUDIT_LOG,
+      path: '/audit-log',
+      icon: 'history',
       label: 'Audit Log',
       permission: Permissions.AuditLog.Read
     },
-    { 
-      page: Page.IP_RESTRICTIONS, 
-      path: '/ip-restrictions', 
-      icon: 'shield', 
+    {
+      page: Page.IP_RESTRICTIONS,
+      path: '/ip-restrictions',
+      icon: 'shield',
       label: 'IP Kısıtlamaları',
+      permission: Permissions.System.Read
+    },
+    {
+      page: Page.BACKUP_MANAGEMENT,
+      path: '/admin/backups',
+      icon: 'backup',
+      label: 'Yedekleme Merkezi',
       permission: Permissions.System.Read
     },
   ], []);
 
+  // Debug logs - AFTER menuItems definition
+  console.log('Sidebar Debug:', {
+    user: user?.ad,
+    role: currentRoleInfo?.roleName,
+    isSuperAdmin,
+    permissions: menuItems.map(i => ({ label: i.label, perm: i.permission }))
+  });
+
   // Filter menu items based on permissions
   const visibleMenuItems = useMemo(() => {
     return menuItems.filter(item => {
-      // Dashboard is restricted to SuperAdmin only for now
-      if (item.page === Page.DASHBOARD) {
-        return isSuperAdmin;
-      }
+      const allowed = (() => {
+        // Dashboard is restricted to SuperAdmin only for now
+        if (item.page === Page.DASHBOARD) {
+          return isSuperAdmin;
+        }
 
-      // No permission required - show to everyone
-      if (!item.permission) return true;
-      // SuperAdmin sees everything
-      if (isSuperAdmin) return true;
-      // Check permission
-      return hasPermission(item.permission.resource, item.permission.action);
+        // No permission required - show to everyone
+        if (!item.permission) return true;
+        // SuperAdmin sees everything
+        if (isSuperAdmin) return true;
+        // Check permission
+        return hasPermission(item.permission.resource, item.permission.action);
+      })();
+
+      console.log(`Menu Item: ${item.label}, Allowed: ${allowed}`);
+      return allowed;
     });
   }, [menuItems, isSuperAdmin, hasPermission]);
 
@@ -138,22 +158,20 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentPage, onNavigate, isDar
   };
 
   const navItemClass = (page: Page, subItems?: SubMenuItem[]) =>
-    `w-full flex items-center gap-3 px-3 py-2 rounded-lg cursor-pointer transition-colors ${
-      isPageActive(page, subItems)
-        ? 'bg-primary-light dark:bg-primary/20 text-primary'
-        : 'text-text-secondary dark:text-dark-text-secondary hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-text-primary dark:hover:text-dark-text-primary'
+    `w-full flex items-center gap-3 px-3 py-2 rounded-lg cursor-pointer transition-colors ${isPageActive(page, subItems)
+      ? 'bg-primary-light dark:bg-primary/20 text-primary'
+      : 'text-text-secondary dark:text-dark-text-secondary hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-text-primary dark:hover:text-dark-text-primary'
     }`;
 
   const iconClass = (page: Page, subItems?: SubMenuItem[]) =>
-     `material-symbols-outlined text-2xl ${
-      isPageActive(page, subItems) ? 'fill' : ''
+    `material-symbols-outlined text-2xl ${isPageActive(page, subItems) ? 'fill' : ''
     }`;
 
   return (
     <aside className="flex flex-col w-64 bg-sidebar dark:bg-dark-sidebar border-r border-border-color dark:border-dark-border shrink-0 h-full transition-colors duration-200">
       <div className="flex flex-col gap-4 p-4 h-full">
         <div className="flex items-center gap-3 mb-2">
-          <div className="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" style={{backgroundImage: 'url("https://picsum.photos/200")'}}></div>
+          <div className="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" style={{ backgroundImage: 'url("https://picsum.photos/200")' }}></div>
           <div className="flex flex-col">
             <h1 className="text-text-primary dark:text-dark-text-primary text-base font-bold leading-normal">Intranet Portal</h1>
             <p className="text-text-secondary dark:text-dark-text-secondary text-sm font-normal leading-normal">
@@ -178,9 +196,9 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentPage, onNavigate, isDar
             <div key={item.page}>
               {item.subItems ? (
                 <>
-                  <button 
+                  <button
                     type="button"
-                    onClick={() => toggleSubMenu(item.page)} 
+                    onClick={() => toggleSubMenu(item.page)}
                     className={navItemClass(item.page, item.subItems)}
                   >
                     <span className={iconClass(item.page, item.subItems)}>{item.icon}</span>
@@ -198,10 +216,10 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentPage, onNavigate, isDar
                           return hasPermission(subItem.permission.resource, subItem.permission.action);
                         })
                         .map(subItem => (
-                          <button 
+                          <button
                             key={subItem.page}
                             type="button"
-                            onClick={() => { onNavigate(subItem.page); navigate(subItem.path); }} 
+                            onClick={() => { onNavigate(subItem.page); navigate(subItem.path); }}
                             className={navItemClass(subItem.page)}
                           >
                             <span className={iconClass(subItem.page)}>{subItem.icon}</span>
@@ -213,9 +231,9 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentPage, onNavigate, isDar
                   )}
                 </>
               ) : (
-                <button 
+                <button
                   type="button"
-                  onClick={() => { onNavigate(item.page); navigate(item.path); }} 
+                  onClick={() => { onNavigate(item.page); navigate(item.path); }}
                   className={navItemClass(item.page)}
                 >
                   <span className={iconClass(item.page)}>{item.icon}</span>
@@ -227,25 +245,25 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentPage, onNavigate, isDar
         </nav>
 
         <div className="mt-auto flex flex-col gap-1">
-          <button 
+          <button
             type="button"
-            onClick={toggleTheme} 
+            onClick={toggleTheme}
             className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-text-secondary dark:text-dark-text-secondary hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer"
           >
             <span className="material-symbols-outlined text-2xl">{isDarkMode ? 'light_mode' : 'dark_mode'}</span>
             <span className="text-sm font-medium leading-normal">{isDarkMode ? 'Açık Tema' : 'Koyu Tema'}</span>
           </button>
-          <button 
+          <button
             type="button"
-            onClick={() => { onNavigate(Page.PROFILE); navigate('/profile'); }} 
+            onClick={() => { onNavigate(Page.PROFILE); navigate('/profile'); }}
             className={navItemClass(Page.PROFILE)}
           >
             <span className={iconClass(Page.PROFILE)}>account_circle</span>
             <span className="text-sm font-medium leading-normal">Profil</span>
           </button>
-          <button 
+          <button
             type="button"
-            onClick={handleLogout} 
+            onClick={handleLogout}
             className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-text-secondary dark:text-dark-text-secondary hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer"
           >
             <span className="material-symbols-outlined text-2xl">logout</span>
