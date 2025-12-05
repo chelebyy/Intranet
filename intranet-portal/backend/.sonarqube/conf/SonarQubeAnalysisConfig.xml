@@ -12,7 +12,7 @@
   <HasBeginStepCommandLineTruststorePassword>false</HasBeginStepCommandLineTruststorePassword>
   <SonarQubeHostUrl>http://localhost:9000</SonarQubeHostUrl>
   <SonarQubeVersion>25.11.0.114957</SonarQubeVersion>
-  <SonarProjectKey>Bilisim1</SonarProjectKey>
+  <SonarProjectKey>Intranetb</SonarProjectKey>
   <AdditionalConfig>
     <ConfigSetting Id="BuildUri" />
     <ConfigSetting Id="TfsUri" />
@@ -148,7 +148,7 @@
     <Property Name="sonar.java.jvmframeworkconfig.activate">true</Property>
     <Property Name="sonar.updatecenter.url">https://downloads.sonarsource.com/sonarqube/update/update-center.properties</Property>
     <Property Name="sonar.core.id">147B411E-AZp9UMz5jPLiv86yVrxP</Property>
-    <Property Name="sonar.core.startTime">1.12.2025 14:45:11</Property>
+    <Property Name="sonar.core.startTime">5.12.2025 10:34:56</Property>
   </ServerSettings>
   <LocalSettings>
     <Property Name="sonar.host.url">http://localhost:9000</Property>

@@ -61,11 +61,15 @@ export function EncryptedText({
       return
     }
 
-    const interval = setInterval(() => {
-      setDisplayText((prev) =>
-        prev.map((_, index) => getCharForDisplay(index, text, revealedIndices, getRandomChar))
-      )
-    }, flipDelayMs)
+    // Create character mapper function outside of setDisplayText to reduce nesting
+    const mapCharacter = (_: string, index: number) =>
+      getCharForDisplay(index, text, revealedIndices, getRandomChar)
+
+    const updateChars = () => {
+      setDisplayText((prev) => prev.map(mapCharacter))
+    }
+
+    const interval = setInterval(updateChars, flipDelayMs)
 
     return () => clearInterval(interval)
   }, [text, revealedIndices, flipDelayMs, getRandomChar])

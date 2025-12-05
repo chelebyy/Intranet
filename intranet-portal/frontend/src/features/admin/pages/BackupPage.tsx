@@ -236,13 +236,6 @@ export const BackupPage: React.FC = () => {
         return new Date(dateStr).toLocaleString('tr-TR');
     };
 
-    const handleKeyDown = (e: React.KeyboardEvent) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            handleTriggerBackup();
-        }
-    };
-
     return (
         <div className="h-full flex-1 flex-col space-y-8 p-8 md:flex">
             <div className="flex items-center justify-between space-y-2">
@@ -261,18 +254,17 @@ export const BackupPage: React.FC = () => {
                         <Terminal className="h-4 w-4" />
                         Logları Görüntüle
                     </Button>
-                    <div
-                        role="button"
-                        tabIndex={0}
+                    <Button
+                        variant="ghost"
                         onClick={handleTriggerBackup}
-                        onKeyDown={handleKeyDown}
-                        className={triggering ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
+                        disabled={triggering}
+                        className="p-0 h-auto hover:bg-transparent"
                     >
                         <AnimatedBadge
                             text={triggering ? "Yedekleniyor..." : "Şimdi Yedekle"}
                             color="#10b981"
                         />
-                    </div>
+                    </Button>
                 </div>
             </div>
 

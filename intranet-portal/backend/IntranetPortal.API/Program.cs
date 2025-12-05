@@ -3,6 +3,7 @@ using IntranetPortal.API.Data;
 using IntranetPortal.API.Middleware;
 using IntranetPortal.Application.Interfaces;
 using IntranetPortal.Application.Services;
+using IntranetPortal.Application.Settings;
 using IntranetPortal.Infrastructure.Data;
 using IntranetPortal.Infrastructure.Data.Seeding;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -45,7 +46,12 @@ builder.Services.AddScoped<IDashboardService, DashboardService>();
 builder.Services.AddScoped<IAuditLogService, AuditLogService>();
 builder.Services.AddScoped<IIPRestrictionService, IPRestrictionService>();
 builder.Services.AddScoped<IUnvanService, UnvanService>();
-builder.Services.AddScoped<IBackupService, BackupService>();
+
+// Configure BackupSettings and register BackupService as Singleton
+// Singleton ensures thread-safe backup flag (_isBackupRunning) works correctly
+builder.Services.Configure<BackupSettings>(builder.Configuration.GetSection(BackupSettings.SectionName));
+builder.Services.AddSingleton<IBackupService, BackupService>();
+
 builder.Services.AddMemoryCache();
 
 // JWT Authentication Configuration

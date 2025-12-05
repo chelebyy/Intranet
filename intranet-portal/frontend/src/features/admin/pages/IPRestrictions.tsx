@@ -209,13 +209,6 @@ export const IPRestrictions: React.FC = () => {
         return new Date(dateStr).toLocaleString('tr-TR');
     };
 
-    const handleKeyDown = (e: React.KeyboardEvent) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            setShowModal(true);
-        }
-    };
-
     return (
         <div className="h-full flex-1 flex-col space-y-8 p-8 md:flex">
             <div className="flex items-center justify-between space-y-2">
@@ -225,18 +218,16 @@ export const IPRestrictions: React.FC = () => {
                         Sisteme erişim izni verilen veya engellenen IP adreslerini yönetin.
                     </p>
                 </div>
-                <div
-                    role="button"
-                    tabIndex={0}
+                <Button
+                    variant="ghost"
                     onClick={() => setShowModal(true)}
-                    onKeyDown={handleKeyDown}
-                    className="cursor-pointer"
+                    className="p-0 h-auto hover:bg-transparent"
                 >
                     <AnimatedBadge
                         text="Yeni Kural Ekle"
                         color="#22d3ee"
                     />
-                </div>
+                </Button>
             </div>
 
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
