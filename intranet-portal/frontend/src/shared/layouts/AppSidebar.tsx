@@ -17,6 +17,7 @@ import {
     Server,
     Bug,
     DatabaseBackup,
+    type LucideIcon,
 } from 'lucide-react';
 
 import {
@@ -40,6 +41,124 @@ import {
     CollapsibleTrigger,
 } from "@/components/ui/collapsible";
 
+// Types
+interface Permission {
+    resource: string;
+    action: string;
+}
+
+interface SubMenuItem {
+    title: string;
+    url: string;
+    icon?: LucideIcon;
+    permission?: Permission;
+}
+
+interface MenuItem {
+    title: string;
+    url?: string;
+    icon?: LucideIcon;
+    permission?: Permission;
+    subItems?: SubMenuItem[];
+}
+
+interface MenuGroup {
+    title: string;
+    items: MenuItem[];
+}
+
+// Props types for sub-components
+interface MenuSubItemProps {
+    subItem: SubMenuItem;
+    isActive: (path: string) => boolean;
+    navigate: (path: string) => void;
+}
+
+interface CollapsibleMenuItemProps {
+    item: MenuItem;
+    isGroupActive: (subItems: SubMenuItem[]) => boolean;
+    isActive: (path: string) => boolean;
+    navigate: (path: string) => void;
+    filterItems: (items: SubMenuItem[]) => SubMenuItem[];
+}
+
+interface SimpleMenuItemProps {
+    item: MenuItem;
+    isActive: (path: string) => boolean;
+    navigate: (path: string) => void;
+}
+
+// Sub-components extracted to reduce nesting
+function MenuSubItem({ subItem, isActive, navigate }: Readonly<MenuSubItemProps>) {
+    return (
+        <SidebarMenuSubItem>
+            <SidebarMenuSubButton
+                asChild
+                isActive={isActive(subItem.url)}
+                onClick={() => navigate(subItem.url)}
+            >
+                <div className="cursor-pointer flex items-center">
+                    {subItem.icon && <subItem.icon className="mr-2 h-4 w-4" />}
+                    <span>{subItem.title}</span>
+                </div>
+            </SidebarMenuSubButton>
+        </SidebarMenuSubItem>
+    );
+}
+
+function CollapsibleMenuItem({ item, isGroupActive, isActive, navigate, filterItems }: Readonly<CollapsibleMenuItemProps>) {
+    const subItems = item.subItems || [];
+    const filteredSubItems = filterItems(subItems);
+
+    return (
+        <Collapsible
+            asChild
+            defaultOpen={isGroupActive(subItems)}
+            className="group/collapsible"
+        >
+            <SidebarMenuItem>
+                <CollapsibleTrigger asChild>
+                    <SidebarMenuButton tooltip={item.title}>
+                        {item.icon && <item.icon />}
+                        <span>{item.title}</span>
+                        <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
+                    </SidebarMenuButton>
+                </CollapsibleTrigger>
+                <CollapsibleContent>
+                    <SidebarMenuSub>
+                        {filteredSubItems.map((subItem) => (
+                            <MenuSubItem
+                                key={subItem.title}
+                                subItem={subItem}
+                                isActive={isActive}
+                                navigate={navigate}
+                            />
+                        ))}
+                    </SidebarMenuSub>
+                </CollapsibleContent>
+            </SidebarMenuItem>
+        </Collapsible>
+    );
+}
+
+function SimpleMenuItem({ item, isActive, navigate }: Readonly<SimpleMenuItemProps>) {
+    return (
+        <SidebarMenuItem>
+            <SidebarMenuButton
+                asChild
+                isActive={isActive(item.url || '')}
+                tooltip={item.title}
+                onClick={() => navigate(item.url || '')}
+            >
+                <div className="cursor-pointer">
+                    {item.icon && <item.icon />}
+                    <span>{item.title}</span>
+                </div>
+            </SidebarMenuButton>
+        </SidebarMenuItem>
+    );
+}
+
 export function AppSidebar() {
     const navigate = useNavigate();
     const location = useLocation();
@@ -50,12 +169,12 @@ export function AppSidebar() {
     const isSuperAdmin = currentRoleInfo?.roleName === 'SuperAdmin';
 
     const isActive = (path: string) => location.pathname === path;
-    const isGroupActive = (subItems: any[]) => subItems.some(item => location.pathname === item.path);
+    const isGroupActive = (subItems: SubMenuItem[]) => subItems.some(item => location.pathname === item.url);
 
     const isITUnit = selectedBirim?.birimAdi === 'Bilgi İşlem';
     const isTestUnit = selectedBirim?.birimAdi === 'Test Birimi';
 
-    const menuItems = useMemo(() => [
+    const menuItems: MenuGroup[] = useMemo(() => [
         // Genel - Dashboard (SuperAdmin Only)
         ...(isSuperAdmin ? [{
             title: "Genel",
@@ -158,10 +277,10 @@ export function AppSidebar() {
                 },
             ]
         }
-    ], [isITUnit, isTestUnit]);
+    ], [isSuperAdmin, isITUnit, isTestUnit]);
 
     // Helper to filter items by permission
-    const filterItems = (items: any[]) => {
+    const filterItems = <T extends { permission?: Permission }>(items: T[]): T[] => {
         return items.filter(item => {
             if (!item.permission) return true;
             if (isSuperAdmin) return true;
@@ -201,54 +320,21 @@ export function AppSidebar() {
                                 <SidebarMenu>
                                     {visibleItems.map((item) => (
                                         item.subItems ? (
-                                            <Collapsible
+                                            <CollapsibleMenuItem
                                                 key={item.title}
-                                                asChild
-                                                defaultOpen={isGroupActive(item.subItems)}
-                                                className="group/collapsible"
-                                            >
-                                                <SidebarMenuItem>
-                                                    <CollapsibleTrigger asChild>
-                                                        <SidebarMenuButton tooltip={item.title}>
-                                                            {item.icon && <item.icon />}
-                                                            <span>{item.title}</span>
-                                                            <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
-                                                        </SidebarMenuButton>
-                                                    </CollapsibleTrigger>
-                                                    <CollapsibleContent>
-                                                        <SidebarMenuSub>
-                                                            {filterItems(item.subItems).map((subItem) => (
-                                                                <SidebarMenuSubItem key={subItem.title}>
-                                                                    <SidebarMenuSubButton
-                                                                        asChild
-                                                                        isActive={isActive(subItem.url)}
-                                                                        onClick={() => navigate(subItem.url)}
-                                                                    >
-                                                                        <div className="cursor-pointer flex items-center">
-                                                                            {subItem.icon && <subItem.icon className="mr-2 h-4 w-4" />}
-                                                                            <span>{subItem.title}</span>
-                                                                        </div>
-                                                                    </SidebarMenuSubButton>
-                                                                </SidebarMenuSubItem>
-                                                            ))}
-                                                        </SidebarMenuSub>
-                                                    </CollapsibleContent>
-                                                </SidebarMenuItem>
-                                            </Collapsible>
+                                                item={item}
+                                                isGroupActive={isGroupActive}
+                                                isActive={isActive}
+                                                navigate={navigate}
+                                                filterItems={filterItems}
+                                            />
                                         ) : (
-                                            <SidebarMenuItem key={item.title}>
-                                                <SidebarMenuButton
-                                                    asChild
-                                                    isActive={isActive(item.url)}
-                                                    tooltip={item.title}
-                                                    onClick={() => navigate(item.url)}
-                                                >
-                                                    <div className="cursor-pointer">
-                                                        {item.icon && <item.icon />}
-                                                        <span>{item.title}</span>
-                                                    </div>
-                                                </SidebarMenuButton>
-                                            </SidebarMenuItem>
+                                            <SimpleMenuItem
+                                                key={item.title}
+                                                item={item}
+                                                isActive={isActive}
+                                                navigate={navigate}
+                                            />
                                         )
                                     ))}
                                 </SidebarMenu>

@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { cn } from '@/lib/utils';
 
 interface AnimatedBadgeProps {
@@ -13,7 +13,7 @@ export default function AnimatedBadge({
     color = "#22d3ee",
     href,
     className,
-}: AnimatedBadgeProps) {
+}: Readonly<AnimatedBadgeProps>) {
     return (
         <a
             href={href}

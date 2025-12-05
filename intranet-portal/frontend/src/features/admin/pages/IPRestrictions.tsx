@@ -35,8 +35,105 @@ import {
 } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
-import { CheckCircle2, Ban, Plus, Trash2, Shield, Loader2, Check, X } from 'lucide-react';
+import { CheckCircle2, Ban, Trash2, Shield, Loader2, Check, X } from 'lucide-react';
 import AnimatedBadge from "@/components/ui/animated-badge";
+
+// Render table content based on state
+function renderTableContent(
+    loading: boolean,
+    restrictions: IPRestriction[],
+    deleteConfirm: number | null,
+    setDeleteConfirm: (value: number | null) => void,
+    handleToggleActive: (restriction: IPRestriction) => void,
+    handleDelete: (id: number) => void,
+    formatDate: (dateStr: string) => string
+) {
+    if (loading) {
+        return (
+            <TableRow>
+                <TableCell colSpan={6} className="h-24 text-center">
+                    <div className="flex items-center justify-center">
+                        <Loader2 className="h-6 w-6 animate-spin text-primary" />
+                        <span className="ml-2 text-muted-foreground">Yükleniyor...</span>
+                    </div>
+                </TableCell>
+            </TableRow>
+        );
+    }
+
+    if (restrictions.length === 0) {
+        return (
+            <TableRow>
+                <TableCell colSpan={6} className="h-24 text-center">
+                    <div className="flex flex-col items-center justify-center text-muted-foreground">
+                        <Shield className="h-8 w-8 mb-2" />
+                        Henüz IP kuralı bulunmuyor
+                    </div>
+                </TableCell>
+            </TableRow>
+        );
+    }
+
+    return restrictions.map((restriction) => (
+        <TableRow key={restriction.id} className="group">
+            <TableCell className="font-mono">{restriction.ipAddress}</TableCell>
+            <TableCell>
+                <Badge variant={restriction.type === 'Whitelist' ? 'secondary' : 'destructive'}>
+                    {restriction.type}
+                </Badge>
+            </TableCell>
+            <TableCell>{restriction.description || '-'}</TableCell>
+            <TableCell>
+                <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => handleToggleActive(restriction)}
+                    className={`h-6 text-xs font-medium rounded-full px-2 ${restriction.isActive
+                        ? 'bg-green-100 text-green-800 hover:bg-green-200 dark:bg-green-900 dark:text-green-300 dark:hover:bg-green-800'
+                        : 'bg-slate-100 text-slate-800 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700'
+                        }`}
+                >
+                    {restriction.isActive ? 'Aktif' : 'Pasif'}
+                </Button>
+            </TableCell>
+            <TableCell className="text-muted-foreground text-xs">
+                {formatDate(restriction.createdAt)}
+            </TableCell>
+            <TableCell className="text-right">
+                {deleteConfirm === restriction.id ? (
+                    <div className="flex items-center justify-end gap-2">
+                        <Button
+                            size="sm"
+                            variant="destructive"
+                            onClick={() => handleDelete(restriction.id)}
+                            className="h-8 px-2"
+                        >
+                            <Check className="h-4 w-4 mr-1" /> Onayla
+                        </Button>
+                        <Button
+                            size="sm"
+                            variant="ghost"
+                            onClick={() => setDeleteConfirm(null)}
+                            className="h-8 px-2"
+                        >
+                            <X className="h-4 w-4 mr-1" /> İptal
+                        </Button>
+                    </div>
+                ) : (
+                    <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => setDeleteConfirm(restriction.id)}
+                        title="Sil"
+                        className="h-8 w-8 text-muted-foreground hover:text-destructive opacity-0 group-hover:opacity-100 transition-opacity"
+                    >
+                        <Trash2 className="h-4 w-4" />
+                    </Button>
+                )}
+            </TableCell>
+        </TableRow>
+    ));
+}
 
 export const IPRestrictions: React.FC = () => {
     const [restrictions, setRestrictions] = useState<IPRestriction[]>([]);
@@ -112,6 +209,13 @@ export const IPRestrictions: React.FC = () => {
         return new Date(dateStr).toLocaleString('tr-TR');
     };
 
+    const handleKeyDown = (e: React.KeyboardEvent) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            setShowModal(true);
+        }
+    };
+
     return (
         <div className="h-full flex-1 flex-col space-y-8 p-8 md:flex">
             <div className="flex items-center justify-between space-y-2">
@@ -121,7 +225,13 @@ export const IPRestrictions: React.FC = () => {
                         Sisteme erişim izni verilen veya engellenen IP adreslerini yönetin.
                     </p>
                 </div>
-                <div onClick={() => setShowModal(true)} className="cursor-pointer">
+                <div
+                    role="button"
+                    tabIndex={0}
+                    onClick={() => setShowModal(true)}
+                    onKeyDown={handleKeyDown}
+                    className="cursor-pointer"
+                >
                     <AnimatedBadge
                         text="Yeni Kural Ekle"
                         color="#22d3ee"
@@ -177,84 +287,14 @@ export const IPRestrictions: React.FC = () => {
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        {loading ? (
-                            <TableRow>
-                                <TableCell colSpan={6} className="h-24 text-center">
-                                    <div className="flex items-center justify-center">
-                                        <Loader2 className="h-6 w-6 animate-spin text-primary" />
-                                        <span className="ml-2 text-muted-foreground">Yükleniyor...</span>
-                                    </div>
-                                </TableCell>
-                            </TableRow>
-                        ) : restrictions.length === 0 ? (
-                            <TableRow>
-                                <TableCell colSpan={6} className="h-24 text-center">
-                                    <div className="flex flex-col items-center justify-center text-muted-foreground">
-                                        <Shield className="h-8 w-8 mb-2" />
-                                        Henüz IP kuralı bulunmuyor
-                                    </div>
-                                </TableCell>
-                            </TableRow>
-                        ) : (
-                            restrictions.map((restriction) => (
-                                <TableRow key={restriction.id} className="group">
-                                    <TableCell className="font-mono">{restriction.ipAddress}</TableCell>
-                                    <TableCell>
-                                        <Badge variant={restriction.type === 'Whitelist' ? 'secondary' : 'destructive'}>
-                                            {restriction.type}
-                                        </Badge>
-                                    </TableCell>
-                                    <TableCell>{restriction.description || '-'}</TableCell>
-                                    <TableCell>
-                                        <Button
-                                            variant="ghost"
-                                            size="sm"
-                                            onClick={() => handleToggleActive(restriction)}
-                                            className={`h-6 text-xs font-medium rounded-full px-2 ${restriction.isActive
-                                                ? 'bg-green-100 text-green-800 hover:bg-green-200 dark:bg-green-900 dark:text-green-300 dark:hover:bg-green-800'
-                                                : 'bg-slate-100 text-slate-800 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700'
-                                                }`}
-                                        >
-                                            {restriction.isActive ? 'Aktif' : 'Pasif'}
-                                        </Button>
-                                    </TableCell>
-                                    <TableCell className="text-muted-foreground text-xs">
-                                        {formatDate(restriction.createdAt)}
-                                    </TableCell>
-                                    <TableCell className="text-right">
-                                        {deleteConfirm === restriction.id ? (
-                                            <div className="flex items-center justify-end gap-2">
-                                                <Button
-                                                    size="sm"
-                                                    variant="destructive"
-                                                    onClick={() => handleDelete(restriction.id)}
-                                                    className="h-8 px-2"
-                                                >
-                                                    <Check className="h-4 w-4 mr-1" /> Onayla
-                                                </Button>
-                                                <Button
-                                                    size="sm"
-                                                    variant="ghost"
-                                                    onClick={() => setDeleteConfirm(null)}
-                                                    className="h-8 px-2"
-                                                >
-                                                    <X className="h-4 w-4 mr-1" /> İptal
-                                                </Button>
-                                            </div>
-                                        ) : (
-                                            <Button
-                                                variant="ghost"
-                                                size="icon"
-                                                onClick={() => setDeleteConfirm(restriction.id)}
-                                                title="Sil"
-                                                className="h-8 w-8 text-muted-foreground hover:text-destructive opacity-0 group-hover:opacity-100 transition-opacity"
-                                            >
-                                                <Trash2 className="h-4 w-4" />
-                                            </Button>
-                                        )}
-                                    </TableCell>
-                                </TableRow>
-                            ))
+                        {renderTableContent(
+                            loading,
+                            restrictions,
+                            deleteConfirm,
+                            setDeleteConfirm,
+                            handleToggleActive,
+                            handleDelete,
+                            formatDate
                         )}
                     </TableBody>
                 </Table>

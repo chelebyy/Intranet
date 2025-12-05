@@ -41,6 +41,101 @@ import {
 } from 'lucide-react';
 import AnimatedBadge from "@/components/ui/animated-badge";
 
+// Render table content based on state
+function renderTableContent(
+    loading: boolean,
+    backups: BackupFile[],
+    deleteConfirm: string | null,
+    setDeleteConfirm: (value: string | null) => void,
+    handleDownload: (fileName: string) => void,
+    handleDelete: (fileName: string) => void,
+    formatDate: (dateStr: string) => string
+) {
+    if (loading) {
+        return (
+            <TableRow>
+                <TableCell colSpan={4} className="h-24 text-center">
+                    <div className="flex items-center justify-center">
+                        <Loader2 className="h-6 w-6 animate-spin text-primary" />
+                        <span className="ml-2 text-muted-foreground">Yükleniyor...</span>
+                    </div>
+                </TableCell>
+            </TableRow>
+        );
+    }
+
+    if (backups.length === 0) {
+        return (
+            <TableRow>
+                <TableCell colSpan={4} className="h-24 text-center">
+                    <div className="flex flex-col items-center justify-center text-muted-foreground">
+                        <Database className="h-8 w-8 mb-2" />
+                        Henüz yedek dosyası bulunmuyor
+                    </div>
+                </TableCell>
+            </TableRow>
+        );
+    }
+
+    return backups.map((backup) => (
+        <TableRow key={backup.fileName} className="group">
+            <TableCell className="font-mono text-sm">
+                <div className="flex items-center gap-2">
+                    <FileArchive className="h-4 w-4 text-muted-foreground" />
+                    {backup.fileName}
+                </div>
+            </TableCell>
+            <TableCell>{backup.sizeFormatted}</TableCell>
+            <TableCell className="text-muted-foreground text-sm">
+                {formatDate(backup.createdAt)}
+            </TableCell>
+            <TableCell className="text-right">
+                {deleteConfirm === backup.fileName ? (
+                    <div className="flex items-center justify-end gap-2">
+                        <Button
+                            size="sm"
+                            variant="destructive"
+                            onClick={() => handleDelete(backup.fileName)}
+                            className="h-8 px-2"
+                        >
+                            <Check className="h-4 w-4 mr-1" /> Onayla
+                        </Button>
+                        <Button
+                            size="sm"
+                            variant="ghost"
+                            onClick={() => setDeleteConfirm(null)}
+                            className="h-8 px-2"
+                        >
+                            <X className="h-4 w-4 mr-1" /> İptal
+                        </Button>
+                    </div>
+                ) : (
+                    <div className="flex items-center justify-end gap-1">
+                        <Button
+                            variant="ghost"
+                            size="icon"
+                            onClick={() => handleDownload(backup.fileName)}
+                            title="İndir"
+                            className="h-8 w-8"
+                        >
+                            <Download className="h-4 w-4" />
+                        </Button>
+                        <Button
+                            variant="ghost"
+                            size="icon"
+                            onClick={() => setDeleteConfirm(backup.fileName)}
+                            title="Sil"
+                            className="h-8 w-8 text-muted-foreground hover:text-destructive opacity-0 group-hover:opacity-100 transition-opacity"
+                        >
+                            <Trash2 className="h-4 w-4" />
+                        </Button>
+                    </div>
+                )}
+            </TableCell>
+        </TableRow>
+    ));
+}
+
 export const BackupPage: React.FC = () => {
     const [backups, setBackups] = useState<BackupFile[]>([]);
     const [stats, setStats] = useState<BackupStats | null>(null);
@@ -141,6 +236,13 @@ export const BackupPage: React.FC = () => {
         return new Date(dateStr).toLocaleString('tr-TR');
     };
 
+    const handleKeyDown = (e: React.KeyboardEvent) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            handleTriggerBackup();
+        }
+    };
+
     return (
         <div className="h-full flex-1 flex-col space-y-8 p-8 md:flex">
             <div className="flex items-center justify-between space-y-2">
@@ -159,7 +261,13 @@ export const BackupPage: React.FC = () => {
                         <Terminal className="h-4 w-4" />
                         Logları Görüntüle
                     </Button>
-                    <div onClick={handleTriggerBackup} className={triggering ? 'pointer-events-none opacity-50' : 'cursor-pointer'}>
+                    <div
+                        role="button"
+                        tabIndex={0}
+                        onClick={handleTriggerBackup}
+                        onKeyDown={handleKeyDown}
+                        className={triggering ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
+                    >
                         <AnimatedBadge
                             text={triggering ? "Yedekleniyor..." : "Şimdi Yedekle"}
                             color="#10b981"
@@ -262,82 +370,14 @@ export const BackupPage: React.FC = () => {
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        {loading ? (
-                            <TableRow>
-                                <TableCell colSpan={4} className="h-24 text-center">
-                                    <div className="flex items-center justify-center">
-                                        <Loader2 className="h-6 w-6 animate-spin text-primary" />
-                                        <span className="ml-2 text-muted-foreground">Yükleniyor...</span>
-                                    </div>
-                                </TableCell>
-                            </TableRow>
-                        ) : backups.length === 0 ? (
-                            <TableRow>
-                                <TableCell colSpan={4} className="h-24 text-center">
-                                    <div className="flex flex-col items-center justify-center text-muted-foreground">
-                                        <Database className="h-8 w-8 mb-2" />
-                                        Henüz yedek dosyası bulunmuyor
-                                    </div>
-                                </TableCell>
-                            </TableRow>
-                        ) : (
-                            backups.map((backup) => (
-                                <TableRow key={backup.fileName} className="group">
-                                    <TableCell className="font-mono text-sm">
-                                        <div className="flex items-center gap-2">
-                                            <FileArchive className="h-4 w-4 text-muted-foreground" />
-                                            {backup.fileName}
-                                        </div>
-                                    </TableCell>
-                                    <TableCell>{backup.sizeFormatted}</TableCell>
-                                    <TableCell className="text-muted-foreground text-sm">
-                                        {formatDate(backup.createdAt)}
-                                    </TableCell>
-                                    <TableCell className="text-right">
-                                        {deleteConfirm === backup.fileName ? (
-                                            <div className="flex items-center justify-end gap-2">
-                                                <Button
-                                                    size="sm"
-                                                    variant="destructive"
-                                                    onClick={() => handleDelete(backup.fileName)}
-                                                    className="h-8 px-2"
-                                                >
-                                                    <Check className="h-4 w-4 mr-1" /> Onayla
-                                                </Button>
-                                                <Button
-                                                    size="sm"
-                                                    variant="ghost"
-                                                    onClick={() => setDeleteConfirm(null)}
-                                                    className="h-8 px-2"
-                                                >
-                                                    <X className="h-4 w-4 mr-1" /> İptal
-                                                </Button>
-                                            </div>
-                                        ) : (
-                                            <div className="flex items-center justify-end gap-1">
-                                                <Button
-                                                    variant="ghost"
-                                                    size="icon"
-                                                    onClick={() => handleDownload(backup.fileName)}
-                                                    title="İndir"
-                                                    className="h-8 w-8"
-                                                >
-                                                    <Download className="h-4 w-4" />
-                                                </Button>
-                                                <Button
-                                                    variant="ghost"
-                                                    size="icon"
-                                                    onClick={() => setDeleteConfirm(backup.fileName)}
-                                                    title="Sil"
-                                                    className="h-8 w-8 text-muted-foreground hover:text-destructive opacity-0 group-hover:opacity-100 transition-opacity"
-                                                >
-                                                    <Trash2 className="h-4 w-4" />
-                                                </Button>
-                                            </div>
-                                        )}
-                                    </TableCell>
-                                </TableRow>
-                            ))
+                        {renderTableContent(
+                            loading,
+                            backups,
+                            deleteConfirm,
+                            setDeleteConfirm,
+                            handleDownload,
+                            handleDelete,
+                            formatDate
                         )}
                     </TableBody>
                 </Table>
