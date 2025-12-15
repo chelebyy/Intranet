@@ -24,6 +24,77 @@ import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Plus, Edit, Trash2, Loader2, ShieldX } from 'lucide-react';
 
+// Render table content based on state
+function renderTableContent(
+    loading: boolean,
+    unvanlar: Unvan[],
+    handleOpenModal: (unvan?: Unvan) => void,
+    handleDelete: (id: number) => void
+) {
+    if (loading) {
+        return (
+            <TableRow>
+                <TableCell colSpan={4} className="h-24 text-center">
+                    <div className="flex items-center justify-center">
+                        <Loader2 className="h-6 w-6 animate-spin text-primary" />
+                        <span className="ml-2 text-muted-foreground">Yükleniyor...</span>
+                    </div>
+                </TableCell>
+            </TableRow>
+        );
+    }
+
+    if (unvanlar.length === 0) {
+        return (
+            <TableRow>
+                <TableCell colSpan={4} className="h-24 text-center">
+                    <div className="flex flex-col items-center justify-center text-muted-foreground">
+                        <ShieldX className="h-8 w-8 mb-2" />
+                        Henüz ünvan tanımlanmamış.
+                    </div>
+                </TableCell>
+            </TableRow>
+        );
+    }
+
+    return unvanlar.map((unvan) => (
+        <TableRow key={unvan.unvanID} className="group">
+            <TableCell className="font-medium">{unvan.unvanAdi}</TableCell>
+            <TableCell className="text-muted-foreground">{unvan.aciklama || '-'}</TableCell>
+            <TableCell className="text-center">
+                <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${unvan.isActive
+                    ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300'
+                    : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300'
+                    }`}>
+                    {unvan.isActive ? 'Aktif' : 'Pasif'}
+                </span>
+            </TableCell>
+            <TableCell className="text-right">
+                <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => handleOpenModal(unvan)}
+                        title="Düzenle"
+                        className="h-8 w-8 text-muted-foreground hover:text-primary"
+                    >
+                        <Edit className="h-4 w-4" />
+                    </Button>
+                    <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => handleDelete(unvan.unvanID)}
+                        title="Sil"
+                        className="h-8 w-8 text-muted-foreground hover:text-destructive"
+                    >
+                        <Trash2 className="h-4 w-4" />
+                    </Button>
+                </div>
+            </TableCell>
+        </TableRow>
+    ));
+}
+
 export const UnvanList: React.FC = () => {
     const [unvanlar, setUnvanlar] = useState<Unvan[]>([]);
     const [loading, setLoading] = useState(true);
@@ -43,7 +114,7 @@ export const UnvanList: React.FC = () => {
             const data = await unvansApi.getAll();
             setUnvanlar(data);
             setError(null);
-        } catch (err: any) {
+        } catch (err: unknown) {
             console.error('Error fetching unvanlar:', err);
             setError('Ünvanlar yüklenirken bir hata oluştu.');
         } finally {
@@ -97,23 +168,24 @@ export const UnvanList: React.FC = () => {
             }
             handleCloseModal();
             fetchUnvanlar();
-        } catch (err: any) {
+        } catch (err: unknown) {
             console.error('Error saving unvan:', err);
-            setError(err.response?.data?.error?.message || 'Ünvan kaydedilirken bir hata oluştu.');
+            const errorMessage = (err as { response?: { data?: { error?: { message?: string } } } })?.response?.data?.error?.message;
+            setError(errorMessage || 'Ünvan kaydedilirken bir hata oluştu.');
         } finally {
             setSaving(false);
         }
     };
 
     const handleDelete = async (id: number) => {
-        if (!window.confirm('Bu ünvanı silmek istediğinizden emin misiniz?')) {
+        if (!globalThis.confirm('Bu ünvanı silmek istediğinizden emin misiniz?')) {
             return;
         }
 
         try {
             await unvansApi.delete(id);
             fetchUnvanlar();
-        } catch (err: any) {
+        } catch (err: unknown) {
             console.error('Error deleting unvan:', err);
             setError('Ünvan silinirken bir hata oluştu.');
         }
@@ -153,62 +225,7 @@ export const UnvanList: React.FC = () => {
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        {loading ? (
-                            <TableRow>
-                                <TableCell colSpan={4} className="h-24 text-center">
-                                    <div className="flex items-center justify-center">
-                                        <Loader2 className="h-6 w-6 animate-spin text-primary" />
-                                        <span className="ml-2 text-muted-foreground">Yükleniyor...</span>
-                                    </div>
-                                </TableCell>
-                            </TableRow>
-                        ) : unvanlar.length === 0 ? (
-                            <TableRow>
-                                <TableCell colSpan={4} className="h-24 text-center">
-                                    <div className="flex flex-col items-center justify-center text-muted-foreground">
-                                        <ShieldX className="h-8 w-8 mb-2" />
-                                        Henüz ünvan tanımlanmamış.
-                                    </div>
-                                </TableCell>
-                            </TableRow>
-                        ) : (
-                            unvanlar.map((unvan) => (
-                                <TableRow key={unvan.unvanID} className="group">
-                                    <TableCell className="font-medium">{unvan.unvanAdi}</TableCell>
-                                    <TableCell className="text-muted-foreground">{unvan.aciklama || '-'}</TableCell>
-                                    <TableCell className="text-center">
-                                        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${unvan.isActive
-                                            ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300'
-                                            : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300'
-                                            }`}>
-                                            {unvan.isActive ? 'Aktif' : 'Pasif'}
-                                        </span>
-                                    </TableCell>
-                                    <TableCell className="text-right">
-                                        <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                                            <Button
-                                                variant="ghost"
-                                                size="icon"
-                                                onClick={() => handleOpenModal(unvan)}
-                                                title="Düzenle"
-                                                className="h-8 w-8 text-muted-foreground hover:text-primary"
-                                            >
-                                                <Edit className="h-4 w-4" />
-                                            </Button>
-                                            <Button
-                                                variant="ghost"
-                                                size="icon"
-                                                onClick={() => handleDelete(unvan.unvanID)}
-                                                title="Sil"
-                                                className="h-8 w-8 text-muted-foreground hover:text-destructive"
-                                            >
-                                                <Trash2 className="h-4 w-4" />
-                                            </Button>
-                                        </div>
-                                    </TableCell>
-                                </TableRow>
-                            ))
-                        )}
+                        {renderTableContent(loading, unvanlar, handleOpenModal, handleDelete)}
                     </TableBody>
                 </Table>
             </div>

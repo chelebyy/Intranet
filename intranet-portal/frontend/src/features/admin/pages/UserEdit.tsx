@@ -9,7 +9,7 @@ import type { UserDto } from '../../../types/api/users';
 import type { Birim } from '../../../types/api/birims';
 import type { Role } from '../../../types/api/roles';
 import toast from 'react-hot-toast';
-import { ArrowLeft, Save, Loader2, User, Briefcase, Shield, Trash2, Plus, X } from 'lucide-react';
+import { ArrowLeft, Save, Loader2, User, Briefcase, Shield, Trash2, Plus } from 'lucide-react';
 import {
     Card,
     CardContent,

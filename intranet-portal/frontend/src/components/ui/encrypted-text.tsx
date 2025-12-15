@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useEffect, useState, useCallback } from "react"
+import { useEffect, useState, useCallback, useId } from "react"
 import { cn } from "@/lib/utils"
 
 interface EncryptedTextProps {
@@ -13,6 +13,22 @@ interface EncryptedTextProps {
   revealedClassName?: string
 }
 
+// Helper function to generate display character
+function getCharForDisplay(
+  index: number,
+  text: string,
+  revealedIndices: Set<number>,
+  getRandomChar: () => string
+): string {
+  if (revealedIndices.has(index)) {
+    return text[index]
+  }
+  if (text[index] === " ") {
+    return " "
+  }
+  return getRandomChar()
+}
+
 export function EncryptedText({
   text,
   className,
@@ -21,9 +37,10 @@ export function EncryptedText({
   flipDelayMs = 50,
   encryptedClassName,
   revealedClassName,
-}: EncryptedTextProps) {
+}: Readonly<EncryptedTextProps>) {
   const [displayText, setDisplayText] = useState<string[]>([])
   const [revealedIndices, setRevealedIndices] = useState<Set<number>>(new Set())
+  const uniqueId = useId()
 
   const getRandomChar = useCallback(() => {
     return charset[Math.floor(Math.random() * charset.length)]
@@ -44,19 +61,15 @@ export function EncryptedText({
       return
     }
 
-    const interval = setInterval(() => {
-      setDisplayText((prev) =>
-        prev.map((char, index) => {
-          if (revealedIndices.has(index)) {
-            return text[index]
-          }
-          if (text[index] === " ") {
-            return " "
-          }
-          return getRandomChar()
-        })
-      )
-    }, flipDelayMs)
+    // Create character mapper function outside of setDisplayText to reduce nesting
+    const mapCharacter = (_: string, index: number) =>
+      getCharForDisplay(index, text, revealedIndices, getRandomChar)
+
+    const updateChars = () => {
+      setDisplayText((prev) => prev.map(mapCharacter))
+    }
+
+    const interval = setInterval(updateChars, flipDelayMs)
 
     return () => clearInterval(interval)
   }, [text, revealedIndices, flipDelayMs, getRandomChar])
@@ -64,7 +77,7 @@ export function EncryptedText({
   // Reveal characters one by one
   useEffect(() => {
     const timeouts: ReturnType<typeof setTimeout>[] = []
-    
+
     // Reveal each character with increasing delay
     for (let i = 0; i < text.length; i++) {
       const timeout = setTimeout(() => {
@@ -82,7 +95,7 @@ export function EncryptedText({
     <span className={cn("font-mono", className)}>
       {displayText.map((char, index) => (
         <span
-          key={index}
+          key={`${uniqueId}-char-${index}`}
           className={cn(
             "inline-block transition-all duration-100",
             revealedIndices.has(index) ? revealedClassName : encryptedClassName

@@ -137,7 +137,7 @@ function App() {
             </Suspense>
           } />
 
-          {/* Definitions - Tanımlamalar */}
+          {/* Definitions - Tanimlamalar */}
           <Route path="definitions/unvanlar" element={
             <ProtectedRoute requiredPermission={Permissions.Unvan.Read}>
               <Suspense fallback={<PageLoader />}>

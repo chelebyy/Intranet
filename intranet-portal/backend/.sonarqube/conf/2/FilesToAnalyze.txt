@@ -49,4 +49,5 @@ C:\Users\IT\Desktop\Bilişim Sistemi\intranet-portal\backend\IntranetPortal.Appl
 C:\Users\IT\Desktop\Bilişim Sistemi\intranet-portal\backend\IntranetPortal.Application\Services\RoleService.cs
 C:\Users\IT\Desktop\Bilişim Sistemi\intranet-portal\backend\IntranetPortal.Application\Services\UnvanService.cs
 C:\Users\IT\Desktop\Bilişim Sistemi\intranet-portal\backend\IntranetPortal.Application\Services\UserService.cs
+C:\Users\IT\Desktop\Bilişim Sistemi\intranet-portal\backend\IntranetPortal.Application\Settings\BackupSettings.cs
 C:\Users\IT\Desktop\Bilişim Sistemi\intranet-portal\backend\IntranetPortal.Application\Validators\UserValidators.cs

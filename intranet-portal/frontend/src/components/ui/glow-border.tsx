@@ -36,7 +36,7 @@ export function GlowBorder({
     duration = 2,
     borderRadius = "rounded-lg",
     ...props
-}: GlowBorderProps) {
+}: Readonly<GlowBorderProps>) {
     return (
         <div
             className={cn(

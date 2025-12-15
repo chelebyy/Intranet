@@ -1,27 +1,30 @@
 using System.Diagnostics;
 using IntranetPortal.Application.DTOs.Backup;
 using IntranetPortal.Application.Interfaces;
+using IntranetPortal.Application.Settings;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 namespace IntranetPortal.Application.Services;
 
 /// <summary>
 /// Yedekleme işlemleri servisi implementasyonu
+/// DI container'da Singleton olarak kayıtlı olmalıdır!
 /// </summary>
 public class BackupService : IBackupService
 {
     private readonly ILogger<BackupService> _logger;
-    private readonly string _backupDirectory = @"C:\Backups";
-    private readonly string _logFilePath = @"C:\Backups\backup.log";
-    private readonly string _scriptPath = @"C:\Users\IT\Desktop\Bilişim Sistemi\intranet-portal\scripts\PostgreSQLBackup.ps1";
+    private readonly BackupSettings _settings;
     
     // Thread-safe backup running flag with lock
-    private static readonly object _backupLock = new();
-    private static bool _isBackupRunning;
+    // Instance field kullanılıyor çünkü servis Singleton olarak kayıtlı
+    private readonly object _backupLock = new();
+    private bool _isBackupRunning;
 
-    public BackupService(ILogger<BackupService> logger)
+    public BackupService(ILogger<BackupService> logger, IOptions<BackupSettings> settings)
     {
         _logger = logger;
+        _settings = settings.Value;
     }
 
     public async Task<List<BackupFileDto>> GetBackupFilesAsync()
@@ -30,13 +33,13 @@ public class BackupService : IBackupService
 
         try
         {
-            if (!Directory.Exists(_backupDirectory))
+            if (!Directory.Exists(_settings.BackupDirectory))
             {
-                _logger.LogWarning("Backup directory does not exist: {Directory}", _backupDirectory);
+                _logger.LogWarning("Backup directory does not exist: {Directory}", _settings.BackupDirectory);
                 return files;
             }
 
-            var backupFiles = Directory.GetFiles(_backupDirectory, "*.backup")
+            var backupFiles = Directory.GetFiles(_settings.BackupDirectory, "*.backup")
                 .Select(f => new FileInfo(f))
                 .OrderByDescending(f => f.CreationTime);
 
@@ -68,9 +71,9 @@ public class BackupService : IBackupService
 
         try
         {
-            if (Directory.Exists(_backupDirectory))
+            if (Directory.Exists(_settings.BackupDirectory))
             {
-                var backupFiles = Directory.GetFiles(_backupDirectory, "*.backup")
+                var backupFiles = Directory.GetFiles(_settings.BackupDirectory, "*.backup")
                     .Select(f => new FileInfo(f))
                     .ToList();
 
@@ -112,11 +115,49 @@ public class BackupService : IBackupService
         {
             _logger.LogInformation("Manual backup triggered");
 
+            // Security: Validate script path before execution
+            var scriptPath = _settings.ScriptPath;
+            
+            // Check if script path is configured
+            if (string.IsNullOrWhiteSpace(scriptPath))
+            {
+                _logger.LogError("Backup script path is not configured");
+                return new BackupTriggerResultDto
+                {
+                    Success = false,
+                    Message = "Yedekleme script yolu yapılandırılmamış."
+                };
+            }
+            
+            // Security: Validate script path extension (only .ps1 allowed)
+            if (!scriptPath.EndsWith(".ps1", StringComparison.OrdinalIgnoreCase))
+            {
+                _logger.LogWarning("Invalid script extension attempted: {ScriptPath}", scriptPath);
+                return new BackupTriggerResultDto
+                {
+                    Success = false,
+                    Message = "Geçersiz script uzantısı."
+                };
+            }
+            
+            // Security: Verify script file exists
+            if (!File.Exists(scriptPath))
+            {
+                _logger.LogError("Backup script not found: {ScriptPath}", scriptPath);
+                return new BackupTriggerResultDto
+                {
+                    Success = false,
+                    Message = "Yedekleme scripti bulunamadı."
+                };
+            }
+
             // PowerShell scriptini çalıştır
+            // Security Note: Script path comes from trusted configuration (appsettings.json)
+            // and is validated above. No user input is used in command construction.
             var startInfo = new ProcessStartInfo
             {
                 FileName = "powershell.exe",
-                Arguments = $"-ExecutionPolicy Bypass -File \"{_scriptPath}\"",
+                Arguments = $"-ExecutionPolicy Bypass -NoProfile -NonInteractive -File \"{scriptPath}\"",
                 UseShellExecute = false,
                 RedirectStandardOutput = true,
                 RedirectStandardError = true,
@@ -200,11 +241,11 @@ public class BackupService : IBackupService
                 return (null, null, null);
             }
 
-            var filePath = Path.Combine(_backupDirectory, sanitizedFileName);
+            var filePath = Path.Combine(_settings.BackupDirectory, sanitizedFileName);
 
             // Dosya yolunun backup dizini içinde olduğundan emin ol
             var fullPath = Path.GetFullPath(filePath);
-            if (!fullPath.StartsWith(_backupDirectory, StringComparison.OrdinalIgnoreCase))
+            if (!fullPath.StartsWith(_settings.BackupDirectory, StringComparison.OrdinalIgnoreCase))
             {
                 _logger.LogWarning("Path traversal attempt detected: {FileName}", fileName);
                 return (null, null, null);
@@ -234,14 +275,14 @@ public class BackupService : IBackupService
 
         try
         {
-            if (!File.Exists(_logFilePath))
+            if (!File.Exists(_settings.LogFilePath))
             {
                 logs.Add("Log dosyası bulunamadı.");
                 return logs;
             }
 
             // Dosyayı oku (shared read ile)
-            var allLines = await File.ReadAllLinesAsync(_logFilePath);
+            var allLines = await File.ReadAllLinesAsync(_settings.LogFilePath);
             logs = allLines.TakeLast(lineCount).ToList();
         }
         catch (Exception ex)
@@ -271,10 +312,10 @@ public class BackupService : IBackupService
                 return false;
             }
 
-            var filePath = Path.Combine(_backupDirectory, sanitizedFileName);
+            var filePath = Path.Combine(_settings.BackupDirectory, sanitizedFileName);
             var fullPath = Path.GetFullPath(filePath);
 
-            if (!fullPath.StartsWith(_backupDirectory, StringComparison.OrdinalIgnoreCase))
+            if (!fullPath.StartsWith(_settings.BackupDirectory, StringComparison.OrdinalIgnoreCase))
             {
                 _logger.LogWarning("Path traversal attempt on delete: {FileName}", fileName);
                 return false;

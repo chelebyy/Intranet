@@ -136,6 +136,420 @@
         {
           "ruleId": "S1192",
           "level": "warning",
+          "message": "Define a constant instead of using this literal 'create' 4 times.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Data/Seeding/DatabaseSeeder.cs",
+                "region": {
+                  "startLine": 123,
+                  "startColumn": 39,
+                  "endLine": 123,
+                  "endColumn": 47
+                }
+              }
+            }
+          ],
+          "relatedLocations": [
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Data/Seeding/DatabaseSeeder.cs",
+                "region": {
+                  "startLine": 130,
+                  "startColumn": 39,
+                  "endLine": 130,
+                  "endColumn": 47
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Data/Seeding/DatabaseSeeder.cs",
+                "region": {
+                  "startLine": 137,
+                  "startColumn": 39,
+                  "endLine": 137,
+                  "endColumn": 47
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Data/Seeding/DatabaseSeeder.cs",
+                "region": {
+                  "startLine": 222,
+                  "startColumn": 27,
+                  "endLine": 222,
+                  "endColumn": 35
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1,
+            "customProperties": {
+              "0": null,
+              "1": null,
+              "2": null
+            }
+          }
+        },
+        {
+          "ruleId": "S1192",
+          "level": "warning",
+          "message": "Define a constant instead of using this literal 'update' 5 times.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Data/Seeding/DatabaseSeeder.cs",
+                "region": {
+                  "startLine": 125,
+                  "startColumn": 39,
+                  "endLine": 125,
+                  "endColumn": 47
+                }
+              }
+            }
+          ],
+          "relatedLocations": [
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Data/Seeding/DatabaseSeeder.cs",
+                "region": {
+                  "startLine": 132,
+                  "startColumn": 39,
+                  "endLine": 132,
+                  "endColumn": 47
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Data/Seeding/DatabaseSeeder.cs",
+                "region": {
+                  "startLine": 139,
+                  "startColumn": 39,
+                  "endLine": 139,
+                  "endColumn": 47
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Data/Seeding/DatabaseSeeder.cs",
+                "region": {
+                  "startLine": 154,
+                  "startColumn": 39,
+                  "endLine": 154,
+                  "endColumn": 47
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Data/Seeding/DatabaseSeeder.cs",
+                "region": {
+                  "startLine": 222,
+                  "startColumn": 73,
+                  "endLine": 222,
+                  "endColumn": 81
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1,
+            "customProperties": {
+              "0": null,
+              "1": null,
+              "2": null,
+              "3": null
+            }
+          }
+        },
+        {
+          "ruleId": "S1192",
+          "level": "warning",
+          "message": "Define a constant instead of using this literal 'delete' 4 times.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Data/Seeding/DatabaseSeeder.cs",
+                "region": {
+                  "startLine": 126,
+                  "startColumn": 39,
+                  "endLine": 126,
+                  "endColumn": 47
+                }
+              }
+            }
+          ],
+          "relatedLocations": [
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Data/Seeding/DatabaseSeeder.cs",
+                "region": {
+                  "startLine": 133,
+                  "startColumn": 39,
+                  "endLine": 133,
+                  "endColumn": 47
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Data/Seeding/DatabaseSeeder.cs",
+                "region": {
+                  "startLine": 140,
+                  "startColumn": 39,
+                  "endLine": 140,
+                  "endColumn": 47
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Data/Seeding/DatabaseSeeder.cs",
+                "region": {
+                  "startLine": 160,
+                  "startColumn": 39,
+                  "endLine": 160,
+                  "endColumn": 47
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1,
+            "customProperties": {
+              "0": null,
+              "1": null,
+              "2": null
+            }
+          }
+        },
+        {
+          "ruleId": "S1192",
+          "level": "warning",
+          "message": "Define a constant instead of using this literal 'manage' 6 times.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Data/Seeding/DatabaseSeeder.cs",
+                "region": {
+                  "startLine": 127,
+                  "startColumn": 39,
+                  "endLine": 127,
+                  "endColumn": 47
+                }
+              }
+            }
+          ],
+          "relatedLocations": [
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Data/Seeding/DatabaseSeeder.cs",
+                "region": {
+                  "startLine": 134,
+                  "startColumn": 39,
+                  "endLine": 134,
+                  "endColumn": 47
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Data/Seeding/DatabaseSeeder.cs",
+                "region": {
+                  "startLine": 141,
+                  "startColumn": 39,
+                  "endLine": 141,
+                  "endColumn": 47
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Data/Seeding/DatabaseSeeder.cs",
+                "region": {
+                  "startLine": 146,
+                  "startColumn": 39,
+                  "endLine": 146,
+                  "endColumn": 47
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Data/Seeding/DatabaseSeeder.cs",
+                "region": {
+                  "startLine": 155,
+                  "startColumn": 39,
+                  "endLine": 155,
+                  "endColumn": 47
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Data/Seeding/DatabaseSeeder.cs",
+                "region": {
+                  "startLine": 199,
+                  "startColumn": 27,
+                  "endLine": 199,
+                  "endColumn": 35
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1,
+            "customProperties": {
+              "0": null,
+              "1": null,
+              "2": null,
+              "3": null,
+              "4": null
+            }
+          }
+        },
+        {
+          "ruleId": "S1192",
+          "level": "warning",
+          "message": "Define a constant instead of using this literal 'birim' 5 times.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Data/Seeding/DatabaseSeeder.cs",
+                "region": {
+                  "startLine": 130,
+                  "startColumn": 60,
+                  "endLine": 130,
+                  "endColumn": 67
+                }
+              }
+            }
+          ],
+          "relatedLocations": [
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Data/Seeding/DatabaseSeeder.cs",
+                "region": {
+                  "startLine": 131,
+                  "startColumn": 58,
+                  "endLine": 131,
+                  "endColumn": 65
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Data/Seeding/DatabaseSeeder.cs",
+                "region": {
+                  "startLine": 132,
+                  "startColumn": 60,
+                  "endLine": 132,
+                  "endColumn": 67
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Data/Seeding/DatabaseSeeder.cs",
+                "region": {
+                  "startLine": 133,
+                  "startColumn": 60,
+                  "endLine": 133,
+                  "endColumn": 67
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Data/Seeding/DatabaseSeeder.cs",
+                "region": {
+                  "startLine": 134,
+                  "startColumn": 60,
+                  "endLine": 134,
+                  "endColumn": 67
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1,
+            "customProperties": {
+              "0": null,
+              "1": null,
+              "2": null,
+              "3": null
+            }
+          }
+        },
+        {
+          "ruleId": "S1192",
+          "level": "warning",
+          "message": "Define a constant instead of using this literal 'system' 4 times.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Data/Seeding/DatabaseSeeder.cs",
+                "region": {
+                  "startLine": 153,
+                  "startColumn": 58,
+                  "endLine": 153,
+                  "endColumn": 66
+                }
+              }
+            }
+          ],
+          "relatedLocations": [
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Data/Seeding/DatabaseSeeder.cs",
+                "region": {
+                  "startLine": 154,
+                  "startColumn": 60,
+                  "endLine": 154,
+                  "endColumn": 68
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Data/Seeding/DatabaseSeeder.cs",
+                "region": {
+                  "startLine": 155,
+                  "startColumn": 60,
+                  "endLine": 155,
+                  "endColumn": 68
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Data/Seeding/DatabaseSeeder.cs",
+                "region": {
+                  "startLine": 199,
+                  "startColumn": 53,
+                  "endLine": 199,
+                  "endColumn": 61
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1,
+            "customProperties": {
+              "0": null,
+              "1": null,
+              "2": null
+            }
+          }
+        },
+        {
+          "ruleId": "S1192",
+          "level": "warning",
           "message": "Define a constant instead of using this literal 'Birim' 7 times.",
           "locations": [
             {
@@ -625,6 +1039,332 @@
               "4": null,
               "5": null,
               "6": null
+            }
+          }
+        },
+        {
+          "ruleId": "S1192",
+          "level": "warning",
+          "message": "Define a constant instead of using this literal 'character varying(50)' 4 times.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251202121515_SplitAdSoyad.cs",
+                "region": {
+                  "startLine": 17,
+                  "startColumn": 23,
+                  "endLine": 17,
+                  "endColumn": 46
+                }
+              }
+            }
+          ],
+          "relatedLocations": [
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251202121515_SplitAdSoyad.cs",
+                "region": {
+                  "startLine": 24,
+                  "startColumn": 23,
+                  "endLine": 24,
+                  "endColumn": 46
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251202121515_SplitAdSoyad.cs",
+                "region": {
+                  "startLine": 49,
+                  "startColumn": 23,
+                  "endLine": 49,
+                  "endColumn": 46
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251202121515_SplitAdSoyad.cs",
+                "region": {
+                  "startLine": 57,
+                  "startColumn": 23,
+                  "endLine": 57,
+                  "endColumn": 46
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1,
+            "customProperties": {
+              "0": null,
+              "1": null,
+              "2": null
+            }
+          }
+        },
+        {
+          "ruleId": "S1192",
+          "level": "warning",
+          "message": "Define a constant instead of using this literal 'UnvanID' 5 times.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251202123934_AddUnvanTable.cs",
+                "region": {
+                  "startLine": 16,
+                  "startColumn": 23,
+                  "endLine": 16,
+                  "endColumn": 32
+                }
+              }
+            }
+          ],
+          "relatedLocations": [
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251202123934_AddUnvanTable.cs",
+                "region": {
+                  "startLine": 41,
+                  "startColumn": 25,
+                  "endLine": 41,
+                  "endColumn": 34
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251202123934_AddUnvanTable.cs",
+                "region": {
+                  "startLine": 57,
+                  "startColumn": 25,
+                  "endLine": 57,
+                  "endColumn": 34
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251202123934_AddUnvanTable.cs",
+                "region": {
+                  "startLine": 59,
+                  "startColumn": 34,
+                  "endLine": 59,
+                  "endColumn": 43
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251202123934_AddUnvanTable.cs",
+                "region": {
+                  "startLine": 77,
+                  "startColumn": 23,
+                  "endLine": 77,
+                  "endColumn": 32
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1,
+            "customProperties": {
+              "0": null,
+              "1": null,
+              "2": null,
+              "3": null
+            }
+          }
+        },
+        {
+          "ruleId": "S1192",
+          "level": "warning",
+          "message": "Define a constant instead of using this literal 'Unvan' 5 times.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251202123934_AddUnvanTable.cs",
+                "region": {
+                  "startLine": 22,
+                  "startColumn": 23,
+                  "endLine": 22,
+                  "endColumn": 30
+                }
+              }
+            }
+          ],
+          "relatedLocations": [
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251202123934_AddUnvanTable.cs",
+                "region": {
+                  "startLine": 45,
+                  "startColumn": 24,
+                  "endLine": 45,
+                  "endColumn": 31
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251202123934_AddUnvanTable.cs",
+                "region": {
+                  "startLine": 50,
+                  "startColumn": 24,
+                  "endLine": 50,
+                  "endColumn": 31
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251202123934_AddUnvanTable.cs",
+                "region": {
+                  "startLine": 58,
+                  "startColumn": 33,
+                  "endLine": 58,
+                  "endColumn": 40
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251202123934_AddUnvanTable.cs",
+                "region": {
+                  "startLine": 70,
+                  "startColumn": 23,
+                  "endLine": 70,
+                  "endColumn": 30
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1,
+            "customProperties": {
+              "0": null,
+              "1": null,
+              "2": null,
+              "3": null
+            }
+          }
+        },
+        {
+          "ruleId": "S2325",
+          "level": "warning",
+          "message": "Make 'ConfigurePostgresql' a static method.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Data/IntranetDbContext.cs",
+                "region": {
+                  "startLine": 91,
+                  "startColumn": 18,
+                  "endLine": 91,
+                  "endColumn": 37
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "S2139",
+          "level": "warning",
+          "message": "Either log this exception and handle it, or rethrow it with some contextual information.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Data/Seeding/DatabaseSeeder.cs",
+                "region": {
+                  "startLine": 51,
+                  "startColumn": 26,
+                  "endLine": 51,
+                  "endColumn": 28
+                }
+              }
+            }
+          ],
+          "relatedLocations": [
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Data/Seeding/DatabaseSeeder.cs",
+                "region": {
+                  "startLine": 53,
+                  "startColumn": 13,
+                  "endLine": 53,
+                  "endColumn": 74
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Data/Seeding/DatabaseSeeder.cs",
+                "region": {
+                  "startLine": 54,
+                  "startColumn": 13,
+                  "endLine": 54,
+                  "endColumn": 19
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1,
+            "customProperties": {
+              "0": "Logging statement.",
+              "1": "Thrown exception."
+            }
+          }
+        },
+        {
+          "ruleId": "S2139",
+          "level": "warning",
+          "message": "Either log this exception and handle it, or rethrow it with some contextual information.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Data/Seeding/DatabaseSeederExtensions.cs",
+                "region": {
+                  "startLine": 34,
+                  "startColumn": 26,
+                  "endLine": 34,
+                  "endColumn": 28
+                }
+              }
+            }
+          ],
+          "relatedLocations": [
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Data/Seeding/DatabaseSeederExtensions.cs",
+                "region": {
+                  "startLine": 37,
+                  "startColumn": 13,
+                  "endLine": 37,
+                  "endColumn": 80
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Data/Seeding/DatabaseSeederExtensions.cs",
+                "region": {
+                  "startLine": 38,
+                  "startColumn": 13,
+                  "endLine": 38,
+                  "endColumn": 19
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1,
+            "customProperties": {
+              "0": "Logging statement.",
+              "1": "Thrown exception."
             }
           }
         },
@@ -1310,140 +2050,6 @@
         {
           "ruleId": "S1192",
           "level": "warning",
-          "message": "Define a constant instead of using this literal 'UnvanID' 5 times.",
-          "locations": [
-            {
-              "resultFile": {
-                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251202123934_AddUnvanTable.cs",
-                "region": {
-                  "startLine": 16,
-                  "startColumn": 23,
-                  "endLine": 16,
-                  "endColumn": 32
-                }
-              }
-            }
-          ],
-          "relatedLocations": [
-            {
-              "physicalLocation": {
-                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251202123934_AddUnvanTable.cs",
-                "region": {
-                  "startLine": 41,
-                  "startColumn": 25,
-                  "endLine": 41,
-                  "endColumn": 34
-                }
-              }
-            },
-            {
-              "physicalLocation": {
-                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251202123934_AddUnvanTable.cs",
-                "region": {
-                  "startLine": 57,
-                  "startColumn": 25,
-                  "endLine": 57,
-                  "endColumn": 34
-                }
-              }
-            },
-            {
-              "physicalLocation": {
-                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251202123934_AddUnvanTable.cs",
-                "region": {
-                  "startLine": 59,
-                  "startColumn": 34,
-                  "endLine": 59,
-                  "endColumn": 43
-                }
-              }
-            },
-            {
-              "physicalLocation": {
-                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251202123934_AddUnvanTable.cs",
-                "region": {
-                  "startLine": 77,
-                  "startColumn": 23,
-                  "endLine": 77,
-                  "endColumn": 32
-                }
-              }
-            }
-          ],
-          "properties": {
-            "warningLevel": 1,
-            "customProperties": {
-              "0": null,
-              "1": null,
-              "2": null,
-              "3": null
-            }
-          }
-        },
-        {
-          "ruleId": "S1192",
-          "level": "warning",
-          "message": "Define a constant instead of using this literal 'character varying(50)' 4 times.",
-          "locations": [
-            {
-              "resultFile": {
-                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251202121515_SplitAdSoyad.cs",
-                "region": {
-                  "startLine": 17,
-                  "startColumn": 23,
-                  "endLine": 17,
-                  "endColumn": 46
-                }
-              }
-            }
-          ],
-          "relatedLocations": [
-            {
-              "physicalLocation": {
-                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251202121515_SplitAdSoyad.cs",
-                "region": {
-                  "startLine": 24,
-                  "startColumn": 23,
-                  "endLine": 24,
-                  "endColumn": 46
-                }
-              }
-            },
-            {
-              "physicalLocation": {
-                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251202121515_SplitAdSoyad.cs",
-                "region": {
-                  "startLine": 49,
-                  "startColumn": 23,
-                  "endLine": 49,
-                  "endColumn": 46
-                }
-              }
-            },
-            {
-              "physicalLocation": {
-                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251202121515_SplitAdSoyad.cs",
-                "region": {
-                  "startLine": 57,
-                  "startColumn": 23,
-                  "endLine": 57,
-                  "endColumn": 46
-                }
-              }
-            }
-          ],
-          "properties": {
-            "warningLevel": 1,
-            "customProperties": {
-              "0": null,
-              "1": null,
-              "2": null
-            }
-          }
-        },
-        {
-          "ruleId": "S1192",
-          "level": "warning",
           "message": "Define a constant instead of using this literal 'RoleID' 6 times.",
           "locations": [
             {
@@ -1644,79 +2250,6 @@
               "5": null,
               "6": null,
               "7": null
-            }
-          }
-        },
-        {
-          "ruleId": "S1192",
-          "level": "warning",
-          "message": "Define a constant instead of using this literal 'Unvan' 5 times.",
-          "locations": [
-            {
-              "resultFile": {
-                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251202123934_AddUnvanTable.cs",
-                "region": {
-                  "startLine": 22,
-                  "startColumn": 23,
-                  "endLine": 22,
-                  "endColumn": 30
-                }
-              }
-            }
-          ],
-          "relatedLocations": [
-            {
-              "physicalLocation": {
-                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251202123934_AddUnvanTable.cs",
-                "region": {
-                  "startLine": 45,
-                  "startColumn": 24,
-                  "endLine": 45,
-                  "endColumn": 31
-                }
-              }
-            },
-            {
-              "physicalLocation": {
-                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251202123934_AddUnvanTable.cs",
-                "region": {
-                  "startLine": 50,
-                  "startColumn": 24,
-                  "endLine": 50,
-                  "endColumn": 31
-                }
-              }
-            },
-            {
-              "physicalLocation": {
-                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251202123934_AddUnvanTable.cs",
-                "region": {
-                  "startLine": 58,
-                  "startColumn": 33,
-                  "endLine": 58,
-                  "endColumn": 40
-                }
-              }
-            },
-            {
-              "physicalLocation": {
-                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Migrations/20251202123934_AddUnvanTable.cs",
-                "region": {
-                  "startLine": 70,
-                  "startColumn": 23,
-                  "endLine": 70,
-                  "endColumn": 30
-                }
-              }
-            }
-          ],
-          "properties": {
-            "warningLevel": 1,
-            "customProperties": {
-              "0": null,
-              "1": null,
-              "2": null,
-              "3": null
             }
           }
         },
@@ -2230,490 +2763,6 @@
           }
         },
         {
-          "ruleId": "S1192",
-          "level": "warning",
-          "message": "Define a constant instead of using this literal 'create' 4 times.",
-          "locations": [
-            {
-              "resultFile": {
-                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Data/Seeding/DatabaseSeeder.cs",
-                "region": {
-                  "startLine": 123,
-                  "startColumn": 39,
-                  "endLine": 123,
-                  "endColumn": 47
-                }
-              }
-            }
-          ],
-          "relatedLocations": [
-            {
-              "physicalLocation": {
-                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Data/Seeding/DatabaseSeeder.cs",
-                "region": {
-                  "startLine": 130,
-                  "startColumn": 39,
-                  "endLine": 130,
-                  "endColumn": 47
-                }
-              }
-            },
-            {
-              "physicalLocation": {
-                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Data/Seeding/DatabaseSeeder.cs",
-                "region": {
-                  "startLine": 137,
-                  "startColumn": 39,
-                  "endLine": 137,
-                  "endColumn": 47
-                }
-              }
-            },
-            {
-              "physicalLocation": {
-                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Data/Seeding/DatabaseSeeder.cs",
-                "region": {
-                  "startLine": 222,
-                  "startColumn": 27,
-                  "endLine": 222,
-                  "endColumn": 35
-                }
-              }
-            }
-          ],
-          "properties": {
-            "warningLevel": 1,
-            "customProperties": {
-              "0": null,
-              "1": null,
-              "2": null
-            }
-          }
-        },
-        {
-          "ruleId": "S1192",
-          "level": "warning",
-          "message": "Define a constant instead of using this literal 'update' 5 times.",
-          "locations": [
-            {
-              "resultFile": {
-                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Data/Seeding/DatabaseSeeder.cs",
-                "region": {
-                  "startLine": 125,
-                  "startColumn": 39,
-                  "endLine": 125,
-                  "endColumn": 47
-                }
-              }
-            }
-          ],
-          "relatedLocations": [
-            {
-              "physicalLocation": {
-                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Data/Seeding/DatabaseSeeder.cs",
-                "region": {
-                  "startLine": 132,
-                  "startColumn": 39,
-                  "endLine": 132,
-                  "endColumn": 47
-                }
-              }
-            },
-            {
-              "physicalLocation": {
-                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Data/Seeding/DatabaseSeeder.cs",
-                "region": {
-                  "startLine": 139,
-                  "startColumn": 39,
-                  "endLine": 139,
-                  "endColumn": 47
-                }
-              }
-            },
-            {
-              "physicalLocation": {
-                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Data/Seeding/DatabaseSeeder.cs",
-                "region": {
-                  "startLine": 154,
-                  "startColumn": 39,
-                  "endLine": 154,
-                  "endColumn": 47
-                }
-              }
-            },
-            {
-              "physicalLocation": {
-                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Data/Seeding/DatabaseSeeder.cs",
-                "region": {
-                  "startLine": 222,
-                  "startColumn": 73,
-                  "endLine": 222,
-                  "endColumn": 81
-                }
-              }
-            }
-          ],
-          "properties": {
-            "warningLevel": 1,
-            "customProperties": {
-              "0": null,
-              "1": null,
-              "2": null,
-              "3": null
-            }
-          }
-        },
-        {
-          "ruleId": "S1192",
-          "level": "warning",
-          "message": "Define a constant instead of using this literal 'delete' 4 times.",
-          "locations": [
-            {
-              "resultFile": {
-                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Data/Seeding/DatabaseSeeder.cs",
-                "region": {
-                  "startLine": 126,
-                  "startColumn": 39,
-                  "endLine": 126,
-                  "endColumn": 47
-                }
-              }
-            }
-          ],
-          "relatedLocations": [
-            {
-              "physicalLocation": {
-                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Data/Seeding/DatabaseSeeder.cs",
-                "region": {
-                  "startLine": 133,
-                  "startColumn": 39,
-                  "endLine": 133,
-                  "endColumn": 47
-                }
-              }
-            },
-            {
-              "physicalLocation": {
-                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Data/Seeding/DatabaseSeeder.cs",
-                "region": {
-                  "startLine": 140,
-                  "startColumn": 39,
-                  "endLine": 140,
-                  "endColumn": 47
-                }
-              }
-            },
-            {
-              "physicalLocation": {
-                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Data/Seeding/DatabaseSeeder.cs",
-                "region": {
-                  "startLine": 160,
-                  "startColumn": 39,
-                  "endLine": 160,
-                  "endColumn": 47
-                }
-              }
-            }
-          ],
-          "properties": {
-            "warningLevel": 1,
-            "customProperties": {
-              "0": null,
-              "1": null,
-              "2": null
-            }
-          }
-        },
-        {
-          "ruleId": "S1192",
-          "level": "warning",
-          "message": "Define a constant instead of using this literal 'manage' 6 times.",
-          "locations": [
-            {
-              "resultFile": {
-                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Data/Seeding/DatabaseSeeder.cs",
-                "region": {
-                  "startLine": 127,
-                  "startColumn": 39,
-                  "endLine": 127,
-                  "endColumn": 47
-                }
-              }
-            }
-          ],
-          "relatedLocations": [
-            {
-              "physicalLocation": {
-                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Data/Seeding/DatabaseSeeder.cs",
-                "region": {
-                  "startLine": 134,
-                  "startColumn": 39,
-                  "endLine": 134,
-                  "endColumn": 47
-                }
-              }
-            },
-            {
-              "physicalLocation": {
-                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Data/Seeding/DatabaseSeeder.cs",
-                "region": {
-                  "startLine": 141,
-                  "startColumn": 39,
-                  "endLine": 141,
-                  "endColumn": 47
-                }
-              }
-            },
-            {
-              "physicalLocation": {
-                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Data/Seeding/DatabaseSeeder.cs",
-                "region": {
-                  "startLine": 146,
-                  "startColumn": 39,
-                  "endLine": 146,
-                  "endColumn": 47
-                }
-              }
-            },
-            {
-              "physicalLocation": {
-                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Data/Seeding/DatabaseSeeder.cs",
-                "region": {
-                  "startLine": 155,
-                  "startColumn": 39,
-                  "endLine": 155,
-                  "endColumn": 47
-                }
-              }
-            },
-            {
-              "physicalLocation": {
-                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Data/Seeding/DatabaseSeeder.cs",
-                "region": {
-                  "startLine": 199,
-                  "startColumn": 27,
-                  "endLine": 199,
-                  "endColumn": 35
-                }
-              }
-            }
-          ],
-          "properties": {
-            "warningLevel": 1,
-            "customProperties": {
-              "0": null,
-              "1": null,
-              "2": null,
-              "3": null,
-              "4": null
-            }
-          }
-        },
-        {
-          "ruleId": "S1192",
-          "level": "warning",
-          "message": "Define a constant instead of using this literal 'birim' 5 times.",
-          "locations": [
-            {
-              "resultFile": {
-                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Data/Seeding/DatabaseSeeder.cs",
-                "region": {
-                  "startLine": 130,
-                  "startColumn": 60,
-                  "endLine": 130,
-                  "endColumn": 67
-                }
-              }
-            }
-          ],
-          "relatedLocations": [
-            {
-              "physicalLocation": {
-                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Data/Seeding/DatabaseSeeder.cs",
-                "region": {
-                  "startLine": 131,
-                  "startColumn": 58,
-                  "endLine": 131,
-                  "endColumn": 65
-                }
-              }
-            },
-            {
-              "physicalLocation": {
-                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Data/Seeding/DatabaseSeeder.cs",
-                "region": {
-                  "startLine": 132,
-                  "startColumn": 60,
-                  "endLine": 132,
-                  "endColumn": 67
-                }
-              }
-            },
-            {
-              "physicalLocation": {
-                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Data/Seeding/DatabaseSeeder.cs",
-                "region": {
-                  "startLine": 133,
-                  "startColumn": 60,
-                  "endLine": 133,
-                  "endColumn": 67
-                }
-              }
-            },
-            {
-              "physicalLocation": {
-                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Data/Seeding/DatabaseSeeder.cs",
-                "region": {
-                  "startLine": 134,
-                  "startColumn": 60,
-                  "endLine": 134,
-                  "endColumn": 67
-                }
-              }
-            }
-          ],
-          "properties": {
-            "warningLevel": 1,
-            "customProperties": {
-              "0": null,
-              "1": null,
-              "2": null,
-              "3": null
-            }
-          }
-        },
-        {
-          "ruleId": "S1192",
-          "level": "warning",
-          "message": "Define a constant instead of using this literal 'system' 4 times.",
-          "locations": [
-            {
-              "resultFile": {
-                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Data/Seeding/DatabaseSeeder.cs",
-                "region": {
-                  "startLine": 153,
-                  "startColumn": 58,
-                  "endLine": 153,
-                  "endColumn": 66
-                }
-              }
-            }
-          ],
-          "relatedLocations": [
-            {
-              "physicalLocation": {
-                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Data/Seeding/DatabaseSeeder.cs",
-                "region": {
-                  "startLine": 154,
-                  "startColumn": 60,
-                  "endLine": 154,
-                  "endColumn": 68
-                }
-              }
-            },
-            {
-              "physicalLocation": {
-                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Data/Seeding/DatabaseSeeder.cs",
-                "region": {
-                  "startLine": 155,
-                  "startColumn": 60,
-                  "endLine": 155,
-                  "endColumn": 68
-                }
-              }
-            },
-            {
-              "physicalLocation": {
-                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Data/Seeding/DatabaseSeeder.cs",
-                "region": {
-                  "startLine": 199,
-                  "startColumn": 53,
-                  "endLine": 199,
-                  "endColumn": 61
-                }
-              }
-            }
-          ],
-          "properties": {
-            "warningLevel": 1,
-            "customProperties": {
-              "0": null,
-              "1": null,
-              "2": null
-            }
-          }
-        },
-        {
-          "ruleId": "S2325",
-          "level": "warning",
-          "message": "Make 'ConfigurePostgresql' a static method.",
-          "locations": [
-            {
-              "resultFile": {
-                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Data/IntranetDbContext.cs",
-                "region": {
-                  "startLine": 91,
-                  "startColumn": 18,
-                  "endLine": 91,
-                  "endColumn": 37
-                }
-              }
-            }
-          ],
-          "properties": {
-            "warningLevel": 1
-          }
-        },
-        {
-          "ruleId": "S2139",
-          "level": "warning",
-          "message": "Either log this exception and handle it, or rethrow it with some contextual information.",
-          "locations": [
-            {
-              "resultFile": {
-                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Data/Seeding/DatabaseSeeder.cs",
-                "region": {
-                  "startLine": 51,
-                  "startColumn": 26,
-                  "endLine": 51,
-                  "endColumn": 28
-                }
-              }
-            }
-          ],
-          "relatedLocations": [
-            {
-              "physicalLocation": {
-                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Data/Seeding/DatabaseSeeder.cs",
-                "region": {
-                  "startLine": 53,
-                  "startColumn": 13,
-                  "endLine": 53,
-                  "endColumn": 74
-                }
-              }
-            },
-            {
-              "physicalLocation": {
-                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Data/Seeding/DatabaseSeeder.cs",
-                "region": {
-                  "startLine": 54,
-                  "startColumn": 13,
-                  "endLine": 54,
-                  "endColumn": 19
-                }
-              }
-            }
-          ],
-          "properties": {
-            "warningLevel": 1,
-            "customProperties": {
-              "0": "Logging statement.",
-              "1": "Thrown exception."
-            }
-          }
-        },
-        {
           "ruleId": "CA1822",
           "level": "note",
           "message": "'ConfigurePostgresql' adlı üye örnek verilerine erişmiyor ve statik olarak işaretlenebilir",
@@ -2732,55 +2781,6 @@
           ],
           "properties": {
             "warningLevel": 1
-          }
-        },
-        {
-          "ruleId": "S2139",
-          "level": "warning",
-          "message": "Either log this exception and handle it, or rethrow it with some contextual information.",
-          "locations": [
-            {
-              "resultFile": {
-                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Data/Seeding/DatabaseSeederExtensions.cs",
-                "region": {
-                  "startLine": 34,
-                  "startColumn": 26,
-                  "endLine": 34,
-                  "endColumn": 28
-                }
-              }
-            }
-          ],
-          "relatedLocations": [
-            {
-              "physicalLocation": {
-                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Data/Seeding/DatabaseSeederExtensions.cs",
-                "region": {
-                  "startLine": 37,
-                  "startColumn": 13,
-                  "endLine": 37,
-                  "endColumn": 80
-                }
-              }
-            },
-            {
-              "physicalLocation": {
-                "uri": "file:///C:/Users/IT/Desktop/Bili%C5%9Fim%20Sistemi/intranet-portal/backend/IntranetPortal.Infrastructure/Data/Seeding/DatabaseSeederExtensions.cs",
-                "region": {
-                  "startLine": 38,
-                  "startColumn": 13,
-                  "endLine": 38,
-                  "endColumn": 19
-                }
-              }
-            }
-          ],
-          "properties": {
-            "warningLevel": 1,
-            "customProperties": {
-              "0": "Logging statement.",
-              "1": "Thrown exception."
-            }
           }
         },
         {

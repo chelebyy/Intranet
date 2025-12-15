@@ -20,22 +20,23 @@ import { Bar, BarChart, CartesianGrid, XAxis } from "recharts";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
-export const Dashboard: React.FC = () => {
+// Access Denied Component
+function AccessDenied() {
+    return (
+        <div className="flex flex-col items-center justify-center h-full space-y-4">
+            <Shield className="h-16 w-16 text-destructive" />
+            <h2 className="text-2xl font-bold">Erişim Engellendi</h2>
+            <p className="text-muted-foreground">Bu sayfayı görüntüleme yetkiniz bulunmamaktadır.</p>
+        </div>
+    );
+}
+
+// Dashboard Content Component
+function DashboardContent() {
     const [stats, setStats] = useState<DashboardStats | null>(null);
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
-    const { selectedBirim, currentRoleInfo } = useAuthStore();
-
-    // Access Control
-    if (currentRoleInfo?.roleName !== 'SuperAdmin') {
-        return (
-            <div className="flex flex-col items-center justify-center h-full space-y-4">
-                <Shield className="h-16 w-16 text-destructive" />
-                <h2 className="text-2xl font-bold">Erişim Engellendi</h2>
-                <p className="text-muted-foreground">Bu sayfayı görüntüleme yetkiniz bulunmamaktadır.</p>
-            </div>
-        );
-    }
+    const [error] = useState<string | null>(null);
+    const { selectedBirim } = useAuthStore();
 
     useEffect(() => {
         const fetchStats = async () => {
@@ -228,4 +229,15 @@ export const Dashboard: React.FC = () => {
             </div>
         </div>
     );
+}
+
+export const Dashboard: React.FC = () => {
+    const { currentRoleInfo } = useAuthStore();
+
+    // Access Control - early return pattern avoids conditional hooks
+    if (currentRoleInfo?.roleName !== 'SuperAdmin') {
+        return <AccessDenied />;
+    }
+
+    return <DashboardContent />;
 };
