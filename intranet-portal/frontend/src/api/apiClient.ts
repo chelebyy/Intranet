@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // API Base URL - will be configured based on environment
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://localhost:5001/api';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5197/api';
 
 // Create Axios instance
 export const apiClient = axios.create({
@@ -50,7 +50,7 @@ apiClient.interceptors.response.use(
           // Unauthorized - redirect to login
           console.error('Unauthorized access - redirecting to login');
           if (window.location.pathname !== '/login') {
-             window.location.href = '/login';
+            window.location.href = '/login';
           }
           break;
         case 403:
