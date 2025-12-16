@@ -1,11 +1,10 @@
 import React from 'react';
 import { AlertTriangle, Clock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '@/store/authStore';
 
 const MaintenanceLockPage: React.FC = () => {
-    const navigate = useNavigate();
+    // const navigate = useNavigate(); Removed unused
     const { logout } = useAuthStore();
 
     return (

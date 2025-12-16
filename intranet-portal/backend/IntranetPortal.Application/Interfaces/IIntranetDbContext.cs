@@ -22,6 +22,10 @@ public interface IIntranetDbContext
     DbSet<IPRestriction> IPRestrictions { get; }
     DbSet<Unvan> Unvanlar { get; }
 
+    DbSet<Announcement> Announcements { get; }
+    DbSet<AnnouncementTarget> AnnouncementTargets { get; }
+    DbSet<UserAcknowledgment> UserAcknowledgments { get; }
+
     // Methods
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }

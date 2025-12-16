@@ -47,6 +47,7 @@ builder.Services.AddScoped<IDashboardService, DashboardService>();
 builder.Services.AddScoped<IAuditLogService, AuditLogService>();
 builder.Services.AddScoped<IIPRestrictionService, IPRestrictionService>();
 builder.Services.AddScoped<IUnvanService, UnvanService>();
+builder.Services.AddScoped<IAnnouncementService, AnnouncementService>();
 
 // Configure BackupSettings and register BackupService as Singleton
 // Singleton ensures thread-safe backup flag (_isBackupRunning) works correctly

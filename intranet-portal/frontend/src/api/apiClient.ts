@@ -1,7 +1,15 @@
 import axios from 'axios';
 
 // API Base URL - will be configured based on environment
+// API Base URL - will be configured based on environment
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5197/api';
+
+export interface ApiResponse<T> {
+  data: T;
+  success: boolean;
+  message: string;
+  errorCode?: string;
+}
 
 // Create Axios instance
 export const apiClient = axios.create({

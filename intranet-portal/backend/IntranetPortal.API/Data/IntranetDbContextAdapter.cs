@@ -30,6 +30,10 @@ public class IntranetDbContextAdapter : IIntranetDbContext
     public DbSet<IPRestriction> IPRestrictions => _context.IPRestrictions;
     public DbSet<Unvan> Unvanlar => _context.Unvanlar;
 
+    public DbSet<Announcement> Announcements => _context.Announcements;
+    public DbSet<AnnouncementTarget> AnnouncementTargets => _context.AnnouncementTargets;
+    public DbSet<UserAcknowledgment> UserAcknowledgments => _context.UserAcknowledgments;
+
     public Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
         return _context.SaveChangesAsync(cancellationToken);

@@ -28,6 +28,8 @@ const TestCases = lazy(() => import('./features/test-unit/pages/TestCases').then
 const GenelButceDashboard = lazy(() => import('./features/genelButce/pages/GenelButceDashboard').then(module => ({ default: module.GenelButceDashboard })));
 const BackupPage = lazy(() => import('./features/admin/pages/BackupPage').then(module => ({ default: module.BackupPage })));
 const MaintenancePage = lazy(() => import('./features/admin/pages/MaintenancePage').then(module => ({ default: module.MaintenancePage })));
+const AnnouncementList = lazy(() => import('./features/admin/pages/AnnouncementList'));
+const AnnouncementEditor = lazy(() => import('./features/admin/pages/AnnouncementEditor'));
 
 
 // Loading component
@@ -150,12 +152,35 @@ function App() {
             </ProtectedRoute>
           } />
 
-          {/* Database Maintenance - SuperAdmin only */}
+            {/* Database Maintenance - SuperAdmin only */}
           <Route path="admin/maintenance" element={
             <ProtectedRoute requiredPermission={Permissions.System.Read}>
               <Suspense fallback={<PageLoader />}>
                 <MaintenancePage />
               </Suspense>
+            </ProtectedRoute>
+          } />
+
+          {/* Announcement Management - Admin only */}
+          <Route path="admin/announcements" element={
+            <ProtectedRoute requiredPermission={Permissions.System.Read}> {/* Adjust to ReadAnnouncement later if strict */}
+               <Suspense fallback={<PageLoader />}>
+                 <AnnouncementList />
+               </Suspense>
+            </ProtectedRoute>
+          } />
+          <Route path="admin/announcements/new" element={
+            <ProtectedRoute requiredPermission={Permissions.System.Read}> {/* Adjust to CreateAnnouncement */}
+               <Suspense fallback={<PageLoader />}>
+                 <AnnouncementEditor />
+               </Suspense>
+            </ProtectedRoute>
+          } />
+          <Route path="admin/announcements/edit/:id" element={
+            <ProtectedRoute requiredPermission={Permissions.System.Read}> {/* Adjust to UpdateAnnouncement */}
+               <Suspense fallback={<PageLoader />}>
+                 <AnnouncementEditor />
+               </Suspense>
             </ProtectedRoute>
           } />
 

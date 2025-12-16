@@ -72,6 +72,14 @@ public class IntranetDbContext : DbContext
     /// </summary>
     public DbSet<Unvan> Unvanlar { get; set; } = null!;
 
+    #region Phase 4: Announcement System
+
+    public DbSet<Announcement> Announcements { get; set; } = null!;
+    public DbSet<AnnouncementTarget> AnnouncementTargets { get; set; } = null!;
+    public DbSet<UserAcknowledgment> UserAcknowledgments { get; set; } = null!;
+
+    #endregion
+
     #endregion
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

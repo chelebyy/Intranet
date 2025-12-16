@@ -2,6 +2,10 @@
 
 Bu dosya, projeyi GitHub'dan çektikten (`git pull`) sonra çalışır hale getirmek için gereken standart komutları içerir.
 
+> **Son Güncelleme (Phase 4 - Duyuru Sistemi):**
+> Bu güncelleme yeni veritabanı tabloları (Announcements) içerir. 
+> Backend kısmında `dotnet ef database update` komutunu çalıştırmayı UNUTMAYIN.
+
 ## 1. Kodları Güncelleme
 
 Öncelikle projenin en güncel halini GitHub'dan çekin:

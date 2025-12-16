@@ -253,6 +253,12 @@ export function AppSidebar() {
                     url: "/roles",
                     icon: ShieldCheck,
                     permission: Permissions.Role.Read
+                },
+                {
+                    title: "Duyurular",
+                    url: "/admin/announcements",
+                    icon: Activity, // Or Megaphone if available, using Activity for now
+                    permission: Permissions.System.Read
                 }
             ]
         },

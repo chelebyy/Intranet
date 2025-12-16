@@ -1,4 +1,5 @@
 import { useAuthStore } from '../../store/authStore';
+import RecentAnnouncementsWidget from '../../components/dashboard/RecentAnnouncementsWidget';
 
 export default function HomeDashboard() {
   const { user, currentBirimInfo } = useAuthStore();
@@ -15,16 +16,8 @@ export default function HomeDashboard() {
         </p>
       </div>
 
-      {/* Announcements Placeholder (Phase 4) */}
-      <div className="bg-white shadow rounded-lg p-6 border-l-4 border-blue-500">
-        <h2 className="text-lg font-semibold text-gray-900 mb-4">Duyurular & Panolar</h2>
-        <p className="text-gray-500 italic">
-          Yakında burada kurum içi duyurular ve önemli bildirimler yer alacaktır.
-        </p>
-        <div className="mt-4 p-4 bg-blue-50 rounded text-sm text-blue-700">
-          💡 Burası "Duyuru ve Uyarı Sistemi" geliştirmesi tamamlandığında güncellenecektir.
-        </div>
-      </div>
+      {/* Announcements Widget */}
+      <RecentAnnouncementsWidget />
 
       {/* Quick Links Example */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
