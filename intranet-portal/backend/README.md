@@ -383,10 +383,11 @@ dotnet test /p:CollectCoverage=true /p:CoverageReportFormat=html
 - [ ] Role CRUD endpoints
 - [ ] Audit log endpoints
 
-### Faz 4 (IT Modülü)
-- [ ] IT birim tabloları (Arıza, Envanter)
-- [ ] IT Service & Controller
-- [ ] Arıza ve Envanter yönetimi
+### Faz 4 (Duyuru & Uyarı Sistemi)
+- [x] Announcement Entities (Duyuru, Hedef, Okundu Bilgisi)
+- [x] Announcement Service & Controller
+- [x] Target Audience Logic (Birim, Rol, Kullanıcı)
+- [x] Frontend Yönetim Paneli
 
 ### Faz 5 (Deployment)
 - [ ] Unit tests

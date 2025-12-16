@@ -227,11 +227,12 @@ Tüm teknik dokümantasyon kök dizinde bulunmaktadır:
 - ✅ Kullanıcı ve birim yönetimi
 - ✅ Rol ve izin yönetimi
 - ✅ Audit log ve raporlama
+- ✅ Duyuru ve Uyarı Sistemi (Anlık, Modal, Banner) 📢
 
 ### Planned Features
 - [ ] Dosya yükleme ve yönetimi
 - [ ] Excel export/import
-- [ ] Bildirim sistemi
+- [ ] Gelişmiş filtreleme
 - [ ] Gelişmiş filtreleme
 - [ ] Multi-language (i18n)
 - [ ] Unit & Integration testler

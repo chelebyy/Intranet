@@ -13,6 +13,8 @@ C:\Users\IT\Desktop\Bilişim Sistemi\
 │   │   │
 │   │   ├── IntranetPortal.API/        # 🌐 Presentation Layer
 │   │   │   ├── Controllers/           # API endpoints
+│   │   │   │   ├── AnnouncementsController.cs # 📢 Announcement API
+│   │   │   │   └── ...
 │   │   │   ├── Middleware/            # Custom middleware
 │   │   │   ├── Filters/               # Authorization attributes
 │   │   │   ├── Program.cs             # App entry point
@@ -20,12 +22,16 @@ C:\Users\IT\Desktop\Bilişim Sistemi\
 │   │   │
 │   │   ├── IntranetPortal.Application/ # 💼 Business Logic Layer
 │   │   │   ├── Services/              # Business services
+│   │   │   │   ├── AnnouncementService.cs # 📢 Announcement Logic
+│   │   │   │   └── ...
 │   │   │   ├── DTOs/                  # Data transfer objects
 │   │   │   ├── Interfaces/            # Service contracts
 │   │   │   └── Validators/            # FluentValidation rules
 │   │   │
 │   │   ├── IntranetPortal.Domain/     # 📦 Domain Layer
 │   │   │   ├── Entities/              # Database models
+│   │   │   │   ├── Announcement.cs    # 📢 Announcement Entity
+│   │   │   │   └── ...
 │   │   │   ├── Enums/                 # Enumeration types
 │   │   │   └── Constants/             # System constants
 │   │   │
@@ -56,7 +62,9 @@ C:\Users\IT\Desktop\Bilişim Sistemi\
 │   │   │   │           ├── UserList.tsx       # User management
 │   │   │   │           ├── DepartmentList.tsx # Department mgmt
 │   │   │   │           ├── RolePermissions.tsx # Roles & perms
-│   │   │   │           └── Reports.tsx        # Reports
+│   │   │   │           ├── Reports.tsx        # Reports
+│   │   │   │           ├── AnnouncementList.tsx   # 📢 Announcement Mgmt
+│   │   │   │           └── AnnouncementEditor.tsx # 📢 Create/Edit Announcement
 │   │   │   │
 │   │   │   ├── shared/                # 🔄 Shared components
 │   │   │   │   ├── components/
