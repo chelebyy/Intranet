@@ -1,27 +1,29 @@
-# Aktif Görev: Faz 4 - Bilişim Sistemleri (IT) Modülü Geliştirme
+# Aktif Görev: Faz 5 - Doküman Yönetimi Modülü
 
 ## Durum
-**Faz 4 Başladı.** Multi-Unit Navigation altyapısı ve IT Modülü Frontend prototipi tamamlandı.
+**Faz 4 (Duyuru & Uyarı Sistemi) Tamamlandı.** 
+Sistem artık yönetilebilir duyurular, anlık uyarılar ve okundu bilgisi takibi (Banner, Modal, Widget) yeteneklerine sahip.
+**Faz 5 (Doküman Yönetimi) Başlıyor.**
 
-## Tamamlananlar
-*   [x] Multi-Unit Navigation Tasarımı (`DESIGN_MULTI_UNIT_NAV.md`)
-*   [x] Header ve Layout Refactoring
-*   [x] Birim Bazlı Dinamik Sidebar Menü
-*   [x] IT Modülü Frontend Prototipi (`ITDashboard`, `ArizaList`)
-*   [x] Test Modülü Frontend Prototipi
-*   [x] Rotaların ve Lazy Loading yapısının kurulması
-*   [x] Süper Yönetici yetki atamaları
+## Tamamlananlar (Faz 4 - Duyuru Sistemi)
+*   [x] Veritabanı tasamı (Announcements, Targets, Acknowledgments)
+*   [x] Backend API (Controller, Service, Permissions)
+*   [x] Frontend Yönetim Paneli (Liste, Ekle/Düzenle, Hedef Seçimi)
+*   [x] Kullanıcı Arayüzü (Global Banner, Modal Popup, Dashboard Widget)
+*   [x] Hedef Kitle Mantığı (Birim, Rol ve Kullanıcı bazlı yayınlama)
+*   [x] Arama Özelliği (Searchable Select / Combobox)
 
-## Sıradaki Adımlar
-1.  **IT Modülü Backend:**
-    *   [ ] `IT_ArizaKayit` ve `IT_Envanter` veritabanı tablolarını oluştur (Migration).
-    *   [ ] `IntranetPortal.Domain` içinde IT entity'lerini tanımla.
-    *   [ ] `ITService` ve `ITController` implementasyonu.
-2.  **Frontend-Backend Bağlantısı:**
-    *   [ ] `itApi.ts` servisini oluştur.
-    *   [ ] React Query ile gerçek verileri bağla.
+## Sıradaki Adımlar (Faz 5)
+1.  **Tasarım & Planlama:**
+    *   [ ] Doküman varlıklarını (Entity) tasarlama (Dosya, Kategori, Versiyon).
+    *   [ ] Yetkilendirme matrisini belirleme (Hangi klasörü kim görür?).
+2.  **Backend:**
+    *   [ ] `DocumentService` ve `DocumentController` implementasyonu.
+    *   [ ] Dosya yükleme (Upload) ve güvenli indirme (Download) altyapısı.
+3.  **Frontend:**
+    *   [ ] Doküman Kütüphanesi UI (Klasör yapısı görünümü).
+    *   [ ] Yükleme (Upload) arayüzü (Drag & drop).
 
 ## İlgili Dokümanlar
-*   `docs/technical/IT_MODULE_OVERVIEW.md`
-*   `docs/technical/DESIGN_MULTI_UNIT_NAV.md`
-*   `docs/technical/IMPLEMENTATION_ROADMAP.md` (Faz 4 Bölümü)
+*   `docs/technical/FILE_MANAGEMENT.md`
+*   `docs/technical/IMPLEMENTATION_ROADMAP.md` (Faz 5 Bölümü)
