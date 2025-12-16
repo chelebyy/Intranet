@@ -1,4 +1,5 @@
 using IntranetPortal.API.Attributes;
+using IntranetPortal.API.Extensions;
 using IntranetPortal.API.Models;
 using IntranetPortal.Application.DTOs;
 using IntranetPortal.Application.DTOs.Roles;
@@ -88,9 +89,27 @@ public class RolesController : ControllerBase
     }
 
     [HttpGet("{id}/permissions")]
-    [HasPermission(Permissions.ReadRole)] // Changed to ReadRole to match viewing permissions
     public async Task<ActionResult<ApiResponse<IEnumerable<Application.DTOs.Permissions.PermissionDto>>>> GetPermissions(int id)
     {
+        // Check if user has permission to read roles OR if the user is querying their own role
+        var currentUserId = User.GetUserId();
+        var currentUserRoleID = User.GetRoleId();
+
+        // If user is trying to read another role's permissions and doesn't have ReadRole permission
+        if (currentUserRoleID != id)
+        {
+            if (!currentUserRoleID.HasValue)
+            {
+                return StatusCode(403, ApiResponse<IEnumerable<Application.DTOs.Permissions.PermissionDto>>.Fail("Bu işlem için yetkiniz bulunmamaktadır", "FORBIDDEN"));
+            }
+
+            var hasReadPermission = await _permissionService.HasPermissionAsync(currentUserRoleID.Value, Permissions.ReadRole);
+            if (!hasReadPermission)
+            {
+                return StatusCode(403, ApiResponse<IEnumerable<Application.DTOs.Permissions.PermissionDto>>.Fail("Bu işlem için yetkiniz bulunmamaktadır", "FORBIDDEN"));
+            }
+        }
+
         // Verify role exists
         var role = await _roleService.GetRoleByIdAsync(id);
         if (role == null) return NotFound(ApiResponse<IEnumerable<Application.DTOs.Permissions.PermissionDto>>.Fail("Rol bulunamadı", "NOT_FOUND"));

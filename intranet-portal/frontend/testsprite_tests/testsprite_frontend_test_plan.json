@@ -1,0 +1,393 @@
+[
+  {
+    "id": "TC001",
+    "title": "IP Whitelist Access Control Success",
+    "description": "Verify that users with allowed IP addresses can access the system successfully.",
+    "category": "security",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Simulate a login request from a whitelisted IP address."
+      },
+      {
+        "type": "action",
+        "description": "Enter valid username and password credentials."
+      },
+      {
+        "type": "action",
+        "description": "Submit the login request."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify that access is granted and the user proceeds to the unit selection panel or dashboard."
+      }
+    ]
+  },
+  {
+    "id": "TC002",
+    "title": "IP Whitelist Access Control Deny",
+    "description": "Verify that users from IP addresses not on the whitelist are denied access.",
+    "category": "security",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Simulate a login request from a non-whitelisted IP address."
+      },
+      {
+        "type": "action",
+        "description": "Enter valid username and password credentials."
+      },
+      {
+        "type": "action",
+        "description": "Submit the login request."
+      },
+      {
+        "type": "assertion",
+        "description": "Ensure access is denied with a proper error message indicating IP restriction."
+      }
+    ]
+  },
+  {
+    "id": "TC003",
+    "title": "User Authentication with Correct Credentials",
+    "description": "Validate login succeeds with valid username and password combination.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to the login page."
+      },
+      {
+        "type": "action",
+        "description": "Enter valid username."
+      },
+      {
+        "type": "action",
+        "description": "Enter correct password."
+      },
+      {
+        "type": "action",
+        "description": "Click the login button."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm that login is successful and user is redirected appropriately."
+      }
+    ]
+  },
+  {
+    "id": "TC004",
+    "title": "User Authentication with Incorrect Credentials",
+    "description": "Verify the system rejects login attempts with invalid credentials.",
+    "category": "error handling",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to the login page."
+      },
+      {
+        "type": "action",
+        "description": "Enter a valid username."
+      },
+      {
+        "type": "action",
+        "description": "Enter an incorrect password."
+      },
+      {
+        "type": "action",
+        "description": "Click the login button."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify login fails with an error message indicating invalid credentials."
+      }
+    ]
+  },
+  {
+    "id": "TC005",
+    "title": "Brute-force Attack Prevention",
+    "description": "Ensure the system blocks or delays login after multiple failed login attempts to prevent brute-force attacks.",
+    "category": "security",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Attempt to login with incorrect password more than allowed threshold times consecutively."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify further attempts are throttled or blocked with an appropriate notification or delay."
+      }
+    ]
+  },
+  {
+    "id": "TC006",
+    "title": "Role-Based Access Control Enforcement",
+    "description": "Validate that users only see menus and content based on their assigned roles.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Login as a user assigned to a specific role."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify menus and content displayed match the permissions assigned to the user's role."
+      },
+      {
+        "type": "action",
+        "description": "Attempt to access restricted pages or functionalities not permitted for the role."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify access is denied and appropriate error or redirection occurs."
+      }
+    ]
+  },
+  {
+    "id": "TC007",
+    "title": "Multi-Unit Selection Panel Functionality",
+    "description": "Ensure users assigned to multiple units can select and switch active units properly.",
+    "category": "functional",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Login with a user assigned to multiple units."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify unit selection panel is displayed upon login."
+      },
+      {
+        "type": "action",
+        "description": "Select one of the units from the panel."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify user is redirected to the selected unit's dashboard and menus are loaded accordingly."
+      },
+      {
+        "type": "action",
+        "description": "Switch to another unit."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm the unit context changes and relevant content and menus update dynamically."
+      }
+    ]
+  },
+  {
+    "id": "TC008",
+    "title": "Audit Log Capture for Critical Actions",
+    "description": "Verify that all critical user and admin actions are recorded in audit logs with timestamps.",
+    "category": "security",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Perform critical actions such as login, role assignment, unit creation, file upload, and system setting changes."
+      },
+      {
+        "type": "assertion",
+        "description": "Check audit logs contain accurate, time-stamped entries for each action performed."
+      }
+    ]
+  },
+  {
+    "id": "TC009",
+    "title": "Encryption of User Passwords and Files",
+    "description": "Confirm that user passwords and uploaded files are encrypted with AES-256 algorithm.",
+    "category": "security",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Register or update a user password."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify password is stored encrypted and cannot be retrieved in plain text."
+      },
+      {
+        "type": "action",
+        "description": "Upload a file via the portal."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm file data is encrypted on server using AES-256."
+      }
+    ]
+  },
+  {
+    "id": "TC010",
+    "title": "User and Audit Log Data Export to Excel",
+    "description": "Validate export functionality for user, unit, and audit log data to Excel format works properly including row limits.",
+    "category": "functional",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to export data section in admin panel."
+      },
+      {
+        "type": "action",
+        "description": "Initiate export for user data, unit data, and audit logs separately."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify Excel files are generated and downloadable with correct format and data."
+      },
+      {
+        "type": "assertion",
+        "description": "Ensure exported data does not exceed system row limits and complete data is included."
+      }
+    ]
+  },
+  {
+    "id": "TC011",
+    "title": "System Maintenance Mode Access Control",
+    "description": "Check that when maintenance mode is enabled, only authorized users can access the system and others see maintenance message.",
+    "category": "security",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Activate system maintenance mode."
+      },
+      {
+        "type": "action",
+        "description": "Attempt login as an unauthorized regular user."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify user is blocked access and sees maintenance mode message."
+      },
+      {
+        "type": "action",
+        "description": "Attempt login as an authorized maintenance or admin user."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm allowed user can access system successfully."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify that all access attempts during maintenance mode are logged in audit logs."
+      }
+    ]
+  },
+  {
+    "id": "TC012",
+    "title": "Admin Panel Access Restrictions",
+    "description": "Ensure that only users with admin privileges can access and perform operations in the admin panel.",
+    "category": "security",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Login as a user without admin rights."
+      },
+      {
+        "type": "action",
+        "description": "Attempt to access the admin panel URL."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify access is denied or redirected appropriately."
+      },
+      {
+        "type": "action",
+        "description": "Login as an admin user."
+      },
+      {
+        "type": "action",
+        "description": "Access the admin panel and perform user, role, and unit management operations."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify all operations complete successfully and changes are reflected."
+      }
+    ]
+  },
+  {
+    "id": "TC013",
+    "title": "File Upload with Allowed Formats and Size Limits",
+    "description": "Validate file upload function accepts authorized file types and respects size limitations.",
+    "category": "functional",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Attempt to upload files of various allowed formats within size limits."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm successful upload and encryption of valid files."
+      },
+      {
+        "type": "action",
+        "description": "Attempt to upload files exceeding size limits or with disallowed formats."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify upload is rejected with proper error messages."
+      }
+    ]
+  },
+  {
+    "id": "TC014",
+    "title": "Performance Testing for Portal and Unit Switching",
+    "description": "Ensure portal loads within 2 seconds and switching active units completes within 1 second under load up to 200 concurrent users.",
+    "category": "performance",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Simulate load of 100 to 200 concurrent authenticated users accessing the portal."
+      },
+      {
+        "type": "assertion",
+        "description": "Measure and verify portal main page loads within 2 seconds."
+      },
+      {
+        "type": "action",
+        "description": "Under the same load, perform active unit switching actions."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm unit switching response time is within 1 second."
+      }
+    ]
+  },
+  {
+    "id": "TC015",
+    "title": "Modular Unit and Content Management",
+    "description": "Verify system supports adding, modifying, and deleting modular units and content pages without impacting existing functionality.",
+    "category": "functional",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Using admin panel, add a new unit or content module."
+      },
+      {
+        "type": "assertion",
+        "description": "Check that the new unit/module is accessible to authorized users and content renders correctly."
+      },
+      {
+        "type": "action",
+        "description": "Modify and delete existing units or modules."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify changes reflect immediately and no disruption occurs in other modules."
+      }
+    ]
+  }
+]

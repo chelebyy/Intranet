@@ -1,6 +1,7 @@
 using System.Text;
 using IntranetPortal.API.Data;
 using IntranetPortal.API.Middleware;
+using IntranetPortal.Infrastructure.Middleware;
 using IntranetPortal.Application.Interfaces;
 using IntranetPortal.Application.Services;
 using IntranetPortal.Application.Settings;
@@ -52,7 +53,11 @@ builder.Services.AddScoped<IUnvanService, UnvanService>();
 builder.Services.Configure<BackupSettings>(builder.Configuration.GetSection(BackupSettings.SectionName));
 builder.Services.AddSingleton<IBackupService, BackupService>();
 
+// Register MaintenanceService as Scoped (uses static lock for thread-safety)
+builder.Services.AddScoped<IMaintenanceService, MaintenanceService>();
+
 builder.Services.AddMemoryCache();
+
 
 // JWT Authentication Configuration
 // Reference: TECHNICAL_DESIGN.md Section 2.1, SECURITY_ANALYSIS_REPORT.md Finding #2
@@ -150,6 +155,7 @@ app.UseRateLimiting();     // Rate limiting
 
 // Add authentication and authorization
 app.UseAuthentication();
+app.UseMiddleware<MaintenanceMiddleware>(); // Block requests if maintenance mode is active
 app.UseAuthorization();
 
 // Map controllers

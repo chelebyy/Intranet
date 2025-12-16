@@ -69,5 +69,14 @@ namespace IntranetPortal.API.Extensions
             return roleName == IntranetPortal.Domain.Constants.Roles.SuperAdmin ||
                    roleName == IntranetPortal.Domain.Constants.Roles.SistemAdmin;
         }
+
+        /// <summary>
+        /// Checks if the user has a specific permission
+        /// </summary>
+        public static bool HasPermission(this ClaimsPrincipal user, string permission)
+        {
+            // Assuming permissions are stored as claims with type "permission"
+            return user.HasClaim(c => c.Type == "permission" && c.Value == permission);
+        }
     }
 }

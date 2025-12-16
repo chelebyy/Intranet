@@ -1,0 +1,52 @@
+[
+  {
+    "id": "TC001",
+    "title": "auth api login functionality",
+    "description": "Verify that the login endpoint correctly authenticates users using sicil number and password, enforces IP whitelist checks, and returns appropriate tokens."
+  },
+  {
+    "id": "TC002",
+    "title": "users api user management",
+    "description": "Test user creation, retrieval, update, and deletion functionalities ensuring role-based access control and data validation."
+  },
+  {
+    "id": "TC003",
+    "title": "roles api role management",
+    "description": "Validate role creation, assignment, update, and deletion with proper access restrictions and data integrity."
+  },
+  {
+    "id": "TC004",
+    "title": "auditlog api logging and retrieval",
+    "description": "Ensure all critical operations are logged correctly and audit logs can be retrieved securely via the API."
+  },
+  {
+    "id": "TC005",
+    "title": "dashboard api statistics retrieval",
+    "description": "Check that dashboard endpoints return accurate and timely statistics reflecting system status and user activities."
+  },
+  {
+    "id": "TC006",
+    "title": "ip restrictions api management",
+    "description": "Test adding, updating, and removing IP and IP block restrictions and verify enforcement during user login."
+  },
+  {
+    "id": "TC007",
+    "title": "backup api database backup and restore",
+    "description": "Verify database backup creation, retrieval, and restoration functionalities including maintenance mode activation."
+  },
+  {
+    "id": "TC008",
+    "title": "birimler api department management",
+    "description": "Test department (birim) creation, update, deletion, and retrieval ensuring role-based access and data consistency."
+  },
+  {
+    "id": "TC009",
+    "title": "unvanlar api title management",
+    "description": "Validate title (unvan) management endpoints for CRUD operations with proper validation and access control."
+  },
+  {
+    "id": "TC010",
+    "title": "permissions api permission management",
+    "description": "Ensure permission management endpoints correctly handle creation, update, deletion, and assignment of permissions."
+  }
+]

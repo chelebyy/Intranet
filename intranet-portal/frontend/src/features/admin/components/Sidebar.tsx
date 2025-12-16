@@ -104,18 +104,34 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentPage, onNavigate, isDar
       permission: Permissions.AuditLog.Read
     },
     {
-      page: Page.IP_RESTRICTIONS,
-      path: '/ip-restrictions',
-      icon: 'shield',
-      label: 'IP Kısıtlamaları',
-      permission: Permissions.System.Read
-    },
-    {
-      page: Page.BACKUP_MANAGEMENT,
-      path: '/admin/backups',
-      icon: 'backup',
-      label: 'Yedekleme Merkezi',
-      permission: Permissions.System.Read
+      page: Page.SYSTEM_MAINTENANCE,
+      path: '/admin/maintenance',
+      icon: 'build',
+      label: 'Sistem Bakımı',
+      permission: Permissions.System.Read,
+      subItems: [
+        {
+          page: Page.IP_RESTRICTIONS,
+          path: '/ip-restrictions',
+          icon: 'shield',
+          label: 'IP Kısıtlamaları',
+          permission: Permissions.System.Read
+        },
+        {
+          page: Page.BACKUP_MANAGEMENT,
+          path: '/admin/backups',
+          icon: 'backup',
+          label: 'Yedekleme Merkezi',
+          permission: Permissions.System.Read
+        },
+        {
+          page: Page.DATABASE_MAINTENANCE,
+          path: '/admin/maintenance',
+          icon: 'database',
+          label: 'Veritabanı Bakım',
+          permission: Permissions.ManageMaintenance
+        }
+      ]
     },
   ], []);
 

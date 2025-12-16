@@ -17,15 +17,18 @@ public class AuthenticationService : IAuthenticationService
 {
     private readonly IIntranetDbContext _context;
     private readonly IPasswordService _passwordService;
+    private readonly IMaintenanceService _maintenanceService;
     private readonly ILogger<AuthenticationService> _logger;
 
     public AuthenticationService(
         IIntranetDbContext context,
         IPasswordService passwordService,
+        IMaintenanceService maintenanceService,
         ILogger<AuthenticationService> logger)
     {
         _context = context;
         _passwordService = passwordService;
+        _maintenanceService = maintenanceService;
         _logger = logger;
     }
 
@@ -35,6 +38,9 @@ public class AuthenticationService : IAuthenticationService
     /// </summary>
     public async Task<LoginResponseDto> LoginAsync(string sicil, string password, string ipAddress)
     {
+        // 1. Maintenance Mode Check (Early check logic, but need user role first)
+        // We will check after fetching user to allow Admins.
+
         // Validate inputs
         if (string.IsNullOrWhiteSpace(sicil))
             throw new ArgumentException("Sicil numarası boş olamaz", nameof(sicil));

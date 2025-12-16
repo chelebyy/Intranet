@@ -17,8 +17,10 @@ import {
     Server,
     Bug,
     DatabaseBackup,
+    Wrench,
     type LucideIcon,
 } from 'lucide-react';
+
 
 import {
     Sidebar,
@@ -270,10 +272,23 @@ export function AppSidebar() {
                     permission: Permissions.System.Read
                 },
                 {
-                    title: "Yedekleme Merkezi",
-                    url: "/admin/backups",
-                    icon: DatabaseBackup,
-                    permission: Permissions.System.Read
+                    title: "Sistem Bakımı",
+                    icon: Wrench,
+                    permission: Permissions.System.Read,
+                    subItems: [
+                        {
+                            title: "Yedekleme Merkezi",
+                            url: "/admin/backups",
+                            icon: DatabaseBackup,
+                            permission: Permissions.System.Read
+                        },
+                        {
+                            title: "Veritabanı Bakım",
+                            url: "/admin/maintenance",
+                            icon: Activity,
+                            permission: Permissions.ManageMaintenance
+                        }
+                    ]
                 },
             ]
         }

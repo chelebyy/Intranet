@@ -1,0 +1,119 @@
+{
+  "meta": {
+    "project": "Kurumsal İntranet Web Portalı",
+    "date": "2025-12-10",
+    "prepared_by": "Product Manager"
+  },
+  "product_overview": "Kurumsal İntranet Web Portalı, kurum içi iletişim, bilgi akışı ve birimler arası koordinasyonu kolaylaştırmak amacıyla geliştirilmiş, çok birimli ve role dayalı yetkilendirme (RBAC) yapısına sahip güvenli bir intranet platformudur. Sistem lokal ağda çalışacak şekilde tasarlanmış olup, yüksek performans ve modülerlik ilkeleri doğrultusunda kurum ihtiyaçlarını karşılamaktadır.",
+  "core_goals": [
+    "Çok birimli bir yapı sunmak ve birimler arası koordinasyonu sağlamak.",
+    "Role dayalı erişim kontrolü (RBAC) ile güvenliğe öncelik vermek.",
+    "Kullanıcı, rol ve birim yönetimini tek bir platformda bütünleştirmek.",
+    "IP bazlı erişim kısıtlamaları uygulamak ve güvenlik seviyesini artırmak.",
+    "Audit loglama ve veri şifreleme ile veri bütünlüğü ve izlenebilirlik sağlamak.",
+    "100-200 eşzamanlı kullanıcıyı destekleyen yüksek performanslı bir sistem olması.",
+    "Modüler yapı ile kolayca yeni birimler ve içerik modülleri eklenebilmesini sağlamak.",
+    "Kullanıcı dostu birim seçim paneli ve dinamik rol bazlı menü erişimi sunmak."
+  ],
+  "key_features": [
+    "Çok birimli kullanım ve birim bazlı içerik yönetimi.",
+    "Kullanıcı, rol ve birim yönetimi admin panelleriyle kontrol edilebilir.",
+    "Güçlü Role-Based Access Control (RBAC) sistemi.",
+    "IP/IP blok bazlı erişim kısıtlaması ve brute-force koruması.",
+    "AES-256 şifreleme ile kullanıcı şifreleri ve dosya verilerinin güvenliği.",
+    "Audit log sistemi ile tüm kritik işlemlerin kayıt altına alınması.",
+    "Modüler içerik yönetimi ve role göre dinamik menü yükleme.",
+    "Excel formatında kullanıcı, birim ve audit log verisi dışa aktarımı.",
+    "Sistem bakım modu yönetimi ve yetkili erişim kontrolleri.",
+    "Dosya yükleme ve şifreli dosya sistemi entegrasyonu."
+  ],
+  "user_flow_summary": [
+    "Kullanıcı IP adresi whitelist kontrolünden geçer ve şifre ile kimlik doğrulaması yapar.",
+    "Çok birimli kullanıcılar için birim seçim paneli açılır, kullanıcı aktif birimini seçer.",
+    "Seçilen birimin ana sayfasına yönlendirilir ve rol bazlı dinamik menü ve içerikler yüklenir.",
+    "Kullanıcı işlemleri ve erişimleri audit loglara kaydedilir.",
+    "Sistem adminleri ve birim adminleri kullanıcı, rol, birim yönetimi yapar, IP kısıtlaması uygular ve sistem ayarlarını kontrol eder.",
+    "Dosya yükleme işlemleri gerçekleştirilir ve şifreli dosya sistemiyle güvence altına alınır.",
+    "Kullanıcı ve audit log verileri Excel formatında export edilir.",
+    "Bakım modu aktif olduğunda sadece yetkili kullanıcılar erişebilir, diğer kullanıcılara sistem bakımda mesajı gösterilir."
+  ],
+  "validation_criteria": [
+    "Tüm kullanıcı rolleri için yetki kontrolleri rol bazlı olarak doğru uygulanmalıdır.",
+    "IP whitelist kontrolü başarılı şekilde erişimi kısıtlamalıdır.",
+    "Kullanıcı bilgilerinin şifrelenmesi ve token tabanlı session yönetimi çalışmalıdır.",
+    "Audit log kayıtları tüm kritik işlemleri eksiksiz ve zaman damgalı olarak tutmalıdır.",
+    "Performans kriterleri sağlanmalı; portal açılış süresi ≤ 2 saniye, birim geçişleri ≤ 1 saniye olmalıdır.",
+    "Modüler birimler ve içerik sayfaları sorunsuz şekilde eklenip yönetilebilmelidir.",
+    "Dosya yükleme ve kaydetme işlemleri izin verilen format ve boyut sınırlarına uygun olmalıdır.",
+    "Excel dışa aktarım fonksiyonları düzgün çalışmalı ve satır limiti geçilmemelidir.",
+    "Sistem bakım modu devreye alındığında sadece yetkili kullanıcıların erişimine izin verilmeli ve işlem audit loga yazılmalıdır.",
+    "Admin paneli yalnızca yetkili erişime açık olmalı ve tüm yönetim işlemleri düzgün şekilde yapılabilmelidir."
+  ],
+  "code_summary": {
+    "tech_stack": [
+      "TypeScript",
+      "React",
+      "Vite",
+      "Tailwind CSS"
+    ],
+    "features": [
+      {
+        "name": "Auth Feature",
+        "description": "Authentication components and API integration",
+        "files": [
+          "src/features/auth",
+          "src/api/authApi.ts"
+        ]
+      },
+      {
+        "name": "Admin Feature",
+        "description": "Admin panel components",
+        "files": [
+          "src/features/admin"
+        ]
+      },
+      {
+        "name": "Users Management",
+        "description": "User management API integration",
+        "files": [
+          "src/api/usersApi.ts"
+        ]
+      },
+      {
+        "name": "Roles Management",
+        "description": "Role management API integration",
+        "files": [
+          "src/api/rolesApi.ts"
+        ]
+      },
+      {
+        "name": "Audit Logs",
+        "description": "Audit log API integration",
+        "files": [
+          "src/api/auditLogApi.ts"
+        ]
+      },
+      {
+        "name": "Dashboard",
+        "description": "Dashboard API integration",
+        "files": [
+          "src/api/dashboardApi.ts"
+        ]
+      },
+      {
+        "name": "IP Restrictions",
+        "description": "IP restriction API integration",
+        "files": [
+          "src/api/ipRestrictionsApi.ts"
+        ]
+      },
+      {
+        "name": "Backup Management",
+        "description": "Backup API integration",
+        "files": [
+          "src/api/backupApi.ts"
+        ]
+      }
+    ]
+  }
+}

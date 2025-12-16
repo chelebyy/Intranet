@@ -5,6 +5,9 @@ import BirimSelection from './features/auth/BirimSelection';
 import AdminLayout from './shared/layouts/AdminLayout';
 import ProtectedRoute from './shared/components/ProtectedRoute';
 import { Permissions } from './hooks/usePermission';
+import MaintenanceLockPage from './pages/MaintenanceLockPage';
+import { DashboardRouter } from './components/common/DashboardRouter';
+import HomeDashboard from './pages/dashboard/HomeDashboard';
 
 // Lazy load pages for code splitting
 const Dashboard = lazy(() => import('./features/admin/pages/Dashboard').then(module => ({ default: module.Dashboard })));
@@ -24,6 +27,8 @@ const TestUnitDashboard = lazy(() => import('./features/test-unit/pages/TestUnit
 const TestCases = lazy(() => import('./features/test-unit/pages/TestCases').then(module => ({ default: module.TestCases })));
 const GenelButceDashboard = lazy(() => import('./features/genelButce/pages/GenelButceDashboard').then(module => ({ default: module.GenelButceDashboard })));
 const BackupPage = lazy(() => import('./features/admin/pages/BackupPage').then(module => ({ default: module.BackupPage })));
+const MaintenancePage = lazy(() => import('./features/admin/pages/MaintenancePage').then(module => ({ default: module.MaintenancePage })));
+
 
 // Loading component
 const PageLoader = () => (
@@ -43,6 +48,7 @@ function App() {
         {/* Public Routes */}
         <Route path="/login" element={<LoginPage />} />
         <Route path="/select-birim" element={<BirimSelection />} />
+        <Route path="/maintenance" element={<MaintenanceLockPage />} />
 
         {/* Protected Routes */}
         <Route
@@ -53,12 +59,26 @@ function App() {
             </ProtectedRoute>
           }
         >
-          {/* Dashboard - accessible to all authenticated users */}
+          {/* Dashboard Routing Logic */}
           <Route index element={<Navigate to="/dashboard" replace />} />
-          <Route path="dashboard" element={
+          
+          {/* Smart Router: Decides where to go based on Role/Unit */}
+          <Route path="dashboard" element={<DashboardRouter />} />
+
+          {/* Specific Dashboards */}
+          <Route path="home" element={
             <Suspense fallback={<PageLoader />}>
-              <Dashboard />
+              <HomeDashboard />
             </Suspense>
+          } />
+          
+          {/* Admin Dashboard: Explicit path for admins */}
+          <Route path="admin/dashboard" element={
+            <ProtectedRoute requiredPermission={Permissions.System.Read}>
+              <Suspense fallback={<PageLoader />}>
+                <Dashboard />
+              </Suspense>
+            </ProtectedRoute>
           } />
 
           {/* User Management - requires user.read permission */}
@@ -126,6 +146,15 @@ function App() {
             <ProtectedRoute requiredPermission={Permissions.System.Read}>
               <Suspense fallback={<PageLoader />}>
                 <BackupPage />
+              </Suspense>
+            </ProtectedRoute>
+          } />
+
+          {/* Database Maintenance - SuperAdmin only */}
+          <Route path="admin/maintenance" element={
+            <ProtectedRoute requiredPermission={Permissions.System.Read}>
+              <Suspense fallback={<PageLoader />}>
+                <MaintenancePage />
               </Suspense>
             </ProtectedRoute>
           } />

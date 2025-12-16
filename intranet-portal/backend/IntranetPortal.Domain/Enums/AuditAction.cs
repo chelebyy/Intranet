@@ -60,6 +60,13 @@ namespace IntranetPortal.Domain.Enums
         // Backup Operations
         BackupCreated,
         BackupDownloaded,
-        BackupDeleted
+        BackupDeleted,
+
+        // Maintenance Operations
+        MaintenanceVacuum,
+        MaintenanceVacuumFull,
+        MaintenanceAnalyze,
+        MaintenanceReindex,
+        SystemConfigurationUpdate
     }
 }

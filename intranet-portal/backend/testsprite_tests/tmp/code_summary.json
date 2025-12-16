@@ -1,0 +1,80 @@
+{
+    "tech_stack": [
+        "C#",
+        ".NET 9",
+        "PostgreSQL",
+        "Entity Framework Core"
+    ],
+    "features": [
+        {
+            "name": "Auth API",
+            "description": "Authentication and authorization endpoints (Login, Register, Refresh Token)",
+            "files": [
+                "IntranetPortal.API/Controllers/AuthController.cs"
+            ]
+        },
+        {
+            "name": "Users API",
+            "description": "User management endpoints",
+            "files": [
+                "IntranetPortal.API/Controllers/UsersController.cs"
+            ]
+        },
+        {
+            "name": "Roles API",
+            "description": "Role management endpoints",
+            "files": [
+                "IntranetPortal.API/Controllers/RolesController.cs"
+            ]
+        },
+        {
+            "name": "AuditLog API",
+            "description": "Audit logging endpoints",
+            "files": [
+                "IntranetPortal.API/Controllers/AuditLogController.cs"
+            ]
+        },
+        {
+            "name": "Dashboard API",
+            "description": "Dashboard statistics endpoints",
+            "files": [
+                "IntranetPortal.API/Controllers/DashboardController.cs"
+            ]
+        },
+        {
+            "name": "IP Restrictions API",
+            "description": "IP restriction management endpoints",
+            "files": [
+                "IntranetPortal.API/Controllers/IPRestrictionsController.cs"
+            ]
+        },
+        {
+            "name": "Backup API",
+            "description": "Database backup management endpoints",
+            "files": [
+                "IntranetPortal.API/Controllers/BackupController.cs"
+            ]
+        },
+        {
+            "name": "Birimler API",
+            "description": "Department (Birim) management endpoints",
+            "files": [
+                "IntranetPortal.API/Controllers/BirimlerController.cs"
+            ]
+        },
+        {
+            "name": "Unvanlar API",
+            "description": "Title (Unvan) management endpoints",
+            "files": [
+                "IntranetPortal.API/Controllers/UnvanlarController.cs"
+            ]
+        },
+        {
+            "name": "Permissions API",
+            "description": "Permission management endpoints",
+            "files": [
+                "IntranetPortal.API/Controllers/PermissionsController.cs"
+            ]
+        }
+    ]
+}

@@ -1,0 +1,131 @@
+{
+  "meta": {
+    "project": "Kurumsal İntranet Web Portalı",
+    "date": "2025-12-10",
+    "prepared_by": "Software Development Manager"
+  },
+  "product_overview": "Kurumsal İntranet Web Portalı, kurum içi iletişim ve koordinasyonu kolaylaştırmak üzere çok birimli, role dayalı erişim kontrolü ve yüksek güvenlik standartları ile tasarlanmış intranet çözümüdür. Lokal ağda çalışır, modüler yapısı ve performans optimizasyonları ile 100–200 eşzamanlı kullanıcıyı destekler.",
+  "core_goals": [
+    "Kurum içi çok birimli, güvenli iletişim ve içerik paylaşımı sağlamak",
+    "Rol bazlı yetkilendirme (RBAC) ile granular erişim kontrolü sunmak",
+    "IP bazlı erişim kısıtlama mekanizmaları ile güvenliği artırmak",
+    "Audit loglama ile tüm kritik işlemlerin takibini sağlamak",
+    "Yüksek performans ve kullanılabilirlik garantisi vermek",
+    "Modüler yapı ile yeni birim ve içerik modüllerinin kolayca eklenebilmesi"
+  ],
+  "key_features": [
+    "Kullanıcı, rol, birim ve yetki yönetimi için kapsamlı API ve admin paneli",
+    "Çok birimli kullanıcı desteği ve birim bazlı rol atamaları",
+    "Rol bazlı dinamik içerik ve menü yükleme",
+    "IP ve IP bloğu bazlı erişim kısıtlama mekanizması",
+    "Token tabanlı güvenli kimlik doğrulama ve session yönetimi",
+    "Brute-force saldırı koruması",
+    "AES-256 standardında veri ve dosya şifreleme",
+    "Audit log mekanizması ile tüm kritik işlemlerin kaydı",
+    "Dosya yükleme, yönetimi ve güvenli saklama",
+    "Veritabanı yedekleme ve bakım modu",
+    "Excel formatında veri dışa aktarım fonksiyonları"
+  ],
+  "user_flow_summary": [
+    "Kullanıcı login ekranına gelir ve IP whitelist kontrolü yapılır",
+    "Sicil numarası ve parola ile kimlik doğrulama gerçekleşir",
+    "Kullanıcıya ait ilişkili birimler çekilir ve birim seçim paneli gösterilir",
+    "Kullanıcı seçilen birim ile giriş yapar ve rol bazlı erişim hakları atanır",
+    "Ana sayfa ve menü kullanıcı rolüne uygun şekilde yüklenir",
+    "Tüm işlemler audit log’a kaydedilir",
+    "Adminler kullanıcı, rol, birim ve sistem ayarlarını yönetir",
+    "Sistem adminleri bakım modunu yönetir ve yedekleme işlemlerini kontrol eder"
+  ],
+  "validation_criteria": [
+    "Kullanıcılar sadece tanımlı IP/IP bloklarından giriş yapabilmeli",
+    "Rol bazlı erişim kontrolleri tüm modüllerde etkin olmalı",
+    "Audit loglama tüm kritik işlemleri kapsamalı ve admin panelinden erişilebilir olmalı",
+    "Sistem 100-200 eşzamanlı kullanıcı yükünü kaldırabilmeli ve performans hedeflerine ulaşmalı",
+    "Veriler ve dosyalar AES-256 ile şifrelenmiş olmalı",
+    "Kullanıcı yönetimi, birim atama, rol ataması doğru ve güvenli şekilde çalışmalı",
+    "Dosya yükleme sınırları ve format doğrulamaları eksiksiz olmalı",
+    "Excel export fonksiyonları doğru veri ve satır limiti ile çalışmalı",
+    "Bakım modu erişim sınırlamaları ve kullanıcı mesajları doğru uygulanmalı",
+    "Admin paneli sadece yetkili kullanıcılar tarafından erişilebilir olmalı"
+  ],
+  "code_summary": {
+    "tech_stack": [
+      "C#",
+      ".NET 9",
+      "PostgreSQL",
+      "Entity Framework Core"
+    ],
+    "features": [
+      {
+        "name": "Auth API",
+        "description": "Authentication and authorization endpoints (Login, Register, Refresh Token)",
+        "files": [
+          "IntranetPortal.API/Controllers/AuthController.cs"
+        ]
+      },
+      {
+        "name": "Users API",
+        "description": "User management endpoints",
+        "files": [
+          "IntranetPortal.API/Controllers/UsersController.cs"
+        ]
+      },
+      {
+        "name": "Roles API",
+        "description": "Role management endpoints",
+        "files": [
+          "IntranetPortal.API/Controllers/RolesController.cs"
+        ]
+      },
+      {
+        "name": "AuditLog API",
+        "description": "Audit logging endpoints",
+        "files": [
+          "IntranetPortal.API/Controllers/AuditLogController.cs"
+        ]
+      },
+      {
+        "name": "Dashboard API",
+        "description": "Dashboard statistics endpoints",
+        "files": [
+          "IntranetPortal.API/Controllers/DashboardController.cs"
+        ]
+      },
+      {
+        "name": "IP Restrictions API",
+        "description": "IP restriction management endpoints",
+        "files": [
+          "IntranetPortal.API/Controllers/IPRestrictionsController.cs"
+        ]
+      },
+      {
+        "name": "Backup API",
+        "description": "Database backup management endpoints",
+        "files": [
+          "IntranetPortal.API/Controllers/BackupController.cs"
+        ]
+      },
+      {
+        "name": "Birimler API",
+        "description": "Department (Birim) management endpoints",
+        "files": [
+          "IntranetPortal.API/Controllers/BirimlerController.cs"
+        ]
+      },
+      {
+        "name": "Unvanlar API",
+        "description": "Title (Unvan) management endpoints",
+        "files": [
+          "IntranetPortal.API/Controllers/UnvanlarController.cs"
+        ]
+      },
+      {
+        "name": "Permissions API",
+        "description": "Permission management endpoints",
+        "files": [
+          "IntranetPortal.API/Controllers/PermissionsController.cs"
+        ]
+      }
+    ]
+  }
+}

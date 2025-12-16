@@ -116,7 +116,7 @@ public class BackupService : IBackupService
             _logger.LogInformation("Manual backup triggered");
 
             // Security: Validate script path before execution
-            var scriptPath = _settings.ScriptPath;
+            var scriptPath = ResolveScriptPath(_settings.ScriptPath);
             
             // Check if script path is configured
             if (string.IsNullOrWhiteSpace(scriptPath))
@@ -147,7 +147,7 @@ public class BackupService : IBackupService
                 return new BackupTriggerResultDto
                 {
                     Success = false,
-                    Message = "Yedekleme scripti bulunamadı."
+                    Message = $"Yedekleme scripti bulunamadı: {scriptPath}"
                 };
             }
 
@@ -351,5 +351,47 @@ public class BackupService : IBackupService
         }
 
         return $"{len:0.##} {sizes[order]}";
+    }
+
+    /// <summary>
+    /// Script yolunu çözer - hem mutlak hem de göreli yolları destekler
+    /// Bu sayede proje farklı makinelerde çalışabilir
+    /// </summary>
+    private static string? ResolveScriptPath(string? configuredPath)
+    {
+        if (string.IsNullOrWhiteSpace(configuredPath))
+            return null;
+
+        // 1. Eğer mutlak yol ve dosya varsa, direkt kullan
+        if (Path.IsPathRooted(configuredPath) && File.Exists(configuredPath))
+            return configuredPath;
+
+        // 2. Uygulama base dizininden göreli yol dene
+        // (IntranetPortal.API/bin/Debug/net9.0 dizininden)
+        var appBaseDir = AppContext.BaseDirectory;
+        var fromAppBase = Path.GetFullPath(Path.Combine(appBaseDir, configuredPath));
+        if (File.Exists(fromAppBase))
+            return fromAppBase;
+
+        // 3. Proje kök dizininden scripts klasörüne bak
+        // AppContext.BaseDirectory genellikle: .../IntranetPortal.API/bin/Debug/net9.0/
+        // Proje kökü: 4 seviye yukarı -> intranet-portal/backend/IntranetPortal.API -> intranet-portal
+        // Sonra scripts klasörüne git
+        var projectRoot = Path.GetFullPath(Path.Combine(appBaseDir, "..", "..", "..", "..", ".."));
+        var scriptFileName = Path.GetFileName(configuredPath);
+        var fromProjectScripts = Path.Combine(projectRoot, "scripts", scriptFileName);
+        if (File.Exists(fromProjectScripts))
+            return fromProjectScripts;
+
+        // 4. Sadece dosya adı verilmişse, scripts klasöründe ara
+        if (!configuredPath.Contains(Path.DirectorySeparatorChar) && !configuredPath.Contains('/'))
+        {
+            var simpleScriptPath = Path.Combine(projectRoot, "scripts", configuredPath);
+            if (File.Exists(simpleScriptPath))
+                return simpleScriptPath;
+        }
+
+        // 5. Hiçbiri bulunamazsa, orijinal yolu döndür (hata mesajı için)
+        return configuredPath;
     }
 }

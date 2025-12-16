@@ -1,0 +1,17 @@
+﻿  Geri yüklenecek projeler belirleniyor...
+  Geri yükleme için tüm projeler güncel.
+C:\Program Files\dotnet\sdk\10.0.100-rc.2.25502.107\Sdks\Microsoft.NET.Sdk\targets\Microsoft.NET.RuntimeIdentifierInference.targets(351,5): message NETSDK1057: Bir .NET önizleme sürümü kullanıyorsunuz. Bkz. https://aka.ms/dotnet-support-policy [C:\Users\muham\OneDrive\Masaüstü\Bilişim sistemi\intranet-portal\backend\IntranetPortal.API\IntranetPortal.API.csproj]
+C:\Program Files\dotnet\sdk\10.0.100-rc.2.25502.107\Sdks\Microsoft.NET.Sdk\targets\Microsoft.NET.RuntimeIdentifierInference.targets(351,5): message NETSDK1057: Bir .NET önizleme sürümü kullanıyorsunuz. Bkz. https://aka.ms/dotnet-support-policy [C:\Users\muham\OneDrive\Masaüstü\Bilişim sistemi\intranet-portal\backend\IntranetPortal.Domain\IntranetPortal.Domain.csproj]
+C:\Program Files\dotnet\sdk\10.0.100-rc.2.25502.107\Sdks\Microsoft.NET.Sdk\targets\Microsoft.NET.RuntimeIdentifierInference.targets(351,5): message NETSDK1057: Bir .NET önizleme sürümü kullanıyorsunuz. Bkz. https://aka.ms/dotnet-support-policy [C:\Users\muham\OneDrive\Masaüstü\Bilişim sistemi\intranet-portal\backend\IntranetPortal.Infrastructure\IntranetPortal.Infrastructure.csproj]
+  IntranetPortal.Domain -> C:\Users\muham\OneDrive\Masaüstü\Bilişim sistemi\intranet-portal\backend\IntranetPortal.Domain\bin\Debug\net9.0\IntranetPortal.Domain.dll
+  IntranetPortal.Infrastructure -> C:\Users\muham\OneDrive\Masaüstü\Bilişim sistemi\intranet-portal\backend\IntranetPortal.Infrastructure\bin\Debug\net9.0\IntranetPortal.Infrastructure.dll
+  IntranetPortal.Application -> C:\Users\muham\OneDrive\Masaüstü\Bilişim sistemi\intranet-portal\backend\IntranetPortal.Application\bin\Debug\net9.0\IntranetPortal.Application.dll
+C:\Users\muham\OneDrive\Masaüstü\Bilişim sistemi\intranet-portal\backend\IntranetPortal.API\Program.cs(157,19): error CS0246: 'MaintenanceMiddleware' türü veya ad alanı adı bulunamadı (bir using yönergeniz veya derleme başvurunuz mu eksik?) [C:\Users\muham\OneDrive\Masaüstü\Bilişim sistemi\intranet-portal\backend\IntranetPortal.API\IntranetPortal.API.csproj]
+
+Oluşturma BAŞARISIZ OLDU.
+
+C:\Users\muham\OneDrive\Masaüstü\Bilişim sistemi\intranet-portal\backend\IntranetPortal.API\Program.cs(157,19): error CS0246: 'MaintenanceMiddleware' türü veya ad alanı adı bulunamadı (bir using yönergeniz veya derleme başvurunuz mu eksik?) [C:\Users\muham\OneDrive\Masaüstü\Bilişim sistemi\intranet-portal\backend\IntranetPortal.API\IntranetPortal.API.csproj]
+    0 Uyarı
+    1 Hata
+
+Geçen Süre 00:00:01.14

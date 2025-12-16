@@ -83,7 +83,7 @@ export const usePermission = (): UsePermissionResult => {
 
       return permissions.some(
         (p) => p.resource.toLowerCase() === resource.toLowerCase() &&
-               p.action.toLowerCase() === action.toLowerCase()
+          p.action.toLowerCase() === action.toLowerCase()
       );
     },
     [permissions, currentRoleInfo]
@@ -150,6 +150,10 @@ export const Permissions = {
   Dashboard: {
     View: { resource: 'dashboard', action: 'view' },
   },
+  ManageMaintenance: {
+    resource: 'maintenance',
+    action: 'manage'
+  }
 } as const;
 
 export default usePermission;

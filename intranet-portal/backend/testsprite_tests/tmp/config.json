@@ -1,0 +1,19 @@
+{
+  "status": "commited",
+  "type": "backend",
+  "scope": "codebase",
+  "localEndpoint": "http://localhost:5197",
+  "backendAuthType": "basic token",
+  "backendUsername": "00001",
+  "backendPassword": "Admin123!",
+  "executionArgs": {
+    "projectName": "backend",
+    "projectPath": "c:\\Users\\muham\\OneDrive\\Masaüstü\\Bilişim sistemi\\intranet-portal\\backend",
+    "testIds": [],
+    "additionalInstruction": "",
+    "envs": {
+      "API_KEY": "sk-user-_82sLrXETrIv5dENUQc0XVHyTApvZoWvWTCw8gi-iGttQglRY9UB3xZS0fvaJdMBBSNbyFgWuph59DLpBk23y8ordJrK0YVdXhn_Qe39DO8Ua1_T9Rj-Z_Kxb45IekRHMks"
+    }
+  },
+  "proxy": "http://c37a2f11-0605-41a0-92e2-2648de4ffb02:2AdE0aNs3TthaDaVJ62lLjqk7StG7vSs@tun.testsprite.com:8080"
+}

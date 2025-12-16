@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\IntranetPortal.Domain\IntranetPortal.Domain.csproj" />
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
 
   <ItemGroup>

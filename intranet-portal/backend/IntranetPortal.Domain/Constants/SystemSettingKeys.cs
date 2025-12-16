@@ -10,6 +10,8 @@ namespace IntranetPortal.Domain.Constants
         // Maintenance Mode (PRD FR-44, FR-45)
         public const string MaintenanceModeIsEnabled = "MaintenanceMode.IsEnabled";
         public const string MaintenanceModeMessage = "MaintenanceMode.Message";
+        public const string MaintenanceScheduledTime = "Maintenance.Scheduled.Time";
+        public const string MaintenanceScheduledMessage = "Maintenance.Scheduled.Message";
 
         // File Upload Settings (PRD FR-33 to FR-38)
         public const string FileUploadMaxSizeMB = "FileUpload.MaxSizeMB";
