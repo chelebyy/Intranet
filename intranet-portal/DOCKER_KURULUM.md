@@ -102,4 +102,24 @@ docker system prune -a
 > ⚠️ **DİKKAT:** `--volumes` eklemeyin, aksi halde veritabanı verileri de silinir!
 
 ---
-**Son Güncelleme:** 2025-12-17
+**Son Güncelleme:** 2025-12-18
+
+## 🆙 6. Database Sürüm Yükseltme (Örn: PG 16 -> 18)
+
+PostgreSQL major sürüm değişikliklerinde (16'dan 18'e geçiş gibi), Docker volume'larındaki veri formatı uyumsuz olabilir. Bu durumda şu adımları izleyin:
+
+1. **Yeni Kodu Çekin:** `git pull` ile en güncel `docker-compose.yml` dosyasını alın.
+2. **Eski Sistemi ve Verileri Silin:**
+
+   ```powershell
+   docker-compose down -v
+   ```
+
+   > ⚠️ **UYARI:** `-v` parametresi veritabanındaki tüm verileri (tabloları) kalıcı olarak siler ve yeni sürüme uygun temiz bir alan açar.
+3. **Yeni Sürümü Başlatın:**
+
+   ```powershell
+   docker-compose up -d
+   ```
+
+   *Not: Backend otomatik olarak tabloları (migration) yeniden oluşturacaktır.*
