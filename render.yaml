@@ -1,0 +1,54 @@
+services:
+  # --------------------------------------------------------------------------------
+  # BACKEND SERVICE (Docker Container)
+  # --------------------------------------------------------------------------------
+  - type: web
+    name: intranet-backend
+    runtime: docker
+    region: frankfurt # Türkiye'ye yakın
+    plan: free # Başlangıç için ücretsiz plan
+    # Repo kökünden dosya yolları:
+    rootDir: intranet-portal/backend
+    dockerContext: intranet-portal/backend
+    dockerfilePath: intranet-portal/backend/Dockerfile
+    envVars:
+      - key: ASPNETCORE_ENVIRONMENT
+        value: Production
+      - key: ConnectionStrings__DefaultConnection
+        fromDatabase:
+          name: intranet-db
+          property: connectionString
+      - key: SecuritySettings__IPWhitelist__Enabled
+        value: "false" # Cloud'da IP whitelist kapatıyoruz (veya Render IP'lerini eklemek lazım)
+
+  # --------------------------------------------------------------------------------
+  # FRONTEND SERVICE (Static Site)
+  # --------------------------------------------------------------------------------
+  - type: web
+    name: intranet-frontend
+    runtime: docker 
+    # Not: Static Site yerine Docker kullanıyoruz çünkü Vite ile environment variable yönetimi 
+    # ve Nginx ayarları Docker içinde daha kontrollü oluyor.
+    region: frankfurt
+    plan: free
+    rootDir: intranet-portal/frontend
+    dockerContext: intranet-portal/frontend
+    dockerfilePath: intranet-portal/frontend/Dockerfile
+    envVars:
+      - key: VITE_API_URL
+        fromService:
+          type: web
+          name: intranet-backend
+          property: url
+
+databases:
+  # --------------------------------------------------------------------------------
+  # DATABASE (PostgreSQL)
+  # --------------------------------------------------------------------------------
+  - name: intranet-db
+    region: frankfurt
+    plan: free # Ücretsiz planda 90 gün ömürlüdür (Sonra yükseltmek gerekir)
+    databaseName: IntranetDB
+    user: intranet_user
+
+version: "1"
