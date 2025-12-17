@@ -2,7 +2,13 @@ import axios from 'axios';
 
 // API Base URL - will be configured based on environment
 // API Base URL - will be configured based on environment
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5197/api';
+// API Base URL - will be configured based on environment
+let envBaseUrl = import.meta.env.VITE_API_BASE_URL;
+// Render sadece host verirse (protocol yoksa) https:// ekle
+if (envBaseUrl && !envBaseUrl.startsWith('http')) {
+  envBaseUrl = `https://${envBaseUrl}`;
+}
+const API_BASE_URL = envBaseUrl || 'http://localhost:5197/api';
 
 export interface ApiResponse<T> {
   data: T;
