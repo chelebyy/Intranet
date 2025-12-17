@@ -1,123 +1,67 @@
-# GEMINI.md - Intranet Portal Intelligence & Rules
+# Kurumsal İntranet Web Portalı Context
 
-You are the Lead Full-Stack Developer for **Kurumsal İntranet Web Portalı**.
-This file is your PRIMARY source of truth. Violating architecture rules breaks the build.
+## Project Overview
+**Name:** Kurumsal İntranet Web Portalı
+**Type:** Full-Stack Web Application (Internal Enterprise Portal)
+**Primary Path:** `C:\Users\IT\Desktop\Bilişim Sistemi\intranet-portal`
+**Description:** A secure, multi-unit corporate intranet portal featuring Role-Based Access Control (RBAC), JWT authentication, and module-based architecture (IT, HR, etc.).
 
-## 1. Project DNA
-* **Mission:** A secure, local-network intranet for internal management.
-* **Tech Stack:**
-    * **Backend:** .NET 9.0 (Clean Architecture), EF Core 9, PostgreSQL 16.
-        * *Key Libs:* `AutoMapper`, `FluentValidation`, `Serilog`, `BCrypt`.
-    * **Frontend:** React 19, TypeScript, Vite 5, Zustand, Tailwind CSS 3.4.
-        * *Key Libs:* `Axios`, `React Router DOM`.
-* **Key Identifier:** Users are identified by **`Sicil` (Registration Number)**, NOT email.
-* **Doc Strategy:** Keep root clean. ALL new docs go into `docs/` subfolders (`docs/technical`, `docs/api`, etc.).
+## Technology Stack
+- **Backend:** .NET 9 (ASP.NET Core Web API)
+- **Database:** PostgreSQL 16 (Entity Framework Core 9)
+- **Frontend:** React 19.2.0, TypeScript 5.8, Vite 6.2
+- **State Management:** Zustand
+- **Styling:** TailwindCSS 3.4
+- **Security:** JWT (HMAC-SHA256), BCrypt, AES-256 (PII), IP Whitelisting
 
-## 2. Architecture & Layering Rules (STRICT)
-We follow **Clean Architecture**. Do not mix responsibilities.
+## Development Workflow
 
-* **1. Domain Layer (`IntranetPortal.Domain`):**
-    * Pure C# classes. Enums, Entities, Constants.
-    * *Forbidden:* No external libraries, no EF Core references.
-* **2. Application Layer (`IntranetPortal.Application`):**
-    * Business Logic, DTOs, Interfaces (`IService`, `IRepository`).
-    * *Rule:* Never return Entities to the API. Always map to DTOs (AutoMapper).
-* **3. Infrastructure Layer (`IntranetPortal.Infrastructure`):**
-    * Database implementations, Migrations, External Services (Email, AD).
-* **4. API Layer (`IntranetPortal.API`):**
-    * Controllers only. No business logic here. Just receive Request -> Call Service -> Return Response.
+### Backend (`/backend`)
+*   **Run:** `dotnet run --project IntranetPortal.API`
+*   **Watch:** `dotnet watch --project IntranetPortal.API`
+*   **Migrations (Add):** `dotnet ef migrations add <Name> --project IntranetPortal.Infrastructure --startup-project IntranetPortal.API`
+*   **Migrations (Update):** `dotnet ef database update --project IntranetPortal.Infrastructure --startup-project IntranetPortal.API`
+*   **Tests:** `dotnet test`
 
-## 3. "Golden Sample" Code (ADAPTED TO PROJECT STYLE)
+### Frontend (`/frontend`)
+*   **Install:** `npm install`
+*   **Run Dev:** `npm run dev`
+*   **Build:** `npm run build`
+*   **Type Check:** `npm run type-check`
 
-### Backend (C# Controller Pattern)
-* **Namespace:** File-scoped (`namespace X;`)
-* **DTOs:** `class` types.
-* **Response:** Standardized `ApiResponse<T>` wrapper.
+## Critical Rules & Conventions
+1.  **No Scaffolding:** NEVER run `dotnet ef dbcontext scaffold`. Use Code-First migrations only.
+2.  **Entity Location:** Entities must ONLY exist in `IntranetPortal.Domain/Entities/`.
+3.  **Language:** User Interface (UI) must be in **Turkish**. Code, comments, and commit messages must be in **English**.
+4.  **Security:** 
+    *   All PII (Personally Identifiable Information) must be encrypted using `pgcrypto` (AES-256).
+    *   Endpoints must be secured with `[HasPermission("action.resource")]`.
+5.  **Data Access:** Use `IsActive=false` for soft deletes; never hard delete users.
 
-```csharp
-// LOCATION: IntranetPortal.API/Controllers/ExampleController.cs
-using Microsoft.AspNetCore.Mvc;
-using IntranetPortal.API.Models; // for ApiResponse
-using IntranetPortal.Application.DTOs;
-using IntranetPortal.Application.Interfaces;
-
-namespace IntranetPortal.API.Controllers; // File-scoped namespace
-
-[ApiController]
-[Route("api/[controller]")]
-public class ExampleController : ControllerBase
-{
-    private readonly IExampleService _exampleService;
-
-    public ExampleController(IExampleService exampleService)
-    {
-        _exampleService = exampleService;
-    }
-
-    [HttpPost("action")]
-    public async Task<ActionResult<ApiResponse<ResultDto>>> PerformAction([FromBody] RequestDto request)
-    {
-        // RULE: Controller handles HTTP, Service handles Logic
-        // RULE: Use class-based DTOs
-        var result = await _exampleService.ExecuteAsync(request);
-        
-        // RULE: Return wrapped in ApiResponse
-        return Ok(ApiResponse<ResultDto>.Ok(result, "İşlem başarılı"));
-    }
-}
+## Project Structure
+```
+intranet-portal/
+├── backend/
+│   ├── IntranetPortal.API/           # Controllers, Middleware, Entry Point
+│   ├── IntranetPortal.Application/   # Services, DTOs, Business Logic
+│   ├── IntranetPortal.Domain/        # Entities, Enums, Constants
+│   └── IntranetPortal.Infrastructure/# DbContext, Repositories, Migrations
+└── frontend/
+    └── src/
+        ├── features/                 # Modular features (auth, admin, it, genelButce)
+        ├── shared/                   # Reusable components & hooks
+        ├── api/                      # API client configuration
+        └── store/                    # Global state (Zustand)
 ```
 
-### Frontend (React + Zustand Pattern)
-* **Imports:** Relative paths (`../../`).
-* **Styling:** Direct Tailwind classes in `className`.
+## Current Status (as of Dec 2025)
+- **Completed:** Phase 3.5 (Dashboard & Unit UI), Phase 1-3 (Auth, RBAC, Multi-Unit).
+- **Active:** Phase 4 (IT Module - Bilişim Sistemleri).
+- **Pending:** Integration Testing, Deployment optimizations.
 
-```typescript
-// LOCATION: src/features/dashboard/DashboardStats.tsx
-import { useEffect } from 'react';
-// Relative import style
-import { useDashboardStore } from '../../store/dashboardStore'; 
-
-export default function DashboardStats() {
-  const { stats, isLoading, fetchStats } = useDashboardStore();
-
-  useEffect(() => {
-    fetchStats();
-  }, []);
-
-  if (isLoading) return <div>Yükleniyor...</div>;
-
-  return (
-    <div className="grid grid-cols-3 gap-4">
-      {/* RULE: Tailwind CSS classes directly in className */}
-      <div className="p-4 bg-white shadow rounded-lg">
-        <h3 className="text-gray-500 text-sm">Toplam Personel</h3>
-        <p className="text-2xl font-bold text-blue-600">{stats.totalUsers}</p>
-      </div>
-    </div>
-  );
-}
-```
-
-## 4. Operational Rules (MENTAL CHECKS)
-Before submitting code, check:
-1.  **Namespace Style:** Did I use File-scoped namespaces (`namespace X;`)?
-2.  **Import Style:** Did I use Relative imports (`../../`)?
-3.  **DTO Rule:** Did I expose a Domain Entity directly in the Controller? (Reject if yes. Use DTO).
-4.  **Sicil Rule:** Am I trying to authenticate with Email? (Reject. Use `Sicil`).
-5.  **Language:** Code variables in **English**, Business Logic comments in **Turkish**.
-6.  **Clean Root:** Am I creating a file in root? (Reject. Move to `docs/` or appropriate folder).
-
-## 5. Critical Commands
-* **Start All:** `start-intranet.bat`
-* **Backend:** `dotnet run --project backend/IntranetPortal.API`
-* **Frontend:** `npm run dev` (in frontend dir)
-* **Migration (Create):** `dotnet ef migrations add <Name> --startup-project ../IntranetPortal.API --project ../IntranetPortal.Infrastructure`
-* **Migration (Apply):** `dotnet ef database update --startup-project ../IntranetPortal.API`
-
-## 6. Project Status & Documentation
-> **NOTE:** I will not list features or files here manually to avoid duplication.
-> For active tasks, specs, and phase details, ALWAYS refer to:
-> * `docs/general/PRD.md` (Product Requirements)
-> * `docs/api/API_SPECIFICATION.md` (Endpoints)
-> * `docs/technical/TECH_STACK.md` (Libraries)
-> * `README_BASLAT.md` (Quick Start)
+## Documentation Index
+- **AI Guide:** `CLAUDE.md` (Root)
+- **Roadmap:** `docs/technical/IMPLEMENTATION_ROADMAP.md`
+- **API Specs:** `docs/api/API_SPECIFICATION.md`
+- **Database:** `docs/technical/ERD.md`
+- **Security:** `docs/reports/SECURITY_ANALYSIS_REPORT.md`

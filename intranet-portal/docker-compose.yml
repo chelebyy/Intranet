@@ -1,0 +1,49 @@
+version: '3.8'
+
+services:
+  database:
+    image: postgres:16-alpine
+    container_name: intranet-db
+    environment:
+      POSTGRES_USER: intranet_user
+      POSTGRES_PASSWORD: "CHANGE_ME_IN_PROD_123"
+      POSTGRES_DB: IntranetDB
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  backend:
+    image: mcr.microsoft.com/dotnet/sdk:9.0
+    container_name: intranet-backend
+    working_dir: /app
+    volumes:
+      - ./backend:/app
+      - /app/obj  # Host obj klasörünü karıştırmamak için
+      - /app/bin
+    command: dotnet watch --project IntranetPortal.API/IntranetPortal.API.csproj --urls "http://0.0.0.0:8080"
+    ports:
+      - "5000:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Host=database;Port=5432;Database=IntranetDB;Username=intranet_user;Password=CHANGE_ME_IN_PROD_123;
+    depends_on:
+      - database
+
+  frontend:
+    build:
+      context: ./frontend
+      target: dev
+    container_name: intranet-frontend
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules # Host node_modules'u ezmemek için
+    ports:
+      - "5173:5173"
+    environment:
+      - VITE_API_URL=http://backend:8080
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:
