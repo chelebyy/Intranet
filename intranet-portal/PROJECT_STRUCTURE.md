@@ -5,6 +5,7 @@
 ```
 C:\Users\IT\Desktop\Bilişim Sistemi\
 │
+├── README.md                           # 📖 Main project README
 ├── intranet-portal/                    # 🎯 ANA PROJE KLASÖRÜ
 │   │
 │   ├── backend/                        # .NET 9 Backend
@@ -80,7 +81,7 @@ C:\Users\IT\Desktop\Bilişim Sistemi\
 │   │   ├── public/                     # Static assets
 │   │   └── dist/                       # Build output (gitignored)
 │   │
-│   ├── README.md                       # 📖 Main project README
+
 │   └── .gitignore                      # Git ignore rules
 │
 ├── 📚 TECHNICAL DOCUMENTATION (Kök Dizinde)
