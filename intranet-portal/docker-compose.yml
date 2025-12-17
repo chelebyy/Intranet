@@ -1,17 +1,18 @@
-version: '3.8'
-
 services:
   database:
     image: postgres:16-alpine
     container_name: intranet-db
-    environment:
-      POSTGRES_USER: intranet_user
-      POSTGRES_PASSWORD: "CHANGE_ME_IN_PROD_123"
-      POSTGRES_DB: IntranetDB
+    env_file:
+      - .env.docker
     ports:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U intranet_user -d IntranetDB" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   backend:
     image: mcr.microsoft.com/dotnet/sdk:9.0
@@ -19,16 +20,21 @@ services:
     working_dir: /app
     volumes:
       - ./backend:/app
-      - /app/obj  # Host obj klasörünü karıştırmamak için
+      - /app/obj
       - /app/bin
     command: dotnet watch --project IntranetPortal.API/IntranetPortal.API.csproj --urls "http://0.0.0.0:8080"
     ports:
-      - "5000:8080"
+      - "5179:8080"
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ConnectionStrings__DefaultConnection=Host=database;Port=5432;Database=IntranetDB;Username=intranet_user;Password=CHANGE_ME_IN_PROD_123;
+      - ConnectionStrings__DefaultConnection=Host=database;Port=5432;Database=IntranetDB;Username=intranet_user;Password=DevPassword123!;
+      - JwtSettings__SecretKey=DockerDevelopmentSecretKeyMustBe32CharsOrMore!
+      - JwtSettings__Issuer=IntranetPortal
+      - JwtSettings__Audience=IntranetPortalUsers
+      - JwtSettings__ExpirationInMinutes=480
     depends_on:
-      - database
+      database:
+        condition: service_healthy
 
   frontend:
     build:
@@ -37,11 +43,11 @@ services:
     container_name: intranet-frontend
     volumes:
       - ./frontend:/app
-      - /app/node_modules # Host node_modules'u ezmemek için
+      - /app/node_modules
     ports:
       - "5173:5173"
     environment:
-      - VITE_API_URL=http://backend:8080
+      - VITE_API_BASE_URL=http://localhost:5179/api
     depends_on:
       - backend
 
