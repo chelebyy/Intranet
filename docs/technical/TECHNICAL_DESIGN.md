@@ -13,17 +13,29 @@ Bu doküman, **Kurumsal İntranet Web Portalı** projesinin teknik mimarisini, g
 
 #### Katman Yapısı
 
-```
 IntranetPortal.sln
 │
 ├── IntranetPortal.API              # Presentation Layer
 │   ├── Controllers/                # API Endpoints
-│   ├── Middleware/                 # IP Filter, Exception Handler
+│   │   ├── AuthController.cs
+│   │   ├── UsersController.cs
+│   │   ├── RolesController.cs
+│   │   ├── BirimlerController.cs
+│   │   ├── MaintenanceController.cs
+│   │   ├── BackupController.cs
+│   │   └── IPRestrictionsController.cs
+│   ├── Middleware/                 # Custom Middleware
+│   │   ├── IPWhitelistMiddleware.cs
+│   │   ├── RateLimitingMiddleware.cs
+│   │   └── ExceptionHandlingMiddleware.cs
 │   ├── Filters/                    # Authorization Attributes
 │   └── Program.cs                  # App Configuration
 │
 ├── IntranetPortal.Application      # Business Logic Layer
 │   ├── Services/                   # Business Services
+│   │   ├── MaintenanceService.cs
+│   │   ├── BackupService.cs
+│   │   └── ...
 │   ├── DTOs/                       # Data Transfer Objects
 │   ├── Interfaces/                 # Service Contracts
 │   └── Validators/                 # FluentValidation Rules
@@ -65,8 +77,13 @@ intranet-frontend/
 │   ├── features/                   # Birim modülleri
 │   │   ├── auth/                   # Login, Logout
 │   │   ├── admin/                  # Admin Dashboard
-│   │   ├── hr/                     # İK Modülü
-│   │   └── it/                     # Bilgi İşlem Modülü
+│   │   │   ├── maintenance/        # Bakım & Yedekleme
+│   │   │   ├── logs/               # Audit Logs
+│   │   │   └── roles/              # Rol Yönetimi
+│   │   ├── hr/                     # İnsan Kaynakları (Personel)
+│   │   ├── it/                     # Bilgi İşlem (Envanter)
+│   │   ├── genelButce/             # Genel Bütçe
+│   │   └── test-unit/              # Test Birimi
 │   │
 │   ├── shared/                     # Ortak bileşenler
 │   │   ├── components/             # UI Components
@@ -349,23 +366,28 @@ builder.Services.AddCors(options =>
 
 #### Rate Limiting (Brute-Force Koruması)
 
-**ASP.NET Core 9 Built-in Rate Limiting:**
-```csharp
-builder.Services.AddRateLimiter(options =>
-{
-    options.AddFixedWindowLimiter("login", opt =>
-    {
-        opt.Window = TimeSpan.FromMinutes(1);
-        opt.PermitLimit = 5; // Dakikada 5 deneme
-        opt.QueueLimit = 0;
-    });
-});
+#### Rate Limiting Implementation
 
-// Controller'da kullanım
-[EnableRateLimiting("login")]
-[HttpPost("login")]
-public async Task<IActionResult> Login(...)
+Projede **Custom Rate Limiting Middleware** kullanılmaktadır (`RateLimitingMiddleware.cs`).
+
+**Konfigürasyon (`appsettings.json`):**
+```json
+"SecuritySettings": {
+  "RateLimiting": {
+    "Enabled": true,
+    "MaxRequests": 100,
+    "WindowSeconds": 60,
+    "LoginMaxRequests": 5,
+    "LoginWindowSeconds": 60
+  }
+}
 ```
+
+**Özellikler:**
+*   Genel istek sınırlaması (Varsayılan: 60 saniyede 100 istek)
+*   Login endpoint'i için özel sınırlama (Varsayılan: 60 saniyede 5 deneme)
+*   IP bazlı takip (In-Memory Dictionary)
+*   Limit aşımında `429 Too Many Requests` yanıtı döner.
 
 #### Input Validation
 
@@ -375,93 +397,15 @@ public async Task<IActionResult> Login(...)
 
 ### 2.6. Bakım Modu (Maintenance Mode)
 
-#### Maintenance Mode Middleware
+### 2.6. Bakım Modu (Maintenance Mode)
 
-Veritabanı migration'ları veya sistem güncellemeleri sırasında sistemi kapatmak için:
+Bakım modu, veritabanı bakımı veya sistem güncellemeleri sırasında sistemi kısıtlamak için kullanılır.
 
-**Middleware Implementasyonu:**
-```csharp
-public class MaintenanceModeMiddleware
-{
-    private readonly RequestDelegate _next;
-    private readonly IConfiguration _configuration;
-
-    public MaintenanceModeMiddleware(RequestDelegate next, IConfiguration configuration)
-    {
-        _next = next;
-        _configuration = configuration;
-    }
-
-    public async Task InvokeAsync(HttpContext context)
-    {
-        var isMaintenanceMode = _configuration.GetValue<bool>("MaintenanceMode:IsEnabled");
-
-        if (isMaintenanceMode && !IsAdminUser(context))
-        {
-            context.Response.StatusCode = 503; // Service Unavailable
-            context.Response.ContentType = "application/json";
-
-            var response = new
-            {
-                success = false,
-                message = "Sistem bakımda. Lütfen daha sonra tekrar deneyin.",
-                code = "MAINTENANCE_MODE"
-            };
-
-            await context.Response.WriteAsJsonAsync(response);
-            return;
-        }
-
-        await _next(context);
-    }
-
-    private bool IsAdminUser(HttpContext context)
-    {
-        // JWT token'dan rol kontrolü
-        var user = context.User;
-        return user.IsInRole("SistemAdmin") || user.IsInRole("SuperAdmin");
-    }
-}
-```
-
-**appsettings.json Konfigürasyonu:**
-```json
-{
-  "MaintenanceMode": {
-    "IsEnabled": false,
-    "Message": "Sistem bakımda. Tahmini süre: 30 dakika."
-  }
-}
-```
-
-**Program.cs'de Middleware Kaydı:**
-```csharp
-// Middleware sırası önemli - IP Whitelist'ten sonra, Authentication'dan önce
-app.UseIPWhitelistMiddleware();
-app.UseMaintenanceModeMiddleware();
-app.UseAuthentication();
-app.UseAuthorization();
-```
-
-**Admin Panel'den Bakım Modu Toggle:**
-```csharp
-[HttpPut("admin/maintenance-mode")]
-[HasPermission("admin.maintenance")]
-public async Task<IActionResult> SetMaintenanceMode([FromBody] MaintenanceModeDto dto)
-{
-    // appsettings.json'u güncelle veya database'de ayar tablosu kullan
-    // Alternatif: Redis/Memory cache ile daha dinamik kontrol
-
-    await _auditLogService.LogAsync(new AuditLog
-    {
-        Action = "MaintenanceMode",
-        Resource = "System",
-        Details = new { IsEnabled = dto.IsEnabled, Message = dto.Message }
-    });
-
-    return Ok(new { success = true, message = "Bakım modu ayarı güncellendi" });
-}
-```
+**Mevcut Durum:**
+*   `MaintenanceController` üzerinden bakım modu açılıp kapatılabilir (`/api/admin/maintenance/mode`).
+*   Bakım işlemleri (Vacuum, Backup, Reindex) `MaintenanceService` tarafından yönetilir.
+*   Frontend, bakım modu durumuna göre kullanıcıyı bilgilendirebilir veya işlemleri kısıtlayabilir.
+*   *Not: Global bir MaintenanceModeMiddleware şu an aktif değildir, bakım modu uygulama seviyesinde yönetilmektedir.*
 
 ---
 

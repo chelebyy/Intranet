@@ -1,7 +1,9 @@
 # Kurumsal İntranet Web Portalı - İmplementasyon Yol Haritası
 
-**Versiyon:** 1.0
+**Son Güncelleme:** 2025-12-17
+**Versiyon:** 1.1
 **Tarih:** 2025
+**Durum:** 🚧 Faz 4: Devam Ediyor
 **Proje Tipi:** Kurumsal İntranet Portalı (Multi-Unit RBAC)
 
 ---
@@ -27,11 +29,11 @@ Geliştirme ortamını hazırlamak ve proje iskeletini oluşturmak.
 ### Backend Kurulumu
 
 #### 0.1. Geliştirme Ortamı Hazırlığı
-- [ ] **.NET 9 SDK** kurulumu
-- [ ] **PostgreSQL 16** kurulumu ve yapılandırması
-- [ ] **Visual Studio 2022** veya **JetBrains Rider** kurulumu
-- [ ] **Git** kurulumu ve repository oluşturma
-- [ ] **Postman** veya **Insomnia** API test aracı
+- [x] **.NET 9 SDK** kurulumu
+- [x] **PostgreSQL 16** kurulumu ve yapılandırması
+- [x] **Visual Studio 2022** veya **JetBrains Rider** kurulumu
+- [x] **Git** kurulumu ve repository oluşturma
+- [x] **Postman** veya **Insomnia** API test aracı
 
 #### 0.2. Backend Proje Yapısı
 ```bash
@@ -159,11 +161,11 @@ intranet-frontend/
 ```
 
 ### ✅ Tamamlanma Kriterleri (Faz 0)
-- [ ] Backend solution derleniyor (`dotnet build`)
-- [ ] PostgreSQL bağlantısı test edildi
-- [ ] Frontend projeisi çalışıyor (`npm run dev`)
-- [ ] Git repository oluşturuldu ve ilk commit yapıldı
-- [ ] Dokümantasyon (ERD.md, TECH_STACK.md) okundu
+- [x] Backend solution derleniyor (`dotnet build`)
+- [x] PostgreSQL bağlantısı test edildi
+- [x] Frontend projeisi çalışıyor (`npm run dev`)
+- [x] Git repository oluşturuldu ve ilk commit yapıldı
+- [x] Dokümantasyon (ERD.md, TECH_STACK.md) okundu
 
 **Tahmini Süre:** 3-5 gün
 
@@ -1508,6 +1510,30 @@ export default App;
 - [x] Her birimde farklı menü yapısı gösteriliyor (`Sidebar.tsx` permission filtreleme)
 
 **Tahmini Süre:** 5-7 gün
+
+---
+
+## Faz 3.5: Advanced Admin Tools (Maintenance & Backup) - TAMAMLANDI ✅
+
+### 🎯 Hedef
+Sistem sürdürülebilirliği için veritabanı bakımı, analizi ve yedekleme mekanizmalarını kurmak.
+
+### Backend Geliştirme
+*   **Maintenance Module:** `MaintenanceController`, `MaintenanceService` (Vacuum, Analyze, Reindex)
+*   **Backup Module:** `BackupController`, `BackupService` (Manual Trigger, List, Download)
+*   **IP Restrictions:** `IPRestrictionsController` (Dynamic IP Whitelist Management)
+*   **Announcements:** `AnnouncementsController` (Duyuru Sistemi)
+
+### Frontend Geliştirme
+*   **Maintenance Page:** Veritabanı istatistikleri ve bakım işlemleri UI
+*   **Backup Page:** Yedekleme yönetimi ve indirme UI
+*   **IP Restrictions UI:** Erişim kısıtlama yönetimi
+
+### ✅ Tamamlanma Kriterleri (Faz 3.5)
+- [x] Veritabanı bakım işlemleri (Vacuum, Analyze) API ve UI çalışıyor
+- [x] Yedekleme sistemi (Listeleme, Tetikleme) aktif
+- [x] IP kısıtlama yönetimi dinamik hale getirildi
+- [x] Duyuru sistemi entegre edildi
 
 ---
 
