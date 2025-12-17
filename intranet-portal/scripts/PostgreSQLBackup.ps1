@@ -1,7 +1,22 @@
+# ============================================
+# PostgreSQL Backup Script
+# ============================================
+# GÜVENLIK: Şifreyi environment variable olarak ayarlayın:
+#   $env:PGPASSWORD = "GercekSifreniz"
+# veya Windows Scheduler'da Task özelliklerinden Environment Variables kısmında tanımlayın.
+# ============================================
+
 $date = Get-Date -Format "yyyy-MM-dd_HHmm"
 $backupDir = "C:\Backups"
 $backupFile = "$backupDir\IntranetDB_$date.backup"
 $logFile = "$backupDir\backup.log"
+
+# Şifre kontrolü
+if (-not $env:PGPASSWORD) {
+    Write-Error "HATA: PGPASSWORD environment variable ayarlanmamis!"
+    Write-Host "Kullanim: `$env:PGPASSWORD = 'SifrenizBurada' ve sonra script'i calistirin."
+    exit 1
+}
 
 # Klasör kontrolü
 if (!(Test-Path $backupDir)) {
@@ -13,7 +28,6 @@ if (!(Test-Path $backupDir)) {
 
 try {
     # Yedekleme
-    $env:PGPASSWORD = "SecurePassword123!"
     & "C:\Program Files\PostgreSQL\16\bin\pg_dump.exe" `
         -U intranet_user `
         -h localhost `
@@ -45,3 +59,4 @@ try {
 catch {
     "[$([DateTime]::Now)] Error cleaning old backups: $_" | Out-File -Append $logFile
 }
+
