@@ -105,9 +105,9 @@ dotnet run --project IntranetPortal.API
 dotnet watch --project IntranetPortal.API
 ```
 
-API varsayılan olarak **https://localhost:5001** adresinde çalışır.
+API varsayılan olarak **<https://localhost:5001>** adresinde çalışır.
 
-Swagger UI: **https://localhost:5001/swagger**
+Swagger UI: **<https://localhost:5001/swagger>**
 
 ## 🔧 Geliştirme
 
@@ -162,20 +162,24 @@ dotnet ef dbcontext scaffold "Host=localhost;Database=IntranetDB;Username=intran
 ## 📦 NuGet Paketleri
 
 ### Core
+
 - `Microsoft.AspNetCore.App` - ASP.NET Core framework
 - `Microsoft.EntityFrameworkCore` - ORM
 - `Npgsql.EntityFrameworkCore.PostgreSQL` - PostgreSQL provider
 
 ### Authentication & Security
+
 - `Microsoft.AspNetCore.Authentication.JwtBearer` - JWT authentication
 - `BCrypt.Net-Next` - Password hashing
 - `System.IdentityModel.Tokens.Jwt` - JWT token generation
 
 ### Validation & Mapping
+
 - `FluentValidation.AspNetCore` - Input validation
 - `AutoMapper.Extensions.Microsoft.DependencyInjection` - DTO mapping
 
 ### Logging
+
 - `Serilog.AspNetCore` - Structured logging
 - `Serilog.Sinks.Console` - Console output
 - `Serilog.Sinks.File` - File logging
@@ -183,6 +187,7 @@ dotnet ef dbcontext scaffold "Host=localhost;Database=IntranetDB;Username=intran
 ## 🔐 Güvenlik Özellikleri
 
 ### 1. IP Whitelist Middleware
+
 ```csharp
 // Startup'ta yapılandırma
 app.UseMiddleware<IpWhitelistMiddleware>();
@@ -196,6 +201,7 @@ app.UseMiddleware<IpWhitelistMiddleware>();
 ```
 
 ### 2. JWT Authentication
+
 ```csharp
 // Token oluşturma
 var token = _jwtService.GenerateToken(user.Id, user.Email, user.RoleId, user.BirimId);
@@ -210,6 +216,7 @@ Response.Cookies.Append("AuthToken", token, new CookieOptions {
 ```
 
 ### 3. RBAC (Role-Based Access Control)
+
 ```csharp
 // Custom attribute
 [HasPermission("user.create")]
@@ -220,6 +227,7 @@ var hasPermission = await _permissionService.UserHasPermission(userId, birimId, 
 ```
 
 ### 4. Rate Limiting
+
 ```csharp
 // Program.cs
 builder.Services.AddRateLimiter(options => {
@@ -231,6 +239,7 @@ builder.Services.AddRateLimiter(options => {
 ```
 
 ### 5. Audit Logging
+
 ```csharp
 // Otomatik audit log
 await _auditService.LogAsync(new AuditLog {
@@ -247,6 +256,7 @@ await _auditService.LogAsync(new AuditLog {
 ## 📡 API Endpoints
 
 ### Authentication
+
 ```
 POST   /api/auth/login       # Kullanıcı girişi
 POST   /api/auth/logout      # Çıkış
@@ -255,6 +265,7 @@ GET    /api/auth/verify      # Token doğrulama
 ```
 
 ### Users
+
 ```
 GET    /api/users            # Kullanıcı listesi
 GET    /api/users/{id}       # Kullanıcı detayı
@@ -264,6 +275,7 @@ DELETE /api/users/{id}       # Kullanıcı sil
 ```
 
 ### Birimler (Units)
+
 ```
 GET    /api/birimler         # Birim listesi
 GET    /api/birimler/{id}    # Birim detayı
@@ -273,6 +285,7 @@ DELETE /api/birimler/{id}    # Birim sil
 ```
 
 ### Roles & Permissions
+
 ```
 GET    /api/roles            # Rol listesi
 GET    /api/roles/{id}       # Rol detayı
@@ -286,6 +299,7 @@ DELETE /api/roles/{id}/permissions/{permId}  # Rolden izin çıkar
 ```
 
 ### Audit Logs
+
 ```
 GET    /api/auditlogs        # Audit log listesi
 GET    /api/auditlogs/{id}   # Audit log detayı
@@ -310,12 +324,14 @@ dotnet test /p:CollectCoverage=true /p:CoverageReportFormat=html
 ## 📊 Performans
 
 ### Hedefler
+
 - API response time: ≤ 200ms (ortalama)
 - Database query time: ≤ 100ms
 - Concurrent users: 100-200
 - Throughput: 1000 req/sec
 
 ### Optimizasyon
+
 - **Response caching**: Memory cache for roles/permissions
 - **Database indexing**: User(Email), UserBirimRole(UserID, BirimID)
 - **Async/await**: Tüm I/O işlemlerinde
@@ -324,6 +340,7 @@ dotnet test /p:CollectCoverage=true /p:CoverageReportFormat=html
 ## 🔍 Debugging
 
 ### Logging Levels
+
 ```json
 {
   "Logging": {
@@ -337,6 +354,7 @@ dotnet test /p:CollectCoverage=true /p:CoverageReportFormat=html
 ```
 
 ### VS Code Launch Configuration
+
 ```json
 {
   "version": "0.2.0",
@@ -365,6 +383,7 @@ dotnet test /p:CollectCoverage=true /p:CoverageReportFormat=html
 ## 📋 Yapılacaklar
 
 ### Faz 1 (Temel Yapı)
+
 - [ ] DbContext ve Entity yapılandırmaları
 - [ ] Repository pattern implementasyonu
 - [ ] Authentication service (JWT + BCrypt)
@@ -372,24 +391,28 @@ dotnet test /p:CollectCoverage=true /p:CoverageReportFormat=html
 - [ ] Audit logging service
 
 ### Faz 2 (RBAC)
+
 - [ ] HasPermission attribute
 - [ ] Permission middleware
 - [ ] Role ve Permission CRUD
 - [ ] UserBirimRole yönetimi
 
 ### Faz 3 (Core APIs)
+
 - [ ] User CRUD endpoints
 - [ ] Birim CRUD endpoints
 - [ ] Role CRUD endpoints
 - [ ] Audit log endpoints
 
 ### Faz 4 (Duyuru & Uyarı Sistemi)
+
 - [x] Announcement Entities (Duyuru, Hedef, Okundu Bilgisi)
 - [x] Announcement Service & Controller
 - [x] Target Audience Logic (Birim, Rol, Kullanıcı)
 - [x] Frontend Yönetim Paneli
 
 ### Faz 5 (Deployment)
+
 - [ ] Unit tests
 - [ ] Integration tests
 - [ ] Docker deployment
@@ -404,5 +427,5 @@ dotnet test /p:CollectCoverage=true /p:CoverageReportFormat=html
 
 ---
 
-**Son Güncelleme:** 2025-11-25
+**Son Güncelleme:** 2025-12-17
 **Durum:** 🚧 Geliştirme Aşamasında (Proje yapısı oluşturuldu)

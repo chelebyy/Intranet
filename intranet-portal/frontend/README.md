@@ -7,6 +7,7 @@ React + TypeScript + Vite tabanlı modern frontend uygulaması.
 Bu proje, daha önce hazırlanmış **Login** ve **Admin Dashboard** tasarımlarının entegrasyonu ile oluşturulmuştur:
 
 ### ✅ Login Tasarımı (Login-matrix)
+
 - **Matrix Background Effect**: Fareyi takip eden interaktif animasyon
 - **Glassmorphism Design**: Modern cam efekti ile şeffaf form
 - **Gradient Butonlar**: Hover efektleri ile görsel zenginlik
@@ -14,6 +15,7 @@ Bu proje, daha önce hazırlanmış **Login** ve **Admin Dashboard** tasarımlar
 - **Remember Me**: Beni hatırla özelliği
 
 ### ✅ Admin Dashboard Tasarımı
+
 - **Sidebar Navigation**: Sol menü ile sayfa geçişleri
 - **Dark Mode Support**: Açık/koyu tema desteği
 - **Recharts Integration**: Veri görselleştirme grafikleri
@@ -63,45 +65,55 @@ frontend/
 ## 🚀 Teknoloji Yığını
 
 ### Core
+
 - **React 19.2.0** - UI framework
 - **TypeScript 5.8.2** - Tip güvenliği
 - **Vite 6.2.0** - Build tool (hızlı dev server)
 
 ### State Management & Routing
+
 - **Zustand** - Hafif ve performanslı state yönetimi
 - **React Router DOM** - Client-side routing
 
 ### API & Data
+
 - **Axios** - HTTP istemcisi (HttpOnly cookie desteği)
 - **Recharts 3.5.0** - Veri görselleştirme
 
 ### Styling
-- **TailwindCSS 3.4.17** - Utility-first CSS framework
+
+- **TailwindCSS 4.1** - Utility-first CSS framework (v4 + Vite Plugin)
 - **Material Symbols** - Google icon seti
 - **Dark Mode** - Class-based dark mode desteği
 
 ## ⚙️ Kurulum ve Çalıştırma
 
 ### 1. Bağımlılıkları Yükle
+
 ```bash
 cd frontend
 npm install
 ```
 
 ### 2. Environment Variables
+
 `.env` dosyasını düzenleyin:
+
 ```env
 VITE_API_BASE_URL=https://localhost:5001/api
 VITE_ENV=development
 ```
 
 ### 3. Development Server Başlat
+
 ```bash
 npm run dev
 ```
-Uygulama http://localhost:5173 adresinde çalışacak.
+
+Uygulama <http://localhost:5173> adresinde çalışacak.
 
 ### 4. Production Build
+
 ```bash
 npm run build
 npm run preview
@@ -110,15 +122,18 @@ npm run preview
 ## 🔐 Güvenlik Özellikleri
 
 ### HttpOnly Cookie JWT
+
 - Token'lar localStorage'da DEĞİL, HttpOnly cookie'de saklanır
 - XSS saldırılarına karşı korumalı
 - `withCredentials: true` ile cookie gönderimi
 
 ### Birim Bazlı Erişim Kontrolü
+
 - `X-Birim-Id` header'ı ile backend'e gönderilir
 - Her istek kullanıcının aktif birimine göre yetkilendirilir
 
 ### Protected Routes
+
 - `ProtectedRoute` bileşeni ile korumalı sayfalar
 - Kimlik doğrulaması olmadan erişim engellenir
 - Çoklu birim kullanıcıları için birim seçim zorunluluğu
@@ -128,6 +143,7 @@ npm run preview
 ### Renk Paleti (Tailwind Config)
 
 **Light Mode:**
+
 - `background`: #F8FAFC
 - `card`: #FFFFFF
 - `sidebar`: #FFFFFF
@@ -136,6 +152,7 @@ npm run preview
 - `text-secondary`: #64748B
 
 **Dark Mode:**
+
 - `dark-background`: #0F172A
 - `dark-card`: #1E293B
 - `dark-sidebar`: #1E293B
@@ -143,6 +160,7 @@ npm run preview
 - `dark-text-secondary`: #94A3B8
 
 ### Dark Mode Kullanımı
+
 ```tsx
 // Tailwind dark: prefix ile
 <div className="bg-white dark:bg-dark-card">...</div>
@@ -154,6 +172,7 @@ document.documentElement.classList.add('dark');
 ## 📡 API Entegrasyonu
 
 ### Axios Interceptor
+
 ```typescript
 // Request: Birim ID ekleme
 config.headers['X-Birim-Id'] = selectedBirim.birimId;
@@ -165,6 +184,7 @@ config.headers['X-Birim-Id'] = selectedBirim.birimId;
 ```
 
 ### API Kullanımı
+
 ```typescript
 import { authApi } from '@/api/authApi';
 
@@ -190,7 +210,9 @@ await authApi.logout();
 ## 🧩 Önemli Bileşenler
 
 ### MatrixBackground
+
 Fareyi takip eden interaktif Matrix animasyonu:
+
 ```tsx
 import MatrixBackground from '@/shared/components/MatrixBackground';
 
@@ -198,7 +220,9 @@ import MatrixBackground from '@/shared/components/MatrixBackground';
 ```
 
 ### ProtectedRoute
+
 Korumalı route wrapper:
+
 ```tsx
 <ProtectedRoute requireBirimSelection>
   <AdminLayout />
@@ -206,6 +230,7 @@ Korumalı route wrapper:
 ```
 
 ### useAuthStore (Zustand)
+
 ```typescript
 const { user, login, logout, selectBirim } = useAuthStore();
 
@@ -266,6 +291,6 @@ logout();
 
 ---
 
-**Son Güncelleme:** 2025-11-25
+**Son Güncelleme:** 2025-12-17
 **Versiyon:** 1.0
 **Durum:** ✅ Entegrasyon Tamamlandı
