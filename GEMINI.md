@@ -1,73 +1,59 @@
-# Kurumsal İntranet Web Portalı Context
+# ⚡ MORPHLLM & PROJECT OPTIMIZATIONS
+
+═══════════════════════════════════════════════════════
+FAST APPLY - PRIMARY FILE EDIT TOOL - USE THIS FOR EDITS
+═══════════════════════════════════════════════════════
+IMPORTANT: Use `edit_file` over `str_replace` or full file writes.
+• Handles automatic indentation & fuzzy matching for .NET/React code.
+• Works with partial code snippets—no need for full file content.
+→ Prefer this over manual file editing tools.
+
+═══════════════════════════════════════════════════════
+FAST CONTEXT - PRIMARY CODE SEARCH TOOL - USE THIS FIRST
+═══════════════════════════════════════════════════════
+IMPORTANT: For codebase exploration, use `warpgrep_codebase_search` FIRST.
+• Runs parallel search to locate relevant business logic.
+• Examples: "Find RBAC permission logic", "Locate Document upload API".
+→ Always start your search here.
+
+═══════════════════════════════════════════════════════
+
+# 🏗️ SYSTEM & FRAMEWORK IMPORTS
+@import "FLAGS.md"
+@import "RULES.md"
+@import "PRINCIPLES.md"
+@import "BUSINESS_SYMBOLS.md"
+
+# 🏢 PROJECT CONTEXT: KURUMSAL İNTRANET WEB PORTALI
 
 ## Project Overview
-**Name:** Kurumsal İntranet Web Portalı
-**Type:** Full-Stack Web Application (Internal Enterprise Portal)
-**Description:** A secure, multi-unit corporate intranet portal featuring Role-Based Access Control (RBAC), JWT authentication, and module-based architecture (IT, HR, General Budget, etc.).
+**Description:** Secure, multi-unit intranet with RBAC, JWT, and module-based architecture (.NET 9 & React 19).
 
-## Technology Stack
-- **Backend:** .NET 9 (ASP.NET Core Web API)
-- **Database:** PostgreSQL 16 (Entity Framework Core 9)
-- **Frontend:** React 19.2.0, TypeScript 5.8, Vite 6.2
-- **State Management:** Zustand, TanStack Query
-- **Styling:** TailwindCSS 3.4
-- **Security:** JWT (HMAC-SHA256), BCrypt, AES-256 (PII), IP Whitelisting
+## 🛠️ Technology Stack
+- **Backend:** .NET 9 (ASP.NET Core API), EF Core 9, PostgreSQL 16.
+- **Frontend:** React 19.2.0, TypeScript 5.8, Vite 6.2, TailwindCSS 3.4.
+- **State:** Zustand, TanStack Query.
+- **Security:** JWT (HMAC-SHA256), BCrypt, AES-256 (PII).
 
-## Development Workflow
+## 📜 Critical Rules & Conventions
+1. **Language:** UI MUST be in **Turkish**. Code/Comments/Commits MUST be in **English**.
+2. **Architecture:** Backend follows **Clean Architecture** (API -> Application -> Domain -> Infrastructure).
+3. **No Scaffolding:** NEVER run `scaffold`. Use Code-First migrations only.
+4. **Entity Location:** Entities must ONLY exist in `IntranetPortal.Domain/Entities/`.
+5. **Security:** Use `[HasPermission("action.resource")]` for all endpoints. PII must be encrypted via `pgcrypto`.
+6. **Data Access:** Soft delete only (`IsActive=false`). No hard deletes for users.
+7. **Frontend Structure:** Feature-based organization (`src/features/`).
 
-### Backend (`intranet-portal/backend`)
-*   **Run:** `dotnet run --project IntranetPortal.API`
-*   **Watch:** `dotnet watch --project IntranetPortal.API`
-*   **Migrations (Add):** `dotnet ef migrations add <Name> --project IntranetPortal.Infrastructure --startup-project IntranetPortal.API`
-*   **Migrations (Update):** `dotnet ef database update --project IntranetPortal.Infrastructure --startup-project IntranetPortal.API`
-*   **Tests:** `dotnet test`
+## 📂 Project Structure
+- `backend/IntranetPortal.API/`: Entry Point & Controllers.
+- `backend/IntranetPortal.Application/`: Services, DTOs, Logic.
+- `backend/IntranetPortal.Domain/`: Entities, Enums, Constants.
+- `backend/IntranetPortal.Infrastructure/`: DbContext, Repos, Migrations.
+- `frontend/src/features/`: Modular frontend features.
 
-### Frontend (`intranet-portal/frontend`)
-*   **Install:** `npm install`
-*   **Run Dev:** `npm run dev`
-*   **Build:** `npm run build`
-*   **Type Check:** `npm run type-check`
+## 📍 Current Status
+- **Active:** Phase 5 (Document Management / Doküman Yönetimi).
+- **Goal:** Implement secure upload, categorization, and RBAC-based download.
 
-## Critical Rules & Conventions
-1.  **No Scaffolding:** NEVER run `dotnet ef dbcontext scaffold`. Use Code-First migrations only.
-2.  **Entity Location:** Entities must ONLY exist in `IntranetPortal.Domain/Entities/`.
-3.  **Language:** 
-    *   **User Interface (UI):** MUST be in **Turkish**.
-    *   **Code/Comments/Commits:** MUST be in **English**.
-4.  **Security:** 
-    *   All PII (Personally Identifiable Information) must be encrypted using `pgcrypto` (AES-256).
-    *   Endpoints must be secured with `[HasPermission("action.resource")]`.
-5.  **Data Access:** Use `IsActive=false` for soft deletes; never hard delete users.
-6.  **Architecture:**
-    *   **Backend:** Clean Architecture (API -> Application -> Domain -> Infrastructure).
-    *   **Frontend:** Feature-based (`src/features/`).
-
-## Project Structure
-```
-intranet-portal/
-├── backend/
-│   ├── IntranetPortal.API/           # Controllers, Middleware, Entry Point
-│   ├── IntranetPortal.Application/   # Services, DTOs, Business Logic
-│   ├── IntranetPortal.Domain/        # Entities, Enums, Constants
-│   └── IntranetPortal.Infrastructure/# DbContext, Repositories, Migrations
-└── frontend/
-    └── src/
-        ├── features/                 # Modular features (auth, admin, it, genelButce)
-        ├── shared/                   # Reusable components & hooks
-        ├── api/                      # API client configuration
-        └── store/                    # Global state (Zustand)
-```
-
-## Current Status (as of Dec 17, 2025)
-- **Completed:** Phase 4 (Announcement System - Duyuru & Uyarı).
-- **Active Task:** Phase 5 (Document Management - Doküman Yönetimi).
-    - **Goal:** Implement document upload, categorization, versioning, and secure download with RBAC.
-- **Pending:** Phase 6 (Unit Modules), Integration Testing, Deployment optimizations.
-
-## Documentation Index
-- **AI Guide:** `CLAUDE.md` (Root)
-- **Roadmap:** `docs/technical/IMPLEMENTATION_ROADMAP.md`
-- **API Specs:** `docs/api/API_SPECIFICATION.md`
-- **Database:** `docs/technical/ERD.md`
-- **Security:** `docs/reports/SECURITY_ANALYSIS_REPORT.md`
-- **Active Task:** `active_task.md` (Root - Check this for latest status)
+═══════════════════════════════════════════════════════
+CANNOT BE CALLED IN PARALLEL - one invocation at a time.
