@@ -9,6 +9,8 @@ import MaintenanceLockPage from './pages/MaintenanceLockPage';
 import { DashboardRouter } from './components/common/DashboardRouter';
 import HomeDashboard from './pages/dashboard/HomeDashboard';
 
+
+
 // Lazy load pages for code splitting
 const Dashboard = lazy(() => import('./features/admin/pages/Dashboard').then(module => ({ default: module.Dashboard })));
 const UserList = lazy(() => import('./features/admin/pages/UserList').then(module => ({ default: module.UserList })));
@@ -45,6 +47,7 @@ const PageLoader = () => (
  */
 function App() {
   return (
+  
     <BrowserRouter>
       <Routes>
         {/* Public Routes */}

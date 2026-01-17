@@ -11,7 +11,9 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
+
 var builder = WebApplication.CreateBuilder(args);
+
 
 // Add services to the container.
 
@@ -170,6 +172,7 @@ app.MapGet("/api/health", () => new
     environment = app.Environment.EnvironmentName
 })
 .WithName("HealthCheck");
+
 
 app.Run();
 

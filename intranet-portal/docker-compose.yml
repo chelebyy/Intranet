@@ -1,15 +1,15 @@
 services:
   database:
-    image: postgres:18-alpine
+    image: postgres:18.1-trixie
     container_name: intranet-db
     env_file:
       - .env.docker
     ports:
       - "5432:5432"
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql
     healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U intranet_user -d IntranetDB" ]
+      test: ["CMD-SHELL", "pg_isready -U intranet_user -d IntranetDB"]
       interval: 10s
       timeout: 5s
       retries: 5
