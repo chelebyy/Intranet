@@ -16,10 +16,10 @@ services:
       timeout: 5s
       retries: 5
 
- backend:
+  backend:
     image: mcr.microsoft.com/dotnet/sdk:9.0
     container_name: intranet-backend
-    # Proje dosyaları backend klasöründe olduğu için çalışma dizinini oraya çekiyoruz
+    # Proje dosyaları backend klasöründe olduğu için burası kritik
     working_dir: /app/backend
     command: dotnet run --project IntranetPortal.API/IntranetPortal.API.csproj --urls "http://0.0.0.0:8080"
     ports:
@@ -27,10 +27,14 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
       - ConnectionStrings__DefaultConnection=Host=database;Port=5432;Database=${POSTGRES_DB};Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD};
-      # Diğer JWT ayarlarını buraya eklemeyi unutma
+      - JwtSettings__SecretKey=${JwtSettings__SecretKey}
+      - JwtSettings__Issuer=IntranetPortal
+      - JwtSettings__Audience=IntranetPortalUsers
+      - JwtSettings__ExpirationInMinutes=480
     depends_on:
       database:
         condition: service_healthy
+
   frontend:
     build:
       context: ./frontend
