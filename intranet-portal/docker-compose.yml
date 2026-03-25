@@ -2,16 +2,16 @@ services:
   database:
     image: postgres:18.3-trixie
     container_name: intranet-db
-  environment:
+    environment:
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - POSTGRES_DB=${POSTGRES_DB}
     ports:
       - "5432:5432"
     volumes:
-      - postgres_data:/var/lib/postgresql
+      - postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U intranet_user -d IntranetDB"]
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -20,17 +20,12 @@ services:
     image: mcr.microsoft.com/dotnet/sdk:9.0
     container_name: intranet-backend
     working_dir: /app
-    volumes:
-      - ./backend:/app
-      - /app/obj
-      - /app/bin
-    command: dotnet watch --project IntranetPortal.API/IntranetPortal.API.csproj --urls "http://0.0.0.0:8080"
-    ports:
-      - "5179:8080"
+    # Dokploy'da dosyalar /app içine kopyalanacağı için mount yerine direkt çalıştırıyoruz
+    command: dotnet run --project IntranetPortal.API/IntranetPortal.API.csproj --urls "http://0.0.0.0:8080"
     environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - ConnectionStrings__DefaultConnection=Host=database;Port=5432;Database=IntranetDB;Username=intranet_user;Password=DevPassword123!;
-      - JwtSettings__SecretKey=DockerDevelopmentSecretKeyMustBe32CharsOrMore!
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ConnectionStrings__DefaultConnection=Host=database;Port=5432;Database=${POSTGRES_DB};Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD};
+      - JwtSettings__SecretKey=${JwtSettings__SecretKey}
       - JwtSettings__Issuer=IntranetPortal
       - JwtSettings__Audience=IntranetPortalUsers
       - JwtSettings__ExpirationInMinutes=480
@@ -41,15 +36,9 @@ services:
   frontend:
     build:
       context: ./frontend
-      target: dev
     container_name: intranet-frontend
-    volumes:
-      - ./frontend:/app
-      - /app/node_modules
-    ports:
-      - "5173:5173"
     environment:
-      - VITE_API_BASE_URL=http://localhost:5179/api
+      - VITE_API_BASE_URL=${VITE_API_BASE_URL}
     depends_on:
       - backend
 
