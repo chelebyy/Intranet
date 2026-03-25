@@ -1,6 +1,6 @@
 services:
   database:
-    image: postgres:18.3-trixie
+    image: postgres:18.3-alpine # Aradığın en güncel ve stabil sürüm budur
     container_name: intranet-db
     environment:
       - POSTGRES_USER=${POSTGRES_USER}
@@ -19,9 +19,9 @@ services:
   backend:
     image: mcr.microsoft.com/dotnet/sdk:9.0
     container_name: intranet-backend
-    # Proje dosyaları backend klasöründe olduğu için burası kritik
-    working_dir: /app/backend
-    command: dotnet run --project IntranetPortal.API/IntranetPortal.API.csproj --urls "http://0.0.0.0:8080"
+    working_dir: /app
+    # find komutuyla bulduğumuz tam yol: backend/IntranetPortal.API/...
+    command: dotnet run --project backend/IntranetPortal.API/IntranetPortal.API.csproj --urls "http://0.0.0.0:8080"
     ports:
       - "5179:8080"
     environment:
