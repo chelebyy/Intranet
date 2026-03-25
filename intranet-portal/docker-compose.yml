@@ -7,7 +7,9 @@ services:
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - POSTGRES_DB=${POSTGRES_DB}
     volumes:
-      - intranet_fresh_v18:/var/lib/postgresql  # SONDAKİ /data'yı SİLDİK
+      - intranet_fresh_v18:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"  # Dışarıdan DB erişimi istersen açık kalsın
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
       interval: 10s
@@ -18,7 +20,10 @@ services:
     image: mcr.microsoft.com/dotnet/sdk:9.0
     container_name: intranet-backend
     working_dir: /app
+    # Dokploy'da dosyalar konteyner içine build ile gömüldüğü için "dotnet run" daha güvenlidir
     command: dotnet run --project IntranetPortal.API/IntranetPortal.API.csproj --urls "http://0.0.0.0:8080"
+    ports:
+      - "5179:8080" # VPS'in 5179 portunu backend'e bağladık
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
       - ConnectionStrings__DefaultConnection=Host=database;Port=5432;Database=${POSTGRES_DB};Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD};
@@ -34,10 +39,12 @@ services:
     build:
       context: ./frontend
     container_name: intranet-frontend
+    ports:
+      - "5173:5173" # VPS'in 5173 portunu frontend'e bağladık
     environment:
       - VITE_API_BASE_URL=${VITE_API_BASE_URL}
     depends_on:
       - backend
 
 volumes:
-  intranet_fresh_v18: # İSMİ DEĞİŞTİRDİK (Eski bozuk veriyi görmesin diye)
+  intranet_fresh_v18:
