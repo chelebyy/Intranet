@@ -1,9 +1,8 @@
 services:
   database:
-    image: postgres:18.1-trixie
+    image: postgres:18.3-trixie
     container_name: intranet-db
-    env_file:
-      - .env.docker
+  
     ports:
       - "5432:5432"
     volumes:
