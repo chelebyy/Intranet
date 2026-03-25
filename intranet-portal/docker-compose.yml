@@ -16,23 +16,21 @@ services:
       timeout: 5s
       retries: 5
 
-  backend:
+ backend:
     image: mcr.microsoft.com/dotnet/sdk:9.0
     container_name: intranet-backend
-    working_dir: /app
-    # Buradaki çift $ işareti ( $$ ) önemli, Docker'ın hata vermesini önler
-    command: >
-      sh -c "dotnet run --project $$(find . -name 'IntranetPortal.API.csproj' | head -n 1) --urls 'http://0.0.0.0:8080'"
+    # Proje dosyaları backend klasöründe olduğu için çalışma dizinini oraya çekiyoruz
+    working_dir: /app/backend
+    command: dotnet run --project IntranetPortal.API/IntranetPortal.API.csproj --urls "http://0.0.0.0:8080"
     ports:
       - "5179:8080"
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
       - ConnectionStrings__DefaultConnection=Host=database;Port=5432;Database=${POSTGRES_DB};Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD};
-      # Buraya JwtSettings ve diğerlerini eklemeyi unutma (varsa)
+      # Diğer JWT ayarlarını buraya eklemeyi unutma
     depends_on:
       database:
         condition: service_healthy
-
   frontend:
     build:
       context: ./frontend
