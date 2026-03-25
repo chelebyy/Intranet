@@ -1,6 +1,6 @@
 services:
   database:
-    image: postgres:18.3-alpine # Aradığın en güncel ve stabil sürüm budur
+    image: postgres:18.3-alpine
     container_name: intranet-db
     environment:
       - POSTGRES_USER=${POSTGRES_USER}
@@ -20,7 +20,10 @@ services:
     image: mcr.microsoft.com/dotnet/sdk:9.0
     container_name: intranet-backend
     working_dir: /app
-    # find komutuyla bulduğumuz tam yol: backend/IntranetPortal.API/...
+    # DİKKAT: Dokploy'un indirdiği kodları konteynere bağlayan hayati satır:
+    volumes:
+      - .:/app
+    # Proje yolu senin 'find' komutuyla bulduğun tam yol:
     command: dotnet run --project backend/IntranetPortal.API/IntranetPortal.API.csproj --urls "http://0.0.0.0:8080"
     ports:
       - "5179:8080"
