@@ -20,10 +20,11 @@ services:
     image: mcr.microsoft.com/dotnet/sdk:9.0
     container_name: intranet-backend
     working_dir: /app
-    # Dokploy'da dosyalar konteyner içine build ile gömüldüğü için "dotnet run" daha güvenlidir
-    command: dotnet run --project IntranetPortal.API/IntranetPortal.API.csproj --urls "http://0.0.0.0:8080"
+    # .csproj dosyasını nerede olursa olsun bulması için wildcard (*) ekledik
+    command: >
+      sh -c "dotnet run --project **/IntranetPortal.API.csproj --urls 'http://0.0.0.0:8080'"
     ports:
-      - "5179:8080" # VPS'in 5179 portunu backend'e bağladık
+      - "5179:8080"
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
       - ConnectionStrings__DefaultConnection=Host=database;Port=5432;Database=${POSTGRES_DB};Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD};
