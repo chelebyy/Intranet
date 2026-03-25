@@ -6,10 +6,8 @@ services:
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - POSTGRES_DB=${POSTGRES_DB}
-    ports:
-      - "5432:5432"
     volumes:
-      - postgres_data_v18:/var/lib/postgresql
+      - intranet_fresh_v18:/var/lib/postgresql  # SONDAKİ /data'yı SİLDİK
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
       interval: 10s
@@ -20,7 +18,6 @@ services:
     image: mcr.microsoft.com/dotnet/sdk:9.0
     container_name: intranet-backend
     working_dir: /app
-    # Dokploy'da dosyalar /app içine kopyalanacağı için mount yerine direkt çalıştırıyoruz
     command: dotnet run --project IntranetPortal.API/IntranetPortal.API.csproj --urls "http://0.0.0.0:8080"
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
@@ -43,4 +40,4 @@ services:
       - backend
 
 volumes:
-  postgres_data_v18:
+  intranet_fresh_v18: # İSMİ DEĞİŞTİRDİK (Eski bozuk veriyi görmesin diye)
