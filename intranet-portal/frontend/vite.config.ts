@@ -11,4 +11,13 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  server: {
+    host: '0.0.0.0', // Docker içinden dışarıya yayın yapması için şart
+    port: 5173,
+    allowedHosts: [
+      'intranet.cheleby.qzz.io' // Cloudflare üzerinden gelen isteğe izin veriyoruz
+    ],
+    // Alternatif olarak tüm hostlara izin vermek istersen:
+    // allowedHosts: true 
+  }
 })
