@@ -24,7 +24,7 @@ services:
     volumes:
       - .:/app
     # Proje yolu senin 'find' komutuyla bulduğun tam yol:
-    command: command: dotnet run --project backend/IntranetPortal.API/IntranetPortal.API.csproj --urls http://0.0.0.0:8080
+    command: dotnet run --project backend/IntranetPortal.API/IntranetPortal.API.csproj --urls http://0.0.0.0:8080
     ports:
       - "5179:8080"
     environment:
