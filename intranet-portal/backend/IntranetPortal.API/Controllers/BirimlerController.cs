@@ -42,8 +42,6 @@ public class BirimlerController : ControllerBase
     [HasPermission(Permissions.CreateBirim)]
     public async Task<ActionResult<ApiResponse<BirimDto>>> Create(CreateBirimDto createBirimDto)
     {
-        return BadRequest(ApiResponse<BirimDto>.Fail("Birimler sistem modüllerinden otomatik olarak yönetilmektedir. Manuel ekleme yapılamaz.", "OPERATION_NOT_ALLOWED"));
-        /*
         try
         {
             var birim = await _birimService.CreateBirimAsync(createBirimDto);
@@ -53,7 +51,6 @@ public class BirimlerController : ControllerBase
         {
             return BadRequest(ApiResponse<BirimDto>.Fail(ex.Message, "VALIDATION_ERROR"));
         }
-        */
     }
 
     [HttpPut("{id}")]
