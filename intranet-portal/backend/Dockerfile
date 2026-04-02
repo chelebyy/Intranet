@@ -30,9 +30,7 @@ RUN dotnet publish "IntranetPortal.API.csproj" -c Release -o /app/publish /p:Use
 FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS final
 WORKDIR /app
 
-# HTTPS sertifikaları ve port ayarları
 EXPOSE 8080
-EXPOSE 8081
 
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "IntranetPortal.API.dll"]
+ENTRYPOINT ["sh", "-c", "ASPNETCORE_URLS=http://+:${PORT:-8080} dotnet IntranetPortal.API.dll"]
