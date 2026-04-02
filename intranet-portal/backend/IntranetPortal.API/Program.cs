@@ -8,6 +8,7 @@ using IntranetPortal.Application.Settings;
 using IntranetPortal.Infrastructure.Data;
 using IntranetPortal.Infrastructure.Data.Seeding;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
@@ -146,6 +147,13 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
+app.UseForwardedHeaders(new ForwardedHeadersOptions
+{
+    ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto,
+    KnownNetworks = { },
+    KnownProxies = { }
+});
+
 app.UseHttpsRedirection();
 
 // Enable CORS
@@ -172,6 +180,14 @@ app.MapGet("/api/health", () => new
     environment = app.Environment.EnvironmentName
 })
 .WithName("HealthCheck");
+
+app.MapGet("/health", () => new
+{
+    status = "healthy",
+    timestamp = DateTime.UtcNow,
+    environment = app.Environment.EnvironmentName
+})
+.WithName("RenderHealthCheck");
 
 
 app.Run();
