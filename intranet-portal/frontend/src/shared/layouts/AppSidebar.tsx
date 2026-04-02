@@ -258,7 +258,7 @@ export function AppSidebar() {
                     title: "Duyurular",
                     url: "/admin/announcements",
                     icon: Activity, // Or Megaphone if available, using Activity for now
-                    permission: Permissions.System.Read
+                    permission: Permissions.Announcement.Read
                 }
             ]
         },
@@ -280,19 +280,18 @@ export function AppSidebar() {
                 {
                     title: "Sistem Bakımı",
                     icon: Wrench,
-                    permission: Permissions.System.Read,
                     subItems: [
                         {
                             title: "Yedekleme Merkezi",
                             url: "/admin/backups",
                             icon: DatabaseBackup,
-                            permission: Permissions.System.Read
+                            permission: Permissions.Backup.Manage
                         },
                         {
                             title: "Veritabanı Bakım",
                             url: "/admin/maintenance",
                             icon: Activity,
-                            permission: Permissions.ManageMaintenance
+                            permission: Permissions.Maintenance.Manage
                         }
                     ]
                 },
@@ -303,6 +302,16 @@ export function AppSidebar() {
     // Helper to filter items by permission
     const filterItems = <T extends { permission?: Permission }>(items: T[]): T[] => {
         return items.filter(item => {
+            if ('subItems' in item && Array.isArray(item.subItems)) {
+                const hasVisibleSubItem = filterItems(item.subItems).length > 0;
+                if (!item.permission) {
+                    return hasVisibleSubItem;
+                }
+
+                if (isSuperAdmin) return true;
+                return hasVisibleSubItem || hasPermission(item.permission.resource, item.permission.action);
+            }
+
             if (!item.permission) return true;
             if (isSuperAdmin) return true;
             return hasPermission(item.permission.resource, item.permission.action);

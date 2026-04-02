@@ -30,8 +30,16 @@ namespace IntranetPortal.API.Controllers
             if (!ModelState.IsValid) return BadRequest(ApiResponse<AnnouncementDto>.Fail("Geçersiz veri", "VALIDATION_ERROR"));
 
             var createdBy = User.GetUserId();
-            var result = await _announcementService.CreateAsync(dto, createdBy);
-            return CreatedAtAction(nameof(GetById), new { id = result.AnnouncementID }, ApiResponse<AnnouncementDto>.Ok(result, "Duyuru başarıyla oluşturuldu"));
+
+            try
+            {
+                var result = await _announcementService.CreateAsync(dto, createdBy, User.GetBirimId(), IsStrictSuperAdmin());
+                return CreatedAtAction(nameof(GetById), new { id = result.AnnouncementID }, ApiResponse<AnnouncementDto>.Ok(result, "Duyuru başarıyla oluşturuldu"));
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(ApiResponse<AnnouncementDto>.Fail(ex.Message, "VALIDATION_ERROR"));
+            }
         }
 
         [HttpPut("{id}")]
@@ -42,12 +50,16 @@ namespace IntranetPortal.API.Controllers
 
             try
             {
-                var result = await _announcementService.UpdateAsync(id, dto);
+                var result = await _announcementService.UpdateAsync(id, dto, User.GetBirimId(), IsStrictSuperAdmin());
                 return Ok(ApiResponse<AnnouncementDto>.Ok(result, "Duyuru güncellendi"));
             }
             catch (KeyNotFoundException)
             {
                 return NotFound(ApiResponse<AnnouncementDto>.Fail("Duyuru bulunamadı", "NOT_FOUND"));
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(ApiResponse<AnnouncementDto>.Fail(ex.Message, "VALIDATION_ERROR"));
             }
         }
 
@@ -102,5 +114,10 @@ namespace IntranetPortal.API.Controllers
         }
 
         #endregion
+
+        private bool IsStrictSuperAdmin()
+        {
+            return User.GetRoleName() == Roles.SuperAdmin;
+        }
     }
 }

@@ -15,15 +15,17 @@ import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
+import { usePermission, Permissions } from '@/hooks/usePermission';
 
 // Permission Item Component
 interface PermissionItemProps {
   permission: Permission;
   isSelected: boolean;
   onToggle: (id: number) => void;
+  disabled: boolean;
 }
 
-function PermissionItem({ permission, isSelected, onToggle }: Readonly<PermissionItemProps>) {
+function PermissionItem({ permission, isSelected, onToggle, disabled }: Readonly<PermissionItemProps>) {
   const handleClick = () => onToggle(permission.permissionID);
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -50,6 +52,7 @@ function PermissionItem({ permission, isSelected, onToggle }: Readonly<Permissio
         id={`perm-${permission.permissionID}`}
         checked={isSelected}
         onCheckedChange={() => onToggle(permission.permissionID)}
+        disabled={disabled}
         className="mt-1"
       />
       <div className="grid gap-1 leading-tight flex-1">
@@ -79,6 +82,7 @@ interface PermissionsContentProps {
   rolePermissionIds: number[];
   togglePermission: (id: number) => void;
   handleSelectAll: (resource: string, checked: boolean) => void;
+  canManagePermissions: boolean;
 }
 
 function PermissionsContent({
@@ -86,7 +90,8 @@ function PermissionsContent({
   groupedPermissions,
   rolePermissionIds,
   togglePermission,
-  handleSelectAll
+  handleSelectAll,
+  canManagePermissions
 }: Readonly<PermissionsContentProps>) {
   if (permissionsLoading) {
     return (
@@ -124,6 +129,7 @@ function PermissionsContent({
                   id={`select-all-${resource}`}
                   checked={allSelected || (someSelected && "indeterminate")}
                   onCheckedChange={(checked) => handleSelectAll(resource, checked as boolean)}
+                  disabled={!canManagePermissions}
                   className="data-[state=checked]:bg-primary data-[state=checked]:border-primary"
                 />
                 <label
@@ -141,6 +147,7 @@ function PermissionsContent({
                   permission={permission}
                   isSelected={rolePermissionIds.includes(permission.permissionID)}
                   onToggle={togglePermission}
+                  disabled={!canManagePermissions}
                 />
               ))}
             </div>
@@ -152,6 +159,7 @@ function PermissionsContent({
 }
 
 export const RolePermissions: React.FC = () => {
+  const { hasPermission } = usePermission();
   const [roles, setRoles] = useState<Role[]>([]);
   const [selectedRoleId, setSelectedRoleId] = useState<number | null>(null);
   const [allPermissions, setAllPermissions] = useState<Permission[]>([]);
@@ -212,6 +220,10 @@ export const RolePermissions: React.FC = () => {
 
   const handleSave = async () => {
     if (!selectedRoleId) return;
+    if (!canManagePermissions) {
+      toast.error('Rol izinlerini değiştirme yetkiniz bulunmamaktadır.');
+      return;
+    }
 
     setSaving(true);
     try {
@@ -228,6 +240,8 @@ export const RolePermissions: React.FC = () => {
   };
 
   const togglePermission = (permissionId: number) => {
+    if (!canManagePermissions) return;
+
     setRolePermissionIds(prev => {
       if (prev.includes(permissionId)) {
         return prev.filter(id => id !== permissionId);
@@ -238,6 +252,8 @@ export const RolePermissions: React.FC = () => {
   };
 
   const handleSelectAll = (resource: string, checked: boolean) => {
+    if (!canManagePermissions) return;
+
     const permissionsInResource = groupedPermissions[resource].map(p => p.permissionID);
 
     setRolePermissionIds(prev => {
@@ -271,6 +287,11 @@ export const RolePermissions: React.FC = () => {
     acc[permission.resource].push(permission);
     return acc;
   }, {} as Record<string, Permission[]>);
+
+  const canManagePermissions = hasPermission(
+    Permissions.Permission.Manage.resource,
+    Permissions.Permission.Manage.action
+  );
 
   if (loading) {
     return (
@@ -355,7 +376,9 @@ export const RolePermissions: React.FC = () => {
                   <Badge variant="secondary" className="hidden sm:inline-flex">{rolePermissionIds.length} seçili</Badge>
                 </div>
                 <CardDescription className="truncate">
-                  Yetkileri düzenlemek için kutucukları işaretleyin.
+                  {canManagePermissions
+                    ? 'Yetkileri düzenlemek için kutucukları işaretleyin.'
+                    : 'Bu ekranda izinleri görüntüleyebilirsiniz ancak değiştiremezsiniz.'}
                 </CardDescription>
               </div>
 
@@ -369,7 +392,7 @@ export const RolePermissions: React.FC = () => {
                     className="pl-8 h-9 bg-background"
                   />
                 </div>
-                <Button onClick={handleSave} disabled={saving || permissionsLoading} className="bg-primary hover:bg-primary/90 text-primary-foreground shadow-sm">
+                <Button onClick={handleSave} disabled={!canManagePermissions || saving || permissionsLoading} className="bg-primary hover:bg-primary/90 text-primary-foreground shadow-sm">
                   {saving ? (
                     <>
                       <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -394,6 +417,7 @@ export const RolePermissions: React.FC = () => {
                 rolePermissionIds={rolePermissionIds}
                 togglePermission={togglePermission}
                 handleSelectAll={handleSelectAll}
+                canManagePermissions={canManagePermissions}
               />
             </div>
           </ScrollArea>

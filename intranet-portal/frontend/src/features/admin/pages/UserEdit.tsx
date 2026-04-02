@@ -40,10 +40,12 @@ import {
 } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
+import { useAuthStore } from '../../../store/authStore';
 
 export const UserEdit: React.FC = () => {
     const navigate = useNavigate();
     const { id } = useParams<{ id: string }>();
+    const { selectedBirim, currentRoleInfo } = useAuthStore();
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
     const [unvanlar, setUnvanlar] = useState<Unvan[]>([]);
@@ -61,6 +63,14 @@ export const UserEdit: React.FC = () => {
         unvan: '',
         isActive: true
     });
+
+    const isSuperAdmin = currentRoleInfo?.roleName === 'SuperAdmin';
+    const visibleBirimler = isSuperAdmin || !selectedBirim
+        ? birimler
+        : birimler.filter(birim => birim.birimID === selectedBirim.birimId);
+    const visibleAssignments = isSuperAdmin || !selectedBirim
+        ? (user?.birimRoles ?? [])
+        : (user?.birimRoles ?? []).filter(br => br.birimID === selectedBirim.birimId);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -180,6 +190,14 @@ export const UserEdit: React.FC = () => {
             console.error('Error removing assignment:', err);
             toast.error(err.response?.data?.error?.message || 'Atama kaldırılırken bir hata oluştu.');
         }
+    };
+
+    const openAssignmentModal = () => {
+        setAssignmentForm({
+            birimId: !isSuperAdmin && selectedBirim ? String(selectedBirim.birimId) : '',
+            roleId: ''
+        });
+        setShowAssignmentModal(true);
     };
 
     if (loading) {
@@ -330,15 +348,15 @@ export const UserEdit: React.FC = () => {
                                     Kullanıcının atandığı birimler ve sahip olduğu roller.
                                 </CardDescription>
                             </div>
-                            <Button onClick={() => setShowAssignmentModal(true)} className="bg-purple-600 hover:bg-purple-700 text-white">
+                            <Button onClick={openAssignmentModal} className="bg-purple-600 hover:bg-purple-700 text-white">
                                 <Plus className="mr-2 h-4 w-4" />
                                 Yeni Atama Ekle
                             </Button>
                         </CardHeader>
                         <CardContent>
-                            {user.birimRoles && user.birimRoles.length > 0 ? (
+                            {visibleAssignments.length > 0 ? (
                                 <div className="space-y-4">
-                                    {user.birimRoles.map((br) => (
+                                    {visibleAssignments.map((br) => (
                                         <div key={`${br.birimID}-${br.roleID}`} className="flex items-center justify-between p-4 rounded-lg border bg-card hover:bg-muted/50 transition-colors">
                                             <div className="flex items-center gap-4">
                                                 <div className="p-2 bg-primary/10 rounded-full text-primary">
@@ -411,15 +429,16 @@ export const UserEdit: React.FC = () => {
                         <div className="grid gap-4 py-4">
                             <div className="space-y-2">
                                 <Label htmlFor="birimId">Birim <span className="text-destructive">*</span></Label>
-                                <Select
-                                    value={assignmentForm.birimId}
-                                    onValueChange={(value) => setAssignmentForm(prev => ({ ...prev, birimId: value }))}
-                                >
+                                        <Select
+                                            value={assignmentForm.birimId}
+                                            onValueChange={(value) => setAssignmentForm(prev => ({ ...prev, birimId: value }))}
+                                            disabled={!isSuperAdmin}
+                                        >
                                     <SelectTrigger>
                                         <SelectValue placeholder="Birim Seçiniz" />
                                     </SelectTrigger>
                                     <SelectContent>
-                                        {birimler.map(birim => (
+                                        {visibleBirimler.map(birim => (
                                             <SelectItem key={birim.birimID} value={String(birim.birimID)}>
                                                 {birim.birimAdi}
                                             </SelectItem>

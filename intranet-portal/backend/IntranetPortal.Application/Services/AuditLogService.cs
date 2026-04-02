@@ -82,12 +82,19 @@ public class AuditLogService : IAuditLogService
         };
     }
 
-    public async Task<AuditLogDto?> GetByIdAsync(long logId)
+    public async Task<AuditLogDto?> GetByIdAsync(long logId, int? birimId = null)
     {
-        var log = await _context.AuditLogs
+        var query = _context.AuditLogs
             .Include(a => a.User)
             .Include(a => a.Birim)
-            .FirstOrDefaultAsync(a => a.LogID == logId);
+            .Where(a => a.LogID == logId);
+
+        if (birimId.HasValue)
+        {
+            query = query.Where(a => a.BirimID == birimId.Value);
+        }
+
+        var log = await query.FirstOrDefaultAsync();
 
         if (log == null) return null;
 
@@ -106,9 +113,16 @@ public class AuditLogService : IAuditLogService
         };
     }
 
-    public async Task<List<string>> GetDistinctActionsAsync()
+    public async Task<List<string>> GetDistinctActionsAsync(int? birimId = null)
     {
-        return await _context.AuditLogs
+        var query = _context.AuditLogs.AsQueryable();
+
+        if (birimId.HasValue)
+        {
+            query = query.Where(a => a.BirimID == birimId.Value);
+        }
+
+        return await query
             .Select(a => a.Action)
             .Distinct()
             .OrderBy(a => a)

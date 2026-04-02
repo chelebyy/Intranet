@@ -4,9 +4,9 @@ import { useAuthStore } from '../../store/authStore';
 export const DashboardRouter = () => {
   const { currentRoleInfo, currentBirimInfo } = useAuthStore();
 
-  // 1. SuperAdmin / SistemAdmin Check
+  // 1. SuperAdmin Check
   const roleName = currentRoleInfo?.roleName;
-  if (roleName === 'SuperAdmin' || roleName === 'SistemAdmin') {
+  if (roleName === 'SuperAdmin') {
     return <Navigate to="/admin/dashboard" replace />;
   }
 
