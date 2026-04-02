@@ -1,4 +1,5 @@
 using IntranetPortal.API.Attributes;
+using IntranetPortal.API.Extensions;
 using IntranetPortal.Application.DTOs;
 using IntranetPortal.Application.Interfaces;
 using IntranetPortal.Domain.Constants;
@@ -29,6 +30,17 @@ public class AuditLogController : ControllerBase
     [HasPermission(Permissions.ReadAuditLog)]
     public async Task<IActionResult> GetLogs([FromQuery] AuditLogFilterDto filter)
     {
+        if (!IsStrictSuperAdmin())
+        {
+            var activeBirimId = User.GetBirimId();
+            if (!activeBirimId.HasValue)
+            {
+                return StatusCode(403, new { success = false, message = "Aktif birim seçimi gereklidir" });
+            }
+
+            filter.BirimID = activeBirimId.Value;
+        }
+
         var result = await _auditLogService.GetLogsAsync(filter);
         return Ok(new { success = true, data = result });
     }
@@ -40,7 +52,13 @@ public class AuditLogController : ControllerBase
     [HasPermission(Permissions.ReadAuditLog)]
     public async Task<IActionResult> GetById(long id)
     {
-        var log = await _auditLogService.GetByIdAsync(id);
+        var scopedBirimId = IsStrictSuperAdmin() ? null : User.GetBirimId();
+        if (!IsStrictSuperAdmin() && !scopedBirimId.HasValue)
+        {
+            return StatusCode(403, new { success = false, message = "Aktif birim seçimi gereklidir" });
+        }
+
+        var log = await _auditLogService.GetByIdAsync(id, scopedBirimId);
         if (log == null)
             return NotFound(new { success = false, message = "Log bulunamadı" });
 
@@ -54,7 +72,18 @@ public class AuditLogController : ControllerBase
     [HasPermission(Permissions.ReadAuditLog)]
     public async Task<IActionResult> GetActions()
     {
-        var actions = await _auditLogService.GetDistinctActionsAsync();
+        var scopedBirimId = IsStrictSuperAdmin() ? null : User.GetBirimId();
+        if (!IsStrictSuperAdmin() && !scopedBirimId.HasValue)
+        {
+            return StatusCode(403, new { success = false, message = "Aktif birim seçimi gereklidir" });
+        }
+
+        var actions = await _auditLogService.GetDistinctActionsAsync(scopedBirimId);
         return Ok(new { success = true, data = actions });
+    }
+
+    private bool IsStrictSuperAdmin()
+    {
+        return User.GetRoleName() == Roles.SuperAdmin;
     }
 }

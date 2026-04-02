@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { birimsApi } from '../../../api/birimsApi';
 import type { Birim, CreateBirimRequest } from '../../../types/api/birims';
 import toast from 'react-hot-toast';
-import { Search, Building2, Edit, Loader2 } from 'lucide-react';
+import { Search, Building2, Edit, Loader2, Plus, Trash2 } from 'lucide-react';
 import {
     Card,
     CardContent,
@@ -29,6 +29,7 @@ export const DepartmentList: React.FC = () => {
     const [loading, setLoading] = useState(true);
     const [showModal, setShowModal] = useState(false);
     const [editingBirim, setEditingBirim] = useState<Birim | null>(null);
+    const [deleteConfirm, setDeleteConfirm] = useState<number | null>(null);
     const [searchTerm, setSearchTerm] = useState('');
     const [formData, setFormData] = useState<CreateBirimRequest>({
         birimAdi: '',
@@ -66,10 +67,15 @@ export const DepartmentList: React.FC = () => {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (!editingBirim) return; // Sadece güncelleme destekleniyor
         try {
-            await birimsApi.update(editingBirim.birimID, formData);
-            toast.success('Birim başarıyla güncellendi');
+            if (editingBirim) {
+                await birimsApi.update(editingBirim.birimID, formData);
+                toast.success('Birim başarıyla güncellendi');
+            } else {
+                await birimsApi.create(formData);
+                toast.success('Birim başarıyla oluşturuldu');
+            }
+
             setShowModal(false);
             setEditingBirim(null);
             setFormData({ birimAdi: '', aciklama: '', isActive: true });
@@ -90,6 +96,24 @@ export const DepartmentList: React.FC = () => {
         setShowModal(true);
     };
 
+    const handleCreate = () => {
+        setEditingBirim(null);
+        setFormData({ birimAdi: '', aciklama: '', isActive: true });
+        setShowModal(true);
+    };
+
+    const handleDelete = async (birimId: number) => {
+        try {
+            await birimsApi.delete(birimId);
+            toast.success('Birim pasif duruma alındı');
+            setDeleteConfirm(null);
+            fetchBirimler();
+        } catch (error) {
+            console.error('Birim silinirken hata:', error);
+            toast.error('Birim silinemedi');
+        }
+    };
+
 
     return (
         <div className="h-full flex-1 flex-col space-y-8 p-8 md:flex">
@@ -102,7 +126,10 @@ export const DepartmentList: React.FC = () => {
                     </p>
                 </div>
                 <div className="flex items-center space-x-2">
-                    {/* Manuel birim ekleme devre dışı bırakıldı - Sistem modülleri otomatik yüklenir */}
+                    <Button onClick={handleCreate}>
+                        <Plus className="mr-2 h-4 w-4" />
+                        Yeni Birim
+                    </Button>
                 </div>
             </div>
 
@@ -157,16 +184,26 @@ export const DepartmentList: React.FC = () => {
                                 )}
                             </CardContent>
                             <CardFooter className="border-t bg-muted/50 px-6 py-3">
-                                <div className="flex w-full items-center justify-center">
-                                    <Button 
-                                        variant="ghost" 
-                                        size="sm" 
-                                        className="h-8"
-                                        onClick={() => handleEdit(birim)}
-                                    >
+                                <div className="flex w-full items-center justify-center gap-2">
+                                    <Button variant="ghost" size="sm" className="h-8" onClick={() => handleEdit(birim)}>
                                         <Edit className="w-4 h-4 mr-2" />
                                         Düzenle
                                     </Button>
+                                    {deleteConfirm === birim.birimID ? (
+                                        <>
+                                            <Button variant="destructive" size="sm" className="h-8" onClick={() => handleDelete(birim.birimID)}>
+                                                Onayla
+                                            </Button>
+                                            <Button variant="outline" size="sm" className="h-8" onClick={() => setDeleteConfirm(null)}>
+                                                İptal
+                                            </Button>
+                                        </>
+                                    ) : (
+                                        <Button variant="ghost" size="sm" className="h-8 text-destructive" onClick={() => setDeleteConfirm(birim.birimID)}>
+                                            <Trash2 className="w-4 h-4 mr-2" />
+                                            Sil
+                                        </Button>
+                                    )}
                                 </div>
                             </CardFooter>
                         </Card>
@@ -178,9 +215,9 @@ export const DepartmentList: React.FC = () => {
             <Dialog open={showModal} onOpenChange={setShowModal}>
                 <DialogContent className="sm:max-w-[425px]">
                     <DialogHeader>
-                        <DialogTitle>Birim Düzenle</DialogTitle>
+                        <DialogTitle>{editingBirim ? 'Birim Düzenle' : 'Yeni Birim'}</DialogTitle>
                         <DialogDescription>
-                            Birim açıklamasını düzenleyebilirsiniz.
+                            {editingBirim ? 'Birim bilgilerini güncelleyebilirsiniz.' : 'Yeni birim oluşturabilirsiniz.'}
                         </DialogDescription>
                     </DialogHeader>
                     <form onSubmit={handleSubmit}>
@@ -190,8 +227,8 @@ export const DepartmentList: React.FC = () => {
                                 <Input
                                     id="birimAdi"
                                     value={formData.birimAdi}
-                                    disabled
-                                    className="bg-muted"
+                                    onChange={(e) => setFormData({ ...formData, birimAdi: e.target.value })}
+                                    className={editingBirim ? 'bg-background' : ''}
                                 />
                             </div>
                             <div className="grid gap-2">
@@ -208,7 +245,7 @@ export const DepartmentList: React.FC = () => {
                         <DialogFooter>
                             <Button type="button" variant="outline" onClick={() => setShowModal(false)}>İptal</Button>
                             <Button type="submit" className="bg-purple-600 text-white hover:bg-purple-700">
-                                Güncelle
+                                {editingBirim ? 'Güncelle' : 'Oluştur'}
                             </Button>
                         </DialogFooter>
                     </form>

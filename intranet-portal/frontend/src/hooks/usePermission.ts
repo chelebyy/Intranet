@@ -123,6 +123,10 @@ export const Permissions = {
     Update: { resource: 'role', action: 'update' },
     Delete: { resource: 'role', action: 'delete' },
   },
+  Permission: {
+    Read: { resource: 'permission', action: 'read' },
+    Manage: { resource: 'permission', action: 'manage' },
+  },
   Birim: {
     Read: { resource: 'birim', action: 'read' },
     Create: { resource: 'birim', action: 'create' },
@@ -132,6 +136,12 @@ export const Permissions = {
   AuditLog: {
     Read: { resource: 'auditlog', action: 'read' },
   },
+  Announcement: {
+    Read: { resource: 'announcement', action: 'read' },
+    Create: { resource: 'announcement', action: 'create' },
+    Update: { resource: 'announcement', action: 'update' },
+    Delete: { resource: 'announcement', action: 'delete' },
+  },
   File: {
     Upload: { resource: 'file', action: 'upload' },
     Download: { resource: 'file', action: 'download' },
@@ -139,6 +149,11 @@ export const Permissions = {
   },
   System: {
     Read: { resource: 'system', action: 'read' },
+  },
+  Backup: {
+    Manage: { resource: 'backups', action: 'manage' },
+  },
+  Maintenance: {
     Manage: { resource: 'maintenance', action: 'manage' },
   },
   Unvan: {
@@ -150,10 +165,6 @@ export const Permissions = {
   Dashboard: {
     View: { resource: 'dashboard', action: 'view' },
   },
-  ManageMaintenance: {
-    resource: 'maintenance',
-    action: 'manage'
-  }
 } as const;
 
 export default usePermission;

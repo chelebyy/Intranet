@@ -18,8 +18,10 @@ namespace IntranetPortal.Application.Services
             _context = context;
         }
 
-        public async Task<AnnouncementDto> CreateAsync(CreateAnnouncementDto dto, int createdByUserId)
+        public async Task<AnnouncementDto> CreateAsync(CreateAnnouncementDto dto, int createdByUserId, int? activeBirimId, bool isSuperAdmin)
         {
+            await ValidateAndNormalizeTargetsAsync(dto, activeBirimId, isSuperAdmin);
+
             var announcement = new Announcement
             {
                 Title = dto.Title,
@@ -45,8 +47,10 @@ namespace IntranetPortal.Application.Services
             return await GetByIdAsync(announcement.AnnouncementID);
         }
 
-        public async Task<AnnouncementDto> UpdateAsync(int id, CreateAnnouncementDto dto)
+        public async Task<AnnouncementDto> UpdateAsync(int id, CreateAnnouncementDto dto, int? activeBirimId, bool isSuperAdmin)
         {
+            await ValidateAndNormalizeTargetsAsync(dto, activeBirimId, isSuperAdmin);
+
             var announcement = await _context.Announcements
                 .Include(a => a.Targets)
                 .FirstOrDefaultAsync(a => a.AnnouncementID == id);
@@ -185,6 +189,51 @@ namespace IntranetPortal.Application.Services
                     TargetValue = t.TargetValue
                 }).ToList()
             };
+        }
+
+        private async Task ValidateAndNormalizeTargetsAsync(CreateAnnouncementDto dto, int? activeBirimId, bool isSuperAdmin)
+        {
+            if (isSuperAdmin)
+            {
+                return;
+            }
+
+            if (!activeBirimId.HasValue)
+            {
+                throw new InvalidOperationException("Aktif birim seçimi gereklidir.");
+            }
+
+            foreach (var target in dto.Targets)
+            {
+                switch (target.TargetType)
+                {
+                    case "All":
+                    case "Role":
+                        throw new InvalidOperationException("Bu hedef tipi için yetkiniz bulunmamaktadır.");
+
+                    case "Unit":
+                        target.TargetValue = activeBirimId.Value;
+                        break;
+
+                    case "User":
+                        if (!target.TargetValue.HasValue)
+                        {
+                            throw new InvalidOperationException("Kullanıcı hedefi için geçerli bir kullanıcı seçilmelidir.");
+                        }
+
+                        var isUserInActiveBirim = await _context.UserBirimRoles
+                            .AnyAsync(ubr => ubr.UserID == target.TargetValue.Value && ubr.BirimID == activeBirimId.Value);
+
+                        if (!isUserInActiveBirim)
+                        {
+                            throw new InvalidOperationException("Sadece aktif biriminizdeki kullanıcılara duyuru gönderebilirsiniz.");
+                        }
+                        break;
+
+                    default:
+                        throw new InvalidOperationException("Geçersiz hedef tipi.");
+                }
+            }
         }
     }
 }

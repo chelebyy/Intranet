@@ -28,8 +28,10 @@ import {
 } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
 import { Search, RefreshCw, Filter, Eye, History, Loader2 } from 'lucide-react';
+import { useAuthStore } from '../../../store/authStore';
 
 export const AuditLogList: React.FC = () => {
+    const { selectedBirim, currentRoleInfo } = useAuthStore();
     const [logs, setLogs] = useState<AuditLogItem[]>([]);
     const [loading, setLoading] = useState(true);
     const [totalCount, setTotalCount] = useState(0);
@@ -43,6 +45,18 @@ export const AuditLogList: React.FC = () => {
         searchTerm: '',
         action: ''
     });
+
+    const isSuperAdmin = currentRoleInfo?.roleName === 'SuperAdmin';
+
+    useEffect(() => {
+        if (isSuperAdmin) return;
+
+        setFilter(prev => ({
+            ...prev,
+            birimID: selectedBirim?.birimId,
+            page: 1
+        }));
+    }, [isSuperAdmin, selectedBirim]);
 
     const fetchLogs = useCallback(async () => {
         try {

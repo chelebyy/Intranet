@@ -79,7 +79,7 @@ function App() {
           
           {/* Admin Dashboard: Explicit path for admins */}
           <Route path="admin/dashboard" element={
-            <ProtectedRoute requiredPermission={Permissions.System.Read}>
+            <ProtectedRoute requiredPermission={Permissions.Dashboard.View}>
               <Suspense fallback={<PageLoader />}>
                 <Dashboard />
               </Suspense>
@@ -148,7 +148,7 @@ function App() {
 
           {/* Backup Management - SuperAdmin only (manage.backups permission) */}
           <Route path="admin/backups" element={
-            <ProtectedRoute requiredPermission={Permissions.System.Read}>
+            <ProtectedRoute requiredPermission={Permissions.Backup.Manage}>
               <Suspense fallback={<PageLoader />}>
                 <BackupPage />
               </Suspense>
@@ -157,7 +157,7 @@ function App() {
 
             {/* Database Maintenance - SuperAdmin only */}
           <Route path="admin/maintenance" element={
-            <ProtectedRoute requiredPermission={Permissions.System.Read}>
+            <ProtectedRoute requiredPermission={Permissions.Maintenance.Manage}>
               <Suspense fallback={<PageLoader />}>
                 <MaintenancePage />
               </Suspense>
@@ -166,26 +166,26 @@ function App() {
 
           {/* Announcement Management - Admin only */}
           <Route path="admin/announcements" element={
-            <ProtectedRoute requiredPermission={Permissions.System.Read}> {/* Adjust to ReadAnnouncement later if strict */}
+            <ProtectedRoute requiredPermission={Permissions.Announcement.Read}>
                <Suspense fallback={<PageLoader />}>
                  <AnnouncementList />
-               </Suspense>
-            </ProtectedRoute>
-          } />
+                </Suspense>
+             </ProtectedRoute>
+           } />
           <Route path="admin/announcements/new" element={
-            <ProtectedRoute requiredPermission={Permissions.System.Read}> {/* Adjust to CreateAnnouncement */}
+            <ProtectedRoute requiredPermission={Permissions.Announcement.Create}>
                <Suspense fallback={<PageLoader />}>
                  <AnnouncementEditor />
-               </Suspense>
-            </ProtectedRoute>
-          } />
+                </Suspense>
+             </ProtectedRoute>
+           } />
           <Route path="admin/announcements/edit/:id" element={
-            <ProtectedRoute requiredPermission={Permissions.System.Read}> {/* Adjust to UpdateAnnouncement */}
+            <ProtectedRoute requiredPermission={Permissions.Announcement.Update}>
                <Suspense fallback={<PageLoader />}>
                  <AnnouncementEditor />
-               </Suspense>
-            </ProtectedRoute>
-          } />
+                </Suspense>
+             </ProtectedRoute>
+           } />
 
           {/* Profile - accessible to all authenticated users */}
           <Route path="profile" element={

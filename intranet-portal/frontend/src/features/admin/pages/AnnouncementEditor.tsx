@@ -12,6 +12,7 @@ import type { Birim } from '../../../types/api/birims';
 import type { Role } from '../../../types/api/roles';
 import type { UserDto } from '../../../types/api/users';
 import toast from 'react-hot-toast';
+import { useAuthStore } from '../../../store/authStore';
 
 // Simple types for dropdown options
 const TARGET_TYPES = [
@@ -37,6 +38,7 @@ export default function AnnouncementEditor() {
   const { id } = useParams();
   const navigate = useNavigate();
   const isEditMode = !!id;
+  const { selectedBirim, currentRoleInfo } = useAuthStore();
   const [isLoading, setIsLoading] = useState(false);
   
   // Reference data
@@ -60,6 +62,11 @@ export default function AnnouncementEditor() {
     name: "targets"
   });
 
+  const isSuperAdmin = currentRoleInfo?.roleName === 'SuperAdmin';
+  const availableTargetTypes = isSuperAdmin
+    ? TARGET_TYPES
+    : TARGET_TYPES.filter(option => option.value === 'Unit' || option.value === 'User');
+
   useEffect(() => {
     fetchReferenceData();
     if (isEditMode) {
@@ -74,8 +81,8 @@ export default function AnnouncementEditor() {
         rolesApi.getAll(),
         usersApi.getAll()
       ]);
-      setUnits(unitsData);
-      setRoles(rolesData);
+      setUnits(isSuperAdmin ? unitsData : unitsData.filter(unit => unit.birimID === selectedBirim?.birimId));
+      setRoles(isSuperAdmin ? rolesData : []);
       setUsers(usersData);
     } catch (err) {
       console.error('Reference data load error', err);
@@ -118,11 +125,14 @@ export default function AnnouncementEditor() {
       
       const formattedData = {
         ...data,
-        // Ensure values are numbers even if HTML select returns strings
-        targets: data.targets.map(t => ({
-          ...t,
-          targetValue: Number(t.targetValue)
-        }))
+        targets: data.targets
+          .filter(t => isSuperAdmin || t.targetType === 'Unit' || t.targetType === 'User')
+          .map(t => ({
+            ...t,
+            targetValue: t.targetType === 'Unit' && !isSuperAdmin && selectedBirim
+              ? selectedBirim.birimId
+              : Number(t.targetValue)
+          }))
       };
 
       if (isEditMode) {
@@ -247,7 +257,10 @@ export default function AnnouncementEditor() {
             <h2 className="text-lg font-semibold text-gray-900">Hedef Kitle</h2>
             <button
               type="button"
-              onClick={() => append({ targetType: 'All', targetValue: 0 })}
+              onClick={() => append({
+                targetType: isSuperAdmin ? 'All' : 'Unit',
+                targetValue: isSuperAdmin ? 0 : (selectedBirim?.birimId ?? 0)
+              })}
               className="flex items-center px-3 py-1 text-xs font-medium text-indigo-700 bg-indigo-100 rounded-full hover:bg-indigo-200"
             >
               <Plus className="w-3 h-3 mr-1" />
@@ -257,7 +270,7 @@ export default function AnnouncementEditor() {
 
           <div className="space-y-3">
             {fields.length === 0 && (
-              <p className="text-sm text-gray-500 italic">Hiçbir hedef seçilmedi. (Boş bırakılırsa kimse görmez, herkese göstermek için "Tüm Kullanıcılar" ekleyin)</p>
+              <p className="text-sm text-gray-500 italic">Hiçbir hedef seçilmedi.</p>
             )}
             
             {fields.map((field, index) => (
@@ -269,6 +282,9 @@ export default function AnnouncementEditor() {
                 units={units}
                 roles={roles}
                 users={users}
+                targetTypes={availableTargetTypes}
+                isSuperAdmin={isSuperAdmin}
+                selectedBirimId={selectedBirim?.birimId}
               />
             ))}
           </div>
@@ -290,7 +306,7 @@ export default function AnnouncementEditor() {
 }
 
 // Sub-component to handle the conditional logic cleanly
-const TargetRow = ({ index, control, remove, units, roles, users }: {
+const TargetRow = ({ index, control, remove, units, roles, users, targetTypes, isSuperAdmin, selectedBirimId }: {
   index: number;
   control: Control<CreateAnnouncementDto>;
 
@@ -298,17 +314,20 @@ const TargetRow = ({ index, control, remove, units, roles, users }: {
   units: Birim[];
   roles: Role[];
   users: UserDto[];
+  targetTypes: typeof TARGET_TYPES;
+  isSuperAdmin: boolean;
+  selectedBirimId?: number;
 }) => {
   const { field: targetTypeField } = useController({
     control,
     name: `targets.${index}.targetType`,
-    defaultValue: 'All'
+    defaultValue: isSuperAdmin ? 'All' : 'Unit'
   });
 
   const { field: targetValueField } = useController({
     control,
     name: `targets.${index}.targetValue`,
-    defaultValue: 0
+    defaultValue: isSuperAdmin ? 0 : (selectedBirimId ?? 0)
   });
 
   // Prepare options based on type
@@ -332,11 +351,11 @@ const TargetRow = ({ index, control, remove, units, roles, users }: {
           {...targetTypeField}
           onChange={(e) => {
             targetTypeField.onChange(e); // Update type
-            targetValueField.onChange(0); // Reset value when type changes
+            targetValueField.onChange(!isSuperAdmin && e.target.value === 'Unit' ? (selectedBirimId ?? 0) : 0);
           }}
           className="block w-full px-3 py-1.5 text-sm border border-gray-300 rounded-md bg-white"
         >
-          {TARGET_TYPES.map(opt => (
+          {targetTypes.map(opt => (
             <option key={opt.value} value={opt.value}>{opt.label}</option>
           ))}
         </select>

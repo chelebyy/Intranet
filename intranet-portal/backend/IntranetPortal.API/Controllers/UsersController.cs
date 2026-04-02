@@ -28,15 +28,18 @@ namespace IntranetPortal.API.Controllers
         {
             // 1. Get Active Birim ID from Token
             var activeBirimId = User.GetBirimId();
+            var isSuperAdmin = IsStrictSuperAdmin();
 
             // 2. Check if user is SuperAdmin
-            if (User.IsSuperAdmin() || !activeBirimId.HasValue)
+            if (isSuperAdmin)
             {
-                // SuperAdmin sees all users, or if no unit selected (should be guarded by auth but fail-safe)
-                // Note: If !activeBirimId.HasValue and NOT SuperAdmin, they probably shouldn't see anything or 
-                // access this endpoint if HasPermission works correctly (it checks role permissions).
                 var allUsers = await _userService.GetAllUsersAsync();
                 return Ok(ApiResponse<IEnumerable<UserDto>>.Ok(allUsers));
+            }
+
+            if (!activeBirimId.HasValue)
+            {
+                return StatusCode(403, ApiResponse<IEnumerable<UserDto>>.Fail("Aktif birim seçimi gereklidir", "FORBIDDEN"));
             }
 
             // 3. Filter by Active Birim
@@ -51,6 +54,26 @@ namespace IntranetPortal.API.Controllers
             var user = await _userService.GetUserByIdAsync(id);
             if (user == null)
                 return NotFound(ApiResponse<UserDto>.Fail("Kullanıcı bulunamadı", "NOT_FOUND"));
+
+            if (!IsStrictSuperAdmin())
+            {
+                var activeBirimId = User.GetBirimId();
+                if (!activeBirimId.HasValue)
+                {
+                    return StatusCode(403, ApiResponse<UserDto>.Fail("Aktif birim seçimi gereklidir", "FORBIDDEN"));
+                }
+
+                var scopedRoles = user.BirimRoles?
+                    .Where(br => br.BirimID == activeBirimId.Value)
+                    .ToList() ?? [];
+
+                if (scopedRoles.Count == 0)
+                {
+                    return StatusCode(403, ApiResponse<UserDto>.Fail("Bu kullanıcıyı yönetme yetkiniz bulunmamaktadır", "FORBIDDEN"));
+                }
+
+                user.BirimRoles = scopedRoles;
+            }
 
             return Ok(ApiResponse<UserDto>.Ok(user));
         }
@@ -80,6 +103,9 @@ namespace IntranetPortal.API.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ApiResponse<UserDto>.Fail("Validasyon hatası", "VALIDATION_ERROR"));
 
+            if (!await CanManageUserInActiveBirimAsync(id))
+                return StatusCode(403, ApiResponse<UserDto>.Fail("Bu kullanıcıyı güncelleme yetkiniz bulunmamaktadır", "FORBIDDEN"));
+
             try
             {
                 var updatedUser = await _userService.UpdateUserAsync(id, updateUserDto);
@@ -98,6 +124,9 @@ namespace IntranetPortal.API.Controllers
         [HasPermission(Permissions.DeleteUser)]
         public async Task<ActionResult<ApiResponse<bool>>> DeleteUser(int id)
         {
+            if (!await CanManageUserInActiveBirimAsync(id))
+                return StatusCode(403, ApiResponse<bool>.Fail("Bu kullanıcıyı silme yetkiniz bulunmamaktadır", "FORBIDDEN"));
+
             var result = await _userService.DeleteUserAsync(id);
             if (!result)
                 return NotFound(ApiResponse<bool>.Fail("Kullanıcı bulunamadı", "NOT_FOUND"));
@@ -112,6 +141,9 @@ namespace IntranetPortal.API.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ApiResponse<bool>.Fail("Validasyon hatası", "VALIDATION_ERROR"));
 
+            if (!await CanManageUserInActiveBirimAsync(id))
+                return StatusCode(403, ApiResponse<bool>.Fail("Bu kullanıcının şifresini sıfırlama yetkiniz bulunmamaktadır", "FORBIDDEN"));
+
             var result = await _userService.ResetPasswordAsync(id, resetPasswordDto.NewPassword);
             if (!result)
                 return NotFound(ApiResponse<bool>.Fail("Kullanıcı bulunamadı", "NOT_FOUND"));
@@ -123,6 +155,9 @@ namespace IntranetPortal.API.Controllers
         [HasPermission(Permissions.UpdateUser)]
         public async Task<ActionResult<ApiResponse<bool>>> AddBirimRoleAssignment(int id, [FromBody] BirimRoleAssignmentDto dto)
         {
+            if (!CanManageAssignmentBirim(dto.BirimId))
+                return StatusCode(403, ApiResponse<bool>.Fail("Sadece aktif biriminiz içinde atama yapabilirsiniz", "FORBIDDEN"));
+
             var result = await _userService.AddBirimRoleAssignmentAsync(id, dto.BirimId, dto.RoleId);
             if (!result)
                 return NotFound(ApiResponse<bool>.Fail("Kullanıcı bulunamadı", "NOT_FOUND"));
@@ -134,6 +169,9 @@ namespace IntranetPortal.API.Controllers
         [HasPermission(Permissions.UpdateUser)]
         public async Task<ActionResult<ApiResponse<bool>>> RemoveBirimRoleAssignment(int id, int birimId)
         {
+            if (!CanManageAssignmentBirim(birimId))
+                return StatusCode(403, ApiResponse<bool>.Fail("Sadece aktif biriminiz içindeki atamaları kaldırabilirsiniz", "FORBIDDEN"));
+
             var result = await _userService.RemoveBirimRoleAssignmentAsync(id, birimId);
             if (!result)
                 return NotFound(ApiResponse<bool>.Fail("Atama bulunamadı", "NOT_FOUND"));
@@ -145,11 +183,41 @@ namespace IntranetPortal.API.Controllers
         [HasPermission(Permissions.UpdateUser)]
         public async Task<ActionResult<ApiResponse<bool>>> UpdateBirimRoleAssignment(int id, int birimId, [FromBody] UpdateBirimRoleDto dto)
         {
+            if (!CanManageAssignmentBirim(birimId))
+                return StatusCode(403, ApiResponse<bool>.Fail("Sadece aktif biriminiz içindeki atamaları güncelleyebilirsiniz", "FORBIDDEN"));
+
             var result = await _userService.UpdateBirimRoleAssignmentAsync(id, birimId, dto.RoleId);
             if (!result)
                 return NotFound(ApiResponse<bool>.Fail("Atama bulunamadı", "NOT_FOUND"));
 
             return Ok(ApiResponse<bool>.Ok(true, "Birim-rol ataması güncellendi"));
+        }
+
+        private bool IsStrictSuperAdmin()
+        {
+            return User.GetRoleName() == Roles.SuperAdmin;
+        }
+
+        private async Task<bool> CanManageUserInActiveBirimAsync(int userId)
+        {
+            if (IsStrictSuperAdmin())
+                return true;
+
+            var activeBirimId = User.GetBirimId();
+            if (!activeBirimId.HasValue)
+                return false;
+
+            var user = await _userService.GetUserByIdAsync(userId);
+            return user?.BirimRoles?.Any(br => br.BirimID == activeBirimId.Value) == true;
+        }
+
+        private bool CanManageAssignmentBirim(int birimId)
+        {
+            if (IsStrictSuperAdmin())
+                return true;
+
+            var activeBirimId = User.GetBirimId();
+            return activeBirimId.HasValue && activeBirimId.Value == birimId;
         }
     }
 

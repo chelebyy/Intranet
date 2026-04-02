@@ -6,8 +6,8 @@ namespace IntranetPortal.Application.Interfaces
 {
     public interface IAnnouncementService
     {
-        Task<AnnouncementDto> CreateAsync(CreateAnnouncementDto dto, int createdByUserId);
-        Task<AnnouncementDto> UpdateAsync(int id, CreateAnnouncementDto dto);
+        Task<AnnouncementDto> CreateAsync(CreateAnnouncementDto dto, int createdByUserId, int? activeBirimId, bool isSuperAdmin);
+        Task<AnnouncementDto> UpdateAsync(int id, CreateAnnouncementDto dto, int? activeBirimId, bool isSuperAdmin);
         Task DeleteAsync(int id);
         Task<AnnouncementDto?> GetByIdAsync(int id);
         

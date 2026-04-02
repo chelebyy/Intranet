@@ -13,10 +13,9 @@ export default function AnnouncementList() {
   const [announcements, setAnnouncements] = useState<Announcement[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  const canCreate = hasPermission(Permissions.ManageMaintenance.resource, Permissions.ManageMaintenance.action) || 
-                    hasPermission('announcement', 'create');
-  const canEdit = hasPermission('announcement', 'update');
-  const canDelete = hasPermission('announcement', 'delete');
+  const canCreate = hasPermission(Permissions.Announcement.Create.resource, Permissions.Announcement.Create.action);
+  const canEdit = hasPermission(Permissions.Announcement.Update.resource, Permissions.Announcement.Update.action);
+  const canDelete = hasPermission(Permissions.Announcement.Delete.resource, Permissions.Announcement.Delete.action);
 
   useEffect(() => {
     fetchAnnouncements();
