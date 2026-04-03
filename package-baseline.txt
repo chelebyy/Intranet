@@ -1,0 +1,323 @@
+'IntranetPortal.API' projesi aşağıdaki paket başvurularına sahip
+   [net9.0]: 
+   Üst Düzey Paket                                      İstendi   Çözümlendi
+   > BCrypt.Net-Next                                    4.1.0     4.1.0     
+   > Microsoft.AspNetCore.Authentication.JwtBearer      9.0.0     9.0.0     
+   > Microsoft.AspNetCore.OpenApi                       9.0.11    9.0.11    
+   > Microsoft.EntityFrameworkCore.Design               9.0.4     9.0.4     
+   > Serilog.AspNetCore                                 10.0.0    10.0.0    
+
+   Geçişli Paket                                                Çözümlendi
+   > AutoMapper                                                 12.0.1    
+   > AutoMapper.Extensions.Microsoft.DependencyInjection        12.0.1    
+   > FluentValidation                                           11.11.0   
+   > FluentValidation.AspNetCore                                11.3.1    
+   > FluentValidation.DependencyInjectionExtensions             11.11.0   
+   > Humanizer.Core                                             2.14.1    
+   > Microsoft.Bcl.AsyncInterfaces                              7.0.0     
+   > Microsoft.Build.Framework                                  17.8.3    
+   > Microsoft.Build.Locator                                    1.7.8     
+   > Microsoft.CodeAnalysis.Analyzers                           3.3.4     
+   > Microsoft.CodeAnalysis.Common                              4.8.0     
+   > Microsoft.CodeAnalysis.CSharp                              4.8.0     
+   > Microsoft.CodeAnalysis.CSharp.Workspaces                   4.8.0     
+   > Microsoft.CodeAnalysis.Workspaces.Common                   4.8.0     
+   > Microsoft.CodeAnalysis.Workspaces.MSBuild                  4.8.0     
+   > Microsoft.CSharp                                           4.7.0     
+   > Microsoft.EntityFrameworkCore                              9.0.4     
+   > Microsoft.EntityFrameworkCore.Abstractions                 9.0.4     
+   > Microsoft.EntityFrameworkCore.Analyzers                    9.0.4     
+   > Microsoft.EntityFrameworkCore.Relational                   9.0.4     
+   > Microsoft.Extensions.Caching.Abstractions                  9.0.4     
+   > Microsoft.Extensions.Caching.Memory                        9.0.4     
+   > Microsoft.Extensions.Configuration                         10.0.0    
+   > Microsoft.Extensions.Configuration.Abstractions            10.0.0    
+   > Microsoft.Extensions.Configuration.Binder                  10.0.0    
+   > Microsoft.Extensions.DependencyInjection                   10.0.0    
+   > Microsoft.Extensions.DependencyInjection.Abstractions      10.0.0    
+   > Microsoft.Extensions.DependencyModel                       10.0.0    
+   > Microsoft.Extensions.Diagnostics.Abstractions              10.0.0    
+   > Microsoft.Extensions.FileProviders.Abstractions            10.0.0    
+   > Microsoft.Extensions.Hosting.Abstractions                  10.0.0    
+   > Microsoft.Extensions.Logging                               10.0.0    
+   > Microsoft.Extensions.Logging.Abstractions                  10.0.0    
+   > Microsoft.Extensions.Options                               10.0.0    
+   > Microsoft.Extensions.Primitives                            10.0.0    
+   > Microsoft.IdentityModel.Abstractions                       8.17.0    
+   > Microsoft.IdentityModel.JsonWebTokens                      8.17.0    
+   > Microsoft.IdentityModel.Logging                            8.17.0    
+   > Microsoft.IdentityModel.Protocols                          8.0.1     
+   > Microsoft.IdentityModel.Protocols.OpenIdConnect            8.0.1     
+   > Microsoft.IdentityModel.Tokens                             8.17.0    
+   > Microsoft.OpenApi                                          1.6.17    
+   > Mono.TextTemplating                                        3.0.0     
+   > Npgsql                                                     9.0.3     
+   > Npgsql.EntityFrameworkCore.PostgreSQL                      9.0.4     
+   > Serilog                                                    4.3.0     
+   > Serilog.Extensions.Hosting                                 10.0.0    
+   > Serilog.Extensions.Logging                                 10.0.0    
+   > Serilog.Formatting.Compact                                 3.0.0     
+   > Serilog.Settings.Configuration                             10.0.0    
+   > Serilog.Sinks.Console                                      6.1.1     
+   > Serilog.Sinks.Debug                                        3.0.0     
+   > Serilog.Sinks.File                                         7.0.0     
+   > System.CodeDom                                             6.0.0     
+   > System.Collections.Immutable                               7.0.0     
+   > System.Composition                                         7.0.0     
+   > System.Composition.AttributedModel                         7.0.0     
+   > System.Composition.Convention                              7.0.0     
+   > System.Composition.Hosting                                 7.0.0     
+   > System.Composition.Runtime                                 7.0.0     
+   > System.Composition.TypedParts                              7.0.0     
+   > System.Diagnostics.DiagnosticSource                        10.0.0    
+   > System.IdentityModel.Tokens.Jwt                            8.17.0    
+   > System.IO.Pipelines                                        10.0.0    
+   > System.Reflection.Metadata                                 7.0.0     
+   > System.Runtime.CompilerServices.Unsafe                     6.0.0     
+   > System.Text.Encodings.Web                                  10.0.0    
+   > System.Text.Json                                           10.0.0    
+   > System.Threading.Channels                                  7.0.0     
+
+'IntranetPortal.Domain' projesi aşağıdaki paket başvurularına sahip
+   [net9.0]: Bu çerçeve için paket bulunamadı.
+'IntranetPortal.Application' projesi aşağıdaki paket başvurularına sahip
+   [net9.0]: 
+   Üst Düzey Paket                                            İstendi   Çözümlendi
+   > AutoMapper.Extensions.Microsoft.DependencyInjection      12.0.1    12.0.1    
+   > BCrypt.Net-Next                                          4.1.0     4.1.0     
+   > FluentValidation.AspNetCore                              11.3.1    11.3.1    
+   > Microsoft.EntityFrameworkCore                            9.0.4     9.0.4     
+   > Microsoft.EntityFrameworkCore.Relational                 9.0.4     9.0.4     
+   > System.IdentityModel.Tokens.Jwt                          8.17.0    8.17.0    
+
+   Geçişli Paket                                                Çözümlendi
+   > AutoMapper                                                 12.0.1    
+   > FluentValidation                                           11.11.0   
+   > FluentValidation.DependencyInjectionExtensions             11.11.0   
+   > Microsoft.CSharp                                           4.7.0     
+   > Microsoft.EntityFrameworkCore.Abstractions                 9.0.4     
+   > Microsoft.EntityFrameworkCore.Analyzers                    9.0.4     
+   > Microsoft.Extensions.Caching.Abstractions                  9.0.4     
+   > Microsoft.Extensions.Caching.Memory                        9.0.4     
+   > Microsoft.Extensions.Configuration.Abstractions            9.0.4     
+   > Microsoft.Extensions.DependencyInjection                   9.0.4     
+   > Microsoft.Extensions.DependencyInjection.Abstractions      9.0.4     
+   > Microsoft.Extensions.Diagnostics.Abstractions              9.0.4     
+   > Microsoft.Extensions.FileProviders.Abstractions            9.0.4     
+   > Microsoft.Extensions.Hosting.Abstractions                  9.0.4     
+   > Microsoft.Extensions.Logging                               9.0.4     
+   > Microsoft.Extensions.Logging.Abstractions                  9.0.4     
+   > Microsoft.Extensions.Options                               9.0.4     
+   > Microsoft.Extensions.Primitives                            9.0.4     
+   > Microsoft.IdentityModel.Abstractions                       8.17.0    
+   > Microsoft.IdentityModel.JsonWebTokens                      8.17.0    
+   > Microsoft.IdentityModel.Logging                            8.17.0    
+   > Microsoft.IdentityModel.Tokens                             8.17.0    
+   > Npgsql                                                     9.0.3     
+   > Npgsql.EntityFrameworkCore.PostgreSQL                      9.0.4     
+
+'IntranetPortal.Infrastructure' projesi aşağıdaki paket başvurularına sahip
+   [net9.0]: 
+   Üst Düzey Paket                                  İstendi   Çözümlendi
+   > BCrypt.Net-Next                                4.1.0     4.1.0     
+   > Microsoft.EntityFrameworkCore                  9.0.4     9.0.4     
+   > Microsoft.EntityFrameworkCore.Design           9.0.4     9.0.4     
+   > Microsoft.EntityFrameworkCore.Tools            9.0.4     9.0.4     
+   > Microsoft.Extensions.Hosting.Abstractions      9.0.4     9.0.4     
+   > Npgsql.EntityFrameworkCore.PostgreSQL          9.0.4     9.0.4     
+
+   Geçişli Paket                                                Çözümlendi
+   > Humanizer.Core                                             2.14.1    
+   > Microsoft.Bcl.AsyncInterfaces                              7.0.0     
+   > Microsoft.Build.Framework                                  17.8.3    
+   > Microsoft.Build.Locator                                    1.7.8     
+   > Microsoft.CodeAnalysis.Analyzers                           3.3.4     
+   > Microsoft.CodeAnalysis.Common                              4.8.0     
+   > Microsoft.CodeAnalysis.CSharp                              4.8.0     
+   > Microsoft.CodeAnalysis.CSharp.Workspaces                   4.8.0     
+   > Microsoft.CodeAnalysis.Workspaces.Common                   4.8.0     
+   > Microsoft.CodeAnalysis.Workspaces.MSBuild                  4.8.0     
+   > Microsoft.EntityFrameworkCore.Abstractions                 9.0.4     
+   > Microsoft.EntityFrameworkCore.Analyzers                    9.0.4     
+   > Microsoft.EntityFrameworkCore.Relational                   9.0.4     
+   > Microsoft.Extensions.Caching.Abstractions                  9.0.4     
+   > Microsoft.Extensions.Caching.Memory                        9.0.4     
+   > Microsoft.Extensions.Configuration.Abstractions            9.0.4     
+   > Microsoft.Extensions.DependencyInjection                   9.0.4     
+   > Microsoft.Extensions.DependencyInjection.Abstractions      9.0.4     
+   > Microsoft.Extensions.DependencyModel                       9.0.4     
+   > Microsoft.Extensions.Diagnostics.Abstractions              9.0.4     
+   > Microsoft.Extensions.FileProviders.Abstractions            9.0.4     
+   > Microsoft.Extensions.Logging                               9.0.4     
+   > Microsoft.Extensions.Logging.Abstractions                  9.0.4     
+   > Microsoft.Extensions.Options                               9.0.4     
+   > Microsoft.Extensions.Primitives                            9.0.4     
+   > Mono.TextTemplating                                        3.0.0     
+   > Npgsql                                                     9.0.3     
+   > System.CodeDom                                             6.0.0     
+   > System.Collections.Immutable                               7.0.0     
+   > System.Composition                                         7.0.0     
+   > System.Composition.AttributedModel                         7.0.0     
+   > System.Composition.Convention                              7.0.0     
+   > System.Composition.Hosting                                 7.0.0     
+   > System.Composition.Runtime                                 7.0.0     
+   > System.Composition.TypedParts                              7.0.0     
+   > System.IO.Pipelines                                        7.0.0     
+   > System.Reflection.Metadata                                 7.0.0     
+   > System.Runtime.CompilerServices.Unsafe                     6.0.0     
+   > System.Text.Json                                           9.0.4     
+   > System.Threading.Channels                                  7.0.0     
+
+'IntranetPortal.UnitTests' projesi aşağıdaki paket başvurularına sahip
+   [net9.0]: 
+   Üst Düzey Paket                  İstendi   Çözümlendi
+   > coverlet.collector             8.0.1     8.0.1     
+   > FluentAssertions               8.9.0     8.9.0     
+   > Microsoft.NET.Test.Sdk         17.12.0   17.12.0   
+   > Moq                            4.20.72   4.20.72   
+   > xunit                          2.9.2     2.9.2     
+   > xunit.runner.visualstudio      2.8.2     2.8.2     
+
+   Geçişli Paket                                                Çözümlendi
+   > AutoMapper                                                 12.0.1    
+   > AutoMapper.Extensions.Microsoft.DependencyInjection        12.0.1    
+   > BCrypt.Net-Next                                            4.1.0     
+   > Castle.Core                                                5.1.1     
+   > FluentValidation                                           11.11.0   
+   > FluentValidation.AspNetCore                                11.3.1    
+   > FluentValidation.DependencyInjectionExtensions             11.11.0   
+   > Microsoft.CodeCoverage                                     17.12.0   
+   > Microsoft.CSharp                                           4.7.0     
+   > Microsoft.EntityFrameworkCore                              9.0.4     
+   > Microsoft.EntityFrameworkCore.Abstractions                 9.0.4     
+   > Microsoft.EntityFrameworkCore.Analyzers                    9.0.4     
+   > Microsoft.EntityFrameworkCore.Relational                   9.0.4     
+   > Microsoft.Extensions.Caching.Abstractions                  9.0.4     
+   > Microsoft.Extensions.Caching.Memory                        9.0.4     
+   > Microsoft.Extensions.Configuration.Abstractions            9.0.4     
+   > Microsoft.Extensions.DependencyInjection                   9.0.4     
+   > Microsoft.Extensions.DependencyInjection.Abstractions      9.0.4     
+   > Microsoft.Extensions.Diagnostics.Abstractions              9.0.4     
+   > Microsoft.Extensions.FileProviders.Abstractions            9.0.4     
+   > Microsoft.Extensions.Hosting.Abstractions                  9.0.4     
+   > Microsoft.Extensions.Logging                               9.0.4     
+   > Microsoft.Extensions.Logging.Abstractions                  9.0.4     
+   > Microsoft.Extensions.Options                               9.0.4     
+   > Microsoft.Extensions.Primitives                            9.0.4     
+   > Microsoft.IdentityModel.Abstractions                       8.17.0    
+   > Microsoft.IdentityModel.JsonWebTokens                      8.17.0    
+   > Microsoft.IdentityModel.Logging                            8.17.0    
+   > Microsoft.IdentityModel.Tokens                             8.17.0    
+   > Microsoft.TestPlatform.ObjectModel                         17.12.0   
+   > Microsoft.TestPlatform.TestHost                            17.12.0   
+   > Newtonsoft.Json                                            13.0.1    
+   > Npgsql                                                     9.0.3     
+   > Npgsql.EntityFrameworkCore.PostgreSQL                      9.0.4     
+   > System.Diagnostics.EventLog                                6.0.0     
+   > System.IdentityModel.Tokens.Jwt                            8.17.0    
+   > System.Reflection.Metadata                                 1.6.0     
+   > xunit.abstractions                                         2.0.3     
+   > xunit.analyzers                                            1.16.0    
+   > xunit.assert                                               2.9.2     
+   > xunit.core                                                 2.9.2     
+   > xunit.extensibility.core                                   2.9.2     
+   > xunit.extensibility.execution                              2.9.2     
+
+'IntranetPortal.IntegrationTests' projesi aşağıdaki paket başvurularına sahip
+   [net9.0]: 
+   Üst Düzey Paket                         İstendi   Çözümlendi
+   > coverlet.collector                    8.0.1     8.0.1     
+   > FluentAssertions                      8.9.0     8.9.0     
+   > Microsoft.AspNetCore.Mvc.Testing      9.0.0     9.0.0     
+   > Microsoft.NET.Test.Sdk                17.12.0   17.12.0   
+   > Testcontainers.PostgreSql             4.11.0    4.11.0    
+   > xunit                                 2.9.2     2.9.2     
+   > xunit.runner.visualstudio             2.8.2     2.8.2     
+
+   Geçişli Paket                                                  Çözümlendi
+   > AutoMapper                                                   12.0.1    
+   > AutoMapper.Extensions.Microsoft.DependencyInjection          12.0.1    
+   > BCrypt.Net-Next                                              4.1.0     
+   > BouncyCastle.Cryptography                                    2.6.2     
+   > Docker.DotNet.Enhanced                                       3.131.1   
+   > Docker.DotNet.Enhanced.X509                                  3.131.1   
+   > FluentValidation                                             11.11.0   
+   > FluentValidation.AspNetCore                                  11.3.1    
+   > FluentValidation.DependencyInjectionExtensions               11.11.0   
+   > Microsoft.AspNetCore.Authentication.JwtBearer                9.0.0     
+   > Microsoft.AspNetCore.OpenApi                                 9.0.11    
+   > Microsoft.AspNetCore.TestHost                                9.0.0     
+   > Microsoft.CodeCoverage                                       17.12.0   
+   > Microsoft.CSharp                                             4.7.0     
+   > Microsoft.EntityFrameworkCore                                9.0.4     
+   > Microsoft.EntityFrameworkCore.Abstractions                   9.0.4     
+   > Microsoft.EntityFrameworkCore.Analyzers                      9.0.4     
+   > Microsoft.EntityFrameworkCore.Relational                     9.0.4     
+   > Microsoft.Extensions.Caching.Abstractions                    9.0.4     
+   > Microsoft.Extensions.Caching.Memory                          9.0.4     
+   > Microsoft.Extensions.Configuration                           10.0.0    
+   > Microsoft.Extensions.Configuration.Abstractions              10.0.0    
+   > Microsoft.Extensions.Configuration.Binder                    10.0.0    
+   > Microsoft.Extensions.Configuration.CommandLine               9.0.0     
+   > Microsoft.Extensions.Configuration.EnvironmentVariables      9.0.0     
+   > Microsoft.Extensions.Configuration.FileExtensions            9.0.0     
+   > Microsoft.Extensions.Configuration.Json                      9.0.0     
+   > Microsoft.Extensions.Configuration.UserSecrets               9.0.0     
+   > Microsoft.Extensions.DependencyInjection                     10.0.0    
+   > Microsoft.Extensions.DependencyInjection.Abstractions        10.0.0    
+   > Microsoft.Extensions.DependencyModel                         10.0.0    
+   > Microsoft.Extensions.Diagnostics                             9.0.0     
+   > Microsoft.Extensions.Diagnostics.Abstractions                10.0.0    
+   > Microsoft.Extensions.FileProviders.Abstractions              10.0.0    
+   > Microsoft.Extensions.FileProviders.Physical                  9.0.0     
+   > Microsoft.Extensions.FileSystemGlobbing                      9.0.0     
+   > Microsoft.Extensions.Hosting                                 9.0.0     
+   > Microsoft.Extensions.Hosting.Abstractions                    10.0.0    
+   > Microsoft.Extensions.Logging                                 10.0.0    
+   > Microsoft.Extensions.Logging.Abstractions                    10.0.0    
+   > Microsoft.Extensions.Logging.Configuration                   9.0.0     
+   > Microsoft.Extensions.Logging.Console                         9.0.0     
+   > Microsoft.Extensions.Logging.Debug                           9.0.0     
+   > Microsoft.Extensions.Logging.EventLog                        9.0.0     
+   > Microsoft.Extensions.Logging.EventSource                     9.0.0     
+   > Microsoft.Extensions.Options                                 10.0.0    
+   > Microsoft.Extensions.Options.ConfigurationExtensions         9.0.0     
+   > Microsoft.Extensions.Primitives                              10.0.0    
+   > Microsoft.IdentityModel.Abstractions                         8.17.0    
+   > Microsoft.IdentityModel.JsonWebTokens                        8.17.0    
+   > Microsoft.IdentityModel.Logging                              8.17.0    
+   > Microsoft.IdentityModel.Protocols                            8.0.1     
+   > Microsoft.IdentityModel.Protocols.OpenIdConnect              8.0.1     
+   > Microsoft.IdentityModel.Tokens                               8.17.0    
+   > Microsoft.OpenApi                                            1.6.17    
+   > Microsoft.TestPlatform.ObjectModel                           17.12.0   
+   > Microsoft.TestPlatform.TestHost                              17.12.0   
+   > Newtonsoft.Json                                              13.0.1    
+   > Npgsql                                                       9.0.3     
+   > Npgsql.EntityFrameworkCore.PostgreSQL                        9.0.4     
+   > Serilog                                                      4.3.0     
+   > Serilog.AspNetCore                                           10.0.0    
+   > Serilog.Extensions.Hosting                                   10.0.0    
+   > Serilog.Extensions.Logging                                   10.0.0    
+   > Serilog.Formatting.Compact                                   3.0.0     
+   > Serilog.Settings.Configuration                               10.0.0    
+   > Serilog.Sinks.Console                                        6.1.1     
+   > Serilog.Sinks.Debug                                          3.0.0     
+   > Serilog.Sinks.File                                           7.0.0     
+   > SharpZipLib                                                  1.4.2     
+   > SSH.NET                                                      2025.1.0  
+   > System.Diagnostics.DiagnosticSource                          10.0.0    
+   > System.Diagnostics.EventLog                                  9.0.0     
+   > System.IdentityModel.Tokens.Jwt                              8.17.0    
+   > System.IO.Pipelines                                          10.0.0    
+   > System.Reflection.Metadata                                   1.6.0     
+   > System.Text.Encodings.Web                                    10.0.0    
+   > System.Text.Json                                             10.0.0    
+   > Testcontainers                                               4.11.0    
+   > xunit.abstractions                                           2.0.3     
+   > xunit.analyzers                                              1.16.0    
+   > xunit.assert                                                 2.9.2     
+   > xunit.core                                                   2.9.2     
+   > xunit.extensibility.core                                     2.9.2     
+   > xunit.extensibility.execution                                2.9.2     
+
