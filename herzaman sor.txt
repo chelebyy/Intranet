@@ -1,1 +1,13 @@
 Bu modülü tamamlarken mimari veya kodlama standardı olarak yeni bir şey öğrendik mi? GEMINI.md dosyasına eklememiz gereken yeni bir 'KURAL' var mı?
+
+
+
+routes/api.py
+routes/backup.py      (YENİ)
+routes/maintenance.py (YENİ)
+routes/audit.py       (YENİ)
+utils.py
+constants.py
+validators.py         (YENİ)
+app.py
+IYILESTIRME_PLANI.md
