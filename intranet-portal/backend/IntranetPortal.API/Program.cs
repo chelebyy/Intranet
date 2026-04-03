@@ -18,9 +18,6 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-// Configure Npgsql to handle DateTime with UTC kind
-AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
-
 // Database configuration
 builder.Services.AddDbContext<IntranetDbContext>(options =>
 {

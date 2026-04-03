@@ -87,7 +87,7 @@ const LoginPage: React.FC = () => {
                     </CardHeader>
                     
                     <CardContent>
-                        <form onSubmit={handleSubmit} className="space-y-6">
+                        <form onSubmit={handleSubmit} className="space-y-6" data-testid="login-form">
                             {error && (
                                 <div className="p-3 text-sm bg-red-500/10 border border-red-500/20 rounded-md text-red-400">
                                     {error}
