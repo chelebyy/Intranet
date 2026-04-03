@@ -213,3 +213,5 @@ static string? ExtractJwtToken(HttpRequest request)
     
     return null;
 }
+
+public partial class Program { }
